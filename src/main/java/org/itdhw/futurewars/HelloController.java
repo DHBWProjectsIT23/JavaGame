@@ -1,4 +1,4 @@
-package org.itdhw.advancedwars;
+package org.itdhw.futurewars;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

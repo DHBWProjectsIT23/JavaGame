@@ -1,8 +1,8 @@
-module org.itdhw.advancedwars {
+module org.itdhw.futurewars {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens org.itdhw.advancedwars to javafx.fxml;
-    exports org.itdhw.advancedwars;
+    opens org.itdhw.futurewars to javafx.fxml;
+    exports org.itdhw.futurewars;
 }
