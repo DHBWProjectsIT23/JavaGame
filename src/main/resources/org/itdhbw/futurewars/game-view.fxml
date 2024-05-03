@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="org.itdhbw.futurewars.GameView"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="900.0" prefWidth="1600.0"
+            xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.GameController">
+   <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <top>
+         <Label fx:id="testLabel" text="Top" BorderPane.alignment="CENTER"/>
+      </top>
+      <left>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Left" BorderPane.alignment="CENTER"/>
+      </left>
+      <bottom>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bottom" BorderPane.alignment="CENTER"/>
+      </bottom>
+      <right>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right" BorderPane.alignment="CENTER"/>
+      </right>
+      <center>
+         <fx:include source="map-view.fxml"/>
+      </center>
+   </BorderPane>
 </AnchorPane>

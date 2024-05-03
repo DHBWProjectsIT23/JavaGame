@@ -26,10 +26,10 @@ public class Main extends Application {
         LOGGER.info("Initializing application...");
 
         LOGGER.info("Loading FXML file...");
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("map-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        stage.setTitle("Hello!");
+        stage.setTitle("Future Wars!");
         stage.setScene(scene);
 
         LOGGER.info("Showing stage...");

@@ -6,6 +6,6 @@ module org.itdhw.futurewars {
 
     opens org.itdhbw.futurewars to javafx.fxml;
     exports org.itdhbw.futurewars;
-    exports org.itdhbw.futurewars.controllers;
-    opens org.itdhbw.futurewars.controllers to javafx.fxml;
+    exports org.itdhbw.futurewars.controller;
+    opens org.itdhbw.futurewars.controller to javafx.fxml;
 }

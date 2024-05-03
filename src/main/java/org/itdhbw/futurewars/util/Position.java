@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.utils;
+package org.itdhbw.futurewars.util;
 
 public class Position {
     private final Boolean isStatic;

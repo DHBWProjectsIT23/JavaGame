@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.controllers;
+package org.itdhbw.futurewars.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MenuController {
     @FXML
@@ -18,8 +19,8 @@ public class MenuController {
     @FXML
     private void startGame(ActionEvent actionEvent) {
         try {
-            Parent mapView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/map-view.fxml"));
-            Scene scene = new Scene(mapView);
+            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/game-view.fxml")));
+            Scene scene = new Scene(gameView);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
         } catch (IOException e) {
