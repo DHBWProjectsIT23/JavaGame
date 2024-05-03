@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controllers.MapController">
-    <children>
-      <ScrollPane>
-         <content>
-            <Group>
-               <children>
-                    <GridPane fx:id="gameGrid" alignment="CENTER">
+<?import javafx.scene.layout.GridPane?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="gameGrid" alignment="CENTER" xmlns="http://javafx.com/javafx/21"
+          fx:controller="org.itdhbw.futurewars.controllers.MapController">
         </GridPane>
-               </children>
-            </Group>
-         </content>
-      </ScrollPane>
-    </children>
-</StackPane>
