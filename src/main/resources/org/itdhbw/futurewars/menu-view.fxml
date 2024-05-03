@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/22"
+           fx:controller="org.itdhbw.futurewars.controllers.MenuController">
+    <children>
+        <Button fx:id="startButton" mnemonicParsing="false" text="Start" onAction="#startGame"/>
+    </children>
+</StackPane>
