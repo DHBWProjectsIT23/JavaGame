@@ -29,7 +29,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        stage.setTitle("Future Wars!");
+        stage.setTitle("Future Wars");
         stage.setScene(scene);
 
         LOGGER.info("Showing stage...");
