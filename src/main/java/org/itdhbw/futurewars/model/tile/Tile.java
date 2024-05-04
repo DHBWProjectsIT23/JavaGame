@@ -1,97 +1,118 @@
 package org.itdhbw.futurewars.model.tile;
 
-import javafx.event.EventHandler;
-import javafx.scene.image.Image;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import org.itdhbw.futurewars.service.SelectedTileService;
+import org.itdhbw.futurewars.controller.TileController;
+import org.itdhbw.futurewars.model.game.GameState;
+import org.itdhbw.futurewars.model.unit.Unit;
+import org.itdhbw.futurewars.util.Constants;
 import org.itdhbw.futurewars.util.Position;
-
-import java.util.logging.Logger;
+import org.itdhbw.futurewars.view.TileOverlayView;
 
 public abstract class Tile {
-    private static final Logger LOGGER = Logger.getLogger(Tile.class.getName());
-    private static final Image TEXTURE = new Image("file:resources/textures/64Sample.png");
-    private static final Image HOVER = new Image("file:resources/textures/64Selected.png");
-    protected final ImageView view;
-    protected final ImageView hoverOverlay;
     private final Position position;
+    protected final ImageView textureLayer;
+    private final TileType tileType;
+    private final ObjectProperty<Unit> occupyingUnit = new SimpleObjectProperty<>(null);
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
+    private final BooleanProperty hovered = new SimpleBooleanProperty(false);
+    private boolean isOccupied = false;
     protected StackPane stackPane = new StackPane();
-    private final TileType tyleType;
-    private Boolean isHovered = false;
 
-    protected Tile(final int x, final int y, final double tileSize, TileType tileType) {
-        LOGGER.info("Creating tile at " + y + "-" + x + "...");
-
-        this.tyleType = tileType;
-        // Setting position
+    protected Tile(final int x, final int y, TileType tileType) {
+        this.tileType = tileType;
         this.position = new Position(x, y, true);
 
-        // Used if tile is hovered over
-        this.hoverOverlay = new ImageView(HOVER);
-        this.hoverOverlay.setFitHeight(tileSize);
-        this.hoverOverlay.setFitWidth(tileSize);
-
-        // texture of the tile itself
-        this.view = new ImageView();
-        this.view.setId(getId());
-        this.view.setFitWidth(tileSize);
-        this.view.setFitHeight(tileSize);
+        this.textureLayer = new ImageView();
+        this.textureLayer.setId(getId());
+        this.textureLayer.setFitHeight(Constants.TILE_SIZE);
+        this.textureLayer.setFitWidth(Constants.TILE_SIZE);
         setTexture();
 
-        // stack pane displaying tile and hovered state
         this.stackPane = new StackPane();
-        this.stackPane.getChildren().add(this.view);
-        this.stackPane.setOnMouseClicked(handleMouseClick());
-        this.stackPane.setOnMouseEntered(handleMouseEnter());
-        this.stackPane.setOnMouseExited(handleMouseExit());
+        this.stackPane.getChildren().add(this.textureLayer);
+        this.stackPane.setOnMouseClicked(TileController::handleMouseClick);
+        this.stackPane.setOnMouseEntered(TileController::handleMouseEntered);
+        this.stackPane.setUserData(this);
+
+        this.hovered.bind(Bindings.createBooleanBinding(
+                () -> GameState.getHoveredTileProperty().get() == this,
+                GameState.getHoveredTileProperty()
+        ));
+
+        this.hovered.addListener((_, _, newValue) -> {
+            if (Boolean.TRUE.equals(newValue)) {
+                TileOverlayView.addHoverOverlay(this);
+            } else {
+                TileOverlayView.removeHoverOverlay(this);
+            }
+        });
+
+        this.selected.bind(Bindings.createBooleanBinding(
+                () -> GameState.getSelectedTileProperty().get() == this,
+                GameState.getSelectedTileProperty()
+        ));
+
+        selected.addListener((_, _, newValue) -> {
+            if (Boolean.TRUE.equals(newValue)) {
+                TileOverlayView.addSelectedOverlay(this);
+            } else {
+                TileOverlayView.removeSelectedOverlay(this);
+            }
+        });
     }
 
-    @Override
-    public String toString() {
-        return "Tile{" +
-                       "type=" + tyleType +
-                       ", position=" + position +
-                       ", isHovered=" + isHovered +
-                       ", view=" + view +
-                       ", hoverOverlay=" + hoverOverlay +
-                       ", stackPane=" + stackPane +
-                       '}';
+    public boolean isOccupied() {
+        return isOccupied;
     }
 
-    protected void setTexture() {
-        view.setImage(TEXTURE);
+    public void removeOccupyingUnit() {
+        this.isOccupied = false;
+        Unit unit = this.occupyingUnit.get();
+        if (unit != null) {
+            this.stackPane.getChildren().remove(unit.getTextureLayer());
+        }
+        this.occupyingUnit.set(null);
     }
 
-    private EventHandler<MouseEvent> handleMouseClick() {
-        return _ -> {
-            LOGGER.info("Tile clicked: " + this);
-            SelectedTileService.getInstance().setSelectedTileMessage("Tile clicked: " + getId());
-        };
+    public void addToStackPane(ImageView imageView) {
+        stackPane.getChildren().add(imageView);
     }
 
-    private EventHandler<MouseEvent> handleMouseExit() {
-        return _ -> {
-            LOGGER.info("Tile exited: " + getId());
-            this.isHovered = true;
-            this.stackPane.getChildren().remove(this.hoverOverlay);
-        };
+    public void removeFromStackPane(ImageView imageView) {
+        stackPane.getChildren().remove(imageView);
     }
 
-    private EventHandler<MouseEvent> handleMouseEnter() {
-        return _ -> {
-            LOGGER.info("Tile entered: " + getId());
-            this.isHovered = true;
-            this.stackPane.getChildren().add(this.hoverOverlay);
-        };
+    public ObjectProperty<Unit> getOccupyingUnit() {
+        return occupyingUnit;
+    }
+
+    public String getId() {
+        return "tile" + position.getY() + "-" + position.getX();
+    }
+
+    public void setOccupyingUnit(Unit unit) {
+        this.occupyingUnit.set(unit);
+        this.isOccupied = true;
+        this.addToStackPane(unit.getTextureLayer());
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public BooleanProperty hoveredProperty() {
+        return hovered;
     }
 
     public StackPane getStackPane() {
         return stackPane;
     }
 
-    public String getId() {
-        return "tile" + position.getY() + "-" + position.getX();
-    }
+    protected abstract void setTexture();
 }

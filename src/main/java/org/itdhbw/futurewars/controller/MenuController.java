@@ -13,6 +13,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MenuController {
+
+    private MenuController() {
+        // private constructor to hide the implicit public one
+    }
     @FXML
     private Button startButton;
 

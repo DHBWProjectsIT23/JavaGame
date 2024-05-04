@@ -4,16 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.logging.Logger;
-
-
-/**
- * The type Main.
- */
 public class Main extends Application {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final int SCREEN_WIDTH = 1600;
     private static final int SCREEN_HEIGHT = 900;
 

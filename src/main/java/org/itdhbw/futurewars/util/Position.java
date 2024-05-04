@@ -1,7 +1,7 @@
 package org.itdhbw.futurewars.util;
 
 public class Position {
-    private final Boolean isStatic;
+    private final boolean isStatic;
     private int x;
     private int y;
 
@@ -15,21 +15,20 @@ public class Position {
         return x;
     }
 
-    public void setX(final int x) {
-        if (Boolean.TRUE.equals(isStatic)) {
-            throw new UnsupportedOperationException("Cannot change static position");
-        }
-        this.x = x;
-    }
 
     public int getY() {
         return y;
     }
 
-    public void setY(final int y) {
-        if (Boolean.TRUE.equals(isStatic)) {
-            throw new UnsupportedOperationException("Cannot change static position");
+    public Tuple<Integer, Integer> getPosition() {
+        return new Tuple<>(x, y);
+    }
+
+    public void setPosition(int x, int y) {
+        if (isStatic) {
+            throw new UnsupportedOperationException("Cannot change position of static object");
         }
+        this.x = x;
         this.y = y;
     }
 
