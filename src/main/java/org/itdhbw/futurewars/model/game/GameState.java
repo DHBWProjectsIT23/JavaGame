@@ -5,17 +5,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.itdhbw.futurewars.model.tile.TileModel;
 
 public class GameState {
-    private static final GameState INSTANCE = new GameState();
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
     private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR);
 
-    private GameState() {
-        // Singleton
-    }
-
-    public static GameState getInstance() {
-        return INSTANCE;
+    public GameState() {
     }
 
     public ObjectProperty<TileModel> getSelectedTileProperty() {

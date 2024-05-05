@@ -5,46 +5,58 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.controller.unit.UnitController;
 import org.itdhbw.futurewars.model.game.ActiveMode;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.tile.TileType;
+import org.itdhbw.futurewars.model.unit.UnitModel;
+import org.itdhbw.futurewars.util.AStarPathfinder;
 import org.itdhbw.futurewars.view.tile.TileView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TileController {
     private static final Logger LOGGER = LogManager.getLogger(TileController.class);
-    private static final TileBuilder TILE_FACTORY = new TileBuilder();
-    private static final HashMap<TileModel, TileView> TILE_MODEL_VIEW_TABLE = new HashMap<>();
+    private static final List<TileModel> highlightedTiles = new ArrayList<>();
+    private TileBuilder tileBuilder;
+    private TileRepository tileRepository;
+    private GameState gameState;
+    private UnitController unitController;
+    private AStarPathfinder pathfinder;
 
-    private TileController() {
-        throw new IllegalStateException("Utility class");
+    public TileController() {
     }
 
-    public static TileView getTileView(TileModel tileModel) {
-        return TILE_MODEL_VIEW_TABLE.get(tileModel);
+    public void initialize() {
+        this.tileRepository = Context.getTileRepository();
+        this.tileBuilder = Context.getTileBuilder();
+        this.unitController = Context.getUnitController();
+        this.gameState = Context.getGameState();
+        this.pathfinder = Context.getPathfinder();
     }
 
-    public static TileView createTile(TileType tileType, int x, int y) {
+    public TileView createTile(TileType tileType, int x, int y) {
         LOGGER.info("Creating tile of type {} at position ({}, {})", tileType, x, y);
-        Pair<TileModel, TileView> tilePair = TILE_FACTORY.createTile(tileType, x, y);
-        TILE_MODEL_VIEW_TABLE.put(tilePair.getKey(), tilePair.getValue());
+        Pair<TileModel, TileView> tilePair = tileBuilder.createTile(tileType, x, y);
+        tileRepository.addTile(tilePair);
         return tilePair.getValue();
     }
 
-    public static void handleMouseEntered(MouseEvent event) {
-        handleEvent(event, TileController::handleRegularEnter, TileController::handleMovingUnitEnter);
+    public void handleMouseEntered(MouseEvent event) {
+        handleEvent(event, this::handleRegularEnter, this::handleMovingUnitEnter);
     }
 
-    public static void handleMouseClick(MouseEvent event) {
-        handleEvent(event, TileController::handleRegularClick, TileController::handleMovingUnitClick);
+    public void handleMouseClick(MouseEvent event) {
+        handleEvent(event, this::handleRegularClick, this::handleMovingUnitClick);
     }
 
-    private static void handleEvent(MouseEvent event, Consumer<TileView> regularHandler, Consumer<TileView> movingUnitHandler) {
+    private void handleEvent(MouseEvent event, Consumer<TileView> regularHandler, Consumer<TileView> movingUnitHandler) {
         TileView tileView = (TileView) ((StackPane) event.getSource()).getUserData();
-        switch (GameState.getInstance().activeModeProperty().get()) {
+        switch (gameState.activeModeProperty().get()) {
             case REGULAR:
                 regularHandler.accept(tileView);
                 break;
@@ -52,31 +64,50 @@ public class TileController {
                 movingUnitHandler.accept(tileView);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + GameState.getInstance().activeModeProperty());
+                throw new IllegalStateException("Unexpected value: " + gameState.activeModeProperty());
         }
     }
 
 
-    private static void handleRegularEnter(TileView tileView) {
-        GameState.getInstance().hoverTile(tileView.getTileModel());
+    private void handleRegularEnter(TileView tileView) {
+        gameState.hoverTile(tileView.getTileModel());
     }
 
-    private static void handleRegularClick(TileView tileView) {
-        GameState.getInstance().selectTile(tileView.getTileModel());
+    private void handleRegularClick(TileView tileView) {
+        gameState.selectTile(tileView.getTileModel());
 
         if (tileView.getTileModel().isOccupied()) {
-            GameState.getInstance().setActiveMode(ActiveMode.MOVING_UNIT);
+            gameState.setActiveMode(ActiveMode.MOVING_UNIT);
         }
     }
 
-    private static void handleMovingUnitEnter(TileView tileView) {
-        GameState.getInstance().hoverTile(tileView.getTileModel());
+    private void handleMovingUnitEnter(TileView tileView) {
+        List<TileModel> newPath = pathfinder.findPath(gameState.getSelectedTileProperty().get(), tileView.getTileModel());
+
+        for (TileModel tile : new ArrayList<>(highlightedTiles)) {
+            if (!newPath.contains(tile)) {
+                tile.setHighlighted(false);
+                highlightedTiles.remove(tile);
+            }
+        }
+
+        for (TileModel tile : newPath) {
+            if (!highlightedTiles.contains(tile)) {
+                tile.setHighlighted(true);
+                highlightedTiles.add(tile);
+            }
+        }
     }
 
-    private static void handleMovingUnitClick(TileView tileView) {
-        GameState.getInstance().getSelectedTileProperty().get().getOccupyingUnit().moveTo(tileView.getTileModel());
-        GameState.getInstance().setActiveMode(ActiveMode.REGULAR);
-        GameState.getInstance().deselectTile();
+
+    private void handleMovingUnitClick(TileView tileView) {
+        UnitModel unitModel = gameState.getSelectedTileProperty().get().getOccupyingUnit();
+        unitController.moveUnit(unitModel, tileView.getTileModel());
+        gameState.setActiveMode(ActiveMode.REGULAR);
+        gameState.deselectTile();
+        for (TileModel tile : highlightedTiles) {
+            tile.setHighlighted(false);
+        }
     }
 }
 

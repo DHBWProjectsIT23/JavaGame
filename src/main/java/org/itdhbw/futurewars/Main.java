@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.game.Context;
 
 import java.io.IOException;
 public class Main extends Application {
@@ -20,6 +21,7 @@ public class Main extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         LOGGER.info("Initializing application...");
+        Context.initialize();
 
         LOGGER.info("Loading FXML file...");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));

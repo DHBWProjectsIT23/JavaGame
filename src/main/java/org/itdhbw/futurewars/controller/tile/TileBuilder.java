@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.controller.tile;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.TestTileModel;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.tile.TileType;
@@ -11,11 +12,17 @@ import org.itdhbw.futurewars.view.tile.TileView;
 
 public class TileBuilder {
     private static final Logger LOGGER = LogManager.getLogger(TileBuilder.class);
+    private final TileController tileController;
 
-    private static void setEventHandlers(TestTileView tileView) {
+    public TileBuilder() {
+        this.tileController = Context.getTileController();
+    }
+
+
+    private void setEventHandlers(TestTileView tileView) {
         LOGGER.info("Setting event handlers for tile view {}", tileView);
-        tileView.setOnMouseClicked(TileController::handleMouseClick);
-        tileView.setOnMouseEntered(TileController::handleMouseEntered);
+        tileView.setOnMouseClicked(tileController::handleMouseClick);
+        tileView.setOnMouseEntered(tileController::handleMouseEntered);
     }
 
     public Pair<TileModel, TileView> createTile(TileType tileType, int x, int y) {

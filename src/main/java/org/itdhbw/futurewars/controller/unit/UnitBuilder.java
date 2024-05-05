@@ -3,7 +3,8 @@ package org.itdhbw.futurewars.controller.unit;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.controller.tile.TileController;
+import org.itdhbw.futurewars.controller.tile.TileRepository;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.TestUnitModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.model.unit.UnitType;
@@ -12,6 +13,12 @@ import org.itdhbw.futurewars.view.unit.UnitView;
 
 public class UnitBuilder {
     private static final Logger LOGGER = LogManager.getLogger(UnitBuilder.class);
+    private final TileRepository tileRepository;
+
+    public UnitBuilder() {
+        this.tileRepository = Context.getTileRepository();
+    }
+
 
     public Pair<UnitModel, UnitView> createUnit(UnitType unitType, int team) {
         switch (unitType) {
@@ -32,11 +39,11 @@ public class UnitBuilder {
         unitModel.currentTileProperty().addListener((_, oldTile, newTile) -> {
             if (oldTile != null) {
                 oldTile.removeOccupyingUnit();
-                TileController.getTileView(newTile).removeFromStack(unitView);
+                tileRepository.getTileView(newTile.getPosition()).removeFromStack(unitView);
             }
             if (newTile != null) {
                 newTile.setOccupyingUnit(unitModel);
-                TileController.getTileView(newTile).addToStack(unitView);
+                tileRepository.getTileView(newTile.getPosition()).addToStack(unitView);
             }
         });
     }

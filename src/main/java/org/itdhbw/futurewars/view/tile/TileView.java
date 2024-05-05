@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.util.Constants;
@@ -20,14 +21,17 @@ public abstract class TileView extends StackPane {
     private static final Image HOVER_OCCUPIED_IMAGE = new Image("file:resources/textures/64HoveredOccupied.png");
     private static final Image SELECTED_IMAGE = new Image("file:resources/textures/64Selected.png");
     protected static final ImageView SELECTED_OVERLAY = new ImageView(SELECTED_IMAGE);
+    private final ImageView highlightedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     public final int viewId = this.hashCode();
     protected final ImageView textureLayer;
     private final TileModel tileModel;
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private final BooleanProperty hovered = new SimpleBooleanProperty(false);
+    private final GameState gameState;
 
     protected TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);
+        this.gameState = Context.getGameState();
         this.tileModel = tileModel;
         this.textureLayer = new ImageView();
         this.textureLayer.setFitHeight(Constants.TILE_SIZE);
@@ -43,14 +47,14 @@ public abstract class TileView extends StackPane {
     private void addBindings() {
         LOGGER.info("Adding hovered binding to tile view {}...", this.viewId);
         this.hovered.bind(Bindings.createBooleanBinding(
-                () -> GameState.getInstance().getHoveredTileProperty().get() == this.tileModel,
-                GameState.getInstance().getHoveredTileProperty()
+                () -> gameState.getHoveredTileProperty().get() == this.tileModel,
+                gameState.getHoveredTileProperty()
         ));
 
         LOGGER.info("Adding selected binding to tile view {}...", this.viewId);
         this.selected.bind(Bindings.createBooleanBinding(
-                () -> GameState.getInstance().getSelectedTileProperty().get() == this.tileModel,
-                GameState.getInstance().getSelectedTileProperty()
+                () -> gameState.getSelectedTileProperty().get() == this.tileModel,
+                gameState.getSelectedTileProperty()
         ));
     }
 
@@ -70,6 +74,14 @@ public abstract class TileView extends StackPane {
                 addSelectedOverlay();
             } else {
                 removeSelectedOverlay();
+            }
+        });
+
+        tileModel.highlightedProperty().addListener((_, _, newValue) -> {
+            if (Boolean.TRUE.equals(newValue)) {
+                this.getChildren().add(highlightedOverlay);
+            } else {
+                this.getChildren().remove(highlightedOverlay);
             }
         });
     }

@@ -28,6 +28,12 @@ public class Position {
         this.y = y;
     }
 
+    public int calculateDistance(Position position) {
+        int xDistance = Math.abs(this.x - position.getX());
+        int yDistance = Math.abs(this.y - position.getY());
+        return xDistance + yDistance;
+    }
+
     @Override
     public String toString() {
         return "Position{" +

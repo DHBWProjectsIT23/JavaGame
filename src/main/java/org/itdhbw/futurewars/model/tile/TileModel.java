@@ -1,6 +1,8 @@
 package org.itdhbw.futurewars.model.tile;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +15,17 @@ public abstract class TileModel {
     private final Position position;
     private final TileType tileType;
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
+    private final BooleanProperty highlighted = new SimpleBooleanProperty(false);
     private boolean isOccupied = false;
 
     protected TileModel(final int x, final int y, TileType tileType) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
+    }
+
+    public int distanceTo(TileModel other) {
+        return this.position.calculateDistance(other.position);
     }
 
     public Position getPosition() {
@@ -48,6 +55,18 @@ public abstract class TileModel {
             return occupyingUnit.get();
         }
         throw new IllegalStateException("Tile is not occupied!");
+    }
+
+    public BooleanProperty highlightedProperty() {
+        return highlighted;
+    }
+
+    public boolean isHighlighted() {
+        return highlighted.get();
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted.set(highlighted);
     }
 
     public void setOccupyingUnit(UnitModel unitModel) {
