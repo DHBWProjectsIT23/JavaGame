@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="900.0" prefWidth="1600.0"
-            xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.GameController">
+            xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <left>

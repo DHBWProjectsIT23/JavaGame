@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.controller;
+package org.itdhbw.futurewars.controller.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,9 +14,10 @@ import java.util.Objects;
 
 public class MenuController {
 
-    private MenuController() {
-        // private constructor to hide the implicit public one
+    public MenuController() {
+        // Called by FXMLLoader
     }
+
     @FXML
     private Button startButton;
 

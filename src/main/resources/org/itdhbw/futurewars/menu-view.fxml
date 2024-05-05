@@ -4,6 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/22"
-           fx:controller="org.itdhbw.futurewars.controller.MenuController">
+           fx:controller="org.itdhbw.futurewars.controller.ui.MenuController">
     <Button fx:id="startButton" mnemonicParsing="false" text="Start Game" onAction="#startGame"/>
 </StackPane>

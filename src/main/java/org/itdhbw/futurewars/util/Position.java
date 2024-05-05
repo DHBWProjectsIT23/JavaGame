@@ -20,10 +20,6 @@ public class Position {
         return y;
     }
 
-    public Tuple<Integer, Integer> getPosition() {
-        return new Tuple<>(x, y);
-    }
-
     public void setPosition(int x, int y) {
         if (isStatic) {
             throw new UnsupportedOperationException("Cannot change position of static object");

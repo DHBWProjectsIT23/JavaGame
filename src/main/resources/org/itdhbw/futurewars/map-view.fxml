@@ -5,5 +5,5 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="gameGrid" alignment="CENTER" maxHeight="-Infinity"
           maxWidth="-Infinity"
           minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0"
-          xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.MapController">
+          xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.ui.MapController">
         </GridPane>

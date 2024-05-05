@@ -10,7 +10,7 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
-            <DefaultRolloverStratey max="30"/>
+            <DefaultRolloverStrategy max="30"/>
         </RollingFile>
     </Appenders>
     <Loggers>
