@@ -12,17 +12,19 @@ import org.itdhbw.futurewars.view.tile.TileView;
 
 public class TileBuilder {
     private static final Logger LOGGER = LogManager.getLogger(TileBuilder.class);
-    private final TileController tileController;
+    private final TileEventController tileEventController;
+    private final TileRepository tileRepository;
 
     public TileBuilder() {
-        this.tileController = Context.getTileController();
+        this.tileEventController = Context.getTileEventController();
+        this.tileRepository = Context.getTileRepository();
     }
 
 
     private void setEventHandlers(TestTileView tileView) {
         LOGGER.info("Setting event handlers for tile view {}", tileView);
-        tileView.setOnMouseClicked(tileController::handleMouseClick);
-        tileView.setOnMouseEntered(tileController::handleMouseEntered);
+        tileView.setOnMouseClicked(tileEventController::handleMouseClick);
+        tileView.setOnMouseEntered(tileEventController::handleMouseEntered);
     }
 
     public Pair<TileModel, TileView> createTile(TileType tileType, int x, int y) {
@@ -32,6 +34,7 @@ public class TileBuilder {
                 TestTileModel tileModel = new TestTileModel(x, y);
                 TestTileView tileView = new TestTileView(tileModel);
                 setEventHandlers(tileView);
+                tileRepository.addTile(tileModel, tileView);
                 return new Pair<>(tileModel, tileView);
             default:
                 throw new IllegalArgumentException("Unexpected value: " + tileType);

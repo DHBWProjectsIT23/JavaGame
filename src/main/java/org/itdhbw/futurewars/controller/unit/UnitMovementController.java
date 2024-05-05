@@ -1,39 +1,25 @@
 package org.itdhbw.futurewars.controller.unit;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
-import org.itdhbw.futurewars.model.unit.UnitType;
 import org.itdhbw.futurewars.util.AStarPathfinder;
-import org.itdhbw.futurewars.view.unit.UnitView;
 
 import java.util.List;
 
-public class UnitController {
-    private static final Logger LOGGER = LogManager.getLogger(UnitController.class);
-    private UnitBuilder unitBuilder;
+public class UnitMovementController {
+    private static final Logger LOGGER = LogManager.getLogger(UnitMovementController.class);
     private AStarPathfinder pathfinder;
 
-    public UnitController() {
+    public UnitMovementController() {
         // empty constructor
     }
 
     public void initialize() {
-        this.unitBuilder = Context.getUnitBuilder();
         this.pathfinder = Context.getPathfinder();
     }
-
-    public UnitView createUnit(UnitType unitType, TileModel initialTile, int team) {
-        LOGGER.info("Creating unit of type {} for team {}", unitType, team);
-        Pair<UnitModel, UnitView> unitPair = unitBuilder.createUnit(unitType, team);
-        LOGGER.info("Spawning unit {} at tile {}", unitPair.getKey().modelId, initialTile.modelId);
-        unitPair.getKey().spawn(initialTile);
-        return unitPair.getValue();
-    }
-
 
     public void moveUnit(UnitModel unit, TileModel targetTile) {
         if (targetTile.isOccupied()) {

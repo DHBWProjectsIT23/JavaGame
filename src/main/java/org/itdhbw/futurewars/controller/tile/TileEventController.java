@@ -2,15 +2,13 @@ package org.itdhbw.futurewars.controller.tile;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.controller.unit.UnitController;
+import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 import org.itdhbw.futurewars.view.tile.TileView;
@@ -19,31 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class TileController {
-    private static final Logger LOGGER = LogManager.getLogger(TileController.class);
+public class TileEventController {
+    private static final Logger LOGGER = LogManager.getLogger(TileEventController.class);
     private static final List<TileModel> highlightedTiles = new ArrayList<>();
-    private TileBuilder tileBuilder;
-    private TileRepository tileRepository;
     private GameState gameState;
-    private UnitController unitController;
+    private UnitMovementController unitMovementController;
     private AStarPathfinder pathfinder;
 
-    public TileController() {
+    public TileEventController() {
     }
 
     public void initialize() {
-        this.tileRepository = Context.getTileRepository();
-        this.tileBuilder = Context.getTileBuilder();
-        this.unitController = Context.getUnitController();
+        this.unitMovementController = Context.getUnitMovementController();
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
-    }
-
-    public TileView createTile(TileType tileType, int x, int y) {
-        LOGGER.info("Creating tile of type {} at position ({}, {})", tileType, x, y);
-        Pair<TileModel, TileView> tilePair = tileBuilder.createTile(tileType, x, y);
-        tileRepository.addTile(tilePair);
-        return tilePair.getValue();
     }
 
     public void handleMouseEntered(MouseEvent event) {
@@ -102,7 +89,7 @@ public class TileController {
 
     private void handleMovingUnitClick(TileView tileView) {
         UnitModel unitModel = gameState.getSelectedTileProperty().get().getOccupyingUnit();
-        unitController.moveUnit(unitModel, tileView.getTileModel());
+        unitMovementController.moveUnit(unitModel, tileView.getTileModel());
         gameState.setActiveMode(ActiveMode.REGULAR);
         gameState.deselectTile();
         for (TileModel tile : highlightedTiles) {
