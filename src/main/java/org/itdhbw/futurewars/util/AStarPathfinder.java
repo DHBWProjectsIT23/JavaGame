@@ -25,6 +25,9 @@ public class AStarPathfinder {
 
         while (!openSet.isEmpty()) {
             TileModel current = getTileWithLowestFScore(openSet, fScore);
+            if (current == null) {
+                throw new RuntimeException("No path found");
+            }
 
             if (current.equals(endTile)) {
                 return reconstructPath(cameFrom, current);

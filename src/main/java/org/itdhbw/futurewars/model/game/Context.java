@@ -8,6 +8,10 @@ import org.itdhbw.futurewars.controller.unit.UnitController;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 
 public class Context {
+    private Context() {
+        // private constructor to prevent instantiation
+    }
+
     private static TileRepository tileRepository;
     private static TileBuilder tileBuilder;
     private static TileController tileController;

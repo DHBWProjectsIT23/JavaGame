@@ -18,6 +18,7 @@ public class UnitController {
     private AStarPathfinder pathfinder;
 
     public UnitController() {
+        // empty constructor
     }
 
     public void initialize() {
