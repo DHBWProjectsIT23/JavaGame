@@ -14,12 +14,12 @@ import java.util.Objects;
 
 public class MenuController {
 
+    @FXML
+    private Button startButton;
+
     public MenuController() {
         // Called by FXMLLoader
     }
-
-    @FXML
-    private Button startButton;
 
     @FXML
     private void startGame(ActionEvent actionEvent) {

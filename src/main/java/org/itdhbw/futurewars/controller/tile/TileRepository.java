@@ -49,4 +49,8 @@ public class TileRepository {
         return this.tiles[position.getX()][position.getY()].getValue();
     }
 
+    public void addNullTile(int x, int y) {
+        this.tiles[x][y] = null;
+    }
+
 }

@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.util.Constants;
 
 public abstract class TileView extends StackPane {
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
@@ -34,16 +33,16 @@ public abstract class TileView extends StackPane {
         this.gameState = Context.getGameState();
         this.tileModel = tileModel;
         this.textureLayer = new ImageView();
-        this.textureLayer.setFitHeight(Constants.TILE_SIZE);
-        this.textureLayer.setFitWidth(Constants.TILE_SIZE);
+        this.textureLayer.setFitHeight(gameState.getTileSize());
+        this.textureLayer.setFitWidth(gameState.getTileSize());
         this.setTexture();
 
-        HOVER_OVERLAY.setFitHeight(Constants.TILE_SIZE);
-        HOVER_OVERLAY.setFitWidth(Constants.TILE_SIZE);
-        SELECTED_OVERLAY.setFitHeight(Constants.TILE_SIZE);
-        SELECTED_OVERLAY.setFitWidth(Constants.TILE_SIZE);
-        this.highlightedOverlay.setFitHeight(Constants.TILE_SIZE);
-        this.highlightedOverlay.setFitWidth(Constants.TILE_SIZE);
+        HOVER_OVERLAY.setFitHeight(gameState.getTileSize());
+        HOVER_OVERLAY.setFitWidth(gameState.getTileSize());
+        SELECTED_OVERLAY.setFitHeight(gameState.getTileSize());
+        SELECTED_OVERLAY.setFitWidth(gameState.getTileSize());
+        this.highlightedOverlay.setFitHeight(gameState.getTileSize());
+        this.highlightedOverlay.setFitWidth(gameState.getTileSize());
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);

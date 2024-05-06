@@ -40,7 +40,7 @@ public class AStarPathfinder {
                     continue;
                 }
 
-                int tentativeGScore = gScore.get(current) + 1;
+                int tentativeGScore = gScore.get(current) + neighbor.getTravelCost();
 
                 if (!gScore.containsKey(neighbor) || tentativeGScore < gScore.get(neighbor)) {
                     cameFrom.put(neighbor, current);

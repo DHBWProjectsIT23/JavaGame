@@ -17,4 +17,7 @@ module org.itdhw.futurewars {
     opens org.itdhbw.futurewars.controller.tile to javafx.fxml;
     exports org.itdhbw.futurewars.controller.ui;
     opens org.itdhbw.futurewars.controller.ui to javafx.fxml;
+    exports org.itdhbw.futurewars.controller.tile.factory;
+    opens org.itdhbw.futurewars.controller.tile.factory to javafx.fxml;
+    exports org.itdhbw.futurewars.controller.unit.factory;
 }

@@ -3,7 +3,9 @@ package org.itdhbw.futurewars.controller.ui;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
@@ -12,14 +14,20 @@ import org.itdhbw.futurewars.model.tile.TileModel;
 
 
 public class GameController {
+    private final GameState gameState;
     @FXML
     private Label selectedTileDebug;
     @FXML
     private Label movingDebug;
     @FXML
     private Label hoveredTileDebug;
+    @FXML
+    private Button map1Button;
+    @FXML
+    private Button map2Button;
+    @FXML
+    private Button map3Button;
 
-    private final GameState gameState;
     public GameController() {
         this.gameState = Context.getGameState();
     }
@@ -44,9 +52,24 @@ public class GameController {
         return Bindings.createStringBinding(
                 () -> {
                     TileModel tile = tileProperty.get();
-                    return (tile != null) ? String.valueOf(tile.modelId) : defaultMessage;
+                    return (tile != null) ? tile.getPosition() + " - Type: " + tile.getTileType() : defaultMessage;
                 },
                 tileProperty
         );
+    }
+
+    @FXML
+    private void loadMap1(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("testMap1.csv");
+    }
+
+    @FXML
+    private void loadMap2(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("testMap2.csv");
+    }
+
+    @FXML
+    private void loadMap3(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("testMap3.csv");
     }
 }

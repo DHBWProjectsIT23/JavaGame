@@ -7,6 +7,7 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileType;
+import org.itdhbw.futurewars.util.Constants;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,6 +42,15 @@ public class MapLoader {
         int height = Integer.parseInt(size[1]);
         gameState.setMapWidth(width);
         gameState.setMapHeight(height);
+
+        int gameWidth = Constants.SCREEN_WIDTH - 300;
+        int gameHeight = Constants.SCREEN_HEIGHT - 200;
+
+        int maxTileWidth = gameWidth / width;
+        int maxTileHeight = gameHeight / height;
+
+        gameState.setTileSize(Math.min(maxTileWidth, maxTileHeight));
+
         tileRepository.initializeList(width, height);
         LOGGER.info("Map size: {}x{}", width, height);
 
@@ -49,22 +59,32 @@ public class MapLoader {
         String line;
         int y = 0;
         while ((line = reader.readLine()) != null) {
+            if (y >= height) {
+                LOGGER.error("Too many lines in the map file, ignoring the rest");
+                break;
+            }
             String[] tileData = line.split(",");
             int x = 0;
             for (String tileTypeString : tileData) {
+                if (x >= width) {
+                    LOGGER.error("Too many tiles in the line, ignoring the rest");
+                    break;
+                }
                 TileType tileType;
+                LOGGER.info("Tile type: {}", tileTypeString);
                 try {
                     tileType = TileType.valueOf(tileTypeString.toUpperCase());
+                    LOGGER.info("Creating tile of type {} at x: {} - y: {}", tileTypeString, x, y);
+                    tileCreationController.createTile(tileType, x, y);
                 } catch (IllegalArgumentException ignored) {
-                    LOGGER.error("Wrong tile type, ignoring {} at x: {} - y: {} ", tileTypeString, x, y);
-                    continue;
+                    LOGGER.error("Wrong tile type, ignoring {} at x: {} - y: {} ", tileTypeString, x, y, ignored);
+                    tileRepository.addNullTile(x, y);
                 }
-                LOGGER.info("Creating tile of type {} at x: {} - y: {}", tileTypeString, x, y);
-                tileCreationController.createTile(tileType, x, y);
                 x++;
             }
             y++;
         }
+        reader.close();
     }
 }
 

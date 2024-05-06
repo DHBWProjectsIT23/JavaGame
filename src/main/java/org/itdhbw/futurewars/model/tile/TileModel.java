@@ -17,12 +17,17 @@ public abstract class TileModel {
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty highlighted = new SimpleBooleanProperty(false);
     protected boolean passable = true;
+    protected int travelCost = 1;
     private boolean isOccupied = false;
 
     protected TileModel(final int x, final int y, TileType tileType) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
+    }
+
+    public int getTravelCost() {
+        return travelCost;
     }
 
     public boolean isPassable() {

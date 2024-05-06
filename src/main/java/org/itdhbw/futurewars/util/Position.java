@@ -11,6 +11,10 @@ public class Position {
         this.isStatic = isStatic;
     }
 
+    public Position(final int x, final int y) {
+        this(x, y, false);
+    }
+
     public int getX() {
         return x;
     }

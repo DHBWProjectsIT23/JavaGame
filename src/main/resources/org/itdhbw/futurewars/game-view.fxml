@@ -1,47 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="900.0" prefWidth="1600.0"
-            xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
-   <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <left>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Left" BorderPane.alignment="CENTER"/>
-      </left>
+
+<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
+   <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bottom" BorderPane.alignment="CENTER"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bottom" BorderPane.alignment="CENTER" />
       </bottom>
       <right>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right" BorderPane.alignment="CENTER"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right" BorderPane.alignment="CENTER" />
       </right>
       <center>
-         <fx:include source="map-view.fxml"/>
+         <fx:include source="map-view.fxml" />
       </center>
       <top>
          <GridPane BorderPane.alignment="CENTER">
             <HBox prefHeight="100.0" prefWidth="200.0">
-               <Label text="Selected Tile: "/>
-               <Label fx:id="selectedTileDebug" text="Label"/>
+               <Label text="Selected Tile: " />
+               <Label fx:id="selectedTileDebug" text="Label" />
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <Label text="HoveredTile: "/>
-               <Label fx:id="hoveredTileDebug" text="Label"/>
+               <Label text="HoveredTile: " />
+               <Label fx:id="hoveredTileDebug" text="Label" />
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
-               <Label text="Moving: "/>
-               <Label fx:id="movingDebug" text="Label"/>
+               <Label text="Moving: " />
+               <Label fx:id="movingDebug" text="Label" />
             </HBox>
             <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES"/>
-               <ColumnConstraints hgrow="SOMETIMES"/>
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+               <ColumnConstraints hgrow="SOMETIMES" />
+               <ColumnConstraints hgrow="SOMETIMES" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-               <RowConstraints prefHeight="20.0" vgrow="SOMETIMES"/>
+               <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
             </rowConstraints>
          </GridPane>
       </top>
+      <left>
+         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+               <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1" />
+               <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2" />
+               <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3" />
+            </children>
+         </VBox>
+      </left>
    </BorderPane>
 </AnchorPane>

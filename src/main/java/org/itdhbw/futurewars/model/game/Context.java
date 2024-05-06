@@ -1,17 +1,20 @@
 package org.itdhbw.futurewars.model.game;
 
 import org.itdhbw.futurewars.controller.map.MapLoader;
-import org.itdhbw.futurewars.controller.tile.TileBuilder;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
-import org.itdhbw.futurewars.controller.unit.UnitBuilder;
+import org.itdhbw.futurewars.controller.tile.factory.TileBuilder;
+import org.itdhbw.futurewars.controller.ui.MapController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
+import org.itdhbw.futurewars.controller.unit.UnitRepository;
+import org.itdhbw.futurewars.controller.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 
 public class Context {
     private static TileRepository tileRepository;
+    private static UnitRepository unitRepository;
     private static TileBuilder tileBuilder;
     private static TileEventController tileEventController;
     private static UnitBuilder unitBuilder;
@@ -21,21 +24,38 @@ public class Context {
     private static AStarPathfinder pathfinder;
     private static UnitCreationController unitCreationController;
     private static MapLoader mapLoader;
+    private static MapController gameController = null;
+
     private Context() {
         // private constructor to prevent instantiation
     }
 
+    public static MapController getMapController() {
+        if (gameController == null) {
+            throw new IllegalStateException("MapController not set");
+        }
+        return gameController;
+    }
+
+    public static void setMapController(MapController gameController) {
+        if (Context.gameController != null) {
+            throw new IllegalStateException("MapController already set");
+        }
+        Context.gameController = gameController;
+    }
+
     public static void initialize() {
         tileRepository = new TileRepository();
+        unitRepository = new UnitRepository();
         gameState = new GameState();
         pathfinder = new AStarPathfinder();
         unitBuilder = new UnitBuilder();
-        mapLoader = new MapLoader();
         unitMovementController = new UnitMovementController();
         unitCreationController = new UnitCreationController();
         tileEventController = new TileEventController();
         tileBuilder = new TileBuilder();
         tileCreationController = new TileCreationController();
+        mapLoader = new MapLoader();
         tileEventController.initialize();
         unitMovementController.initialize();
     }
@@ -74,6 +94,14 @@ public class Context {
 
     public static GameState getGameState() {
         return gameState;
+    }
+
+    public static MapLoader getMapLoader() {
+        return mapLoader;
+    }
+
+    public static UnitRepository getUnitRepository() {
+        return unitRepository;
     }
 
 }

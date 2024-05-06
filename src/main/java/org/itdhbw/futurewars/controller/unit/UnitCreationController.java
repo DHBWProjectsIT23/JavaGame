@@ -3,25 +3,44 @@ package org.itdhbw.futurewars.controller.unit;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.controller.tile.TileRepository;
+import org.itdhbw.futurewars.controller.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.model.unit.UnitType;
+import org.itdhbw.futurewars.util.Position;
 import org.itdhbw.futurewars.view.unit.UnitView;
 
 public class UnitCreationController {
     private static final Logger LOGGER = LogManager.getLogger(UnitCreationController.class);
     private final UnitBuilder unitBuilder;
+    private final TileRepository tileRepository;
 
     public UnitCreationController() {
-        unitBuilder = Context.getUnitBuilder();
+        this.unitBuilder = Context.getUnitBuilder();
+        this.tileRepository = Context.getTileRepository();
     }
 
-    public UnitView createUnit(UnitType unitType, TileModel initialTile, int team) {
+    private UnitModel constructUnit(UnitType unitType, int team) {
         LOGGER.info("Creating unit of type {} for team {}", unitType, team);
         Pair<UnitModel, UnitView> unitPair = unitBuilder.createUnit(unitType, team);
-        LOGGER.info("Spawning unit {} at tile {}", unitPair.getKey().modelId, initialTile.modelId);
-        unitPair.getKey().spawn(initialTile);
-        return unitPair.getValue();
+        return unitPair.getKey();
     }
+
+    public void createUnit(UnitType unitType, TileModel initialTile, int team) {
+        LOGGER.info("Spawning unit at tile {}", initialTile.modelId);
+        constructUnit(unitType, team).spawn(initialTile);
+    }
+
+    public void createUnit(UnitType unitType, Position position, int team) {
+        LOGGER.info("Spawning unit at position {}", position);
+        constructUnit(unitType, team).spawn(tileRepository.getTileModel(position));
+    }
+
+    public void createUnit(UnitType unitType, int x, int y, int team) {
+        LOGGER.info("Spawning unit at position ({}, {})", x, y);
+        constructUnit(unitType, team).spawn(tileRepository.getTileModel(new Position(x, y)));
+    }
+
 }
