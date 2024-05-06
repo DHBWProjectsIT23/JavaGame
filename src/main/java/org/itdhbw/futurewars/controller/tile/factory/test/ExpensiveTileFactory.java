@@ -1,10 +1,11 @@
-package org.itdhbw.futurewars.controller.tile.factory;
+package org.itdhbw.futurewars.controller.tile.factory.test;
 
 import javafx.util.Pair;
-import org.itdhbw.futurewars.model.tile.ExpensiveTileModel;
+import org.itdhbw.futurewars.controller.tile.factory.TileFactory;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.view.tile.ExpensiveTileView;
+import org.itdhbw.futurewars.model.tile.test.ExpensiveTileModel;
 import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.tile.test.ExpensiveTileView;
 
 public class ExpensiveTileFactory implements TileFactory {
     @Override

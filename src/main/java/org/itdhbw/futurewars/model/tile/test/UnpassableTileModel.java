@@ -1,4 +1,7 @@
-package org.itdhbw.futurewars.model.tile;
+package org.itdhbw.futurewars.model.tile.test;
+
+import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.tile.TileType;
 
 public class UnpassableTileModel extends TileModel {
 

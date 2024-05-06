@@ -41,6 +41,7 @@ public class MapController {
     public void initialize() {
 
         Context.setMapController(this);
+        this.addTilesToGrid();
         /*for (int y = 0; y < (Constants.MAP_ROWS - 1); y++) {
             for (int x = 0; x < (Constants.MAP_COLUMNS - 1); x++) {
                 TileView testTile;

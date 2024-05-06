@@ -1,10 +1,11 @@
-package org.itdhbw.futurewars.controller.tile.factory;
+package org.itdhbw.futurewars.controller.tile.factory.test;
 
 import javafx.util.Pair;
-import org.itdhbw.futurewars.model.tile.TestTileModel;
+import org.itdhbw.futurewars.controller.tile.factory.TileFactory;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.view.tile.TestTileView;
+import org.itdhbw.futurewars.model.tile.test.TestTileModel;
 import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.tile.test.TestTileView;
 
 public class TestTileFactory implements TileFactory {
     @Override

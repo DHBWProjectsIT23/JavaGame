@@ -23,7 +23,7 @@ public class Main extends Application {
         LOGGER.info("Initializing application...");
         Context.initialize();
         try {
-            Context.getMapLoader().loadMap("testMap3.csv");
+            Context.getMapLoader().loadMap("resources/maps/testMap3.csv");
         } catch (
                   IOException e) {
             throw new RuntimeException("Failed to load map - {}", e);

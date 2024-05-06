@@ -1,7 +1,8 @@
-package org.itdhbw.futurewars.view.unit;
+package org.itdhbw.futurewars.view.unit.test;
 
 import javafx.scene.image.Image;
-import org.itdhbw.futurewars.model.unit.TestUnitModel;
+import org.itdhbw.futurewars.model.unit.test.TestUnitModel;
+import org.itdhbw.futurewars.view.unit.UnitView;
 
 public class TestUnitView extends UnitView {
     private static final Image TEXTURE_1 = new Image("file:resources/textures/UnitSample.png");

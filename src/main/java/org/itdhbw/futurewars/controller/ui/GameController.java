@@ -27,6 +27,12 @@ public class GameController {
     private Button map2Button;
     @FXML
     private Button map3Button;
+    @FXML
+    private Button newMap1Button;
+    @FXML
+    private Button newMap2Button;
+    @FXML
+    private Button newMap3Button;
 
     public GameController() {
         this.gameState = Context.getGameState();
@@ -60,16 +66,31 @@ public class GameController {
 
     @FXML
     private void loadMap1(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("testMap1.csv");
+        Context.getMapController().loadMap("resources/maps/testMap1.csv");
     }
 
     @FXML
     private void loadMap2(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("testMap2.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/testMap2.csv");
     }
 
     @FXML
     private void loadMap3(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("testMap3.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/testMap3.csv");
+    }
+
+    @FXML
+    private void loadNewMap1(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap1.csv");
+    }
+
+    @FXML
+    private void loadNewMap2(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap2.csv");
+    }
+
+    @FXML
+    private void loadNewMap3(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap3.csv");
     }
 }
