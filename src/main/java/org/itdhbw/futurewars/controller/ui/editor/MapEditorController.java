@@ -1,10 +1,11 @@
-package org.itdhbw.futurewars.controller.ui;
+package org.itdhbw.futurewars.controller.ui.editor;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -18,6 +19,7 @@ import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.model.unit.UnitType;
 
 import java.io.*;
+import java.util.function.Consumer;
 
 public class MapEditorController {
     private static final int MIN_MAP_SIZE = 5;
@@ -29,6 +31,7 @@ public class MapEditorController {
     private static final Logger LOGGER = LogManager.getLogger(MapEditorController.class);
     private final IntegerProperty width = new SimpleIntegerProperty(0);
     private final IntegerProperty height = new SimpleIntegerProperty(0);
+    private final ObjectProperty<EditorTile> activeEditorBox = new SimpleObjectProperty<>();
     private File selectedFile;
     @FXML
     private TextField widthInput;
@@ -40,8 +43,6 @@ public class MapEditorController {
     private Label statusLabel;
     @FXML
     private GridPane editorGrid;
-
-    private ObjectProperty<EditorTile> activeEditorBox = new SimpleObjectProperty<>();
     @FXML
     private MenuButton tileDropdown;
     @FXML
@@ -50,47 +51,140 @@ public class MapEditorController {
     private Button saveButton;
 
     public void initialize() {
-        editorGrid.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        // Populate the tileDropdown with all possible TileTypes
-        for (TileType tileType : TileType.values()) {
-            MenuItem menuItem = new MenuItem(tileType.name());
-            menuItem.setOnAction(event -> {
-                // Handle selection of tileType
-                if (activeEditorBox.get() != null) {
-                    activeEditorBox.get().setTileType(tileType);
-                }
-            });
-            tileDropdown.getItems().add(menuItem);
-        }
-        tileDropdown.setDisable(true);
+        initializeEditorGrid();
+        populateTileDropdown();
+        populateUnitDropdown();
+        initializeActiveEditorBox();
+        initializeInputs();
+    }
 
-        // Populate the unitDropdown with all possible UnitTypes
-        for (UnitType unitType : UnitType.values()) {
-            MenuItem menuItem = new MenuItem(unitType.name());
-            menuItem.setOnAction(event -> {
-                // Handle selection of unitType
-                if (activeEditorBox.get() != null) {
-                    activeEditorBox.get().setUnitType(unitType);
-                }
-            });
-            unitDropdown.getItems().add(menuItem);
+    private void initializeEditorGrid() {
+        editorGrid.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+    }
+
+    private void populateTileDropdown() {
+        populateDropdown(tileDropdown, TileType.values(), this::setActiveEditorBoxTileType);
+    }
+
+    private void populateUnitDropdown() {
+        populateDropdown(unitDropdown, UnitType.values(), this::setActiveEditorBoxUnitType);
+        addMenuItemToDropdown(unitDropdown, "None", _ -> setActiveEditorBoxUnitType(null));
+    }
+
+    private <T> void populateDropdown(MenuButton dropdown, T[] values, Consumer<T> action) {
+        for (T value : values) {
+            addMenuItemToDropdown(dropdown, value.toString(), _ -> action.accept(value));
         }
-        MenuItem nullMenuItem = new MenuItem("None");
-        nullMenuItem.setOnAction(event -> {
-            if (activeEditorBox.get() != null) {
-                activeEditorBox.get().setUnitType(null);
+        dropdown.setDisable(true);
+    }
+
+    private void setActiveEditorBoxTileType(TileType tileType) {
+        if (activeEditorBox.get() != null) {
+            activeEditorBox.get().setTileType(tileType);
+        }
+    }
+
+    private void addMenuItemToDropdown(MenuButton dropdown, String text, EventHandler<ActionEvent> eventHandler) {
+        MenuItem menuItem = new MenuItem(text);
+        menuItem.setOnAction(eventHandler);
+        dropdown.getItems().add(menuItem);
+    }
+
+    private void setActiveEditorBoxUnitType(UnitType unitType) {
+        if (activeEditorBox.get() != null) {
+            activeEditorBox.get().setUnitType(unitType);
+        }
+    }
+
+    private void setupNewGrid(int width, int height) {
+        clearGrid();
+        initializeGrid(width, height);
+        addNewCells(width, height);
+        editorGrid.setGridLinesVisible(true);
+    }
+
+    private void clearGrid() {
+        editorGrid.getChildren().clear();
+        editorGrid.getRowConstraints().clear();
+        editorGrid.getColumnConstraints().clear();
+    }
+
+    private void addNewCells(int width, int height) {
+        // Add the new cells
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                EditorTile editorTile = createEditorTile(width, height, j);
+                setEditorTileClickHandler(editorTile);
+                editorGrid.add(editorTile, j, i);
+            }
+        }
+    }
+
+    private void setEditorTileClickHandler(EditorTile editorTile) {
+        editorTile.setOnMouseClicked(event -> {
+            activeEditorBox.set(editorTile);
+            if (editorTile.getTileType() != null) {
+                tileDropdown.setText(editorTile.getTileType().name());
+            } else {
+                tileDropdown.setText("No TileType");
+            }
+
+            if (editorTile.getUnitType() != null) {
+                unitDropdown.setText(editorTile.getUnitType().name());
+            } else {
+                unitDropdown.setText("No UnitType");
             }
         });
+    }
 
-        unitDropdown.getItems().add(nullMenuItem);
-        unitDropdown.setDisable(true);
+    private EditorTile createEditorTile(int width, int height, int j) {
+        EditorTile editorTile = new EditorTile();
+        editorTile.setBorder(new Border(new BorderStroke(j % 2 == 0 ? Color.BLACK : Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        GridPane.setFillWidth(editorTile, true);
+        GridPane.setFillHeight(editorTile, true);
+        if (width > 28 || height > 20) {
+            editorTile.setLabelsVisible(false);
+        }
+        return editorTile;
+    }
 
+    private void initializeGrid(int width, int height) {
+        addRowsToGrid(height);
+        addColumnsToGrid(width);
+    }
 
+    private void onEditorTileSelected(EditorTile editorTile) {
+        this.activeEditorBox.get().setOpacityOnSelection(true);
+        Double opacity = this.activeEditorBox.get().getOpacity();
+        String opacityString = String.valueOf(opacity);
+        LOGGER.info("Opacity: {}", opacityString);
+        tileDropdown.setDisable(false);
+        unitDropdown.setDisable(false);
+    }
+
+    private void addRowsToGrid(int height) {
+        for (int i = 0; i < height; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPercentHeight(100.0 / height);
+            editorGrid.getRowConstraints().add(rowConstraints);
+        }
+    }
+
+    private void addColumnsToGrid(int width) {
+        for (int j = 0; j < width; j++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPercentWidth(100.0 / width);
+            editorGrid.getColumnConstraints().add(columnConstraints);
+        }
+    }
+
+    private void initializeActiveEditorBox() {
+        LOGGER.info("Initializing active editor box...");
         activeEditorBox.addListener((observable, oldValue, newValue) -> {
+            LOGGER.info("Active editor box changed - oldValue: {} - newValue: {}", oldValue, newValue);
             if (oldValue != null) {
                 oldValue.setOpacityOnSelection(false);
             }
-
             if (newValue != null) {
                 onEditorTileSelected(newValue);
             } else {
@@ -98,7 +192,9 @@ public class MapEditorController {
                 unitDropdown.setDisable(true);
             }
         });
+    }
 
+    private void initializeInputs() {
         widthInput.setText("5");
         heightInput.setText("5");
         setSize(null);
@@ -106,11 +202,6 @@ public class MapEditorController {
         this.saveButton.setDisable(true);
     }
 
-    private void onEditorTileSelected(EditorTile editorTile) {
-        this.activeEditorBox.get().setOpacityOnSelection(true);
-        tileDropdown.setDisable(false);
-        unitDropdown.setDisable(false);
-    }
 
     @FXML
     private void setSize(ActionEvent actionEvent) {
@@ -118,76 +209,30 @@ public class MapEditorController {
         try {
             int localWidth = Integer.parseInt(widthInput.getText());
             int localHeight = Integer.parseInt(heightInput.getText());
-            if (localWidth < 5 || localHeight < 5) {
-                statusLabel.setText("Map size must be at least 5x5");
-                return;
-            }
-            if (localWidth > 50 || localHeight > 50) {
-                statusLabel.setText("Map size must be at most 50x50");
+            if (!validateMapSize(localWidth, localHeight)) {
                 return;
             }
             this.width.set(localWidth);
             this.height.set(localHeight);
             statusLabel.setText("Map size set to " + localWidth + "x" + localHeight);
-
-            // Clear the existing grid
-            editorGrid.getChildren().clear();
-            editorGrid.getRowConstraints().clear();
-            editorGrid.getColumnConstraints().clear();
-
-            // Set the horizontal and vertical gaps
-            //editorGrid.setHgap(10); // Set horizontal gap
-            //editorGrid.setVgap(10); // Set vertical gap//
-
-            // Add the new rows and columns
-            for (int i = 0; i < localHeight; i++) {
-                RowConstraints rowConstraints = new RowConstraints();
-                rowConstraints.setPercentHeight(100.0 / localHeight);
-                editorGrid.getRowConstraints().add(rowConstraints);
-            }
-            for (int j = 0; j < localWidth; j++) {
-                ColumnConstraints columnConstraints = new ColumnConstraints();
-                columnConstraints.setPercentWidth(100.0 / localWidth);
-                editorGrid.getColumnConstraints().add(columnConstraints);
-            }
-
-            // Add the new cells
-
-            for (int i = 0; i < localHeight; i++) {
-                for (int j = 0; j < localWidth; j++) {
-                    EditorTile editorTile = new EditorTile();
-                    editorTile.setBorder(new Border(new BorderStroke(j % 2 == 0 ? Color.BLACK : Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                    GridPane.setFillWidth(editorTile, true);
-                    GridPane.setFillHeight(editorTile, true);
-                    if (localWidth > 28 || localHeight > 20) {
-                        editorTile.setLabelsVisible(false);
-                    }
-
-                    editorTile.setOnMouseClicked(event -> {
-                        activeEditorBox.set(editorTile);
-                        if (editorTile.getTileType() != null) {
-                            tileDropdown.setText(editorTile.getTileType().name());
-                        } else {
-                            tileDropdown.setText("No TileType");
-                        }
-
-                        if (editorTile.getUnitType() != null) {
-                            unitDropdown.setText(editorTile.getUnitType().name());
-                        } else {
-                            unitDropdown.setText("No UnitType");
-                        }
-                    });
-
-                    editorGrid.add(editorTile, j, i);
-                }
-            }
-
-
+            setupNewGrid(localWidth, localHeight);
             editorGrid.setGridLinesVisible(true);
             this.confirmSizeButton.setDisable(true);
         } catch (NumberFormatException e) {
-            statusLabel.setText("Invalid map size");
+            statusLabel.setText(INVALID_MAP_SIZE);
         }
+    }
+
+    private boolean validateMapSize(int width, int height) {
+        if (width < MIN_MAP_SIZE || height < MIN_MAP_SIZE) {
+            statusLabel.setText(MAP_SIZE_MUST_BE_AT_LEAST);
+            return false;
+        }
+        if (width > MAX_MAP_SIZE || height > MAX_MAP_SIZE) {
+            statusLabel.setText(MAP_SIZE_MUST_BE_AT_MOST);
+            return false;
+        }
+        return true;
     }
 
     @FXML
@@ -310,22 +355,8 @@ public class MapEditorController {
             int localWidth = Integer.parseInt(size[0]);
             int localHeight = Integer.parseInt(size[1]);
 
-            // Clear the existing grid
-            editorGrid.getChildren().clear();
-            editorGrid.getRowConstraints().clear();
-            editorGrid.getColumnConstraints().clear();
-
-            // Add the new rows and columns
-            for (int i = 0; i < localHeight; i++) {
-                RowConstraints rowConstraints = new RowConstraints();
-                rowConstraints.setPercentHeight(100.0 / localHeight);
-                editorGrid.getRowConstraints().add(rowConstraints);
-            }
-            for (int j = 0; j < localWidth; j++) {
-                ColumnConstraints columnConstraints = new ColumnConstraints();
-                columnConstraints.setPercentWidth(100.0 / localWidth);
-                editorGrid.getColumnConstraints().add(columnConstraints);
-            }
+            clearGrid();
+            initializeGrid(localWidth, localHeight);
 
             // Read the tiles
             String line;
@@ -348,7 +379,7 @@ public class MapEditorController {
                         LOGGER.info("Setting unit type to {}", unitTypeString);
                         editorTile.setUnitType(UnitType.valueOf(unitTypeString));
                     }
-
+                    setEditorTileClickHandler(editorTile);
                     editorGrid.add(editorTile, x, y);
                 }
                 y++;
