@@ -5,6 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.tile.TileType;
+
+import java.util.Set;
 
 
 public abstract class UnitModel {
@@ -13,6 +16,7 @@ public abstract class UnitModel {
     protected final int team;
     private final UnitType unitType;
     private final ObjectProperty<TileModel> currentTile = new SimpleObjectProperty<>();
+    protected Set<TileType> traversableTiles;
 
     protected UnitModel(UnitType unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
@@ -48,5 +52,9 @@ public abstract class UnitModel {
 
     public UnitType getUnitType() {
         return unitType;
+    }
+
+    public boolean canTraverse(TileType tileType) {
+        return traversableTiles.contains(tileType);
     }
 }

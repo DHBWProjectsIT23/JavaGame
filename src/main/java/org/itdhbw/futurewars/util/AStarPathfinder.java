@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.util;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.unit.UnitModel;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ public class AStarPathfinder {
         Map<TileModel, TileModel> cameFrom = new HashMap<>();
         Map<TileModel, Integer> gScore = new HashMap<>();
         Map<TileModel, Integer> fScore = new HashMap<>();
+        UnitModel unit = startTile.getOccupyingUnit();
 
         openSet.add(startTile);
         gScore.put(startTile, 0);
@@ -36,7 +38,7 @@ public class AStarPathfinder {
             openSet.remove(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied() || !neighbor.isPassable()) {
+                if (neighbor.isOccupied() || !unit.canTraverse(neighbor.getTileType())) {
                     continue;
                 }
 
