@@ -18,6 +18,8 @@ import org.itdhbw.futurewars.util.Position;
 import org.itdhbw.futurewars.view.tile.TileView;
 import org.itdhbw.futurewars.view.unit.TestUnitView;
 
+import java.io.IOException;
+
 public class MapController {
     private static final Logger LOGGER = LogManager.getLogger(MapController.class);
     private final TileCreationController tileCreationController;
@@ -44,7 +46,12 @@ public class MapController {
     public void initialize() {
         LOGGER.info("Loading map...");
         MapLoader mapLoader = new MapLoader();
-        mapLoader.loadMap("testMap.csv");
+        try {
+            mapLoader.loadMap("testMap2.csv");
+        } catch (
+                  IOException e) {
+            throw new RuntimeException("Failed to load map - {}", e);
+        }
 
 
         Pair<TileModel, TileView>[][] allTiles = tileRepository.getAllTiles();
