@@ -1,0 +1,365 @@
+package org.itdhbw.futurewars.controller.ui;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.editor.EditorTile;
+import org.itdhbw.futurewars.model.tile.TileType;
+import org.itdhbw.futurewars.model.unit.UnitType;
+
+import java.io.*;
+
+public class MapEditorController {
+    private static final int MIN_MAP_SIZE = 5;
+    private static final int MAX_MAP_SIZE = 50;
+    private static final String INVALID_MAP_SIZE = "Invalid map size";
+    private static final String MAP_SIZE_MUST_BE_AT_LEAST = "Map size must be at least 5x5";
+    private static final String MAP_SIZE_MUST_BE_AT_MOST = "Map size must be at most 50x50";
+
+    private static final Logger LOGGER = LogManager.getLogger(MapEditorController.class);
+    private final IntegerProperty width = new SimpleIntegerProperty(0);
+    private final IntegerProperty height = new SimpleIntegerProperty(0);
+    private File selectedFile;
+    @FXML
+    private TextField widthInput;
+    @FXML
+    private TextField heightInput;
+    @FXML
+    private Button confirmSizeButton;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private GridPane editorGrid;
+
+    private ObjectProperty<EditorTile> activeEditorBox = new SimpleObjectProperty<>();
+    @FXML
+    private MenuButton tileDropdown;
+    @FXML
+    private MenuButton unitDropdown;
+    @FXML
+    private Button saveButton;
+
+    public void initialize() {
+        editorGrid.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        // Populate the tileDropdown with all possible TileTypes
+        for (TileType tileType : TileType.values()) {
+            MenuItem menuItem = new MenuItem(tileType.name());
+            menuItem.setOnAction(event -> {
+                // Handle selection of tileType
+                if (activeEditorBox.get() != null) {
+                    activeEditorBox.get().setTileType(tileType);
+                }
+            });
+            tileDropdown.getItems().add(menuItem);
+        }
+        tileDropdown.setDisable(true);
+
+        // Populate the unitDropdown with all possible UnitTypes
+        for (UnitType unitType : UnitType.values()) {
+            MenuItem menuItem = new MenuItem(unitType.name());
+            menuItem.setOnAction(event -> {
+                // Handle selection of unitType
+                if (activeEditorBox.get() != null) {
+                    activeEditorBox.get().setUnitType(unitType);
+                }
+            });
+            unitDropdown.getItems().add(menuItem);
+        }
+        MenuItem nullMenuItem = new MenuItem("None");
+        nullMenuItem.setOnAction(event -> {
+            if (activeEditorBox.get() != null) {
+                activeEditorBox.get().setUnitType(null);
+            }
+        });
+
+        unitDropdown.getItems().add(nullMenuItem);
+        unitDropdown.setDisable(true);
+
+
+        activeEditorBox.addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                oldValue.setOpacityOnSelection(false);
+            }
+
+            if (newValue != null) {
+                onEditorTileSelected(newValue);
+            } else {
+                tileDropdown.setDisable(true);
+                unitDropdown.setDisable(true);
+            }
+        });
+
+        widthInput.setText("5");
+        heightInput.setText("5");
+        setSize(null);
+        this.confirmSizeButton.setDisable(false);
+        this.saveButton.setDisable(true);
+    }
+
+    private void onEditorTileSelected(EditorTile editorTile) {
+        this.activeEditorBox.get().setOpacityOnSelection(true);
+        tileDropdown.setDisable(false);
+        unitDropdown.setDisable(false);
+    }
+
+    @FXML
+    private void setSize(ActionEvent actionEvent) {
+        LOGGER.info("Setting map size...");
+        try {
+            int localWidth = Integer.parseInt(widthInput.getText());
+            int localHeight = Integer.parseInt(heightInput.getText());
+            if (localWidth < 5 || localHeight < 5) {
+                statusLabel.setText("Map size must be at least 5x5");
+                return;
+            }
+            if (localWidth > 50 || localHeight > 50) {
+                statusLabel.setText("Map size must be at most 50x50");
+                return;
+            }
+            this.width.set(localWidth);
+            this.height.set(localHeight);
+            statusLabel.setText("Map size set to " + localWidth + "x" + localHeight);
+
+            // Clear the existing grid
+            editorGrid.getChildren().clear();
+            editorGrid.getRowConstraints().clear();
+            editorGrid.getColumnConstraints().clear();
+
+            // Set the horizontal and vertical gaps
+            //editorGrid.setHgap(10); // Set horizontal gap
+            //editorGrid.setVgap(10); // Set vertical gap//
+
+            // Add the new rows and columns
+            for (int i = 0; i < localHeight; i++) {
+                RowConstraints rowConstraints = new RowConstraints();
+                rowConstraints.setPercentHeight(100.0 / localHeight);
+                editorGrid.getRowConstraints().add(rowConstraints);
+            }
+            for (int j = 0; j < localWidth; j++) {
+                ColumnConstraints columnConstraints = new ColumnConstraints();
+                columnConstraints.setPercentWidth(100.0 / localWidth);
+                editorGrid.getColumnConstraints().add(columnConstraints);
+            }
+
+            // Add the new cells
+
+            for (int i = 0; i < localHeight; i++) {
+                for (int j = 0; j < localWidth; j++) {
+                    EditorTile editorTile = new EditorTile();
+                    editorTile.setBorder(new Border(new BorderStroke(j % 2 == 0 ? Color.BLACK : Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                    GridPane.setFillWidth(editorTile, true);
+                    GridPane.setFillHeight(editorTile, true);
+                    if (localWidth > 28 || localHeight > 20) {
+                        editorTile.setLabelsVisible(false);
+                    }
+
+                    editorTile.setOnMouseClicked(event -> {
+                        activeEditorBox.set(editorTile);
+                        if (editorTile.getTileType() != null) {
+                            tileDropdown.setText(editorTile.getTileType().name());
+                        } else {
+                            tileDropdown.setText("No TileType");
+                        }
+
+                        if (editorTile.getUnitType() != null) {
+                            unitDropdown.setText(editorTile.getUnitType().name());
+                        } else {
+                            unitDropdown.setText("No UnitType");
+                        }
+                    });
+
+                    editorGrid.add(editorTile, j, i);
+                }
+            }
+
+
+            editorGrid.setGridLinesVisible(true);
+            this.confirmSizeButton.setDisable(true);
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Invalid map size");
+        }
+    }
+
+    @FXML
+    private void saveMapAs(ActionEvent actionEvent) {
+        LOGGER.info("Saving map as...");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Map As");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        // Set the initial directory to the current directory
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            this.selectedFile = file;
+            this.saveButton.setDisable(false);
+            saveMapToFile(file);
+        }
+    }
+
+
+    @FXML
+    public void saveMap(ActionEvent actionEvent) {
+        LOGGER.info("Saving map...");
+        if (selectedFile != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to save the map to " + selectedFile.getName() + "?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                saveMapToFile(selectedFile);
+            }
+        }
+    }
+
+    public void saveMapToFile(File file) {
+        LOGGER.info("Saving map to file...");
+        try {
+            PrintWriter writer = new PrintWriter(file);
+
+            // Write the first line
+            writer.println("FUTURE_WARS_MAP_FORMAT_NEW");
+
+            // Write an empty line
+            writer.println();
+
+            // Write the width and height
+            writer.println(width.get() + "," + height.get());
+
+            // Write an empty line
+            writer.println();
+
+            // Write the tiles
+            for (int i = 0; i < height.get(); i++) {
+                for (int j = 0; j < width.get(); j++) {
+                    EditorTile editorTile = (EditorTile) getNodeFromGridPane(editorGrid, j, i);
+
+                    String tileType = editorTile.getTileType() != null ? editorTile.getTileType().name() : "NONE";
+                    String unitType = editorTile.getUnitType() != null ? editorTile.getUnitType().name() : "NONE";
+
+                    writer.print(tileType + "," + unitType);
+
+                    // If this is not the last tile in the row, add a comma
+                    if (j < width.get() - 1) {
+                        writer.print(",");
+                    }
+                }
+
+                // End of the row
+                writer.println();
+            }
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+
+    @FXML
+    private void loadMap(ActionEvent actionEvent) {
+        LOGGER.info("Loading map...");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Map File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        // Set the initial directory to the current directory
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            loadMapFromFile(selectedFile);
+        } else {
+            System.out.println("File selection cancelled.");
+        }
+    }
+
+
+    private void loadMapFromFile(File file) {
+        LOGGER.info("Loading map from file...");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            for (int i = 0; i < 2; i++) {
+                reader.readLine();
+            }
+
+            // Read the width and height
+            String[] size = reader.readLine().split(",");
+            int localWidth = Integer.parseInt(size[0]);
+            int localHeight = Integer.parseInt(size[1]);
+
+            // Clear the existing grid
+            editorGrid.getChildren().clear();
+            editorGrid.getRowConstraints().clear();
+            editorGrid.getColumnConstraints().clear();
+
+            // Add the new rows and columns
+            for (int i = 0; i < localHeight; i++) {
+                RowConstraints rowConstraints = new RowConstraints();
+                rowConstraints.setPercentHeight(100.0 / localHeight);
+                editorGrid.getRowConstraints().add(rowConstraints);
+            }
+            for (int j = 0; j < localWidth; j++) {
+                ColumnConstraints columnConstraints = new ColumnConstraints();
+                columnConstraints.setPercentWidth(100.0 / localWidth);
+                editorGrid.getColumnConstraints().add(columnConstraints);
+            }
+
+            // Read the tiles
+            String line;
+            int y = 0;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] tileData = line.split(",");
+                for (int x = 0; x < localWidth; x++) {
+                    EditorTile editorTile = new EditorTile();
+
+                    // Set the TileType and UnitType
+                    String tileTypeString = tileData[x * 2];
+                    if (!tileTypeString.equals("NONE")) {
+                        LOGGER.info("Setting tile type to {}", tileTypeString);
+                        editorTile.setTileType(TileType.valueOf(tileTypeString));
+                    }
+
+                    String unitTypeString = tileData[x * 2 + 1];
+                    if (!unitTypeString.equals("NONE")) {
+                        LOGGER.info("Setting unit type to {}", unitTypeString);
+                        editorTile.setUnitType(UnitType.valueOf(unitTypeString));
+                    }
+
+                    editorGrid.add(editorTile, x, y);
+                }
+                y++;
+            }
+
+            this.confirmSizeButton.setDisable(true);
+            this.saveButton.setDisable(false);
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
