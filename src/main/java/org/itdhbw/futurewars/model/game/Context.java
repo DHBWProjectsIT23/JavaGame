@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.model.game;
 
+import org.itdhbw.futurewars.controller.map.MapLoader;
 import org.itdhbw.futurewars.controller.tile.TileBuilder;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
@@ -10,10 +11,6 @@ import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 
 public class Context {
-    private Context() {
-        // private constructor to prevent instantiation
-    }
-
     private static TileRepository tileRepository;
     private static TileBuilder tileBuilder;
     private static TileEventController tileEventController;
@@ -23,12 +20,17 @@ public class Context {
     private static GameState gameState;
     private static AStarPathfinder pathfinder;
     private static UnitCreationController unitCreationController;
+    private static MapLoader mapLoader;
+    private Context() {
+        // private constructor to prevent instantiation
+    }
 
     public static void initialize() {
         tileRepository = new TileRepository();
         gameState = new GameState();
         pathfinder = new AStarPathfinder();
         unitBuilder = new UnitBuilder();
+        mapLoader = new MapLoader();
         unitMovementController = new UnitMovementController();
         unitCreationController = new UnitCreationController();
         tileEventController = new TileEventController();

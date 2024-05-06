@@ -8,8 +8,26 @@ public class GameState {
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
     private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR);
+    private int mapWidth;
+    private int mapHeight;
 
     public GameState() {
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
     }
 
     public ObjectProperty<TileModel> getSelectedTileProperty() {

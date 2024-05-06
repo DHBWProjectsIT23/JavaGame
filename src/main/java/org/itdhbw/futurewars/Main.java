@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 
 import java.io.IOException;
+
 public class Main extends Application {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final int SCREEN_WIDTH = 1600;
@@ -22,6 +23,7 @@ public class Main extends Application {
     public void start(final Stage stage) throws IOException {
         LOGGER.info("Initializing application...");
         Context.initialize();
+
 
         LOGGER.info("Loading FXML file...");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));

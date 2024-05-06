@@ -26,7 +26,7 @@ public class AStarPathfinder {
         while (!openSet.isEmpty()) {
             TileModel current = getTileWithLowestFScore(openSet, fScore);
             if (current == null) {
-                throw new RuntimeException("No path found");
+                //throw new RuntimeException("No path found");
             }
 
             if (current.equals(endTile)) {
@@ -36,7 +36,7 @@ public class AStarPathfinder {
             openSet.remove(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied()) {
+                if (neighbor.isOccupied() || !neighbor.isPassable()) {
                     continue;
                 }
 
@@ -47,14 +47,12 @@ public class AStarPathfinder {
                     gScore.put(neighbor, tentativeGScore);
                     fScore.put(neighbor, tentativeGScore + neighbor.distanceTo(endTile));
 
-                    if (!openSet.contains(neighbor)) {
-                        openSet.add(neighbor);
-                    }
+                    openSet.add(neighbor);
                 }
             }
         }
-
-        throw new RuntimeException("No path found");
+        return new ArrayList<>();
+        //throw new RuntimeException("No path found");
     }
 
     private List<TileModel> reconstructPath(Map<TileModel, TileModel> cameFrom, TileModel current) {

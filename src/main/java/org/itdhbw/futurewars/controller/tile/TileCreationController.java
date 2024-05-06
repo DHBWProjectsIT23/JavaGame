@@ -17,9 +17,9 @@ public class TileCreationController {
         this.tileBuilder = Context.getTileBuilder();
     }
 
-    public TileView createTile(TileType tileType, int x, int y) {
+    public Pair<TileModel, TileView> createTile(TileType tileType, int x, int y) {
         LOGGER.info("Creating tile of type {} at position ({}, {})", tileType, x, y);
         Pair<TileModel, TileView> tilePair = tileBuilder.createTile(tileType, x, y);
-        return tilePair.getValue();
+        return tilePair;
     }
 }

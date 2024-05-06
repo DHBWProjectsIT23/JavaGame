@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+//! BUG: Hovering over a tile that is occupied throws an NullPointerException in Moving Unit Mode
 public class TileEventController {
     private static final Logger LOGGER = LogManager.getLogger(TileEventController.class);
     private static final List<TileModel> highlightedTiles = new ArrayList<>();

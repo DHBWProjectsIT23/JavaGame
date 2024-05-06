@@ -16,12 +16,17 @@ public abstract class TileModel {
     private final TileType tileType;
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty highlighted = new SimpleBooleanProperty(false);
+    protected boolean passable = true;
     private boolean isOccupied = false;
 
     protected TileModel(final int x, final int y, TileType tileType) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
+    }
+
+    public boolean isPassable() {
+        return passable;
     }
 
     public int distanceTo(TileModel other) {
@@ -57,6 +62,12 @@ public abstract class TileModel {
         throw new IllegalStateException("Tile is not occupied!");
     }
 
+    public void setOccupyingUnit(UnitModel unitModel) {
+        LOGGER.info("Setting unit {} on tile {}", unitModel.modelId, modelId);
+        this.occupyingUnit.set(unitModel);
+        this.isOccupied = true;
+    }
+
     public BooleanProperty highlightedProperty() {
         return highlighted;
     }
@@ -67,11 +78,5 @@ public abstract class TileModel {
 
     public void setHighlighted(boolean highlighted) {
         this.highlighted.set(highlighted);
-    }
-
-    public void setOccupyingUnit(UnitModel unitModel) {
-        LOGGER.info("Setting unit {} on tile {}", unitModel.modelId, modelId);
-        this.occupyingUnit.set(unitModel);
-        this.isOccupied = true;
     }
 }
