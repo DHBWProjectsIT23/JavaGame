@@ -21,9 +21,9 @@ public abstract class TileView extends StackPane {
     private static final Image HOVER_OCCUPIED_IMAGE = new Image("file:resources/textures/64HoveredOccupied.png");
     private static final Image SELECTED_IMAGE = new Image("file:resources/textures/64Selected.png");
     protected static final ImageView SELECTED_OVERLAY = new ImageView(SELECTED_IMAGE);
-    private final ImageView highlightedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     public final int viewId = this.hashCode();
     protected final ImageView textureLayer;
+    private final ImageView highlightedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     private final TileModel tileModel;
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private final BooleanProperty hovered = new SimpleBooleanProperty(false);
@@ -37,6 +37,13 @@ public abstract class TileView extends StackPane {
         this.textureLayer.setFitHeight(Constants.TILE_SIZE);
         this.textureLayer.setFitWidth(Constants.TILE_SIZE);
         this.setTexture();
+
+        HOVER_OVERLAY.setFitHeight(Constants.TILE_SIZE);
+        HOVER_OVERLAY.setFitWidth(Constants.TILE_SIZE);
+        SELECTED_OVERLAY.setFitHeight(Constants.TILE_SIZE);
+        SELECTED_OVERLAY.setFitWidth(Constants.TILE_SIZE);
+        this.highlightedOverlay.setFitHeight(Constants.TILE_SIZE);
+        this.highlightedOverlay.setFitWidth(Constants.TILE_SIZE);
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);

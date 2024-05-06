@@ -47,7 +47,7 @@ public class MapController {
         LOGGER.info("Loading map...");
         MapLoader mapLoader = new MapLoader();
         try {
-            mapLoader.loadMap("testMap2.csv");
+            mapLoader.loadMap("testMap1.csv");
         } catch (
                   IOException e) {
             throw new RuntimeException("Failed to load map - {}", e);
@@ -83,13 +83,9 @@ public class MapController {
 
         LOGGER.info("Creating Units...");
         TestUnitView testUnitView = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tileRepository.getAllTiles()[0][0].getKey(), 1);
-        /*TestUnitView testUnitView2 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[0][1].getTileModel(), 2);
-        TestUnitView testUnitView3 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[1][1].getTileModel(), 1);
-        TestUnitView testUnitView4 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[0][2].getTileModel(), 2);
-        TestUnitView testUnitView5 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[1][0].getTileModel(), 1);
-        TestUnitView testUnitView6 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[2][1].getTileModel(), 2);
-        TestUnitView testUnitView7 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[2][3].getTileModel(), 1);
-        TestUnitView testUnitView8 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[4][1].getTileModel(), 2);
-        TestUnitView testUnitView9 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tiles[0][5].getTileModel(), 1);*/
+        TestUnitView testUnitView2 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tileRepository.getAllTiles()[1][4].getKey(), 1);
+        TestUnitView testUnitView3 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tileRepository.getAllTiles()[5][0].getKey(), 1);
+        TestUnitView testUnitView4 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tileRepository.getAllTiles()[7][2].getKey(), 1);
+        TestUnitView testUnitView5 = (TestUnitView) unitCreationController.createUnit(UnitType.TEST_UNIT, tileRepository.getAllTiles()[3][9].getKey(), 1);
     }
 }
