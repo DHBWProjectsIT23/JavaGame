@@ -133,4 +133,7 @@ public class GameController {
     public void loadLittleIsland(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/maps/littleIsland.fwm");
     }
+    public void loadEonSprings(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/maps/eonSprings.fwm");
+    }
 }
