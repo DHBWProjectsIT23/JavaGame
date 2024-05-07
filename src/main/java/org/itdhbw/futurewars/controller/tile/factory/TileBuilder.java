@@ -41,7 +41,7 @@ public class TileBuilder {
     private void setEventHandlers(TileView tileView) {
         LOGGER.info("Setting event handlers for tile view {}", tileView);
         tileView.setOnMouseClicked(tileEventController::handleMouseClick);
-        tileView.setOnMouseEntered(tileEventController::handleMouseEntered);
+        tileView.setOnMouseEntered(tileEventController::handleMouseEnter);
     }
 
     public Pair<TileModel, TileView> createTile(TileType tileType, int x, int y) {

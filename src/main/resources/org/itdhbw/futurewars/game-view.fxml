@@ -1,55 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
-   <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <bottom>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bottom" BorderPane.alignment="CENTER" />
-      </bottom>
-      <right>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Right" BorderPane.alignment="CENTER" />
-      </right>
-      <center>
-         <fx:include source="map-view.fxml" />
-      </center>
-      <top>
-         <GridPane BorderPane.alignment="CENTER">
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <Label text="Selected Tile: " />
-               <Label fx:id="selectedTileDebug" text="Label" />
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <Label text="HoveredTile: " />
-               <Label fx:id="hoveredTileDebug" text="Label" />
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
-               <Label text="Moving: " />
-               <Label fx:id="movingDebug" text="Label" />
-            </HBox>
-            <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" />
-               <ColumnConstraints hgrow="SOMETIMES" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-         </GridPane>
-      </top>
-      <left>
-         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
+   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+            <GridPane>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <Label text="Selected Tile: " />
+                    <Label fx:id="selectedTileDebug" text="Label" />
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                    <Label text="HoveredTile: " />
+                    <Label fx:id="hoveredTileDebug" text="Label" />
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                    <Label text="Moving: " />
+                    <Label fx:id="movingDebug" text="Label" />
+                </HBox>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+            </GridPane>
+         <HBox maxWidth="1600.0">
             <children>
-               <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1" />
-               <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2" />
-               <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3" />
-               <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1" text="NewMap1"/>
-               <Button fx:id="newMap2Button" mnemonicParsing="false" onAction="#loadNewMap2" text="NewMap2"/>
-               <Button fx:id="newMap3Button" mnemonicParsing="false" onAction="#loadNewMap3" text="NewMap3"/>
-               <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island"/>
+                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
+                      <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1" />
+                      <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2" />
+                      <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3" />
+                      <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1" text="NewMap1"/>
+                      <Button fx:id="newMap2Button" mnemonicParsing="false" onAction="#loadNewMap2" text="NewMap2" />
+                      <Button fx:id="newMap3Button" mnemonicParsing="false" onAction="#loadNewMap3" text="NewMap3" />
+                    <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island"/>
+                  </VBox>
+                  <AnchorPane prefHeight="800.0" prefWidth="474.0">
+                      <fx:include source="map-view.fxml" />
+                  </AnchorPane>
+                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
+                      <VBox prefHeight="200.0" prefWidth="100.0">
+                          <Label text="Selected Tile" />
+                          <HBox prefHeight="100.0" prefWidth="200.0">
+                              <Label text="Type: " />
+                              <Label fx:id="selectedTileType" />
+                          </HBox>
+                      </VBox>
+                      <VBox prefHeight="200.0" prefWidth="100.0">
+                          <Label text="Selected Unit" />
+                          <HBox prefHeight="100.0" prefWidth="200.0">
+                              <Label text="Type: " />
+                              <Label fx:id="selectedUnitType" />
+                          </HBox>
+                          <HBox prefHeight="100.0" prefWidth="200.0">
+                              <Label text="HP:" />
+                              <Label fx:id="selectedUnitHP" />
+                          </HBox>
+                          <HBox prefHeight="100.0" prefWidth="200.0">
+                              <Label text="Range:" />
+                              <Label fx:id="selectedUnitRange" />
+                          </HBox>
+                          <HBox prefHeight="100.0" prefWidth="200.0">
+                              <Label text="Team: " />
+                              <Label fx:id="selectedUnitTeam" />
+                          </HBox>
+                      </VBox>
+                  </VBox>
             </children>
-         </VBox>
-      </left>
-   </BorderPane>
+         </HBox>
+      </children>
+   </VBox>
 </AnchorPane>

@@ -1,10 +1,13 @@
 package org.itdhbw.futurewars.controller.ui;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,6 +28,9 @@ public class MapController {
     private final UnitCreationController unitCreationController;
     private final GameState gameState;
     private final MapLoader mapLoader;
+    private final DoubleProperty mouseX = new SimpleDoubleProperty();
+    private final DoubleProperty mouseY = new SimpleDoubleProperty();
+
     @FXML
     private GridPane gameGrid;
     @FXML
@@ -33,6 +39,8 @@ public class MapController {
     private Button overlayMoveButton;
     @FXML
     private Button overlayCloseButton;
+    @FXML
+    private VBox overlayBox;
 
     public MapController() {
         this.tileCreationController = Context.getTileCreationController();
@@ -48,12 +56,17 @@ public class MapController {
         this.addTilesToGrid();
         LOGGER.info("Creating Units...");
 
+
         this.gameState.activeModeProperty().addListener((_, _, newValue) -> {
             if (newValue == ActiveMode.OVERLAY) {
                 this.showOverlay();
             } else {
                 this.hideOverlay();
             }
+        });
+        this.gameGrid.setOnMouseMoved(event -> {
+            mouseX.set(event.getSceneX());
+            mouseY.set(event.getSceneY());
         });
     }
 
@@ -63,6 +76,10 @@ public class MapController {
     }
 
     private void showOverlay() {
+        LOGGER.info("Showing overlay...");
+        LOGGER.info("Mouse X: {} - Mouse Y: {}", mouseX.get(), mouseY.get());
+        this.overlayBox.setLayoutX(mouseX.get());
+        this.overlayBox.setLayoutY(mouseY.get());
         this.overlayPane.setVisible(true);
         this.overlayPane.setDisable(false);
     }
@@ -82,6 +99,7 @@ public class MapController {
         } catch (Exception e) {
             LOGGER.error("Error loading map: {}", e.getMessage());
         }
+
     }
 
     private void addTilesToGrid() {
@@ -99,6 +117,7 @@ public class MapController {
                 this.addTileToGrid(tilePair);
             }
         }
+
     }
 
     @FXML
