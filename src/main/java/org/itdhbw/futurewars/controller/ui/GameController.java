@@ -33,6 +33,16 @@ public class GameController {
     private Button newMap2Button;
     @FXML
     private Button newMap3Button;
+    @FXML
+    private Label selectedUnitTeam;
+    @FXML
+    private Label selectedUnitRange;
+    @FXML
+    private Label selectedUnitHP;
+    @FXML
+    private Label selectedUnitType;
+    @FXML
+    private Label selectedTileType;
 
     public GameController() {
         this.gameState = Context.getGameState();
@@ -42,6 +52,32 @@ public class GameController {
         selectedTileDebug.textProperty().bind(createTileBinding(gameState.getSelectedTileProperty(), "No tile selected"));
         hoveredTileDebug.textProperty().bind(createTileBinding(gameState.getHoveredTileProperty(), "No tile hovered"));
         movingDebug.textProperty().bind(createModeBinding(gameState.activeModeProperty()));
+        gameState.getSelectedTileProperty().addListener((_, _, newValue) -> {
+            if (newValue == null) {
+                this.clearPropertyInformation();
+            } else {
+                this.setPropertyInformation();
+            }
+        });
+    }
+
+    private void setPropertyInformation() {
+        TileModel selectedTile = gameState.getSelectedTileProperty().get();
+        this.selectedTileType.setText(selectedTile.getTileType().toString());
+        if (selectedTile.isOccupied()) {
+            this.selectedUnitType.setText(selectedTile.getOccupyingUnit().getUnitType().toString());
+            this.selectedUnitHP.setText("TBD"); //selectedTile.getOccupyingUnit().getHp());
+            this.selectedUnitRange.setText("TBD");  //selectedTile.getOccupyingUnit().getRange());
+            this.selectedUnitTeam.setText(String.valueOf(selectedTile.getOccupyingUnit().getTeam()));
+        }
+    }
+
+    private void clearPropertyInformation() {
+        this.selectedTileType.setText("No tile selected");
+        this.selectedUnitType.setText("No unit selected");
+        this.selectedUnitHP.setText("");
+        this.selectedUnitRange.setText("");
+        this.selectedUnitTeam.setText("");
     }
 
     private StringBinding createModeBinding(ObjectProperty<ActiveMode> activeModeProperty) {

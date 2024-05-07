@@ -20,7 +20,6 @@ public class TileCreationController {
 
     public Pair<TileModel, TileView> createTile(TileType tileType, int x, int y) {
         LOGGER.info("Creating tile of type {} at position ({}, {})", tileType, x, y);
-        Pair<TileModel, TileView> tilePair = tileBuilder.createTile(tileType, x, y);
-        return tilePair;
+        return tileBuilder.createTile(tileType, x, y);
     }
 }
