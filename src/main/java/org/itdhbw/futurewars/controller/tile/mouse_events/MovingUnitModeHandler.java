@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.controller.tile.mouseEvents;
+package org.itdhbw.futurewars.controller.tile.mouse_events;
 
 import javafx.scene.input.MouseEvent;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
@@ -30,14 +30,14 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
         for (TileModel tile : new ArrayList<>(highlightedTiles)) {
             if (!newPath.contains(tile)) {
-                tile.setHighlighted(false);
+                tile.setPartOfPath(false);
                 highlightedTiles.remove(tile);
             }
         }
 
         for (TileModel tile : newPath) {
             if (!highlightedTiles.contains(tile)) {
-                tile.setHighlighted(true);
+                tile.setPartOfPath(true);
                 highlightedTiles.add(tile);
             }
         }
@@ -50,7 +50,7 @@ public class MovingUnitModeHandler implements MouseEventHandler {
         gameState.setActiveMode(ActiveMode.REGULAR);
         gameState.deselectTile();
         for (TileModel tile : highlightedTiles) {
-            tile.setHighlighted(false);
+            tile.setPartOfPath(false);
         }
     }
 

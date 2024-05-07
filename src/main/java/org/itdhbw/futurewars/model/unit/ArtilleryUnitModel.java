@@ -2,12 +2,19 @@ package org.itdhbw.futurewars.model.unit;
 
 import org.itdhbw.futurewars.model.tile.TileType;
 
-import java.util.Set;
-
 public class ArtilleryUnitModel extends UnitModel {
     public ArtilleryUnitModel(int team) {
         super(UnitType.ARTILLERY_UNIT, team);
-        this.traversableTiles = Set.of(TileType.PLAIN_TILE, TileType.WOOD_TILE, TileType.MOUNTAIN_TILE);
+        this.travelCosts.put(TileType.MOUNTAIN_TILE, 2);
+        this.travelCosts.put(TileType.SEA_TILE, -1);
+        this.travelCosts.put(TileType.PLAIN_TILE, 1);
+        this.travelCosts.put(TileType.WOOD_TILE, 1);
+        this.travelCosts.put(TileType.TEST_TILE, 1);
+        this.travelCosts.put(TileType.EXPENSIVE_TILE, 1);
+        this.travelCosts.put(TileType.UNPASSABLE_TILE, -1);
+        this.travelCosts.put(TileType.TILE_NOT_SET, -1);
+        this.movementRange = 2;
+        this.attackRange = 8;
     }
 }
 

@@ -34,7 +34,6 @@ public class UnitBuilder {
 
     }
 
-
     public Pair<UnitModel, UnitView> createUnit(UnitType unitType, int team) {
         UnitFactory factory = unitFactories.get(unitType);
         if (factory == null) {

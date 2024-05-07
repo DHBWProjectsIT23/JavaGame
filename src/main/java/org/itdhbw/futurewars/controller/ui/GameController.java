@@ -67,7 +67,7 @@ public class GameController {
         if (selectedTile.isOccupied()) {
             this.selectedUnitType.setText(selectedTile.getOccupyingUnit().getUnitType().toString());
             this.selectedUnitHP.setText("TBD"); //selectedTile.getOccupyingUnit().getHp());
-            this.selectedUnitRange.setText("TBD");  //selectedTile.getOccupyingUnit().getRange());
+            this.selectedUnitRange.setText(String.valueOf(selectedTile.getOccupyingUnit().getAttackRange()));
             this.selectedUnitTeam.setText(String.valueOf(selectedTile.getOccupyingUnit().getTeam()));
         }
     }
@@ -133,6 +133,7 @@ public class GameController {
     public void loadLittleIsland(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/maps/littleIsland.fwm");
     }
+
     public void loadEonSprings(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/maps/eonSprings.fwm");
     }

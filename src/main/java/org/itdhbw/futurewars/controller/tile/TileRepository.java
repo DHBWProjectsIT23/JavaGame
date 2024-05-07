@@ -37,11 +37,10 @@ public class TileRepository {
     public TileModel getTileModel(Position position) {
         int x = position.getX();
         int y = position.getY();
-        LOGGER.info("TileModel at ({}, {})", x, y);
         if (x < 0 || x >= this.tiles.length || y < 0 || y >= this.tiles[0].length) {
+            LOGGER.error("Tile out of bounds: ({}, {}) - returning null", x, y);
             return null;
         }
-        LOGGER.info("TilePair at ({}, {}): {}", x, y, this.tiles[x][y]);
         return this.tiles[x][y].getKey();
     }
 

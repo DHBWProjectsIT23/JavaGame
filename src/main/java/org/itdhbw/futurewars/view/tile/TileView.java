@@ -3,10 +3,12 @@ package org.itdhbw.futurewars.view.tile;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
@@ -21,6 +23,7 @@ public abstract class TileView extends StackPane {
     private static final Image SELECTED_IMAGE = new Image("file:resources/textures/64Selected.png");
     protected static final ImageView SELECTED_OVERLAY = new ImageView(SELECTED_IMAGE);
     public final int viewId = this.hashCode();
+    protected final Pane possibleMoveOverlay = new Pane();
     protected final ImageView textureLayer;
     private final ImageView highlightedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     private final TileModel tileModel;
@@ -36,6 +39,10 @@ public abstract class TileView extends StackPane {
         this.textureLayer.setFitHeight(gameState.getTileSize());
         this.textureLayer.setFitWidth(gameState.getTileSize());
         this.setTexture();
+
+        possibleMoveOverlay.setOpacity(0.2);
+        possibleMoveOverlay.setMouseTransparent(true);
+        possibleMoveOverlay.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         HOVER_OVERLAY.setFitHeight(gameState.getTileSize());
         HOVER_OVERLAY.setFitWidth(gameState.getTileSize());
@@ -83,12 +90,16 @@ public abstract class TileView extends StackPane {
             }
         });
 
-        tileModel.highlightedProperty().addListener((_, _, newValue) -> {
+        tileModel.partOfPathProperty().addListener((_, _, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
                 this.getChildren().add(highlightedOverlay);
             } else {
                 this.getChildren().remove(highlightedOverlay);
             }
+        });
+
+        tileModel.partOfPossiblePathProperty().addListener((_, _, newValue) -> {
+            this.setPossibleMove(Boolean.TRUE.equals(newValue));
         });
     }
 
@@ -135,5 +146,14 @@ public abstract class TileView extends StackPane {
     public void addToStack(Node node) {
         LOGGER.info("Adding node {} to tile view...", node.hashCode());
         this.getChildren().add(node);
+    }
+
+    public void setPossibleMove(boolean transparent) {
+        LOGGER.info("Setting possible move overlay for tile {}...", this.viewId);
+        if (transparent) {
+            this.getChildren().add(possibleMoveOverlay);
+        } else {
+            this.getChildren().remove(possibleMoveOverlay);
+        }
     }
 }

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.tile.TileType;
 
-import java.util.Set;
+import java.util.EnumMap;
 
 
 public abstract class UnitModel {
@@ -16,12 +16,18 @@ public abstract class UnitModel {
     protected final int team;
     private final UnitType unitType;
     private final ObjectProperty<TileModel> currentTile = new SimpleObjectProperty<>();
-    protected Set<TileType> traversableTiles;
+    protected int movementRange;
+    protected int attackRange;
+    protected EnumMap<TileType, Integer> travelCosts = new EnumMap<>(TileType.class);
 
     protected UnitModel(UnitType unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
         this.team = team;
         this.unitType = unitType;
+    }
+
+    public int getMovementRange() {
+        return movementRange;
     }
 
     public void spawn(TileModel initialTile) {
@@ -33,19 +39,6 @@ public abstract class UnitModel {
         return team;
     }
 
-    //public void moveTo(TileModel newTile) {
-    //    if (newTile.isOccupied()) {
-    //        LOGGER.error("Tile {} is already occupied!", newTile.modelId);
-    //        return;
-    //    }
-    //    LOGGER.info("Moving unit {} from tile {} to tile {}", modelId, currentTile.get().modelId, newTile.modelId);
-    //    int distance = currentTile.get().distanceTo(newTile);
-    //    LOGGER.info("Distance: {}", distance);
-    //    //this.currentTile.get().removeOccupyingUnit();
-    //    //this.currentTile.set(newTile);
-    //   //newTile.setOccupyingUnit(this);
-    //}
-
     public ObjectProperty<TileModel> currentTileProperty() {
         return this.currentTile;
     }
@@ -54,7 +47,15 @@ public abstract class UnitModel {
         return unitType;
     }
 
-    public boolean canTraverse(TileType tileType) {
-        return traversableTiles.contains(tileType);
+    public int getTravelCost(TileType tileType) {
+        return travelCosts.get(tileType);
+    }
+
+    public boolean canNotTraverse(TileType tileType) {
+        return travelCosts.get(tileType) == -1;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
     }
 }

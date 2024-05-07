@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.map.MapLoader;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
-import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
@@ -25,7 +24,6 @@ import org.itdhbw.futurewars.view.tile.TileView;
 public class MapController {
     private static final Logger LOGGER = LogManager.getLogger(MapController.class);
     private final TileCreationController tileCreationController;
-    private final UnitCreationController unitCreationController;
     private final GameState gameState;
     private final MapLoader mapLoader;
     private final DoubleProperty mouseX = new SimpleDoubleProperty();
@@ -41,10 +39,11 @@ public class MapController {
     private Button overlayCloseButton;
     @FXML
     private VBox overlayBox;
+    @FXML
+    private Button overlayAttackButton1;
 
     public MapController() {
         this.tileCreationController = Context.getTileCreationController();
-        this.unitCreationController = Context.getUnitCreationController();
         this.gameState = Context.getGameState();
         this.mapLoader = Context.getMapLoader();
     }
@@ -128,5 +127,11 @@ public class MapController {
     @FXML
     private void closeOverlay(ActionEvent actionEvent) {
         this.gameState.setActiveMode(ActiveMode.REGULAR);
+    }
+
+    @FXML
+    private void enterAttackMode(ActionEvent actionEvent) {
+        LOGGER.info("Entering attack mode...");
+        this.gameState.setActiveMode(ActiveMode.ATTACKING_UNIT);
     }
 }

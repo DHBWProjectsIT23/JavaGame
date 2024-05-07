@@ -2,12 +2,19 @@ package org.itdhbw.futurewars.model.unit;
 
 import org.itdhbw.futurewars.model.tile.TileType;
 
-import java.util.Set;
-
 public class TankUnitModel extends UnitModel {
     public TankUnitModel(int team) {
         super(UnitType.TANK_UNIT, team);
-        this.traversableTiles = Set.of(TileType.PLAIN_TILE, TileType.WOOD_TILE);
+        this.travelCosts.put(TileType.MOUNTAIN_TILE, -1);
+        this.travelCosts.put(TileType.SEA_TILE, -1);
+        this.travelCosts.put(TileType.PLAIN_TILE, 1);
+        this.travelCosts.put(TileType.WOOD_TILE, 1);
+        this.travelCosts.put(TileType.TEST_TILE, 1);
+        this.travelCosts.put(TileType.EXPENSIVE_TILE, 1);
+        this.travelCosts.put(TileType.UNPASSABLE_TILE, -1);
+        this.travelCosts.put(TileType.TILE_NOT_SET, -1);
+        this.movementRange = 3;
+        this.attackRange = 2;
     }
 }
 

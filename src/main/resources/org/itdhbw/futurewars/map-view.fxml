@@ -12,9 +12,10 @@
         <GridPane fx:id="gameGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
         </GridPane>
         <AnchorPane fx:id="overlayPane" disable="true" visible="false">
-         <Pane style="-fx-background-color: blue; -fx-opacity: 0.2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         <Pane mouseTransparent="true" style="-fx-background-color: blue; -fx-opacity: 0.2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <VBox fx:id="overlayBox" layoutX="236.0" layoutY="90.0">
                 <Button fx:id="overlayMoveButton" mnemonicParsing="false" onAction="#enterMoveMode" text="Move" />
+            <Button fx:id="overlayAttackButton1" mnemonicParsing="false" onAction="#enterAttackMode" text="Attack" />
                 <Button fx:id="overlayCloseButton" mnemonicParsing="false" onAction="#closeOverlay" text="Cancel" />
             </VBox>
         </AnchorPane>
