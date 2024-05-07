@@ -43,8 +43,9 @@
                       <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1" text="NewMap1" />
                       <Button fx:id="newMap2Button" mnemonicParsing="false" onAction="#loadNewMap2" text="NewMap2" />
                       <Button fx:id="newMap3Button" mnemonicParsing="false" onAction="#loadNewMap3" text="NewMap3" />
-                    <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island" />
+                      <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island" />
                       <Button fx:id="eonSpringsButton" mnemonicParsing="false" onAction="#loadEonSprings" text="Eon Springs"/>
+                      <Button fx:id="pistonDamButton" mnemonicParsing="false" onAction="#loadPistonDam" text="Piston Dam"/>
                   </VBox>
                   <AnchorPane>
                       <fx:include source="map-view.fxml" />
