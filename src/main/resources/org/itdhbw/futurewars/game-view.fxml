@@ -40,9 +40,10 @@
                       <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1" />
                       <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2" />
                       <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3" />
-                      <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1" text="NewMap1" VBox.vgrow="ALWAYS" />
+                      <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1" text="NewMap1"/>
                       <Button fx:id="newMap2Button" mnemonicParsing="false" onAction="#loadNewMap2" text="NewMap2" />
                       <Button fx:id="newMap3Button" mnemonicParsing="false" onAction="#loadNewMap3" text="NewMap3" />
+                    <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island"/>
                   </VBox>
                   <AnchorPane prefHeight="800.0" prefWidth="474.0">
                       <fx:include source="map-view.fxml" />
