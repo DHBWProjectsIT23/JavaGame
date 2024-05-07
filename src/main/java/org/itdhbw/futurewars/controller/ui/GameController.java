@@ -140,4 +140,8 @@ public class GameController {
     public void loadPistonDam(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/maps/pistonDam.fwm");
     }
+
+    public void loadTestMapX(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/testMaps/testMapX.fwm");
+    }
 }
