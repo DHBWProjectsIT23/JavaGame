@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:id="gameGrid" alignment="CENTER" maxHeight="-Infinity"
-          maxWidth="-Infinity"
-          minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0"
-          xmlns="http://javafx.com/javafx/21" fx:controller="org.itdhbw.futurewars.controller.ui.MapController">
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.MapController">
+    <children>
+        <GridPane fx:id="gameGrid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0">
         </GridPane>
+        <AnchorPane fx:id="overlayPane" disable="true" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <VBox layoutX="236.0" layoutY="90.0" prefHeight="210.0" prefWidth="158.0">
+                <Button fx:id="overlayMoveButton" mnemonicParsing="false" onAction="#enterMoveMode" text="Move" />
+                <Button fx:id="overlayCloseButton" mnemonicParsing="false" onAction="#closeOverlay" text="Cancel" />
+            </VBox>
+        </AnchorPane>
+    </children>
+</StackPane>

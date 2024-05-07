@@ -66,31 +66,31 @@ public class GameController {
 
     @FXML
     private void loadMap1(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMap1.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/testMap1.fwm");
     }
 
     @FXML
     private void loadMap2(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMap2.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/testMap2.fwm");
     }
 
     @FXML
     private void loadMap3(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMap3.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/testMap3.fwm");
     }
 
     @FXML
     private void loadNewMap1(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap1.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap1.fwm");
     }
 
     @FXML
     private void loadNewMap2(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap2.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap2.fwm");
     }
 
     @FXML
     private void loadNewMap3(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap3.csv");
+        Context.getMapController().loadMap("resources/maps/testMaps/newMap3.fwm");
     }
 }

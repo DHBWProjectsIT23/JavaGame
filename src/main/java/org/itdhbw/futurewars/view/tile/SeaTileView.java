@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import org.itdhbw.futurewars.model.tile.SeaTileModel;
 
 public class SeaTileView extends TileView {
-    private static final Image TEXTURE = new Image("file:resources/textures/tiles/SeaTile.png");
+    private static final Image TEXTURE = new Image("file:resources/textures/Tiles/SeaTile.png");
 
     public SeaTileView(SeaTileModel seaTileModel) {
         super(seaTileModel);

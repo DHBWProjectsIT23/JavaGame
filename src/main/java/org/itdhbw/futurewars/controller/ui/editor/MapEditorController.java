@@ -241,7 +241,7 @@ public class MapEditorController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Map As");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                new FileChooser.ExtensionFilter("Future Wars Map Files", "*.fwm"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         // Set the initial directory to the current directory
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -327,7 +327,7 @@ public class MapEditorController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Map File");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv"),
+                new FileChooser.ExtensionFilter("Future Wars Map Files", "*.fwm"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         // Set the initial directory to the current directory
         fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));

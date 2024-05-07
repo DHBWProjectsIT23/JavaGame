@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import org.itdhbw.futurewars.model.tile.MountainTileModel;
 
 public class MountainTileView extends TileView {
-    private static final Image TEXTURE = new Image("file:resources/textures/tiles/MountainTile.png");
+    private static final Image TEXTURE = new Image("file:resources/textures/Tiles/MountainTile.png");
 
     public MountainTileView(MountainTileModel mountainTileModel) {
         super(mountainTileModel);

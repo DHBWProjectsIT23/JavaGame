@@ -65,7 +65,8 @@ public class TileEventController {
         gameState.selectTile(tileView.getTileModel());
 
         if (tileView.getTileModel().isOccupied()) {
-            gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+            //gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+            gameState.setActiveMode(ActiveMode.OVERLAY);
         }
     }
 

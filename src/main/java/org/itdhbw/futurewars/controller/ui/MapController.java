@@ -1,6 +1,9 @@
 package org.itdhbw.futurewars.controller.ui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.map.MapLoader;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
+import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
@@ -23,6 +27,12 @@ public class MapController {
     private final MapLoader mapLoader;
     @FXML
     private GridPane gameGrid;
+    @FXML
+    private AnchorPane overlayPane;
+    @FXML
+    private Button overlayMoveButton;
+    @FXML
+    private Button overlayCloseButton;
 
     public MapController() {
         this.tileCreationController = Context.getTileCreationController();
@@ -31,37 +41,37 @@ public class MapController {
         this.mapLoader = Context.getMapLoader();
     }
 
-    private void addTileToGrid(Pair<TileModel, TileView> tile) {
-        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
-        LOGGER.info("Tile position: {}", tile.getKey().getPosition().toString());
-        Position position = tile.getKey().getPosition();
-        gameGrid.add(tile.getValue(), position.getX(), position.getY());
-    }
 
     public void initialize() {
 
         Context.setMapController(this);
         this.addTilesToGrid();
-        /*for (int y = 0; y < (Constants.MAP_ROWS - 1); y++) {
-            for (int x = 0; x < (Constants.MAP_COLUMNS - 1); x++) {
-                TileView testTile;
-                if (x == 3 && y == 1) {
-                    testTile = tileCreationController.createTile(TileType.UNPASSABLE_TILE, x, y);
-                } else {
-                    testTile = tileCreationController.createTile(TileType.TEST_TILE, x, y);
-                }
-                tiles[y][x] = testTile;
-                gameGrid.add(testTile, x, y);
-            }
-        }
-        LOGGER.info("Game grid {} initialized!", gameGrid);*/
-
         LOGGER.info("Creating Units...");
-        //unitCreationController.createUnit(UnitType.TEST_UNIT, 1, 4, 1);
-        //unitCreationController.createUnit(UnitType.TEST_UNIT, 0, 0, 1);
-        //unitCreationController.createUnit(UnitType.TEST_UNIT, 5, 0, 1);
-        //unitCreationController.createUnit(UnitType.TEST_UNIT, 7, 2, 1);
-        //unitCreationController.createUnit(UnitType.TEST_UNIT, 3, 9, 1);
+
+        this.gameState.activeModeProperty().addListener((_, _, newValue) -> {
+            if (newValue == ActiveMode.OVERLAY) {
+                this.showOverlay();
+            } else {
+                this.hideOverlay();
+            }
+        });
+    }
+
+    private void hideOverlay() {
+        this.overlayPane.setVisible(false);
+        this.overlayPane.setDisable(true);
+    }
+
+    private void showOverlay() {
+        this.overlayPane.setVisible(true);
+        this.overlayPane.setDisable(false);
+    }
+
+    private void addTileToGrid(Pair<TileModel, TileView> tile) {
+        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
+        LOGGER.info("Tile position: {}", tile.getKey().getPosition().toString());
+        Position position = tile.getKey().getPosition();
+        gameGrid.add(tile.getValue(), position.getX(), position.getY());
     }
 
     public void loadMap(String filename) {
@@ -81,7 +91,6 @@ public class MapController {
         for (int x = 0; x < (gameState.getMapWidth() - 1); x++) {
             for (int y = 0; y < (gameState.getMapHeight() - 1); y++) {
                 LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidth(), y, gameState.getMapHeight());
-                //LOGGER.info("{}", row);
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
                     LOGGER.warn("tilePair was null");
@@ -90,5 +99,15 @@ public class MapController {
                 this.addTileToGrid(tilePair);
             }
         }
+    }
+
+    @FXML
+    private void enterMoveMode(ActionEvent actionEvent) {
+        this.gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+    }
+
+    @FXML
+    private void closeOverlay(ActionEvent actionEvent) {
+        this.gameState.setActiveMode(ActiveMode.REGULAR);
     }
 }
