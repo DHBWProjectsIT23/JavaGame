@@ -354,6 +354,8 @@ public class MapEditorController {
             String[] size = reader.readLine().split(",");
             int localWidth = Integer.parseInt(size[0]);
             int localHeight = Integer.parseInt(size[1]);
+            this.width.set(localWidth);
+            this.height.set(localHeight);
 
             clearGrid();
             initializeGrid(localWidth, localHeight);
