@@ -93,4 +93,8 @@ public class GameController {
     private void loadNewMap3(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/testMaps/newMap3.fwm");
     }
+
+    public void loadLittleIsland(ActionEvent actionEvent) {
+        Context.getMapController().loadMap("resources/maps/maps/littleIsland.fwm");
+    }
 }
