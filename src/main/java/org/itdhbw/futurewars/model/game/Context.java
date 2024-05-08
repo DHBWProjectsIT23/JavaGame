@@ -1,6 +1,7 @@
 package org.itdhbw.futurewars.model.game;
 
 import org.itdhbw.futurewars.controller.loader.MapLoader;
+import org.itdhbw.futurewars.controller.loader.UnitLoader;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
@@ -25,9 +26,14 @@ public class Context {
     private static UnitCreationController unitCreationController;
     private static MapLoader mapLoader;
     private static MapController gameController = null;
+    private static UnitLoader unitLoader;
 
     private Context() {
         // private constructor to prevent instantiation
+    }
+
+    public static UnitLoader getUnitLoader() {
+        return unitLoader;
     }
 
     public static MapController getMapController() {
@@ -45,6 +51,7 @@ public class Context {
     }
 
     public static void initialize() {
+        unitLoader = new UnitLoader();
         tileRepository = new TileRepository();
         unitRepository = new UnitRepository();
         gameState = new GameState();

@@ -16,10 +16,12 @@ public class UnitCreationController {
     private static final Logger LOGGER = LogManager.getLogger(UnitCreationController.class);
     private final UnitBuilder unitBuilder;
     private final TileRepository tileRepository;
+    private final UnitBuilderCustom unitBuilderCustom;
 
     public UnitCreationController() {
         this.unitBuilder = Context.getUnitBuilder();
         this.tileRepository = Context.getTileRepository();
+        this.unitBuilderCustom = new UnitBuilderCustom();
     }
 
     private UnitModel constructUnit(UnitType unitType, int team) {
@@ -45,7 +47,7 @@ public class UnitCreationController {
 
     public void createCustomUnit(int x, int y) {
         LOGGER.info("Spawning custom unit at position ({}, {})", x, y);
-        Pair<UnitModel, UnitView> unitPair = unitBuilder.createCustomUnit();
+        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(UnitType.CUSTOM_UNIT);
         unitPair.getKey().spawn(tileRepository.getTileModel(new Position(x, y)));
     }
 
