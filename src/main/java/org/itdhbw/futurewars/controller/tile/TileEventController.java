@@ -42,7 +42,7 @@ public class TileEventController {
         this.unitMovementController = Context.getUnitMovementController();
         this.mouseEventHandlers.put(ActiveMode.REGULAR, new RegularModeHandler(gameState));
         this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT, new MovingUnitModeHandler(gameState, unitMovementController, pathfinder));
-        this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT, new AttackingUnitModeHandler(gameState, unitMovementController));
+        this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT, new AttackingUnitModeHandler(gameState, unitMovementController, Context.getUnitAttackController()));
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Switching to mode {}", newValue);
             if (newValue == ActiveMode.MOVING_UNIT) {

@@ -17,7 +17,7 @@ public class GameState {
     public GameState() {
     }
 
-    private UnitModel getSelectedUnit() {
+    public UnitModel getSelectedUnit() {
         if (selectedUnit.get() == null) {
             return null;
         }

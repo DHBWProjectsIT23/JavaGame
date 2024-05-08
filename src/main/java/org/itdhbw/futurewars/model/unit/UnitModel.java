@@ -21,11 +21,21 @@ public abstract class UnitModel {
     protected int attackRange;
     protected EnumMap<TileType, Integer> travelCosts = new EnumMap<>(TileType.class);
     protected String nameType;
+    protected int maxHealth = 10;
+    protected int currentHealth = 10;
 
     protected UnitModel(UnitType unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
         this.team = team;
         this.unitType = unitType;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public int getMovementRange() {
@@ -64,4 +74,12 @@ public abstract class UnitModel {
     public Position getPosition() {
         return currentTile.get().getPosition();
     }
+
+    public void takeDamage(int damage) {
+        currentHealth -= damage;
+        if (currentHealth <= 0) {
+            //die();
+        }
+    }
 }
+

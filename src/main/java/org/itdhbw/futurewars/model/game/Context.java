@@ -7,6 +7,7 @@ import org.itdhbw.futurewars.controller.tile.TileEventController;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.tile.factory.TileBuilder;
 import org.itdhbw.futurewars.controller.ui.MapController;
+import org.itdhbw.futurewars.controller.unit.UnitAttackController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
@@ -27,6 +28,7 @@ public class Context {
     private static MapLoader mapLoader;
     private static MapController gameController = null;
     private static UnitLoader unitLoader;
+    private static UnitAttackController unitAttackController;
 
     private Context() {
         // private constructor to prevent instantiation
@@ -55,6 +57,7 @@ public class Context {
         unitRepository = new UnitRepository();
         unitLoader = new UnitLoader();
         gameState = new GameState();
+        unitAttackController = new UnitAttackController();
         pathfinder = new AStarPathfinder();
         unitBuilder = new UnitBuilder();
         unitMovementController = new UnitMovementController();
@@ -111,4 +114,7 @@ public class Context {
         return unitRepository;
     }
 
+    public static UnitAttackController getUnitAttackController() {
+        return unitAttackController;
+    }
 }

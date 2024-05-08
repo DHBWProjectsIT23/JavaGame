@@ -11,6 +11,7 @@ import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.unit.UnitModel;
 
 
 public class GameController {
@@ -65,10 +66,11 @@ public class GameController {
         TileModel selectedTile = gameState.selectedTileProperty().get();
         this.selectedTileType.setText(selectedTile.getTileType().toString());
         if (selectedTile.isOccupied()) {
-            this.selectedUnitType.setText(selectedTile.getOccupyingUnit().getUnitType().toString());
-            this.selectedUnitHP.setText("TBD"); //selectedTile.getOccupyingUnit().getHp());
-            this.selectedUnitRange.setText(String.valueOf(selectedTile.getOccupyingUnit().getAttackRange()));
-            this.selectedUnitTeam.setText(String.valueOf(selectedTile.getOccupyingUnit().getTeam()));
+            UnitModel occupyingUnit = selectedTile.getOccupyingUnit();
+            this.selectedUnitType.setText(occupyingUnit.getUnitType().toString());
+            this.selectedUnitHP.setText(occupyingUnit.getCurrentHealth() + "/" + occupyingUnit.getMaxHealth());
+            this.selectedUnitRange.setText(String.valueOf(occupyingUnit.getAttackRange()));
+            this.selectedUnitTeam.setText(String.valueOf(occupyingUnit.getTeam()));
         }
     }
 
