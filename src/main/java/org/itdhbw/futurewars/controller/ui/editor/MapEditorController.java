@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.controller.ui;
+package org.itdhbw.futurewars.controller.ui.editor;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;

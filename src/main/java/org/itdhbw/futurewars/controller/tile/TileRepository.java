@@ -34,6 +34,10 @@ public class TileRepository {
         return this.tiles[position.getX()][position.getY()];
     }
 
+    public Pair<TileModel, TileView> getTile(int x, int y) {
+        return this.tiles[x][y];
+    }
+
     public TileModel getTileModel(Position position) {
         int x = position.getX();
         int y = position.getY();

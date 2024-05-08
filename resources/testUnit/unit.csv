@@ -1,0 +1,12 @@
+FUTURE_WARS_UNIT_FORMAT
+- name
+CustomUnitTest
+- type
+CUSTOM_UNIT
+- attackrange,movementrange
+2,5
+- (travelcosts): plain,wood,sea,mountain - -1 is cant move
+1,2,-1,3
+- texture - team 1 on line 7, team 2 on line 8
+resources/textures/UnitSample.png
+resources/textures/UnitSample2.png

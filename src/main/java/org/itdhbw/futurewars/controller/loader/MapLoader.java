@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.controller.map;
+package org.itdhbw.futurewars.controller.loader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

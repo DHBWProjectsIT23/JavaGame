@@ -135,13 +135,12 @@ public class AStarPathfinder {
         return visited;
     }
 
-    public Set<TileModel> getAttackableTiles(TileModel startTile) {
-        LOGGER.info("Calculating attackable tiles for unit {} on tile {}", startTile.getOccupyingUnit().modelId, startTile.modelId);
+    public Set<TileModel> getAttackableTiles(TileModel startTile, UnitModel attackingUnit) {
+        LOGGER.info("Calculating attackable tiles for unit {} on tile {}", attackingUnit.modelId, startTile.modelId);
         Set<TileModel> visited = new HashSet<>();
         Queue<TileModel> queue = new LinkedList<>();
         Map<TileModel, Integer> distance = new HashMap<>();
-        UnitModel unit = startTile.getOccupyingUnit();
-        int attackRange = unit.getAttackRange();
+        int attackRange = attackingUnit.getAttackRange();
 
         queue.add(startTile);
         distance.put(startTile, 0);

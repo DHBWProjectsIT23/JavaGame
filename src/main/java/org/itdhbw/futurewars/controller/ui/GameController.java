@@ -49,10 +49,10 @@ public class GameController {
     }
 
     public void initialize() {
-        selectedTileDebug.textProperty().bind(createTileBinding(gameState.getSelectedTileProperty(), "No tile selected"));
-        hoveredTileDebug.textProperty().bind(createTileBinding(gameState.getHoveredTileProperty(), "No tile hovered"));
+        selectedTileDebug.textProperty().bind(createTileBinding(gameState.selectedTileProperty(), "No tile selected"));
+        hoveredTileDebug.textProperty().bind(createTileBinding(gameState.hoveredTileProperty(), "No tile hovered"));
         movingDebug.textProperty().bind(createModeBinding(gameState.activeModeProperty()));
-        gameState.getSelectedTileProperty().addListener((_, _, newValue) -> {
+        gameState.selectedTileProperty().addListener((_, _, newValue) -> {
             if (newValue == null) {
                 this.clearPropertyInformation();
             } else {
@@ -62,7 +62,7 @@ public class GameController {
     }
 
     private void setPropertyInformation() {
-        TileModel selectedTile = gameState.getSelectedTileProperty().get();
+        TileModel selectedTile = gameState.selectedTileProperty().get();
         this.selectedTileType.setText(selectedTile.getTileType().toString());
         if (selectedTile.isOccupied()) {
             this.selectedUnitType.setText(selectedTile.getOccupyingUnit().getUnitType().toString());

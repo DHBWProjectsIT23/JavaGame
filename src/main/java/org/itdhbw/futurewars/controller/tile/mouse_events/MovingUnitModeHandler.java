@@ -26,7 +26,7 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
     @Override
     public void handleMouseEnter(MouseEvent event, TileView tileView) {
-        List<TileModel> newPath = pathfinder.findPath(gameState.getSelectedTileProperty().get(), tileView.getTileModel());
+        List<TileModel> newPath = pathfinder.findPath(gameState.selectedTileProperty().get(), tileView.getTileModel());
 
         for (TileModel tile : new ArrayList<>(highlightedTiles)) {
             if (!newPath.contains(tile)) {
@@ -45,10 +45,11 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
-        UnitModel unitModel = gameState.getSelectedTileProperty().get().getOccupyingUnit();
-        unitMovementController.moveUnit(unitModel, tileView.getTileModel());
-        gameState.setActiveMode(ActiveMode.REGULAR);
-        gameState.deselectTile();
+        UnitModel unitModel = gameState.selectedTileProperty().get().getOccupyingUnit();
+        //unitMovementController.moveUnit(unitModel, tileView.getTileModel());
+        gameState.setActiveMode(ActiveMode.OVERLAY);
+        gameState.selectTile(tileView.getTileModel());
+        //gameState.deselectTile();
         for (TileModel tile : highlightedTiles) {
             tile.setPartOfPath(false);
         }

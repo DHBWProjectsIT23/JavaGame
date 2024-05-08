@@ -8,4 +8,5 @@ public enum UnitType {
     ARTILLERY_UNIT,
     BOMBER_UNIT,
     BATTLE_COPTER_UNIT,
+    CUSTOM_UNIT
 }

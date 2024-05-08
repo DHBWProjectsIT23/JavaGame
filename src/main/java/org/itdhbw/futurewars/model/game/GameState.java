@@ -3,9 +3,11 @@ package org.itdhbw.futurewars.model.game;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.unit.UnitModel;
 
 public class GameState {
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
+    private final ObjectProperty<UnitModel> selectedUnit = new SimpleObjectProperty<>();
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
     private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR);
     private int tileSize;
@@ -13,6 +15,21 @@ public class GameState {
     private int mapHeight;
 
     public GameState() {
+    }
+
+    private UnitModel getSelectedUnit() {
+        if (selectedUnit.get() == null) {
+            return null;
+        }
+        return selectedUnit.get();
+    }
+
+    public void selectUnit(UnitModel unit) {
+        selectedUnit.set(unit);
+    }
+
+    public ObjectProperty<UnitModel> selectedUnitProperty() {
+        return selectedUnit;
     }
 
     public int getTileSize() {
@@ -39,11 +56,11 @@ public class GameState {
         this.mapHeight = mapHeight;
     }
 
-    public ObjectProperty<TileModel> getSelectedTileProperty() {
+    public ObjectProperty<TileModel> selectedTileProperty() {
         return this.selectedTile;
     }
 
-    public ObjectProperty<TileModel> getHoveredTileProperty() {
+    public ObjectProperty<TileModel> hoveredTileProperty() {
         return this.hoveredTile;
     }
 

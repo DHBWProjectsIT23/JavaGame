@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
-import org.itdhbw.futurewars.util.Constants;
 
 import java.io.IOException;
 

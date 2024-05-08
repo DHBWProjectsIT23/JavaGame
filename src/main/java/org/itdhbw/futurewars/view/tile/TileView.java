@@ -60,14 +60,14 @@ public abstract class TileView extends StackPane {
     private void addBindings() {
         LOGGER.info("Adding hovered binding to tile view {}...", this.viewId);
         this.hovered.bind(Bindings.createBooleanBinding(
-                () -> gameState.getHoveredTileProperty().get() == this.tileModel,
-                gameState.getHoveredTileProperty()
+                () -> gameState.hoveredTileProperty().get() == this.tileModel,
+                gameState.hoveredTileProperty()
         ));
 
         LOGGER.info("Adding selected binding to tile view {}...", this.viewId);
         this.selected.bind(Bindings.createBooleanBinding(
-                () -> gameState.getSelectedTileProperty().get() == this.tileModel,
-                gameState.getSelectedTileProperty()
+                () -> gameState.selectedTileProperty().get() == this.tileModel,
+                gameState.selectedTileProperty()
         ));
     }
 

@@ -8,10 +8,12 @@ import org.itdhbw.futurewars.controller.tile.mouse_events.AttackingUnitModeHandl
 import org.itdhbw.futurewars.controller.tile.mouse_events.MouseEventHandler;
 import org.itdhbw.futurewars.controller.tile.mouse_events.MovingUnitModeHandler;
 import org.itdhbw.futurewars.controller.tile.mouse_events.RegularModeHandler;
+import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 import org.itdhbw.futurewars.view.tile.TileView;
 
@@ -28,6 +30,7 @@ public class TileEventController {
     private final EnumMap<ActiveMode, MouseEventHandler> mouseEventHandlers;
     private GameState gameState;
     private AStarPathfinder pathfinder;
+    private UnitMovementController unitMovementController;
 
     public TileEventController() {
         this.mouseEventHandlers = new EnumMap<>(ActiveMode.class);
@@ -36,9 +39,10 @@ public class TileEventController {
     public void initialize() {
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
+        this.unitMovementController = Context.getUnitMovementController();
         this.mouseEventHandlers.put(ActiveMode.REGULAR, new RegularModeHandler(gameState));
-        this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT, new MovingUnitModeHandler(gameState, Context.getUnitMovementController(), pathfinder));
-        this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT, new AttackingUnitModeHandler(gameState));
+        this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT, new MovingUnitModeHandler(gameState, unitMovementController, pathfinder));
+        this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT, new AttackingUnitModeHandler(gameState, unitMovementController));
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Switching to mode {}", newValue);
             if (newValue == ActiveMode.MOVING_UNIT) {
@@ -52,7 +56,7 @@ public class TileEventController {
     }
 
     private void highlightPossibleTiles() {
-        TileModel startTile = gameState.getSelectedTileProperty().get();
+        TileModel startTile = gameState.selectedTileProperty().get();
         Set<TileModel> possibleTiles = pathfinder.getReachableTiles(startTile);
         for (TileModel tile : possibleTiles) {
             if (!tile.isOccupied()) {
@@ -75,8 +79,12 @@ public class TileEventController {
     }
 
     private void highlightPossibleAttackTiles() {
-        TileModel startTile = gameState.getSelectedTileProperty().get();
-        Set<TileModel> possibleTiles = pathfinder.getAttackableTiles(startTile);
+        LOGGER.info("Highlighting attackable tiles");
+        TileModel startTile = gameState.selectedTileProperty().get();
+        UnitModel attackingUnit = gameState.selectedUnitProperty().get();
+        LOGGER.info("Attacking Unit position: {}", attackingUnit.getPosition());
+        LOGGER.info("Start Tile position: {}", startTile.getPosition());
+        Set<TileModel> possibleTiles = pathfinder.getAttackableTiles(startTile, attackingUnit);
         for (TileModel tile : possibleTiles) {
             if (tile != startTile) {
                 tile.partOfPossiblePathProperty().set(true);

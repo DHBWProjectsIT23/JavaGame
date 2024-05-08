@@ -1,6 +1,6 @@
 package org.itdhbw.futurewars.model.game;
 
-import org.itdhbw.futurewars.controller.map.MapLoader;
+import org.itdhbw.futurewars.controller.loader.MapLoader;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
 import org.itdhbw.futurewars.controller.tile.TileRepository;

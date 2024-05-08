@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.tile.TileType;
+import org.itdhbw.futurewars.util.Position;
 
 import java.util.EnumMap;
 
@@ -57,5 +58,9 @@ public abstract class UnitModel {
 
     public int getAttackRange() {
         return attackRange;
+    }
+
+    public Position getPosition() {
+        return currentTile.get().getPosition();
     }
 }

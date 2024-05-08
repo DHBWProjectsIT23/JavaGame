@@ -27,4 +27,6 @@ module org.itdhw.futurewars {
     exports org.itdhbw.futurewars.controller.tile.factory.test;
     opens org.itdhbw.futurewars.controller.tile.factory.test to javafx.fxml;
     exports org.itdhbw.futurewars.controller.unit.factory.test;
+    exports org.itdhbw.futurewars.controller.ui.editor;
+    opens org.itdhbw.futurewars.controller.ui.editor to javafx.fxml;
 }
