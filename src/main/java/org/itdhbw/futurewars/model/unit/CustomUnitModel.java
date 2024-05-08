@@ -7,12 +7,13 @@ import org.itdhbw.futurewars.model.tile.TileType;
 public class CustomUnitModel extends UnitModel {
     private static final Logger LOGGER = LogManager.getLogger(CustomUnitModel.class);
 
-    public CustomUnitModel(UnitType unitType, int team) {
-        super(unitType, team);
+    public CustomUnitModel(String unitType, int team) {
+        super(UnitType.CUSTOM_UNIT, team);
         this.travelCosts.put(TileType.TEST_TILE, 1);
         this.travelCosts.put(TileType.EXPENSIVE_TILE, 1);
         this.travelCosts.put(TileType.UNPASSABLE_TILE, -1);
         this.travelCosts.put(TileType.TILE_NOT_SET, -1);
+        this.nameType = unitType;
         this.movementRange = 5;
         this.attackRange = 1;
     }
@@ -39,6 +40,10 @@ public class CustomUnitModel extends UnitModel {
 
     public void setAttackRange(int range) {
         this.attackRange = range;
+    }
+
+    public void setNameTyoe(String nameType) {
+        this.nameType = nameType;
     }
 
     public void debugLog() {

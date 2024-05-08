@@ -45,9 +45,9 @@ public class UnitCreationController {
         constructUnit(unitType, team).spawn(tileRepository.getTileModel(new Position(x, y)));
     }
 
-    public void createCustomUnit(int x, int y) {
+    public void createCustomUnit(String unitType, int x, int y) {
         LOGGER.info("Spawning custom unit at position ({}, {})", x, y);
-        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(UnitType.CUSTOM_UNIT);
+        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(unitType);
         unitPair.getKey().spawn(tileRepository.getTileModel(new Position(x, y)));
     }
 

@@ -1,6 +1,6 @@
 FUTURE_WARS_UNIT_FORMAT
 - unitType
-CUSTOM_UNIT_1
+CUSTOM_UNIT_2
 - attackRange,movementRange
 2,5
 - (travelCost) - plain,wood,sea,mountain

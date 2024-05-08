@@ -15,6 +15,8 @@ public class MechanizedUnitModel extends UnitModel {
         this.travelCosts.put(TileType.TILE_NOT_SET, -1);
         this.movementRange = 6;
         this.attackRange = 1;
+
+        this.nameType = "MechanizedUnit";
     }
 }
 

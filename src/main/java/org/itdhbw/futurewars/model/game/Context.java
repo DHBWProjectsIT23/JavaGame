@@ -51,9 +51,9 @@ public class Context {
     }
 
     public static void initialize() {
-        unitLoader = new UnitLoader();
         tileRepository = new TileRepository();
         unitRepository = new UnitRepository();
+        unitLoader = new UnitLoader();
         gameState = new GameState();
         pathfinder = new AStarPathfinder();
         unitBuilder = new UnitBuilder();

@@ -7,16 +7,15 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.CustomUnitModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
-import org.itdhbw.futurewars.model.unit.UnitType;
 import org.itdhbw.futurewars.view.unit.CustomUnitView;
 import org.itdhbw.futurewars.view.unit.UnitView;
 
-import java.util.EnumMap;
+import java.util.Map;
 
 public class UnitBuilderCustom {
     private static final Logger LOGGER = LogManager.getLogger(UnitBuilderCustom.class);
     private final UnitRepository unitRepository;
-    private final EnumMap<UnitType, UnitFactoryCustom> unitFactories;
+    private final Map<String, UnitFactoryCustom> unitFactories;
     private final TileRepository tileRepository;
 
     public UnitBuilderCustom() {
@@ -27,7 +26,7 @@ public class UnitBuilderCustom {
 
     }
 
-    public Pair<UnitModel, UnitView> createUnit(UnitType unitType) {
+    public Pair<UnitModel, UnitView> createUnit(String unitType) {
         UnitFactoryCustom factory = unitFactories.get(unitType);
         if (factory == null) {
             throw new IllegalArgumentException("No factory found for unit type " + unitType);

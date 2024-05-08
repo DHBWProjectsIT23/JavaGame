@@ -5,12 +5,11 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.unit.CustomUnitModel;
-import org.itdhbw.futurewars.model.unit.UnitType;
 import org.itdhbw.futurewars.view.unit.CustomUnitView;
 
 public class UnitFactoryCustom {
     private static final Logger LOGGER = LogManager.getLogger(UnitFactoryCustom.class);
-    private final String unitName;
+    private final String unitType;
     private final int attackRange;
     private final int movementRange;
     private final int travelCostPlain;
@@ -19,12 +18,11 @@ public class UnitFactoryCustom {
     private final int travelCostSea;
     private final String texture1;
     private final String texture2;
-    private final UnitType unitType;
     private CustomUnitModel unitModel;
     private CustomUnitView unitView;
 
-    public UnitFactoryCustom(String unitName, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, String texture1, String texture2, UnitType unitType) {
-        this.unitName = unitName;
+    public UnitFactoryCustom(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, String texture1, String texture2) {
+        this.unitType = unitType;
         this.attackRange = attackRange;
         this.movementRange = movementRange;
         this.travelCostPlain = travelCostPlain;
@@ -33,7 +31,6 @@ public class UnitFactoryCustom {
         this.travelCostSea = travelCostSea;
         this.texture1 = texture1;
         this.texture2 = texture2;
-        this.unitType = unitType;
     }
 
     private void createUnitModel() {

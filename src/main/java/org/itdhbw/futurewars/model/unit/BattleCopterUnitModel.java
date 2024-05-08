@@ -15,6 +15,8 @@ public class BattleCopterUnitModel extends UnitModel {
         this.travelCosts.put(TileType.TILE_NOT_SET, -1);
         this.movementRange = 7;
         this.attackRange = 2;
+
+        this.nameType = "BattleCopterUnit";
     }
 }
 

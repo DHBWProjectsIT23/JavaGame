@@ -133,9 +133,11 @@ public class MapController {
     @FXML
     private void closeOverlay(ActionEvent actionEvent) {
         this.gameState.setActiveMode(ActiveMode.REGULAR);
-        LOGGER.info("Spawning custom unit");
-        Context.getUnitCreationController().createCustomUnit(0, 0);
-
+        //LOGGER.info("Spawning custom unit");
+        //for (String unitType : Context.getUnitRepository().getUnitTypes()) {
+        //    LOGGER.info("Unit type: {}", unitType);
+        //}
+        //Context.getUnitCreationController().createCustomUnit("CUSTOM_UNIT_1", 0, 0);
     }
 
     @FXML

@@ -15,6 +15,8 @@ public class TankUnitModel extends UnitModel {
         this.travelCosts.put(TileType.TILE_NOT_SET, -1);
         this.movementRange = 3;
         this.attackRange = 2;
+
+        this.nameType = "TankUnit";
     }
 }
 

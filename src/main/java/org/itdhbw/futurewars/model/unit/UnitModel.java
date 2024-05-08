@@ -20,6 +20,7 @@ public abstract class UnitModel {
     protected int movementRange;
     protected int attackRange;
     protected EnumMap<TileType, Integer> travelCosts = new EnumMap<>(TileType.class);
+    protected String nameType;
 
     protected UnitModel(UnitType unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);

@@ -1,58 +1,75 @@
 package org.itdhbw.futurewars.controller.loader;
 
-import javafx.scene.image.Image;
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.unit.UnitFactoryCustom;
+import org.itdhbw.futurewars.controller.unit.UnitRepository;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.CustomUnitModel;
-import org.itdhbw.futurewars.model.unit.UnitType;
 import org.itdhbw.futurewars.view.unit.CustomUnitView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.EnumMap;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class UnitLoader {
     private static final Logger LOGGER = LogManager.getLogger(UnitLoader.class);
     private static final String UNIT_VALIDATION = "FUTURE_WARS_UNIT_FORMAT";
-    private final EnumMap<UnitType, UnitFactoryCustom> unitFactories;
-    private String unitName;
+    private final Map unitFactories;
+    private final UnitRepository unitRepository;
+    private final Optional<CustomUnitModel> unitModel = Optional.empty();
+    private final Optional<CustomUnitView> unitView = Optional.empty();
+    private String unitType;
     private int attackRange;
     private int movementRange;
     private int travelCostPlain;
     private int travelCostWood;
     private int travelCostMountain;
     private int travelCostSea;
-    private UnitType unitType;
     private String texture1;
     private String texture2;
-    private Optional<CustomUnitModel> unitModel = Optional.empty();
-    private Optional<CustomUnitView> unitView = Optional.empty();
 
     public UnitLoader() {
         LOGGER.info("UnitLoader created");
-        unitFactories = new EnumMap<>(UnitType.class);
+        unitFactories = new HashMap<>();
+        unitRepository = Context.getUnitRepository();
 
-        BufferedReader reader;
+        Path dir = Paths.get("resources/testUnit");
+        List<String> files = new ArrayList<>();
+
         try {
-            reader = new BufferedReader(new FileReader("resources/testUnit/unit.csv"));
-            String[] validation = reader.readLine().split(",");
-            LOGGER.info("Validation: {}", validation[0]);
-            if (validation[0].equals(UNIT_VALIDATION)) {
-                loadUnit(reader);
-            } else {
-                throw new IllegalArgumentException("Given file is not a unit file");
-            }
-
-        } catch (
-                  IOException e) {
+            Files.walk(dir)
+                    .filter(Files::isRegularFile)
+                    .forEach(file -> files.add(file.toString()));
+        } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
-        createUnitFactory();
+        for (String file : files) {
+
+            BufferedReader reader;
+            try {
+                reader = new BufferedReader(new FileReader(file));
+                String[] validation = reader.readLine().split(",");
+                LOGGER.info("Validation: {}", validation[0]);
+                if (validation[0].equals(UNIT_VALIDATION)) {
+                    loadUnit(reader);
+                } else {
+                    throw new IllegalArgumentException("Given file is not a unit file");
+                }
+
+            } catch (
+                      IOException e) {
+                e.printStackTrace();
+            }
+
+            createUnitFactory();
+        }
 
         //createUnitModel();
         //createUnitView();
@@ -60,11 +77,11 @@ public class UnitLoader {
 
     private void createUnitFactory() {
         LOGGER.info("Creating unit factory");
-        UnitFactoryCustom unitFactoryCustom = new UnitFactoryCustom(unitName, attackRange, movementRange, travelCostPlain, travelCostWood, travelCostMountain, travelCostSea, texture1, texture2, unitType);
+        UnitFactoryCustom unitFactoryCustom = new UnitFactoryCustom(unitType, attackRange, movementRange, travelCostPlain, travelCostWood, travelCostMountain, travelCostSea, texture1, texture2);
         unitFactories.put(unitType, unitFactoryCustom);
     }
 
-    public EnumMap<UnitType, UnitFactoryCustom> getUnitFactories() {
+    public Map<String, UnitFactoryCustom> getUnitFactories() {
         LOGGER.info("Returning unit factories: {}", unitFactories);
         return unitFactories;
     }
@@ -72,11 +89,7 @@ public class UnitLoader {
     public void loadUnit(BufferedReader reader) throws IOException {
         // on second line - skip to third
         reader.readLine();
-        unitName = reader.readLine();
-
-        // on fourth line - skip to fifth
-        reader.readLine();
-        unitType = UnitType.valueOf(reader.readLine());
+        unitType = reader.readLine();
 
         // on sixth line - skip to seventh
         reader.readLine();
@@ -97,29 +110,7 @@ public class UnitLoader {
         reader.readLine();
         texture1 = reader.readLine();
         texture2 = reader.readLine();
-    }
 
-    private void createUnitModel() {
-        LOGGER.info("Creating unit model");
-        unitModel = Optional.of(new CustomUnitModel(unitType, 1));
-        unitModel.get().setAttackRange(attackRange);
-        unitModel.get().setMovementRange(movementRange);
-        unitModel.get().setPlainTileTravelCost(travelCostPlain);
-        unitModel.get().setWoodTileTravelCost(travelCostWood);
-        unitModel.get().setMountainTileTravelCost(travelCostMountain);
-        unitModel.get().setSeaTileTravelCost(travelCostSea);
-        unitModel.get().debugLog();
-    }
-
-    private void createUnitView() {
-        LOGGER.info("Creating unit view");
-        unitView = Optional.of(new CustomUnitView(unitModel.orElseThrow()));
-        Image texture1Image = new Image("file:" + this.texture1);
-        Image texture2Image = new Image("file:" + this.texture2);
-        unitView.get().setTexture(texture1Image, texture2Image);
-    }
-
-    public Pair<CustomUnitModel, CustomUnitView> getUnit() {
-        return new Pair<>(unitModel.orElseThrow(), unitView.orElseThrow());
+        unitRepository.addUnitType(unitType);
     }
 }

@@ -3,15 +3,12 @@ package org.itdhbw.futurewars.controller.unit.factory;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.controller.loader.UnitLoader;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
 import org.itdhbw.futurewars.controller.unit.factory.test.TestUnitFactory;
 import org.itdhbw.futurewars.model.game.Context;
-import org.itdhbw.futurewars.model.unit.CustomUnitModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.model.unit.UnitType;
-import org.itdhbw.futurewars.view.unit.CustomUnitView;
 import org.itdhbw.futurewars.view.unit.UnitView;
 
 import java.util.EnumMap;
@@ -35,17 +32,6 @@ public class UnitBuilder {
         this.unitRepository = Context.getUnitRepository();
         this.tileRepository = Context.getTileRepository();
 
-    }
-
-    public Pair<UnitModel, UnitView> createCustomUnit() {
-        UnitLoader unitLoader = new UnitLoader();
-        Pair<CustomUnitModel, CustomUnitView> customUnitPair = unitLoader.getUnit();
-        addListeners(customUnitPair.getKey(), customUnitPair.getValue());
-        UnitModel unitModel = customUnitPair.getKey();
-        UnitView unitView = customUnitPair.getValue();
-        Pair<UnitModel, UnitView> unitPair = new Pair<>(unitModel, unitView);
-        unitRepository.addUnit(unitPair);
-        return unitPair;
     }
 
     public Pair<UnitModel, UnitView> createUnit(UnitType unitType, int team) {
