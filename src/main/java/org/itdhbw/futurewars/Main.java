@@ -2,9 +2,8 @@ package org.itdhbw.futurewars;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,30 +20,36 @@ public class Main extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
+
         LOGGER.info("Initializing application...");
         Context.initialize();
-        // If a map should be directly loaded, uncomment the following lines
-        // try {
-        // Context.getMapLoader().loadMap("biiig");
-        // } catch (IOException e) {
-        // throw new RuntimeException("Failed to load map - {}", e);
-        // }
+        Context.getOptionsController().initializeSettings(stage);
+        Context.getGameState().setMapWidth((int) (stage.getWidth() / 100 * 90));
+        Context.getGameState().setMapHeight((int) stage.getHeight() / 100 * 90);
+        stage.widthProperty().addListener((observable, oldValue, newValue) -> {
+            Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90);
+        });
+        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
+            Context.getGameState().setMapHeight(newValue.intValue() / 100 * 90);
+        });
+
         LOGGER.info("Loading FXML file...");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        double width = visualBounds.getWidth();
-        double height = visualBounds.getHeight();
-        LOGGER.info("Setting stage size to {}x{}...", width, height);
-        stage.setWidth(width);
-        stage.setHeight(height);
-        stage.setMaximized(true);
+        //Rectangle2D visualBounds = Screen.getPrimary().getBounds();
+        //double width = visualBounds.getWidth();
+        //double height = visualBounds.getHeight();
+        //LOGGER.info("Setting stage size to {}x{}...", width, height);
+        //stage.setWidth(width);
+        //stage.setHeight(height);
+        //stage.setMaximized(true);
 
 
+        //stage.setResizable(false);
         stage.setTitle("Future Wars");
         stage.setScene(scene);
-
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         LOGGER.info("Showing stage...");
         stage.show();
     }

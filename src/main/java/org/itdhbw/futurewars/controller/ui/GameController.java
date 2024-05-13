@@ -1,17 +1,27 @@
 package org.itdhbw.futurewars.controller.ui;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
+
+import java.io.IOException;
 
 
 public class GameController {
@@ -44,6 +54,10 @@ public class GameController {
     private Label selectedUnitType;
     @FXML
     private Label selectedTileType;
+    @FXML
+    private AnchorPane optionsPane;
+    @FXML
+    private AnchorPane escapeMenu;
 
     public GameController() {
         this.gameState = Context.getGameState();
@@ -59,6 +73,15 @@ public class GameController {
             } else {
                 this.setPropertyInformation();
             }
+        });
+
+        Platform.runLater(() -> {
+            Scene scene = selectedTileDebug.getScene();
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    escapeMenu.setVisible(!escapeMenu.isVisible());
+                }
+            });
         });
     }
 
@@ -146,5 +169,39 @@ public class GameController {
 
     public void loadTestMapX(ActionEvent actionEvent) {
         Context.getMapController().loadMap("resources/maps/testMaps/testMapX.fwm");
+    }
+
+    @FXML
+    private void openSettings(ActionEvent actionEvent) {
+        try {
+            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/options-view.fxml"));
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(menuView);
+            Context.getGameState().setPreviousScene(stage.getScene());
+            stage.setScene(scene);
+            Context.getOptionsController().loadSettings(stage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        escapeMenu.setVisible(false);
+    }
+
+    @FXML
+    private void quitToMenu(ActionEvent actionEvent) {
+        try {
+            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/menu-view.fxml"));
+            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(menuView);
+            stage.setScene(scene);
+            Context.getOptionsController().loadSettings(stage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void quitToDesktop(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }

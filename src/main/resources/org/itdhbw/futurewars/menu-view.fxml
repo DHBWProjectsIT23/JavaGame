@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/22"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.controller.ui.MenuController">
     <VBox alignment="CENTER">
-    <Button fx:id="startButton" mnemonicParsing="false" text="Start Game" onAction="#startGame"/>
-        <Button fx:id="mapEditorButton" mnemonicParsing="false" text="MapEditor" onAction="#startMapEditor"/>
+        <Button fx:id="startButton" mnemonicParsing="false" onAction="#startGame" text="Start Game"/>
+        <Button mnemonicParsing="false" onAction="#openOptions" text="Options"/>
+        <Button fx:id="mapEditorButton" disable="true" mnemonicParsing="false" onAction="#startMapEditor"
+                text="Map Editor"/>
+        <Button disable="true" mnemonicParsing="false" onAction="#startUnitEditor" text="Unit Editor"/>
+        <Button disable="true" mnemonicParsing="false" onAction="#startTileEditor" text="Tile Editor"/>
+        <Button mnemonicParsing="false" onAction="#exitApplication" text="Exit"/>
     </VBox>
 </StackPane>

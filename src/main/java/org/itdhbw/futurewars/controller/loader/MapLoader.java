@@ -9,7 +9,6 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.model.unit.UnitType;
-import org.itdhbw.futurewars.util.Constants;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -52,14 +51,14 @@ public class MapLoader {
         String line;
         int y = 0;
         while ((line = reader.readLine()) != null) {
-            if (y >= gameState.getMapHeight()) {
+            if (y >= gameState.getMapHeightTiles()) {
                 LOGGER.error("Too many lines in the map file, ignoring the rest");
                 break;
             }
             String[] tileData = line.split(",");
             int x = 0;
             for (String typeString : tileData) {
-                if (x >= (gameState.getMapWidth() * 2)) {
+                if (x >= (gameState.getMapWidthTiles() * 2)) {
                     LOGGER.warn("Too many tiles in the line, ignoring the rest");
                     break;
                 }
@@ -79,14 +78,14 @@ public class MapLoader {
         String line;
         int y = 0;
         while ((line = reader.readLine()) != null) {
-            if (y >= gameState.getMapHeight()) {
+            if (y >= gameState.getMapHeightTiles()) {
                 LOGGER.error("Too many lines in the map file, ignoring the rest");
                 break;
             }
             String[] tileData = line.split(",");
             int x = 0;
             for (String tileTypeString : tileData) {
-                if (x >= gameState.getMapWidth()) {
+                if (x >= gameState.getMapWidthTiles()) {
                     LOGGER.error("Too many tiles in the line, ignoring the rest");
                     break;
                 }
@@ -102,20 +101,29 @@ public class MapLoader {
         String[] size = reader.readLine().split(",");
         int width = Integer.parseInt(size[0]);
         int height = Integer.parseInt(size[1]);
-        gameState.setMapWidth(width);
-        gameState.setMapHeight(height);
+        gameState.setMapWidthTiles(width);
+        gameState.setMapHeightTiles(height);
 
-        int gameWidth = Constants.SCREEN_WIDTH - 300;
-        int gameHeight = Constants.SCREEN_HEIGHT - 200;
+        gameState.mapHeightProperty().addListener((observable, oldValue, newValue) -> {
+            resizeTile(gameState.getMapWidth(), newValue.intValue());
+        });
+        gameState.mapWidthProperty().addListener((observable, oldValue, newValue) -> {
+            resizeTile(newValue.intValue(), gameState.getMapHeight());
+        });
 
-        int maxTileWidth = gameWidth / width;
-        int maxTileHeight = gameHeight / height;
-
-        gameState.setTileSize(Math.min(maxTileWidth, maxTileHeight));
+        resizeTile(gameState.getMapWidth(), gameState.getMapHeight());
 
         tileRepository.initializeList(width, height);
         LOGGER.info("Map size: {}x{}", width, height);
         reader.readLine(); // Discard the next line
+    }
+
+    private void resizeTile(int mapWidth, int mapHeight) {
+        int mapHightTiles = gameState.getMapHeightTiles();
+        int mapWidthTiles = gameState.getMapWidthTiles();
+
+        int maxTileSize = Math.min(mapHeight / mapHightTiles, mapWidth / mapWidthTiles);
+        gameState.setTileSize(maxTileSize);
     }
 
     private void loadTile(String tileTypeString, int x, int y) {

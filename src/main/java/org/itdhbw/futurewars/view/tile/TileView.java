@@ -36,20 +36,20 @@ public abstract class TileView extends StackPane {
         this.gameState = Context.getGameState();
         this.tileModel = tileModel;
         this.textureLayer = new ImageView();
-        this.textureLayer.setFitHeight(gameState.getTileSize());
-        this.textureLayer.setFitWidth(gameState.getTileSize());
+        this.textureLayer.fitWidthProperty().bind(gameState.tileSizeProperty());
+        this.textureLayer.fitHeightProperty().bind(gameState.tileSizeProperty());
         this.setTexture();
 
         possibleMoveOverlay.setOpacity(0.2);
         possibleMoveOverlay.setMouseTransparent(true);
         possibleMoveOverlay.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        HOVER_OVERLAY.setFitHeight(gameState.getTileSize());
-        HOVER_OVERLAY.setFitWidth(gameState.getTileSize());
-        SELECTED_OVERLAY.setFitHeight(gameState.getTileSize());
-        SELECTED_OVERLAY.setFitWidth(gameState.getTileSize());
-        this.highlightedOverlay.setFitHeight(gameState.getTileSize());
-        this.highlightedOverlay.setFitWidth(gameState.getTileSize());
+        HOVER_OVERLAY.fitWidthProperty().bind(gameState.tileSizeProperty());
+        HOVER_OVERLAY.fitHeightProperty().bind(gameState.tileSizeProperty());
+        SELECTED_OVERLAY.fitWidthProperty().bind(gameState.tileSizeProperty());
+        SELECTED_OVERLAY.fitHeightProperty().bind(gameState.tileSizeProperty());
+        highlightedOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
+        highlightedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);

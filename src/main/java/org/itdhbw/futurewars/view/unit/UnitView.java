@@ -15,8 +15,8 @@ public abstract class UnitView extends ImageView {
         this.unitModel = unitModel;
         LOGGER.info("Creating unit view {} for unit {}", this.viewId, unitModel.modelId);
 
-        this.setFitWidth(Context.getGameState().getTileSize());
-        this.setFitHeight(Context.getGameState().getTileSize());
+        this.fitHeightProperty().bind(Context.getGameState().tileSizeProperty());
+        this.fitWidthProperty().bind(Context.getGameState().tileSizeProperty());
         this.setTexture();
     }
 

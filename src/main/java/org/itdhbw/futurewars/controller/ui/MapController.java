@@ -108,9 +108,9 @@ public class MapController {
         LOGGER.info("Loading map...");
 
         Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
-        for (int x = 0; x < (gameState.getMapWidth()); x++) {
-            for (int y = 0; y < (gameState.getMapHeight()); y++) {
-                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidth(), y, gameState.getMapHeight());
+        for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
+            for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
+                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidthTiles(), y, gameState.getMapHeightTiles());
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
                     LOGGER.warn("tilePair was null");
