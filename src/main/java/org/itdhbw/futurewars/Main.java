@@ -2,7 +2,9 @@ package org.itdhbw.futurewars;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,15 @@ public class Main extends Application {
         LOGGER.info("Loading FXML file...");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        double width = visualBounds.getWidth();
+        double height = visualBounds.getHeight();
+        LOGGER.info("Setting stage size to {}x{}...", width, height);
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.setMaximized(true);
+
 
         stage.setTitle("Future Wars");
         stage.setScene(scene);

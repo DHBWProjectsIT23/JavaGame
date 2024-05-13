@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+            fx:controller="org.itdhbw.futurewars.controller.ui.GameController">
    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
             <GridPane>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox>
                     <Label text="Selected Tile: " />
                     <Label fx:id="selectedTileDebug" text="Label" />
                 </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                <HBox GridPane.columnIndex="1">
                     <Label text="HoveredTile: " />
                     <Label fx:id="hoveredTileDebug" text="Label" />
                 </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                <HBox GridPane.columnIndex="2">
                     <Label text="Moving: " />
                     <Label fx:id="movingDebug" text="Label" />
                 </HBox>
@@ -34,9 +28,9 @@
                     <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
                 </rowConstraints>
             </GridPane>
-         <HBox maxWidth="1600.0">
+          <HBox>
             <children>
-                  <VBox minWidth="-Infinity">
+                <VBox>
                       <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1" />
                       <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2" />
                       <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3" />
@@ -45,35 +39,37 @@
                       <Button fx:id="newMap3Button" mnemonicParsing="false" onAction="#loadNewMap3" text="NewMap3" />
                       <Button fx:id="testMapXButton" mnemonicParsing="false" onAction="#loadTestMapX" text="testMapX" />
                       <Button fx:id="littleIslandButton" mnemonicParsing="false" onAction="#loadLittleIsland" text="Little Island" />
-                      <Button fx:id="eonSpringsButton" mnemonicParsing="false" onAction="#loadEonSprings" text="Eon Springs"/>
-                      <Button fx:id="pistonDamButton" mnemonicParsing="false" onAction="#loadPistonDam" text="Piston Dam"/>
+                    <Button fx:id="eonSpringsButton" mnemonicParsing="false" onAction="#loadEonSprings"
+                            text="Eon Springs"/>
+                    <Button fx:id="pistonDamButton" mnemonicParsing="false" onAction="#loadPistonDam"
+                            text="Piston Dam"/>
                   </VBox>
                   <AnchorPane>
                       <fx:include source="map-view.fxml" />
                   </AnchorPane>
-                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
-                      <VBox prefHeight="200.0" prefWidth="100.0">
+                <VBox>
+                    <VBox>
                           <Label text="Selected Tile" />
-                          <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox>
                               <Label text="Type: " />
                               <Label fx:id="selectedTileType" />
                           </HBox>
                       </VBox>
-                      <VBox prefHeight="200.0" prefWidth="100.0">
+                    <VBox>
                           <Label text="Selected Unit" />
-                          <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox>
                               <Label text="Type: " />
                               <Label fx:id="selectedUnitType" />
                           </HBox>
-                          <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox>
                               <Label text="HP:" />
                               <Label fx:id="selectedUnitHP" />
                           </HBox>
-                          <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox>
                               <Label text="Range:" />
                               <Label fx:id="selectedUnitRange" />
                           </HBox>
-                          <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox>
                               <Label text="Team: " />
                               <Label fx:id="selectedUnitTeam" />
                           </HBox>
