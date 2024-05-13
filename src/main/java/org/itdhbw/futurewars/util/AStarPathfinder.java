@@ -160,6 +160,7 @@ public class AStarPathfinder {
 
         // Filter out the tiles that are not occupied
         visited.removeIf(tile -> !tile.isOccupied());
+        visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() == attackingUnit.getTeam());
 
         LOGGER.info("Attackable tiles: {}", visited.size());
         return visited;

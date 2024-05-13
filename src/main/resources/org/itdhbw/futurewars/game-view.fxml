@@ -82,6 +82,8 @@
                                         <Label fx:id="selectedUnitTeam"/>
                                     </HBox>
                                 </VBox>
+                                <Button mnemonicParsing="false" onAction="#endTurn" text="endTurn"/>
+                                <Label fx:id="currentLabel" text="Current:"/>
                             </VBox>
                         </children>
                     </HBox>

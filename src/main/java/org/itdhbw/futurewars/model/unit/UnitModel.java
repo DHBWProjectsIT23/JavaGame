@@ -23,6 +23,7 @@ public abstract class UnitModel {
     protected String nameType;
     protected int maxHealth = 10;
     protected int currentHealth = 10;
+    private boolean hasMoved = false;
 
     protected UnitModel(UnitType unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
@@ -80,6 +81,14 @@ public abstract class UnitModel {
         if (currentHealth <= 0) {
             //die();
         }
+    }
+
+    public void setHasMoved(boolean b) {
+        hasMoved = b;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
     }
 }
 

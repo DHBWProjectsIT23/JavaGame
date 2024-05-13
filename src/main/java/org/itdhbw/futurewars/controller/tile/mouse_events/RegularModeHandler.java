@@ -22,6 +22,9 @@ public class RegularModeHandler implements MouseEventHandler {
     public void handleMouseClick(MouseEvent event, TileView tileView) {
         gameState.selectTile(tileView.getTileModel());
         if (tileView.getTileModel().isOccupied()) {
+            if (tileView.getTileModel().getOccupyingUnit().getTeam() != gameState.getCurrentPlayer() || tileView.getTileModel().getOccupyingUnit().hasMoved()) {
+                return;
+            }
             gameState.selectUnit(tileView.getTileModel().getOccupyingUnit());
             gameState.setActiveMode(ActiveMode.MOVING_UNIT);
         }

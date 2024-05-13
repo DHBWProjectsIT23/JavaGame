@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.controller.unit;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.view.unit.UnitView;
 
@@ -23,6 +24,16 @@ public class UnitRepository {
 
     public Map<UnitModel, UnitView> getAllUnits() {
         return units;
+    }
+
+    public List<UnitModel> getActiveUnits() {
+        List<UnitModel> activeUnits = new ArrayList<>();
+        for (UnitModel unit : units.keySet()) {
+            if (unit.getTeam() == Context.getGameState().getCurrentPlayer()) {
+                activeUnits.add(unit);
+            }
+        }
+        return activeUnits;
     }
 
     public void addUnit(Pair<UnitModel, UnitView> tilePair) {

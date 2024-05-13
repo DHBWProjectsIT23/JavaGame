@@ -19,6 +19,16 @@ public class GameState {
     private final IntegerProperty mapWidthTiles = new SimpleIntegerProperty();
     private final IntegerProperty tileSize = new SimpleIntegerProperty();
     private Scene previousScene;
+    private final IntegerProperty currentPlayer = new SimpleIntegerProperty(1);
+
+    public int getCurrentPlayer() {
+        return currentPlayer.get();
+    }
+
+    public void endTurn() {
+        Context.getUnitRepository().getActiveUnits().forEach(unit -> unit.setHasMoved(false));
+        currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
+    }
 
     public Scene getPreviousScene() {
         return previousScene;
@@ -135,4 +145,7 @@ public class GameState {
         this.hoveredTile.set(null);
     }
 
+    public IntegerProperty currentPlayerProperty() {
+        return currentPlayer;
+    }
 }

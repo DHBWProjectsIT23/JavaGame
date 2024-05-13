@@ -40,6 +40,7 @@ public class UnitMovementController {
             unit.currentTileProperty().set(tile);
             tile.setOccupyingUnit(unit);
         }
+        unit.setHasMoved(true);
     }
 
 

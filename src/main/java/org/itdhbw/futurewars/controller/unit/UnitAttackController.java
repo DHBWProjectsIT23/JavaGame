@@ -21,7 +21,11 @@ public class UnitAttackController {
         if (attackingUnit == null) {
             LOGGER.error("No unit selected for attack");
         }
+        if (attackingUnit.getTeam() != gameState.getCurrentPlayer()) {
+            LOGGER.error("Unit does not belong to current team");
+        }
         attackedUnit.takeDamage(1);
+        attackingUnit.setHasMoved(true);
     }
 
 }

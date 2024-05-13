@@ -58,6 +58,8 @@ public class GameController {
     private AnchorPane optionsPane;
     @FXML
     private AnchorPane escapeMenu;
+    @FXML
+    private Label currentLabel;
 
     public GameController() {
         this.gameState = Context.getGameState();
@@ -67,6 +69,7 @@ public class GameController {
         selectedTileDebug.textProperty().bind(createTileBinding(gameState.selectedTileProperty(), "No tile selected"));
         hoveredTileDebug.textProperty().bind(createTileBinding(gameState.hoveredTileProperty(), "No tile hovered"));
         movingDebug.textProperty().bind(createModeBinding(gameState.activeModeProperty()));
+        currentLabel.textProperty().bind(Bindings.createStringBinding(() -> "Current player: " + gameState.getCurrentPlayer(), gameState.currentPlayerProperty()));
         gameState.selectedTileProperty().addListener((_, _, newValue) -> {
             if (newValue == null) {
                 this.clearPropertyInformation();
@@ -203,5 +206,10 @@ public class GameController {
     @FXML
     private void quitToDesktop(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    @FXML
+    private void endTurn(ActionEvent actionEvent) {
+        Context.getGameState().endTurn();
     }
 }
