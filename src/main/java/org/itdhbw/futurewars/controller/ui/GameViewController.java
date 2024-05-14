@@ -33,12 +33,6 @@ public class GameViewController {
     @FXML
     private Label hoveredTileDebug;
     @FXML
-    private Button map1Button;
-    @FXML
-    private Button map2Button;
-    @FXML
-    private Button map3Button;
-    @FXML
     private Button newMap1Button;
     @FXML
     private Button newMap2Button;
@@ -127,21 +121,6 @@ public class GameViewController {
                 },
                 tileProperty
         );
-    }
-
-    @FXML
-    private void loadMap1(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMap1.fwm");
-    }
-
-    @FXML
-    private void loadMap2(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMap2.fwm");
-    }
-
-    @FXML
-    private void loadMap3(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMap3.fwm");
     }
 
     @FXML

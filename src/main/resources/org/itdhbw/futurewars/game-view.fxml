@@ -34,9 +34,6 @@
                     <HBox>
                         <children>
                             <VBox>
-                                <Button fx:id="map1Button" mnemonicParsing="false" onAction="#loadMap1" text="Map1"/>
-                                <Button fx:id="map2Button" mnemonicParsing="false" onAction="#loadMap2" text="Map2"/>
-                                <Button fx:id="map3Button" mnemonicParsing="false" onAction="#loadMap3" text="Map3"/>
                                 <Button fx:id="newMap1Button" mnemonicParsing="false" onAction="#loadNewMap1"
                                         text="NewMap1"/>
                                 <Button fx:id="newMap2Button" mnemonicParsing="false" onAction="#loadNewMap2"
