@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.editor.EditorTile;
 import org.itdhbw.futurewars.model.game.Context;
-import org.itdhbw.futurewars.model.tile.TileType;
 
 import java.io.*;
 import java.util.function.Consumer;
@@ -63,7 +62,8 @@ public class MapEditorController {
     }
 
     private void populateTileDropdown() {
-        populateDropdown(tileDropdown, TileType.values(), this::setActiveEditorBoxTileType);
+        String[] tileTypes = Context.getTileRepository().getTileTypes().toArray(new String[0]);
+        populateDropdown(tileDropdown, tileTypes, this::setActiveEditorBoxTileType);
     }
 
     private void populateUnitDropdown() {
@@ -79,7 +79,7 @@ public class MapEditorController {
         dropdown.setDisable(true);
     }
 
-    private void setActiveEditorBoxTileType(TileType tileType) {
+    private void setActiveEditorBoxTileType(String tileType) {
         if (activeEditorBox.get() != null) {
             activeEditorBox.get().setTileType(tileType);
         }
@@ -125,7 +125,7 @@ public class MapEditorController {
         editorTile.setOnMouseClicked(event -> {
             activeEditorBox.set(editorTile);
             if (editorTile.getTileType() != null) {
-                tileDropdown.setText(editorTile.getTileType().name());
+                tileDropdown.setText(editorTile.getTileType());
             } else {
                 tileDropdown.setText("No TileType");
             }
@@ -291,7 +291,7 @@ public class MapEditorController {
                 for (int j = 0; j < width.get(); j++) {
                     EditorTile editorTile = (EditorTile) getNodeFromGridPane(editorGrid, j, i);
 
-                    String tileType = editorTile.getTileType() != null ? editorTile.getTileType().name() : "NONE";
+                    String tileType = editorTile.getTileType() != null ? editorTile.getTileType() : "NONE";
                     String unitType = editorTile.getUnitType() != null ? editorTile.getUnitType() : "NONE";
 
                     writer.print(tileType + "," + unitType);
@@ -374,7 +374,7 @@ public class MapEditorController {
                     String tileTypeString = tileData[x * 2];
                     if (!tileTypeString.equals("NONE")) {
                         LOGGER.info("Setting tile type to {}", tileTypeString);
-                        editorTile.setTileType(TileType.valueOf(tileTypeString));
+                        editorTile.setTileType(tileTypeString);
                     }
 
                     String unitTypeString = tileData[x * 2 + 1];

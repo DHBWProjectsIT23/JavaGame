@@ -91,10 +91,10 @@ public class GameViewController {
 
     private void setPropertyInformation() {
         TileModel selectedTile = gameState.selectedTileProperty().get();
-        this.selectedTileType.setText(selectedTile.getTileType().toString());
+        this.selectedTileType.setText(selectedTile.getMovementType().toString());
         if (selectedTile.isOccupied()) {
             UnitModel occupyingUnit = selectedTile.getOccupyingUnit();
-            this.selectedUnitType.setText(occupyingUnit.getUnitType().toString());
+            this.selectedUnitType.setText(occupyingUnit.getUnitType());
             this.selectedUnitHP.setText(occupyingUnit.getCurrentHealth() + "/" + occupyingUnit.getMaxHealth());
             this.selectedUnitRange.setText(String.valueOf(occupyingUnit.getAttackRange()));
             this.selectedUnitTeam.setText(String.valueOf(occupyingUnit.getTeam()));
@@ -123,7 +123,7 @@ public class GameViewController {
         return Bindings.createStringBinding(
                 () -> {
                     TileModel tile = tileProperty.get();
-                    return (tile != null) ? tile.getPosition() + " - Type: " + tile.getTileType() : defaultMessage;
+                    return (tile != null) ? tile.getPosition() + " - Type: " + tile.getMovementType() : defaultMessage;
                 },
                 tileProperty
         );

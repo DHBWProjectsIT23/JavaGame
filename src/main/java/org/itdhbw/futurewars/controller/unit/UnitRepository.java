@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.UnitModel;
-import org.itdhbw.futurewars.view.unit.UnitView;
+import org.itdhbw.futurewars.view.UnitView;
 
 import java.util.ArrayList;
 import java.util.HashMap;

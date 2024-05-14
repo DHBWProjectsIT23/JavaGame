@@ -1,7 +1,7 @@
 package org.itdhbw.futurewars.controller.tile.mouse_events;
 
 import javafx.scene.input.MouseEvent;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
 
 public interface MouseEventHandler {
     void handleMouseEnter(MouseEvent event, TileView tileView);

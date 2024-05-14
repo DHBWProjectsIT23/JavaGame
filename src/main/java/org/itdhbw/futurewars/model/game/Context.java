@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.model.game;
 import javafx.stage.Stage;
 import org.itdhbw.futurewars.controller.OptionsController;
 import org.itdhbw.futurewars.controller.loader.MapLoader;
+import org.itdhbw.futurewars.controller.loader.TileLoader;
 import org.itdhbw.futurewars.controller.loader.UnitLoader;
 import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
@@ -28,12 +29,17 @@ public class Context {
     private static MapLoader mapLoader;
     private static MapViewController gameController = null;
     private static UnitLoader unitLoader;
+    private static TileLoader tileLoader;
     private static UnitAttackController unitAttackController;
     private static OptionsController optionsController;
     private static Stage primaryStage;
 
     private Context() {
         // private constructor to prevent instantiation
+    }
+
+    public static TileLoader getTileLoader() {
+        return tileLoader;
     }
 
     public static OptionsController getOptionsController() {
@@ -60,6 +66,7 @@ public class Context {
         tileRepository = new TileRepository();
         unitRepository = new UnitRepository();
         unitLoader = new UnitLoader();
+        tileLoader = new TileLoader();
         gameState = new GameState();
         unitAttackController = new UnitAttackController();
         pathfinder = new AStarPathfinder();

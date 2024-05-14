@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.view.tile;
+package org.itdhbw.futurewars.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -15,7 +15,8 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 
-public abstract class TileView extends StackPane {
+public class TileView extends StackPane {
+    private static final Image TEXTURE = new Image("file:resources/textures/Tiles/SeaTile.png");
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
     private static final Image HOVER_IMAGE = new Image("file:resources/textures/64Hovered.png");
     protected static final ImageView HOVER_OVERLAY = new ImageView(HOVER_IMAGE);
@@ -31,7 +32,7 @@ public abstract class TileView extends StackPane {
     private final BooleanProperty hovered = new SimpleBooleanProperty(false);
     private final GameState gameState;
 
-    protected TileView(TileModel tileModel) {
+    public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);
         this.gameState = Context.getGameState();
         this.tileModel = tileModel;
@@ -136,8 +137,6 @@ public abstract class TileView extends StackPane {
         this.getChildren().remove(SELECTED_OVERLAY);
     }
 
-    protected abstract void setTexture();
-
     public void removeFromStack(Node node) {
         LOGGER.info("Removing node {} from tile view...", node.hashCode());
         this.getChildren().remove(node);
@@ -155,5 +154,13 @@ public abstract class TileView extends StackPane {
         } else {
             this.getChildren().remove(possibleMoveOverlay);
         }
+    }
+
+    protected void setTexture() {
+        this.textureLayer.setImage(TileView.TEXTURE);
+    }
+
+    public void setTexture(Image texture) {
+        this.textureLayer.setImage(texture);
     }
 }

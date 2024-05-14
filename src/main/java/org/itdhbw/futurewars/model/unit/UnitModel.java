@@ -4,8 +4,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.model.tile.MovementType;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.util.Position;
 
 import java.util.EnumMap;
@@ -18,7 +18,7 @@ public class UnitModel {
     private final ObjectProperty<TileModel> currentTile = new SimpleObjectProperty<>();
     protected int movementRange;
     protected int attackRange;
-    protected EnumMap<TileType, Integer> travelCosts = new EnumMap<>(TileType.class);
+    protected EnumMap<MovementType, Integer> travelCosts = new EnumMap<>(MovementType.class);
     protected String unitType;
     protected int maxHealth = 10;
     protected int currentHealth = 10;
@@ -27,10 +27,6 @@ public class UnitModel {
     public UnitModel(String unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
         this.team = team;
-        this.travelCosts.put(TileType.TEST_TILE, 1);
-        this.travelCosts.put(TileType.EXPENSIVE_TILE, 1);
-        this.travelCosts.put(TileType.UNPASSABLE_TILE, -1);
-        this.travelCosts.put(TileType.TILE_NOT_SET, -1);
         this.unitType = unitType;
         this.movementRange = 5;
         this.attackRange = 1;
@@ -65,12 +61,14 @@ public class UnitModel {
         return this.currentTile;
     }
 
-    public int getTravelCost(TileType tileType) {
-        return travelCosts.get(tileType);
+    public int getTravelCost(MovementType movementType) {
+        LOGGER.info("Getting travel cost for movement type: {}", movementType);
+        LOGGER.info("Travel costs: {}", travelCosts);
+        return travelCosts.get(movementType);
     }
 
-    public boolean canNotTraverse(TileType tileType) {
-        return travelCosts.get(tileType) == -1;
+    public boolean canNotTraverse(MovementType movementType) {
+        return travelCosts.get(movementType) == -1;
     }
 
     public int getAttackRange() {
@@ -104,23 +102,23 @@ public class UnitModel {
         return unitType;
     }
 
-    public void setMountainTileTravelCost(int cost) {
-        this.travelCosts.put(TileType.MOUNTAIN_TILE, cost);
+    public void setMountainTravelCost(int cost) {
+        this.travelCosts.put(MovementType.MOUNTAIN, cost);
     }
 
-    public void setSeaTileTravelCost(int cost) {
-        this.travelCosts.put(TileType.SEA_TILE, cost);
+    public void setSeaTravelCost(int cost) {
+        this.travelCosts.put(MovementType.SEA, cost);
     }
 
-    public void setPlainTileTravelCost(int cost) {
-        this.travelCosts.put(TileType.PLAIN_TILE, cost);
+    public void setPlainTravelCost(int cost) {
+        this.travelCosts.put(MovementType.PLAIN, cost);
     }
 
-    public void setWoodTileTravelCost(int cost) {
-        this.travelCosts.put(TileType.WOOD_TILE, cost);
+    public void setWoodsTravelCost(int cost) {
+        this.travelCosts.put(MovementType.WOODS, cost);
     }
 
-    public void setNameTyoe(String nameType) {
+    public void setNameType(String nameType) {
         this.unitType = nameType;
     }
 

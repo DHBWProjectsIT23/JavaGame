@@ -7,7 +7,7 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.UnitModel;
-import org.itdhbw.futurewars.view.unit.UnitView;
+import org.itdhbw.futurewars.view.UnitView;
 
 import java.util.Map;
 

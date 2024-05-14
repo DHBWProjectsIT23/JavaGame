@@ -5,7 +5,7 @@ import org.itdhbw.futurewars.controller.unit.UnitAttackController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.GameState;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
 
 public class AttackingUnitModeHandler implements MouseEventHandler {
     private final GameState gameState;

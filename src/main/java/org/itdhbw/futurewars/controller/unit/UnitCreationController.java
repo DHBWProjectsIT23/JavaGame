@@ -8,7 +8,7 @@ import org.itdhbw.futurewars.controller.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.Position;
-import org.itdhbw.futurewars.view.unit.UnitView;
+import org.itdhbw.futurewars.view.UnitView;
 
 public class UnitCreationController {
     private static final Logger LOGGER = LogManager.getLogger(UnitCreationController.class);

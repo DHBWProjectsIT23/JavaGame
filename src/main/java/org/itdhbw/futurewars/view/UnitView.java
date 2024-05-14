@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.view.unit;
+package org.itdhbw.futurewars.view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

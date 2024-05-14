@@ -69,9 +69,6 @@ public class UnitLoader {
 
             createUnitFactory();
         }
-
-        //createUnitModel();
-        //createUnitView();
     }
 
     private void createUnitFactory() {

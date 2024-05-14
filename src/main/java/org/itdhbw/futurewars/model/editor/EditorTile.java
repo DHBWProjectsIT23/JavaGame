@@ -1,19 +1,16 @@
 package org.itdhbw.futurewars.model.editor;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import org.itdhbw.futurewars.model.tile.TileType;
 
 public class EditorTile extends VBox {
     private final Label label1;
     private final Label label2;
     private final StringProperty unitType = new SimpleStringProperty();
-    private final ObjectProperty<TileType> tileType = new SimpleObjectProperty<>();
+    private final StringProperty tileType = new SimpleStringProperty();
 
     public EditorTile() {
         super();
@@ -21,7 +18,7 @@ public class EditorTile extends VBox {
         label1 = new Label();
         label2 = new Label();
 
-        label1.textProperty().bind(tileType.asString());
+        label1.textProperty().bind(tileType);
 
         unitType.addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
@@ -40,21 +37,21 @@ public class EditorTile extends VBox {
         tileType.addListener((observable, oldValue, newValue) -> {
             // Change the background color based on the new tileType
             switch (newValue) {
-                case PLAIN_TILE:
+                case "PLAIN_TILE":
                     this.setStyle("-fx-background-color: green;");
                     break;
-                case WOOD_TILE:
+                case "WOOD_TILE":
                     this.setStyle("-fx-background-color: brown;");
                     break;
-                case SEA_TILE:
+                case "SEA_TILE":
                     this.setStyle("-fx-background-color: blue;");
                     break;
-                case MOUNTAIN_TILE:
+                case "MOUNTAIN_TILE":
                     this.setStyle("-fx-background-color: gray;");
                     break;
             }
         });
-        this.tileType.set(TileType.PLAIN_TILE);
+        this.tileType.set("PLAIN_TILE");
     }
 
     public String getUnitType() {
@@ -69,15 +66,15 @@ public class EditorTile extends VBox {
         return unitType;
     }
 
-    public TileType getTileType() {
+    public String getTileType() {
         return tileType.get();
     }
 
-    public void setTileType(TileType tileType) {
+    public void setTileType(String tileType) {
         this.tileType.set(tileType);
     }
 
-    public ObjectProperty<TileType> tileTypeProperty() {
+    public StringProperty tileTypeProperty() {
         return tileType;
     }
 

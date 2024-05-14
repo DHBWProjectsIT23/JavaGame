@@ -3,7 +3,7 @@ package org.itdhbw.futurewars.controller.tile.mouse_events;
 import javafx.scene.input.MouseEvent;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.GameState;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
 
 public class RegularModeHandler implements MouseEventHandler {
 

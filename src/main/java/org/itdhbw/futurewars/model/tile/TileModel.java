@@ -9,19 +9,19 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.Position;
 
-public abstract class TileModel {
+public class TileModel {
     private static final Logger LOGGER = LogManager.getLogger(TileModel.class);
     public final int modelId = this.hashCode();
     private final Position position;
-    private final TileType tileType;
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty partOfPath = new SimpleBooleanProperty(false);
     private final BooleanProperty partOfPossiblePath = new SimpleBooleanProperty(false);
+    protected MovementType movementType;
+    protected String nameType;
     private boolean isOccupied = false;
 
-    protected TileModel(final int x, final int y, TileType tileType) {
+    public TileModel(String tileType, final int x, final int y) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
-        this.tileType = tileType;
         this.position = new Position(x, y, true);
     }
 
@@ -33,8 +33,12 @@ public abstract class TileModel {
         return position;
     }
 
-    public TileType getTileType() {
-        return tileType;
+    public MovementType getMovementType() {
+        return movementType;
+    }
+
+    public void setMovementType(MovementType movementType) {
+        this.movementType = movementType;
     }
 
     public boolean isOccupied() {

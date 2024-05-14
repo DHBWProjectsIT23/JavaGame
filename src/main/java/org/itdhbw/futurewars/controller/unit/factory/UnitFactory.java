@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.unit.UnitModel;
-import org.itdhbw.futurewars.view.unit.UnitView;
+import org.itdhbw.futurewars.view.UnitView;
 
 public class UnitFactory {
     private static final Logger LOGGER = LogManager.getLogger(UnitFactory.class);
@@ -39,10 +39,10 @@ public class UnitFactory {
         unitModel = new UnitModel(unitType, 1);
         unitModel.setAttackRange(attackRange);
         unitModel.setMovementRange(movementRange);
-        unitModel.setPlainTileTravelCost(travelCostPlain);
-        unitModel.setWoodTileTravelCost(travelCostWood);
-        unitModel.setMountainTileTravelCost(travelCostMountain);
-        unitModel.setSeaTileTravelCost(travelCostSea);
+        unitModel.setPlainTravelCost(travelCostPlain);
+        unitModel.setWoodsTravelCost(travelCostWood);
+        unitModel.setMountainTravelCost(travelCostMountain);
+        unitModel.setSeaTravelCost(travelCostSea);
         unitModel.debugLog();
     }
 

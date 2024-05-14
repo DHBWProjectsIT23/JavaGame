@@ -39,11 +39,13 @@ public class AStarPathfinder {
             }
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied() || unit.canNotTraverse(neighbor.getTileType())) {
+                boolean canTraverse = unit.canNotTraverse(neighbor.getMovementType());
+                LOGGER.info("Checking neighbor {} with movement type {} and can traverse: {}", neighbor.modelId, neighbor.getMovementType(), !canTraverse);
+                if (neighbor.isOccupied() || unit.canNotTraverse(neighbor.getMovementType())) {
                     continue;
                 }
 
-                int tentativeGScore = gScore.get(current) + unit.getTravelCost(neighbor.getTileType());
+                int tentativeGScore = gScore.get(current) + unit.getTravelCost(neighbor.getMovementType());
 
                 if (!gScore.containsKey(neighbor) || tentativeGScore < gScore.get(neighbor)) {
                     cameFrom.put(neighbor, current);
@@ -77,7 +79,7 @@ public class AStarPathfinder {
                 first = false;
                 continue;
             }
-            totalCost += unit.getTravelCost(tile.getTileType());
+            totalCost += unit.getTravelCost(tile.getMovementType());
             if (totalCost > unitRange) {
                 break;
             }
@@ -120,11 +122,11 @@ public class AStarPathfinder {
             visited.add(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied() || startTile.getOccupyingUnit().canNotTraverse(neighbor.getTileType())) {
+                if (neighbor.isOccupied() || startTile.getOccupyingUnit().canNotTraverse(neighbor.getMovementType())) {
                     continue;
                 }
 
-                int tentativeDistance = distance.get(current) + unit.getTravelCost(neighbor.getTileType());
+                int tentativeDistance = distance.get(current) + unit.getTravelCost(neighbor.getMovementType());
                 if (tentativeDistance <= movementRange && (!distance.containsKey(neighbor) || tentativeDistance < distance.get(neighbor))) {
                     distance.put(neighbor, tentativeDistance);
                     queue.add(neighbor);

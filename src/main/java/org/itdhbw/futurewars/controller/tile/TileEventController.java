@@ -15,7 +15,7 @@ import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.AStarPathfinder;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

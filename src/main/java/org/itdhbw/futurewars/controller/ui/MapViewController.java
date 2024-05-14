@@ -18,9 +18,8 @@ import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
-import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.util.Position;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
 
 public class MapViewController {
     private static final Logger LOGGER = LogManager.getLogger(MapViewController.class);
@@ -114,7 +113,7 @@ public class MapViewController {
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
                     LOGGER.warn("tilePair was null");
-                    tilePair = tileCreationController.createTile(TileType.TILE_NOT_SET, x, y);
+                    tilePair = tileCreationController.createTile("NOT_SET_TILE", x, y);
                 }
                 this.addTileToGrid(tilePair);
             }

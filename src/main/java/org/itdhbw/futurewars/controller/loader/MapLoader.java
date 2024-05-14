@@ -7,7 +7,6 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
-import org.itdhbw.futurewars.model.tile.TileType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -64,7 +63,7 @@ public class MapLoader {
                 if (x % 2 != 0) {
                     loadCustomUnit(typeString, x, y);
                 } else {
-                    loadTile(typeString, x, y);
+                    loadCustomTile(typeString, x, y);
                 }
                 x++;
             }
@@ -88,7 +87,7 @@ public class MapLoader {
                     LOGGER.error("Too many tiles in the line, ignoring the rest");
                     break;
                 }
-                loadTile(tileTypeString, x, y);
+                loadCustomTile(tileTypeString, x, y);
                 x++;
             }
             y++;
@@ -125,14 +124,10 @@ public class MapLoader {
         gameState.setTileSize(maxTileSize);
     }
 
-    private void loadTile(String tileTypeString, int x, int y) {
-        try {
-            TileType tileType = TileType.valueOf(tileTypeString.toUpperCase());
-            LOGGER.info("Creating tile of type {} at x: {} - y: {}", tileTypeString, (x / 2), y);
+    private void loadCustomTile(String tileType, int x, int y) {
+        if (!tileType.equals("NONE")) {
+            LOGGER.info("Creating custom tile of type {} at x: {} - y: {}", tileType, x, y);
             tileCreationController.createTile(tileType, (x / 2), y);
-        } catch (IllegalArgumentException ignored) {
-            LOGGER.error("Wrong tile type, ignoring {} at x: {} - y: {} ", tileTypeString, (x / 2), y, ignored);
-            tileRepository.addNullTile(x, y);
         }
     }
 

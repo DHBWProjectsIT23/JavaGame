@@ -5,13 +5,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.util.Position;
-import org.itdhbw.futurewars.view.tile.TileView;
+import org.itdhbw.futurewars.view.TileView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileRepository {
     private final static Logger LOGGER = LogManager.getLogger(TileRepository.class);
+    List<String> tileTypes;
     private Pair<TileModel, TileView>[][] tiles;
 
     public TileRepository() {
+        this.tileTypes = new ArrayList<>();
+    }
+
+    public void addTileType(String type) {
+        this.tileTypes.add(type);
     }
 
     public void initializeList(int width, int height) {
@@ -54,6 +63,10 @@ public class TileRepository {
 
     public void addNullTile(int x, int y) {
         this.tiles[x][y] = null;
+    }
+
+    public List<String> getTileTypes() {
+        return tileTypes;
     }
 
 }
