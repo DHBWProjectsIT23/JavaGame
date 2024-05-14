@@ -24,7 +24,7 @@ import org.itdhbw.futurewars.model.unit.UnitModel;
 import java.io.IOException;
 
 
-public class GameController {
+public class GameViewController {
     private final GameState gameState;
     @FXML
     private Label selectedTileDebug;
@@ -61,7 +61,7 @@ public class GameController {
     @FXML
     private Label currentLabel;
 
-    public GameController() {
+    public GameViewController() {
         this.gameState = Context.getGameState();
     }
 

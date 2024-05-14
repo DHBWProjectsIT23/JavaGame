@@ -22,8 +22,8 @@ import org.itdhbw.futurewars.model.tile.TileType;
 import org.itdhbw.futurewars.util.Position;
 import org.itdhbw.futurewars.view.tile.TileView;
 
-public class MapController {
-    private static final Logger LOGGER = LogManager.getLogger(MapController.class);
+public class MapViewController {
+    private static final Logger LOGGER = LogManager.getLogger(MapViewController.class);
     private final TileCreationController tileCreationController;
     private final UnitMovementController unitMovementController;
     private final GameState gameState;
@@ -44,7 +44,7 @@ public class MapController {
     @FXML
     private Button overlayAttackButton1;
 
-    public MapController() {
+    public MapViewController() {
         this.tileCreationController = Context.getTileCreationController();
         this.unitMovementController = Context.getUnitMovementController();
         this.gameState = Context.getGameState();

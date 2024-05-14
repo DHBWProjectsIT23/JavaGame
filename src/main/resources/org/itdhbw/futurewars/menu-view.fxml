@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21"
-           fx:controller="org.itdhbw.futurewars.controller.ui.MenuController">
+           fx:controller="org.itdhbw.futurewars.controller.ui.MenuViewController">
     <VBox alignment="CENTER">
         <Button fx:id="startButton" mnemonicParsing="false" onAction="#startGame" text="Start Game"/>
         <Button mnemonicParsing="false" onAction="#openOptions" text="Options"/>

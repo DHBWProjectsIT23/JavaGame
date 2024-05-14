@@ -1,6 +1,5 @@
 package org.itdhbw.futurewars.controller.ui;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,12 +42,9 @@ public class OptionsViewController {
         resolutionButton.setText(resolution);
 
 
+        this.stage = Context.getPrimaryStage();
         resolutionButton.setOnShowing(event -> openResolutions());
-        Platform.runLater(() -> {
-            if (stage == null) {
-                stage = (Stage) backButton.getScene().getWindow();
-            }
-        });
+        LOGGER.info("Previous scene from OptionsViewController: {}", Context.getGameState().getPreviousScene());
     }
 
     private void populateResolutionMenu() {

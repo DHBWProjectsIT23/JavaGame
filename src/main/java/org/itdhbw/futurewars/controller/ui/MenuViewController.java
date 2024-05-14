@@ -15,15 +15,15 @@ import org.itdhbw.futurewars.model.game.Context;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MenuController {
+public class MenuViewController {
 
-    private static final Logger LOGGER = LogManager.getLogger(MenuController.class);
+    private static final Logger LOGGER = LogManager.getLogger(MenuViewController.class);
     @FXML
     private Button startButton;
     @FXML
     private Button mapEditorButton;
 
-    public MenuController() {
+    public MenuViewController() {
     }
 
     @FXML
@@ -41,10 +41,10 @@ public class MenuController {
 
     @FXML
     private void startMapEditor(ActionEvent actionEvent) {
+        Stage stage = Context.getPrimaryStage();
         try {
             Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/map-editor-view.fxml")));
             Scene scene = new Scene(gameView);
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
             Context.getOptionsController().loadSettings(stage);
         } catch (IOException e) {
@@ -54,11 +54,14 @@ public class MenuController {
 
     @FXML
     private void openOptions(ActionEvent actionEvent) {
+        LOGGER.info("Opening options...");
+        Stage stage = Context.getPrimaryStage();
+        Context.getGameState().setPreviousScene(stage.getScene());
         try {
             Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/options-view.fxml")));
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(gameView);
-            Context.getGameState().setPreviousScene(stage.getScene());
+            LOGGER.info("Setting previous scene...");
+            LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings(stage);
         } catch (IOException e) {

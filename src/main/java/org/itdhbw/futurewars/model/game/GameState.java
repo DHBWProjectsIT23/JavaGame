@@ -5,10 +5,13 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 
 public class GameState {
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameState.class);
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<UnitModel> selectedUnit = new SimpleObjectProperty<>();
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
@@ -18,8 +21,20 @@ public class GameState {
     private final IntegerProperty mapHeightTiles = new SimpleIntegerProperty();
     private final IntegerProperty mapWidthTiles = new SimpleIntegerProperty();
     private final IntegerProperty tileSize = new SimpleIntegerProperty();
-    private Scene previousScene;
     private final IntegerProperty currentPlayer = new SimpleIntegerProperty(1);
+    private Scene previousScene;
+    private Stage primaryStage;
+
+    public GameState() {
+    }
+
+    private Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    private void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     public int getCurrentPlayer() {
         return currentPlayer.get();
@@ -31,14 +46,15 @@ public class GameState {
     }
 
     public Scene getPreviousScene() {
+        if (previousScene == null) {
+            throw new IllegalStateException("No previous scene set");
+        }
         return previousScene;
     }
 
     public void setPreviousScene(Scene previousScene) {
+        LOGGER.info("Setting previous scene to {}", previousScene);
         this.previousScene = previousScene;
-    }
-
-    public GameState() {
     }
 
     public int getMapWidth() {

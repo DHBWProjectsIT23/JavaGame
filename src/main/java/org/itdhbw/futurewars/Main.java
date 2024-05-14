@@ -26,6 +26,7 @@ public class Main extends Application {
         Context.getOptionsController().initializeSettings(stage);
         Context.getGameState().setMapWidth((int) (stage.getWidth() / 100 * 90));
         Context.getGameState().setMapHeight((int) stage.getHeight() / 100 * 90);
+        Context.setPrimaryStage(stage);
         stage.widthProperty().addListener((observable, oldValue, newValue) -> {
             Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90);
         });

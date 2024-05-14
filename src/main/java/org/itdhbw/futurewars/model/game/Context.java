@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.model.game;
 
+import javafx.stage.Stage;
 import org.itdhbw.futurewars.controller.OptionsController;
 import org.itdhbw.futurewars.controller.loader.MapLoader;
 import org.itdhbw.futurewars.controller.loader.UnitLoader;
@@ -7,7 +8,7 @@ import org.itdhbw.futurewars.controller.tile.TileCreationController;
 import org.itdhbw.futurewars.controller.tile.TileEventController;
 import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.tile.factory.TileBuilder;
-import org.itdhbw.futurewars.controller.ui.MapController;
+import org.itdhbw.futurewars.controller.ui.MapViewController;
 import org.itdhbw.futurewars.controller.unit.UnitAttackController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
@@ -27,10 +28,11 @@ public class Context {
     private static AStarPathfinder pathfinder;
     private static UnitCreationController unitCreationController;
     private static MapLoader mapLoader;
-    private static MapController gameController = null;
+    private static MapViewController gameController = null;
     private static UnitLoader unitLoader;
     private static UnitAttackController unitAttackController;
     private static OptionsController optionsController;
+    private static Stage primaryStage;
 
     private Context() {
         // private constructor to prevent instantiation
@@ -44,14 +46,14 @@ public class Context {
         return unitLoader;
     }
 
-    public static MapController getMapController() {
+    public static MapViewController getMapController() {
         if (gameController == null) {
             throw new IllegalStateException("MapController not set");
         }
         return gameController;
     }
 
-    public static void setMapController(MapController gameController) {
+    public static void setMapController(MapViewController gameController) {
         Context.gameController = gameController;
     }
 
@@ -120,5 +122,13 @@ public class Context {
 
     public static UnitAttackController getUnitAttackController() {
         return unitAttackController;
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static void setPrimaryStage(Stage primaryStage) {
+        Context.primaryStage = primaryStage;
     }
 }
