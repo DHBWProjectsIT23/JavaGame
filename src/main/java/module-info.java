@@ -7,8 +7,6 @@ module org.itdhw.futurewars {
 
     opens org.itdhbw.futurewars to javafx.fxml;
     exports org.itdhbw.futurewars;
-    exports org.itdhbw.futurewars.view.tile;
-    exports org.itdhbw.futurewars.view.unit;
     exports org.itdhbw.futurewars.model.tile;
     exports org.itdhbw.futurewars.model.unit;
     exports org.itdhbw.futurewars.controller.tile;
