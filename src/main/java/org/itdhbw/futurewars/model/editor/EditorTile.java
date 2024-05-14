@@ -2,16 +2,17 @@ package org.itdhbw.futurewars.model.editor;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.itdhbw.futurewars.model.tile.TileType;
-import org.itdhbw.futurewars.model.unit.UnitType;
 
 public class EditorTile extends VBox {
     private final Label label1;
     private final Label label2;
-    private final ObjectProperty<UnitType> unitType = new SimpleObjectProperty<>();
+    private final StringProperty unitType = new SimpleStringProperty();
     private final ObjectProperty<TileType> tileType = new SimpleObjectProperty<>();
 
     public EditorTile() {
@@ -27,7 +28,7 @@ public class EditorTile extends VBox {
                 label2.setText("");
                 this.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             } else {
-                label2.setText(newValue.name());
+                label2.setText(newValue);
                 this.setBorder(new Border(new BorderStroke(Color.HOTPINK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2.0))));
             }
         });
@@ -56,15 +57,15 @@ public class EditorTile extends VBox {
         this.tileType.set(TileType.PLAIN_TILE);
     }
 
-    public UnitType getUnitType() {
+    public String getUnitType() {
         return unitType.get();
     }
 
-    public void setUnitType(UnitType unitType) {
+    public void setUnitType(String unitType) {
         this.unitType.set(unitType);
     }
 
-    public ObjectProperty<UnitType> unitTypeProperty() {
+    public StringProperty unitTypeProperty() {
         return unitType;
     }
 

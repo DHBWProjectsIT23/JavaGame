@@ -8,7 +8,6 @@ import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileType;
-import org.itdhbw.futurewars.model.unit.UnitType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -137,22 +136,10 @@ public class MapLoader {
         }
     }
 
-    private void loadUnit(String unitTypeString, int x, int y) {
-        if (!unitTypeString.equals("NONE")) {
-            try {
-                UnitType unitType = UnitType.valueOf(unitTypeString.toUpperCase());
-                LOGGER.info("Creating unit of type {} at x: {} - y: {}", unitTypeString, ((x - 1) / 2), y);
-                unitCreationController.createUnit(unitType, ((x - 1) / 2), y, 1);
-            } catch (IllegalArgumentException ignored) {
-                LOGGER.error("Wrong unit type, ignoring {} at x: {} - y: {} ", unitTypeString, ((x - 1) / 2), y, ignored);
-            }
-        }
-    }
-
     private void loadCustomUnit(String unitType, int x, int y) {
         if (!unitType.equals("NONE")) {
             LOGGER.info("Creating custom unit of type {} at x: {} - y: {}", unitType, x, y);
-            unitCreationController.createCustomUnit(unitType, ((x - 1) / 2), y);
+            unitCreationController.createUnit(unitType, ((x - 1) / 2), y);
         }
     }
 }

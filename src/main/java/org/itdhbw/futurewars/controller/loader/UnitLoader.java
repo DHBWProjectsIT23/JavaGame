@@ -2,8 +2,8 @@ package org.itdhbw.futurewars.controller.loader;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.controller.unit.UnitFactoryCustom;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
+import org.itdhbw.futurewars.controller.unit.factory.UnitFactory;
 import org.itdhbw.futurewars.model.game.Context;
 
 import java.io.BufferedReader;
@@ -76,11 +76,11 @@ public class UnitLoader {
 
     private void createUnitFactory() {
         LOGGER.info("Creating unit factory");
-        UnitFactoryCustom unitFactoryCustom = new UnitFactoryCustom(unitType, attackRange, movementRange, travelCostPlain, travelCostWood, travelCostMountain, travelCostSea, texture1, texture2);
+        UnitFactory unitFactoryCustom = new UnitFactory(unitType, attackRange, movementRange, travelCostPlain, travelCostWood, travelCostMountain, travelCostSea, texture1, texture2);
         unitFactories.put(unitType, unitFactoryCustom);
     }
 
-    public Map<String, UnitFactoryCustom> getUnitFactories() {
+    public Map<String, UnitFactory> getUnitFactories() {
         LOGGER.info("Returning unit factories: {}", unitFactories);
         return unitFactories;
     }

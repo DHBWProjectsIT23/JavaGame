@@ -13,7 +13,6 @@ import org.itdhbw.futurewars.controller.unit.UnitAttackController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
-import org.itdhbw.futurewars.controller.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 
 public class Context {
@@ -21,7 +20,6 @@ public class Context {
     private static UnitRepository unitRepository;
     private static TileBuilder tileBuilder;
     private static TileEventController tileEventController;
-    private static UnitBuilder unitBuilder;
     private static TileCreationController tileCreationController;
     private static UnitMovementController unitMovementController;
     private static GameState gameState;
@@ -65,7 +63,6 @@ public class Context {
         gameState = new GameState();
         unitAttackController = new UnitAttackController();
         pathfinder = new AStarPathfinder();
-        unitBuilder = new UnitBuilder();
         unitMovementController = new UnitMovementController();
         unitCreationController = new UnitCreationController();
         tileEventController = new TileEventController();
@@ -94,10 +91,6 @@ public class Context {
 
     public static TileEventController getTileEventController() {
         return tileEventController;
-    }
-
-    public static UnitBuilder getUnitBuilder() {
-        return unitBuilder;
     }
 
     public static TileCreationController getTileCreationController() {
