@@ -1,0 +1,10 @@
+FUTURE_WARS_UNIT_FORMAT
+- unitType
+BOMBER_UNIT
+- attackRange,movementRange
+1,10
+- (travelCost) - plain,wood,sea,mountain
+1,1,1,1
+- texture - 1 on line 11, 2 on line 12
+resources/textures/Placeholders/BomberUnit.png
+resources/textures/UnitSample2.png

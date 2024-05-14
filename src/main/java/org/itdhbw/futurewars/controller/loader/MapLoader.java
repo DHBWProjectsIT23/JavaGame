@@ -63,7 +63,7 @@ public class MapLoader {
                     break;
                 }
                 if (x % 2 != 0) {
-                    loadUnit(typeString, x, y);
+                    loadCustomUnit(typeString, x, y);
                 } else {
                     loadTile(typeString, x, y);
                 }
@@ -146,6 +146,13 @@ public class MapLoader {
             } catch (IllegalArgumentException ignored) {
                 LOGGER.error("Wrong unit type, ignoring {} at x: {} - y: {} ", unitTypeString, ((x - 1) / 2), y, ignored);
             }
+        }
+    }
+
+    private void loadCustomUnit(String unitType, int x, int y) {
+        if (!unitType.equals("NONE")) {
+            LOGGER.info("Creating custom unit of type {} at x: {} - y: {}", unitType, x, y);
+            unitCreationController.createCustomUnit(unitType, ((x - 1) / 2), y);
         }
     }
 }

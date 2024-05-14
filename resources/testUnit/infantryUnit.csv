@@ -1,0 +1,10 @@
+FUTURE_WARS_UNIT_FORMAT
+- unitType
+INFANTRY_UNIT
+- attackRange,movementRange
+1,5
+- (travelCost) - plain,wood,sea,mountain
+1,1,-1,2
+- texture - 1 on line 11, 2 on line 12
+resources/textures/Placeholders/InfantryUnit.png
+resources/textures/UnitSample2.png

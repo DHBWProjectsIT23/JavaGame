@@ -86,6 +86,7 @@ public class GameViewController {
                 }
             });
         });
+        Context.getMapController().loadMap("testMapUnits.fwm");
     }
 
     private void setPropertyInformation() {

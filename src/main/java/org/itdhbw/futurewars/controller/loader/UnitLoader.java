@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.unit.UnitFactoryCustom;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
 import org.itdhbw.futurewars.model.game.Context;
-import org.itdhbw.futurewars.model.unit.CustomUnitModel;
-import org.itdhbw.futurewars.view.unit.CustomUnitView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,15 +12,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UnitLoader {
     private static final Logger LOGGER = LogManager.getLogger(UnitLoader.class);
     private static final String UNIT_VALIDATION = "FUTURE_WARS_UNIT_FORMAT";
-    private final Map unitFactories;
+    private final HashMap unitFactories;
     private final UnitRepository unitRepository;
-    private final Optional<CustomUnitModel> unitModel = Optional.empty();
-    private final Optional<CustomUnitView> unitView = Optional.empty();
     private String unitType;
     private int attackRange;
     private int movementRange;

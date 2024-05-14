@@ -22,6 +22,7 @@ public class UnitFactoryCustom {
     private CustomUnitView unitView;
 
     public UnitFactoryCustom(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, String texture1, String texture2) {
+        LOGGER.info("Creating unit factory for unit type: {}", unitType);
         this.unitType = unitType;
         this.attackRange = attackRange;
         this.movementRange = movementRange;

@@ -8,7 +8,7 @@
     <VBox alignment="CENTER">
         <Button fx:id="startButton" mnemonicParsing="false" onAction="#startGame" text="Start Game"/>
         <Button mnemonicParsing="false" onAction="#openOptions" text="Options"/>
-        <Button fx:id="mapEditorButton" disable="true" mnemonicParsing="false" onAction="#startMapEditor"
+        <Button fx:id="mapEditorButton" mnemonicParsing="false" onAction="#startMapEditor"
                 text="Map Editor"/>
         <Button disable="true" mnemonicParsing="false" onAction="#startUnitEditor" text="Unit Editor"/>
         <Button disable="true" mnemonicParsing="false" onAction="#startTileEditor" text="Tile Editor"/>
