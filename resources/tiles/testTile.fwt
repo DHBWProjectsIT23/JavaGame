@@ -1,7 +1,7 @@
 FUTURE_WARS_TILE_FORMAT
 - tileType
-WOOD_TILE
+TEST_TILE
 - movementType
-WOODS
+PLAIN
 - texture
-$INTERNAL_DIR/textures/tiles/WoodTile.png
+$USER_DIR/textures/tiles/64Sample2.png

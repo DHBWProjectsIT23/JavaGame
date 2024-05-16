@@ -3,6 +3,7 @@ module org.itdhw.futurewars {
     requires javafx.fxml;
     requires java.logging;
     requires org.apache.logging.log4j;
+    requires java.desktop;
 
 
     opens org.itdhbw.futurewars to javafx.fxml;

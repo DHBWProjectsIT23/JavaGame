@@ -4,10 +4,4 @@ NOT_SET_TILE
 - movementType
 SEA
 - texture
-resources/textures/128Sample.png
-resources/textures/128Sample.png
-resources/textures/128Sample.png
-resources/textures/128Sample.png
-resources/textures/128Sample.png
-resources/textures/128Sample.png
-resources/textures/128Sample.png
+$INTERNAL_DIR/textures/tiles/misc/TileNotSet.png

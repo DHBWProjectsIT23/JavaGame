@@ -14,19 +14,19 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
+import org.itdhbw.futurewars.util.FileHelper;
 
 public class TileView extends StackPane {
     private static final Image TEXTURE = new Image("file:resources/textures/UnpassableTile.png");
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
-    private static final Image HOVER_IMAGE = new Image("file:resources/textures/64Hovered.png");
+    protected static final ImageView SELECTED_OVERLAY = new ImageView(new Image(FileHelper.getInternalPathString("textures/other/64Selected.png")));
+    private static final Image HOVER_IMAGE = new Image(FileHelper.getInternalPathString("textures/other/64Hovered.png"));
     protected static final ImageView HOVER_OVERLAY = new ImageView(HOVER_IMAGE);
-    private static final Image HOVER_OCCUPIED_IMAGE = new Image("file:resources/textures/64HoveredOccupied.png");
-    private static final Image SELECTED_IMAGE = new Image("file:resources/textures/64Selected.png");
-    protected static final ImageView SELECTED_OVERLAY = new ImageView(SELECTED_IMAGE);
+    private static final Image HOVER_OCCUPIED_IMAGE = new Image(FileHelper.getInternalPathString("textures/other/64HoveredOccupied.png"));
     public final int viewId = this.hashCode();
     protected final Pane possibleMoveOverlay = new Pane();
     protected final ImageView textureLayer;
-    private final ImageView highlightedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
+    private final ImageView highlightedOverlay = new ImageView(new Image(FileHelper.getInternalPathString("textures/other/64Highlighted.png")));
     private final TileModel tileModel;
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private final BooleanProperty hovered = new SimpleBooleanProperty(false);

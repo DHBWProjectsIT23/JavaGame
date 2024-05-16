@@ -4,4 +4,4 @@ TEST_TILE
 - movementType
 PLAIN
 - texture
-resources/textures/128Sample.png
+$INTERNAL_DIR/textures/tiles/misc/128Sample.png

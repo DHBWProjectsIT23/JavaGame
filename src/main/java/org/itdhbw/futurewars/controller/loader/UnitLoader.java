@@ -5,22 +5,20 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
 import org.itdhbw.futurewars.controller.unit.factory.UnitFactory;
 import org.itdhbw.futurewars.model.game.Context;
+import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UnitLoader {
     private static final Logger LOGGER = LogManager.getLogger(UnitLoader.class);
     private static final String UNIT_VALIDATION = "FUTURE_WARS_UNIT_FORMAT";
-    private final HashMap unitFactories;
+    private final Map<String, UnitFactory> unitFactories;
+    private final Map<String, File> unitFiles;
     private final UnitRepository unitRepository;
     private String unitType;
     private int attackRange;
@@ -33,24 +31,29 @@ public class UnitLoader {
     private String texture2;
 
     public UnitLoader() {
-        unitFactories = new HashMap<>();
         unitRepository = Context.getUnitRepository();
+        unitFactories = new HashMap<>();
+        unitFiles = new HashMap<>();
+    }
+
+    public int numberOfUnitFiles() {
+        return unitFiles.size();
+    }
+
+    public void retrieveSystemUnits() {
+        LOGGER.info("Retrieving system units");
+        unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalUnitPath));
+        LOGGER.info("Retrieved system units - total of {} units", unitFiles.size());
+    }
+
+    public void retrieveUserUnits() {
+        LOGGER.info("Retrieving user units");
+        unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserUnitPath));
+        LOGGER.info("Retrieved user units - total of {} units", unitFiles.size());
     }
 
     public void loadUnitsFromFiles() {
-        Path dir = Paths.get("resources/testUnit");
-        List<String> files = new ArrayList<>();
-
-        try {
-            Files.walk(dir)
-                    .filter(Files::isRegularFile)
-                    .forEach(file -> files.add(file.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        for (String file : files) {
+        for (File file : unitFiles.values()) {
 
             BufferedReader reader;
             try {
@@ -63,9 +66,8 @@ public class UnitLoader {
                     throw new IllegalArgumentException("Given file is not a unit file");
                 }
 
-            } catch (
-                      IOException e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                LOGGER.error("Error loading unit from file: {}", file);
             }
 
             createUnitFactory();
@@ -105,8 +107,8 @@ public class UnitLoader {
 
         // on sixth line - skip to seventh
         reader.readLine();
-        texture1 = reader.readLine();
-        texture2 = reader.readLine();
+        texture1 = FileHelper.decodePath(reader.readLine());
+        texture2 = FileHelper.decodePath(reader.readLine());
 
         unitRepository.addUnitType(unitType);
     }

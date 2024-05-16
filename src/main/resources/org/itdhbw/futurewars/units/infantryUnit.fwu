@@ -6,5 +6,5 @@ INFANTRY_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,1,-1,2
 - texture - 1 on line 11, 2 on line 12
-resources/textures/Placeholders/InfantryUnit.png
-resources/textures/UnitSample2.png
+$INTERNAL_DIR/textures/units/misc/InfantryRobot.png
+$INTERNAL_DIR/textures/units/misc/InfantryUnit.png

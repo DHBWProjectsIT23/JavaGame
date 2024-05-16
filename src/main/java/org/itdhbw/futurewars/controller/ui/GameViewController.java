@@ -22,8 +22,10 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
+import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class GameViewController {
@@ -84,7 +86,6 @@ public class GameViewController {
                 }
             });
         });
-        Context.getMapController().loadMap("newPistonDam.fwm");
     }
 
     private void setPropertyInformation() {
@@ -128,40 +129,9 @@ public class GameViewController {
     }
 
     @FXML
-    private void loadNewMap1(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap1.fwm");
-    }
-
-    @FXML
-    private void loadNewMap2(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap2.fwm");
-    }
-
-    @FXML
-    private void loadNewMap3(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/newMap3.fwm");
-    }
-
-    public void loadLittleIsland(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/maps/littleIsland.fwm");
-    }
-
-    public void loadEonSprings(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/maps/eonSprings.fwm");
-    }
-
-    public void loadPistonDam(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/maps/pistonDam.fwm");
-    }
-
-    public void loadTestMapX(ActionEvent actionEvent) {
-        Context.getMapController().loadMap("resources/maps/testMaps/testMapX.fwm");
-    }
-
-    @FXML
     private void openSettings(ActionEvent actionEvent) {
         try {
-            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/options-view.fxml"));
+            Parent menuView = FXMLLoader.load(Objects.requireNonNull(FileHelper.getInternalPath("fxml/options-view.fxml")).toURL());
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             Context.getGameState().setPreviousScene(stage.getScene());
@@ -177,7 +147,7 @@ public class GameViewController {
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
         try {
-            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/menu-view.fxml"));
+            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/fxml/menu-view.fxml"));
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             stage.setScene(scene);

@@ -7,6 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.view.UnitView;
 
+import java.net.URI;
+import java.net.URL;
+
 public class UnitFactory {
     private static final Logger LOGGER = LogManager.getLogger(UnitFactory.class);
     private final String unitType;
@@ -16,8 +19,8 @@ public class UnitFactory {
     private final int travelCostWood;
     private final int travelCostMountain;
     private final int travelCostSea;
-    private final String texture1;
-    private final String texture2;
+    private final Image texture1;
+    private final Image texture2;
     private UnitModel unitModel;
     private UnitView unitView;
 
@@ -30,8 +33,24 @@ public class UnitFactory {
         this.travelCostWood = travelCostWood;
         this.travelCostMountain = travelCostMountain;
         this.travelCostSea = travelCostSea;
-        this.texture1 = texture1;
-        this.texture2 = texture2;
+        URL urlTexture1 = getClass().getResource(texture1);
+        URL urlTexture2 = getClass().getResource(texture2);
+
+        URI uriTexture1 = null;
+        URI uriTexture2 = null;
+
+        try {
+            uriTexture1 = urlTexture1 == null ? URI.create(texture1) : urlTexture1.toURI();
+            uriTexture2 = urlTexture2 == null ? URI.create(texture2) : urlTexture2.toURI();
+        } catch (Exception e) {
+            LOGGER.error("Error loading texture: {}", e.getMessage());
+            this.texture1 = null;
+            this.texture2 = null;
+            return;
+        }
+
+        this.texture1 = new Image(uriTexture1.toString());
+        this.texture2 = new Image(uriTexture2.toString());
     }
 
     private void createUnitModel(int team) {
@@ -49,9 +68,7 @@ public class UnitFactory {
     private void createUnitView() {
         LOGGER.info("Creating unit view");
         unitView = new UnitView(unitModel);
-        Image texture1Image = new Image("file:" + this.texture1);
-        Image texture2Image = new Image("file:" + this.texture2);
-        unitView.setTexture(texture1Image, texture2Image);
+        unitView.setTexture(texture1, texture2);
     }
 
     public Pair<UnitModel, UnitView> createUnit(int team) {
@@ -60,7 +77,7 @@ public class UnitFactory {
         return new Pair<>(unitModel, unitView);
     }
 
-    public Pair<String, String> getUnitTextures() {
+    public Pair<Image, Image> getUnitTextures() {
         return new Pair<>(texture1, texture2);
     }
 }

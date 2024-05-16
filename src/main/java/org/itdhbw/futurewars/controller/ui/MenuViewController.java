@@ -7,12 +7,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
+import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class MenuViewController {
@@ -22,11 +25,34 @@ public class MenuViewController {
     private Button startButton;
     @FXML
     private Button mapEditorButton;
+    @FXML
+    private VBox mapButtonContainer;
+
+    public void initialize() {
+        LOGGER.info("Initializing menu view...");
+        mapButtonContainer.setVisible(false);
+        List<String> maps = Context.getMapLoader().getMapNames();
+        for (String map : maps) {
+            Button button = new Button(map);
+            button.setOnAction(this::startGame);
+            button.setUserData(map);
+            mapButtonContainer.getChildren().add(button);
+        }
+    }
 
     @FXML
+    private void showMapSelection(ActionEvent actionEvent) {
+        LOGGER.info("Showing map selection...");
+        LOGGER.info("Button amount: {}", mapButtonContainer.getChildren().size());
+        mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
+    }
+
     private void startGame(ActionEvent actionEvent) {
+        Node source = (Node) actionEvent.getSource();
+        String map = (String) source.getUserData();
         try {
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/game-view.fxml")));
+            Context.getMapLoader().loadMap(map);
+            Parent gameView = FXMLLoader.load(Objects.requireNonNull(Objects.requireNonNull(FileHelper.getInternalPath("fxml/game-view.fxml")).toURL()));
             Scene scene = new Scene(gameView);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -40,7 +66,7 @@ public class MenuViewController {
     private void startMapEditor(ActionEvent actionEvent) {
         Stage stage = Context.getPrimaryStage();
         try {
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/map-editor-view.fxml")));
+            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/fxml/map-editor-view.fxml")));
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
@@ -55,7 +81,7 @@ public class MenuViewController {
         Stage stage = Context.getPrimaryStage();
         Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/options-view.fxml")));
+            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/fxml/options-view.fxml")));
             Scene scene = new Scene(gameView);
             LOGGER.info("Setting previous scene...");
             LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
@@ -81,4 +107,5 @@ public class MenuViewController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
+
 }

@@ -4,10 +4,18 @@ SEA_TILE
 - movementType
 SEA
 - texture
-resources/textures/Tiles/SeaTile.png
-resources/textures/Tiles/RiverBottomTile.png
-resources/textures/Tiles/RiverLeftEndTile.png
-resources/textures/Tiles/RiverRightEndTile.png
-resources/textures/Tiles/RiverTile.png
-resources/textures/Tiles/RiverVertical.png
-resources/textures/Tiles/WaterCornerBottomleftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaBottomEndTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaCornerBottomLeftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaCornerBottomRightTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaCornerTopLeftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaCornerTopRightTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaEdgeBottomTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaEdgeLeftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaEdgeRightTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaEdgeTopTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaHorizontalTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaLeftEndTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaRightEndTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaTopEndTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaVerticalTile.png

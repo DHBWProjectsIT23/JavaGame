@@ -459,6 +459,8 @@ public class MapEditorController {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
             LOGGER.info("Loading map from file...");
+
+            String validation = reader.readLine().split(",")[0];
             reader.readLine();
 
             // Read the width and height
@@ -471,7 +473,6 @@ public class MapEditorController {
             clearGrid();
             initializeGrid(localWidth, localHeight);
 
-            String validation = reader.readLine().split(",")[0];
             if (Objects.equals(validation, "FUTURE_WARS_MAP_FORMAT_NEW")) {
                 loadOldMap(reader);
             } else if (Objects.equals(validation, "FUTURE_WARS_MAP_FORMAT_V3")) {

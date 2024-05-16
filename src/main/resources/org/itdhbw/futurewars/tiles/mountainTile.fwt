@@ -4,4 +4,4 @@ MOUNTAIN_TILE
 - movementType
 MOUNTAIN
 - texture
-resources/textures/Tiles/MountainTile.png
+$INTERNAL_DIR/textures/tiles/MountainTile.png

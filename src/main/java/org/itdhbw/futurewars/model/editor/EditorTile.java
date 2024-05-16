@@ -72,9 +72,9 @@ public class EditorTile extends StackPane {
                     this.getChildren().add(tileOccupiedOverlay);
                     return;
                 }
-                Pair<String, String> unit_textures = factory.getUnitTextures();
-                String texture = this.unitTeam.get() == 1 ? unit_textures.getKey() : unit_textures.getValue();
-                unitTextureOverlay.setImage(new Image("file:" + texture));
+                Pair<Image, Image> unit_textures = factory.getUnitTextures();
+                Image texture = this.unitTeam.get() == 1 ? unit_textures.getKey() : unit_textures.getValue();
+                unitTextureOverlay.setImage(texture);
                 this.getChildren().add(unitTextureOverlay);
             }
         });

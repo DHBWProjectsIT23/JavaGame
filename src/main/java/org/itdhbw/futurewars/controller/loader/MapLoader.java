@@ -7,16 +7,23 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
+import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapLoader {
     private static final Logger LOGGER = LogManager.getLogger(MapLoader.class);
     private static final String V1_MAP_VALIDATION = "FUTURE_WARS_MAP_FORMAT";
     private static final String V2_MAP_VALIDATION = "FUTURE_WARS_MAP_FORMAT_NEW";
     private static final String V3_MAP_VALIDATION = "FUTURE_WARS_MAP_FORMAT_V3";
+    private final Map<String, File> mapFiles;
     private final TileRepository tileRepository;
     private final TileCreationController tileCreationController;
     private final UnitCreationController unitCreationController;
@@ -27,11 +34,33 @@ public class MapLoader {
         this.tileCreationController = Context.getTileCreationController();
         this.unitCreationController = Context.getUnitCreationController();
         this.gameState = Context.getGameState();
+        this.mapFiles = new HashMap<>();
+    }
+
+    public int numberOfMapFiles() {
+        return mapFiles.size();
+    }
+
+    public List<String> getMapNames() {
+        return new ArrayList<>(mapFiles.keySet());
+    }
+
+    public void retrieveSystemMaps() {
+        LOGGER.info("Retrieving system maps");
+        mapFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalMapPath));
+        LOGGER.info("Retrieved system maps - total of {} maps", mapFiles.size());
+    }
+
+    public void retrieveUserMaps() {
+        LOGGER.info("Retrieving user maps");
+        mapFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserMapPath));
+        LOGGER.info("Retrieved user maps - total of {} maps", mapFiles.size());
     }
 
     public void loadMap(String filename) throws IOException {
         LOGGER.info("Loading map from file: {}", filename);
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        File mapFile = mapFiles.get(filename);
+        try (BufferedReader reader = new BufferedReader(new FileReader(mapFile))) {
             String[] validation = reader.readLine().split(",");
             LOGGER.info("Validation: {}", validation[0]);
             switch (validation[0]) {
