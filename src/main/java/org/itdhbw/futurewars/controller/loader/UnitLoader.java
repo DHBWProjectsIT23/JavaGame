@@ -33,10 +33,11 @@ public class UnitLoader {
     private String texture2;
 
     public UnitLoader() {
-        LOGGER.info("UnitLoader created");
         unitFactories = new HashMap<>();
         unitRepository = Context.getUnitRepository();
+    }
 
+    public void loadUnitsFromFiles() {
         Path dir = Paths.get("resources/testUnit");
         List<String> files = new ArrayList<>();
 

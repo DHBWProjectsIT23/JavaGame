@@ -17,12 +17,12 @@ public class UnitCreationController {
 
     public UnitCreationController() {
         this.tileRepository = Context.getTileRepository();
-        this.unitBuilderCustom = new UnitBuilder();
+        this.unitBuilderCustom = Context.getUnitBuilder();
     }
 
-    public void createUnit(String unitType, int x, int y) {
+    public void createUnit(String unitType, int x, int y, int team) {
         LOGGER.info("Spawning custom unit at position ({}, {})", x, y);
-        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(unitType);
+        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(unitType, team);
         LOGGER.info("Trying to spawn custom unit at position ({}, {})", x, y);
         unitPair.getKey().spawn(tileRepository.getTileModel(new Position(x, y)));
     }

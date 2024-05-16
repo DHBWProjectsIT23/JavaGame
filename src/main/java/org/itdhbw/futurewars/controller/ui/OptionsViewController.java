@@ -64,19 +64,21 @@ public class OptionsViewController {
     private void handleViewModeChange(String viewMode) {
         switch (viewMode) {
             case "Fullscreen":
-                optionsController.setFullscreen(stage);
+                optionsController.setFullscreen();
                 break;
             case "Borderless":
                 //setBorderless();
                 break;
             case "Windowed":
-                optionsController.setWindowed(stage);
+                optionsController.setWindowed();
                 break;
+            default:
+                LOGGER.error("Unknown view mode: {}", viewMode);
         }
     }
 
     private void handleResolutionChange(String resolution) {
-        optionsController.setResolution(stage, resolution);
+        optionsController.setResolution(resolution);
         if (stage.isFullScreen()) {
             stage.setFullScreen(false);
             stage.setFullScreen(true);
@@ -88,7 +90,7 @@ public class OptionsViewController {
     private void goBack(ActionEvent actionEvent) {
         optionsController.saveSettings();
         stage.setScene(Context.getGameState().getPreviousScene());
-        Context.getOptionsController().loadSettings(stage);
+        Context.getOptionsController().loadSettings();
     }
 
     private void setBorderless() {

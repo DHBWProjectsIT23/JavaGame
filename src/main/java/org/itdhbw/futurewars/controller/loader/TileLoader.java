@@ -20,14 +20,16 @@ public class TileLoader {
     private static final String TILE_VALIDATION = "FUTURE_WARS_TILE_FORMAT";
     private final TileRepository tileRepository;
     private final HashMap<String, TileFactory> tileFactories;
+    private List<String> texturePaths;
     private MovementType movementType;
-    private String texture;
     private String tileType;
 
     public TileLoader() {
         this.tileRepository = Context.getTileRepository();
         tileFactories = new HashMap<>();
+    }
 
+    public void loadTilesFromFiles() {
         Path dir = Paths.get("resources/testTile");
         List<String> files = new ArrayList<>();
 
@@ -59,6 +61,7 @@ public class TileLoader {
     }
 
     private void loadTile(BufferedReader reader) throws IOException {
+        texturePaths = new ArrayList<>();
         LOGGER.info("Loading tile from file...");
         // now on second line - skipping
         reader.readLine();
@@ -78,12 +81,15 @@ public class TileLoader {
         // skip line
         reader.readLine();
 
-        texture = reader.readLine();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            texturePaths.addLast(line);
+        }
     }
 
     private void createTileFactory() {
         LOGGER.info("Creating unit factory");
-        TileFactory tileFactoryCustom = new TileFactory(tileType, texture, movementType);
+        TileFactory tileFactoryCustom = new TileFactory(tileType, texturePaths, movementType);
         tileFactories.put(tileType, tileFactoryCustom);
     }
 

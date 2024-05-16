@@ -14,12 +14,16 @@ import org.itdhbw.futurewars.controller.unit.UnitAttackController;
 import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.controller.unit.UnitMovementController;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
+import org.itdhbw.futurewars.controller.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.util.AStarPathfinder;
 
 public class Context {
     private static TileRepository tileRepository;
     private static UnitRepository unitRepository;
+    private static TileLoader tileLoader;
     private static TileBuilder tileBuilder;
+    private static UnitLoader unitLoader;
+    private static UnitBuilder unitBuilder;
     private static TileEventController tileEventController;
     private static TileCreationController tileCreationController;
     private static UnitMovementController unitMovementController;
@@ -28,8 +32,6 @@ public class Context {
     private static UnitCreationController unitCreationController;
     private static MapLoader mapLoader;
     private static MapViewController gameController = null;
-    private static UnitLoader unitLoader;
-    private static TileLoader tileLoader;
     private static UnitAttackController unitAttackController;
     private static OptionsController optionsController;
     private static Stage primaryStage;
@@ -40,6 +42,10 @@ public class Context {
 
     public static TileLoader getTileLoader() {
         return tileLoader;
+    }
+
+    public static UnitBuilder getUnitBuilder() {
+        return unitBuilder;
     }
 
     public static OptionsController getOptionsController() {
@@ -66,6 +72,7 @@ public class Context {
         tileRepository = new TileRepository();
         unitRepository = new UnitRepository();
         unitLoader = new UnitLoader();
+        unitBuilder = new UnitBuilder();
         tileLoader = new TileLoader();
         gameState = new GameState();
         unitAttackController = new UnitAttackController();

@@ -34,9 +34,9 @@ public class UnitFactory {
         this.texture2 = texture2;
     }
 
-    private void createUnitModel() {
+    private void createUnitModel(int team) {
         LOGGER.info("Creating unit model");
-        unitModel = new UnitModel(unitType, 1);
+        unitModel = new UnitModel(unitType, team);
         unitModel.setAttackRange(attackRange);
         unitModel.setMovementRange(movementRange);
         unitModel.setPlainTravelCost(travelCostPlain);
@@ -54,9 +54,13 @@ public class UnitFactory {
         unitView.setTexture(texture1Image, texture2Image);
     }
 
-    public Pair<UnitModel, UnitView> getUnit() {
-        createUnitModel();
+    public Pair<UnitModel, UnitView> createUnit(int team) {
+        createUnitModel(team);
         createUnitView();
         return new Pair<>(unitModel, unitView);
+    }
+
+    public Pair<String, String> getUnitTextures() {
+        return new Pair<>(texture1, texture2);
     }
 }

@@ -23,31 +23,35 @@ public class Main extends Application {
 
         LOGGER.info("Initializing application...");
         Context.initialize();
+
+        LOGGER.info("Initializing settings...");
         Context.getOptionsController().initializeSettings(stage);
+
+        LOGGER.info("Loading tiles...");
+        Context.getTileLoader().loadTilesFromFiles();
+
+        LOGGER.info("Loading units...");
+        Context.getUnitLoader().loadUnitsFromFiles();
+
+        // This shouldn't be done here
         Context.getGameState().setMapWidth((int) (stage.getWidth() / 100 * 90));
         Context.getGameState().setMapHeight((int) stage.getHeight() / 100 * 90);
         Context.setPrimaryStage(stage);
+        //
+
+        // I also dont like this beeing done here
         stage.widthProperty().addListener((observable, oldValue, newValue) -> {
             Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90);
         });
         stage.heightProperty().addListener((observable, oldValue, newValue) -> {
             Context.getGameState().setMapHeight(newValue.intValue() / 100 * 90);
         });
+        //
 
         LOGGER.info("Loading FXML file...");
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        //Rectangle2D visualBounds = Screen.getPrimary().getBounds();
-        //double width = visualBounds.getWidth();
-        //double height = visualBounds.getHeight();
-        //LOGGER.info("Setting stage size to {}x{}...", width, height);
-        //stage.setWidth(width);
-        //stage.setHeight(height);
-        //stage.setMaximized(true);
-
-
-        //stage.setResizable(false);
         stage.setTitle("Future Wars");
         stage.setScene(scene);
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);

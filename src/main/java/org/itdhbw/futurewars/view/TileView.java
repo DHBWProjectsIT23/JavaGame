@@ -16,7 +16,7 @@ import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 
 public class TileView extends StackPane {
-    private static final Image TEXTURE = new Image("file:resources/textures/Tiles/SeaTile.png");
+    private static final Image TEXTURE = new Image("file:resources/textures/UnpassableTile.png");
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
     private static final Image HOVER_IMAGE = new Image("file:resources/textures/64Hovered.png");
     protected static final ImageView HOVER_OVERLAY = new ImageView(HOVER_IMAGE);

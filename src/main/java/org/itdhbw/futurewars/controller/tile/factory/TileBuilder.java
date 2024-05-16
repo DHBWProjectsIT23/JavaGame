@@ -23,12 +23,12 @@ public class TileBuilder {
         this.tileEventController = Context.getTileEventController();
     }
 
-    public Pair<TileModel, TileView> createTile(String tileType, int x, int y) {
+    public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
         TileFactory factory = tileFactories.get(tileType);
         if (factory == null) {
             throw new IllegalArgumentException("No factory found for unit type " + tileType);
         }
-        Pair<TileModel, TileView> tilePairCustom = factory.getUnit(x, y);
+        Pair<TileModel, TileView> tilePairCustom = factory.createTile(x, y, textureVariant);
         setEventHandlers(tilePairCustom.getValue());
         TileModel tileModel = tilePairCustom.getKey();
         TileView tileView = tilePairCustom.getValue();
@@ -37,10 +37,18 @@ public class TileBuilder {
         return tilePair;
     }
 
+    public Pair<TileModel, TileView> createTile(String tileType, int x, int y) {
+        return createTile(tileType, x, y, 0);
+    }
+
     private void setEventHandlers(TileView tileView) {
         LOGGER.info("Setting event handlers for tile view {}", tileView);
         tileView.setOnMouseClicked(tileEventController::handleMouseClick);
         tileView.setOnMouseEntered(tileEventController::handleMouseEnter);
+    }
+
+    public Map<String, TileFactory> getTileFactories() {
+        return tileFactories;
     }
 }
 

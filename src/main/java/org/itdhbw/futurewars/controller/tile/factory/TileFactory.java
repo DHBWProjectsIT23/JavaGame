@@ -8,19 +8,32 @@ import org.itdhbw.futurewars.model.tile.MovementType;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.view.TileView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileFactory {
     private static final Logger LOGGER = LogManager.getLogger(TileFactory.class);
     private final String tileType;
-    private final String texture;
+    private final List<Image> textures = new ArrayList<>();
     private final MovementType movementType;
+    private final List<String> texturePaths;
     private TileModel tileModel;
     private TileView tileView;
 
-    public TileFactory(String tileType, String texture, MovementType movementType) {
+    public TileFactory(String tileType, List<String> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: {}", tileType);
         this.tileType = tileType;
-        this.texture = texture;
         this.movementType = movementType;
+        this.texturePaths = texturePaths;
+        loadTextures();
+    }
+
+    private void loadTextures() {
+        LOGGER.info("Loading textures for tile type: {}", tileType);
+        for (String path : texturePaths) {
+            Image texture = new Image("file:" + path);
+            textures.add(texture);
+        }
     }
 
     private void createTileModel(int x, int y) {
@@ -29,16 +42,25 @@ public class TileFactory {
         tileModel.setMovementType(movementType);
     }
 
-    private void createTileView() {
+    private void createTileView(int textureVariant) {
         LOGGER.info("Creating unit view");
         tileView = new TileView(tileModel);
-        Image texture1Image = new Image("file:" + this.texture);
+        Image texture1Image = textures.get(textureVariant);
         tileView.setTexture(texture1Image);
     }
 
-    public Pair<TileModel, TileView> getUnit(int x, int y) {
+    public Pair<TileModel, TileView> createTile(int x, int y) {
+        return createTile(x, y, 0);
+    }
+
+    public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
         createTileModel(x, y);
-        createTileView();
+        LOGGER.error("Creating tile view with texture variant: {}", textureVariant);
+        createTileView(textureVariant);
         return new Pair<>(tileModel, tileView);
+    }
+
+    public List<Image> getTextures() {
+        return textures;
     }
 }

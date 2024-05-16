@@ -15,6 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.ActiveMode;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
@@ -25,6 +27,8 @@ import java.io.IOException;
 
 
 public class GameViewController {
+
+    private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
     @FXML
     private Label selectedTileDebug;
@@ -80,7 +84,7 @@ public class GameViewController {
                 }
             });
         });
-        Context.getMapController().loadMap("testMapUnits.fwm");
+        Context.getMapController().loadMap("newPistonDam.fwm");
     }
 
     private void setPropertyInformation() {
@@ -162,10 +166,10 @@ public class GameViewController {
             Scene scene = new Scene(menuView);
             Context.getGameState().setPreviousScene(stage.getScene());
             stage.setScene(scene);
-            Context.getOptionsController().loadSettings(stage);
+            Context.getOptionsController().loadSettings();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while opening settings", e);
         }
         escapeMenu.setVisible(false);
     }
@@ -177,7 +181,7 @@ public class GameViewController {
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             stage.setScene(scene);
-            Context.getOptionsController().loadSettings(stage);
+            Context.getOptionsController().loadSettings();
         } catch (IOException e) {
             e.printStackTrace();
         }

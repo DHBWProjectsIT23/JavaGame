@@ -23,9 +23,6 @@ public class MenuViewController {
     @FXML
     private Button mapEditorButton;
 
-    public MenuViewController() {
-    }
-
     @FXML
     private void startGame(ActionEvent actionEvent) {
         try {
@@ -33,9 +30,9 @@ public class MenuViewController {
             Scene scene = new Scene(gameView);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            Context.getOptionsController().loadSettings(stage);
+            Context.getOptionsController().loadSettings();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error while starting game", e);
         }
     }
 
@@ -46,9 +43,9 @@ public class MenuViewController {
             Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/map-editor-view.fxml")));
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
-            Context.getOptionsController().loadSettings(stage);
+            Context.getOptionsController().loadSettings();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("Error while opening map editor", e);
         }
     }
 
@@ -63,18 +60,20 @@ public class MenuViewController {
             LOGGER.info("Setting previous scene...");
             LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
             stage.setScene(scene);
-            Context.getOptionsController().loadSettings(stage);
+            Context.getOptionsController().loadSettings();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.error("Error while opening settings", e);
         }
     }
 
     @FXML
     private void startUnitEditor(ActionEvent actionEvent) {
+        // TODO document why this method is empty
     }
 
     @FXML
     private void startTileEditor(ActionEvent actionEvent) {
+        // TODO document why this method is empty
     }
 
     @FXML

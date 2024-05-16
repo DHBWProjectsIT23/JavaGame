@@ -26,11 +26,15 @@ public class UnitBuilder {
     }
 
     public Pair<UnitModel, UnitView> createUnit(String unitType) {
+        return createUnit(unitType, 1);
+    }
+
+    public Pair<UnitModel, UnitView> createUnit(String unitType, int team) {
         UnitFactory factory = unitFactories.get(unitType);
         if (factory == null) {
             throw new IllegalArgumentException("No factory found for unit type " + unitType);
         }
-        Pair<UnitModel, UnitView> unitPairCustom = factory.getUnit();
+        Pair<UnitModel, UnitView> unitPairCustom = factory.createUnit(team);
         addListeners(unitPairCustom.getKey(), unitPairCustom.getValue());
         UnitModel unitModel = unitPairCustom.getKey();
         UnitView unitView = unitPairCustom.getValue();
@@ -51,6 +55,10 @@ public class UnitBuilder {
                 tileRepository.getTileView(newTile.getPosition()).addToStack(unitView);
             }
         });
+    }
+
+    public Map<String, UnitFactory> getUnitFactories() {
+        return unitFactories;
     }
 }
 

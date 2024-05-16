@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,6 +16,13 @@ import java.util.Properties;
 
 public class OptionsController {
     private static final Logger LOGGER = LogManager.getLogger(OptionsController.class);
+    private static final String SETTINGS_FILE = "settings.properties";
+    private static final String RESOLUTION = "resolution";
+    private static final String VIEW_MODE = "viewMode";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
+    private static final String FULLSCREEN = "Fullscreen";
+    private static final String WINDOWED = "Windowed";
     private Properties settings;
     private Stage stage;
     private List<String> resolutions;
@@ -24,19 +32,26 @@ public class OptionsController {
     }
 
     public void saveSettings() {
-        try (FileOutputStream output = new FileOutputStream("settings.properties")) {
+        try (FileOutputStream output = new FileOutputStream(SETTINGS_FILE)) {
             settings.store(output, "Settings for Future Wars");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to save settings", e);
         }
     }
 
     public String getResolution() {
-        return settings.getProperty("resolution");
+        return settings.getProperty(RESOLUTION);
+    }
+
+    public void setResolution(String resolution) {
+        String[] parts = resolution.split("x");
+        int width = Integer.parseInt(parts[0]);
+        int height = Integer.parseInt(parts[1]);
+        setResolution(width, height);
     }
 
     public String getViewMode() {
-        return settings.getProperty("viewMode");
+        return settings.getProperty(VIEW_MODE);
     }
 
     private void calculateResolutions() {
@@ -64,11 +79,11 @@ public class OptionsController {
     }
 
     public int getCurrentWidth() {
-        return Integer.parseInt(settings.getProperty("width"));
+        return Integer.parseInt(settings.getProperty(WIDTH));
     }
 
     public int getCurrentHeight() {
-        return Integer.parseInt(settings.getProperty("height"));
+        return Integer.parseInt(settings.getProperty(WIDTH));
     }
 
     private double calculateAspectRatio() {
@@ -79,108 +94,101 @@ public class OptionsController {
     }
 
     public boolean isFullscreen() {
-        return settings.getProperty("viewMode").equals("Fullscreen");
+        return settings.getProperty(VIEW_MODE).equals(FULLSCREEN);
     }
 
-    public void setFullscreen(Stage stage) {
+    public void setFullscreen() {
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
-        settings.setProperty("viewMode", "Fullscreen");
+        settings.setProperty(VIEW_MODE, FULLSCREEN);
     }
 
     private void loadSettingsFromFile() {
-        try {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(SETTINGS_FILE))) {
             settings = new Properties();
-            settings.load(Files.newBufferedReader(Path.of("settings.properties")));
+            settings.load(reader);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to load settings from file", e);
         }
     }
 
-    public void loadSettings(Stage stage) {
-        loadResolution(stage);
-        loadViewMode(stage);
+    public void loadSettings() {
+        loadResolution();
+        loadViewMode();
     }
 
     public void initializeSettings(Stage stage) {
         this.stage = stage;
-        if (!Files.exists(Path.of("settings.properties"))) {
+        if (!Files.exists(Path.of(SETTINGS_FILE))) {
             LOGGER.info("Creating new settings file");
             createNewDefaults();
         }
         loadSettingsFromFile();
-        loadSettings(stage);
+        loadSettings();
         calculateResolutions();
 
-        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-            settings.setProperty("maximized", String.valueOf(newValue));
-        });
+        stage.maximizedProperty().addListener((observable, oldValue, newValue) -> settings.setProperty("maximized", String.valueOf(newValue)));
     }
 
-    private void loadViewMode(Stage stage) {
-        String viewMode = settings.getProperty("viewMode");
+    private void loadViewMode() {
+        String viewMode = settings.getProperty(VIEW_MODE);
         switch (viewMode) {
-            case "Fullscreen":
-                setFullscreen(stage);
+            case FULLSCREEN:
+                setFullscreen();
                 break;
-            case "Windowed":
-                setWindowed(stage);
+            case WINDOWED:
+                setWindowed();
                 break;
+            default:
+                LOGGER.error("Invalid view mode: {}", viewMode);
         }
     }
 
-    private void loadResolution(Stage stage) {
-        String resolution = settings.getProperty("resolution");
+    private void loadResolution() {
+        String resolution = settings.getProperty(RESOLUTION);
         String[] parts = resolution.split("x");
         int width = Integer.parseInt(parts[0]);
         int height = Integer.parseInt(parts[1]);
-        setResolution(stage, width, height);
+        setResolution(width, height);
     }
 
-    public void setWindowed(Stage stage) {
+    public void setWindowed() {
         stage.setFullScreen(false);
-        int width = Integer.parseInt(settings.getProperty("width"));
-        int height = Integer.parseInt(settings.getProperty("height"));
-        setResolution(stage, width, height);
-        settings.setProperty("viewMode", "Windowed");
+        int width = Integer.parseInt(settings.getProperty(WIDTH));
+        int height = Integer.parseInt(settings.getProperty(HEIGHT));
+        setResolution(width, height);
+        settings.setProperty(VIEW_MODE, WINDOWED);
     }
 
-    public void setResolution(Stage stage, String resolution) {
-        String[] parts = resolution.split("x");
-        int width = Integer.parseInt(parts[0]);
-        int height = Integer.parseInt(parts[1]);
-        setResolution(stage, width, height);
-    }
-
-    public void setResolution(Stage stage, int width, int height) {
+    public void setResolution(int width, int height) {
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-        LOGGER.info("Bounds: {}", bounds);
+        //LOGGER.info("Bounds: {}", bounds);
         int maxWidth = (int) bounds.getWidth();
         int maxHeight = (int) bounds.getHeight();
 
         if (width >= (maxWidth - 100) || height >= (maxHeight - 100)) {
-            LOGGER.info("Setting windowed mode to maximized");
+            //LOGGER.info("Setting windowed mode to maximized");
             stage.setMaximized(true);
             width = maxWidth;
             height = maxHeight;
         }
 
-        LOGGER.info("Max width: {}, max height: {}", maxWidth, maxHeight);
-        LOGGER.info("Setting resolution to {}x{}", width, height);
+        //LOGGER.info("Max width: {}, max height: {}", maxWidth, maxHeight);
+        //LOGGER.info("Setting resolution to {}x{}", width, height);
         stage.setWidth(width);
         stage.setHeight(height);
-        LOGGER.info("Centering stage on screen");
+        //LOGGER.info("Centering stage on screen");
         stage.centerOnScreen();
-        settings.setProperty("resolution", width + "x" + height);
-        settings.setProperty("width", String.valueOf(width));
-        settings.setProperty("height", String.valueOf(height));
+        settings.setProperty(RESOLUTION, width + "x" + height);
+        settings.setProperty(WIDTH, String.valueOf(width));
+        settings.setProperty(HEIGHT, String.valueOf(height));
     }
 
     private void createNewDefaults() {
         settings = new Properties();
-        settings.setProperty("viewMode", "Fullscreen");
+        settings.setProperty(VIEW_MODE, FULLSCREEN);
         Rectangle2D bounds = Screen.getPrimary().getBounds();
-        settings.setProperty("resolution", (int) bounds.getWidth() + "x" + (int) bounds.getHeight());
+        settings.setProperty(RESOLUTION, (int) bounds.getWidth() + "x" + (int) bounds.getHeight());
         this.saveSettings();
     }
 }

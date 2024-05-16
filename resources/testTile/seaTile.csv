@@ -5,3 +5,9 @@ SEA_TILE
 SEA
 - texture
 resources/textures/Tiles/SeaTile.png
+resources/textures/Tiles/RiverBottomTile.png
+resources/textures/Tiles/RiverLeftEndTile.png
+resources/textures/Tiles/RiverRightEndTile.png
+resources/textures/Tiles/RiverTile.png
+resources/textures/Tiles/RiverVertical.png
+resources/textures/Tiles/WaterCornerBottomleftTile.png

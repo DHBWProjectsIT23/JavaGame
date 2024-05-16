@@ -17,8 +17,12 @@ public class TileCreationController {
         this.tileBuilder = Context.getTileBuilder();
     }
 
+    public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
+        LOGGER.info("Creating custom tile of type {} at position ({}, {})", tileType, x, y, textureVariant);
+        return tileBuilder.createTile(tileType, x, y, textureVariant);
+    }
+
     public Pair<TileModel, TileView> createTile(String tileType, int x, int y) {
-        LOGGER.info("Creating custom tile of type {} at position ({}, {})", tileType, x, y);
-        return tileBuilder.createTile(tileType, x, y);
+        return createTile(tileType, x, y, 0);
     }
 }
