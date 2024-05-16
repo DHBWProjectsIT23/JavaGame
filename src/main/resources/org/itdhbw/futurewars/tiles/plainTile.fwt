@@ -1,0 +1,7 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+PLAIN_TILE
+- movementType
+PLAIN
+- texture
+resources/textures/Tiles/PlainTile.png

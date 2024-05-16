@@ -1,0 +1,7 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+MOUNTAIN_TILE
+- movementType
+MOUNTAIN
+- texture
+resources/textures/Tiles/MountainTile.png
