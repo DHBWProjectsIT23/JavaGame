@@ -17,7 +17,6 @@ public class TileModel {
     private final BooleanProperty partOfPath = new SimpleBooleanProperty(false);
     private final BooleanProperty partOfPossiblePath = new SimpleBooleanProperty(false);
     protected MovementType movementType;
-    protected String nameType;
     private boolean isOccupied = false;
 
     public TileModel(String tileType, final int x, final int y) {
@@ -82,13 +81,5 @@ public class TileModel {
 
     public BooleanProperty partOfPossiblePathProperty() {
         return partOfPossiblePath;
-    }
-
-    public boolean getPartOfPossiblePath() {
-        return partOfPossiblePath.get();
-    }
-
-    public void setPartOfPossiblePath(boolean partOfPossiblePath) {
-        this.partOfPossiblePath.set(partOfPossiblePath);
     }
 }

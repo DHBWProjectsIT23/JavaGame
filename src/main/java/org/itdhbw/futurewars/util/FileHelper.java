@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.util;
 import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,24 +56,24 @@ public class FileHelper {
         return texture;
     }
 
-    public static URI getFxmlFile(String path) throws FileNotFoundExceptions {
+    public static URI getFxmlFile(String path) throws CanNotLoadException {
         File file = new File(INTERNAL_DIR + "fxml/" + path);
         return checkIfFileExists(file);
     }
 
 
-    public static URI getFile(String path) throws FileNotFoundExceptions {
+    public static URI getFile(String path) throws CanNotLoadException {
         path = FileHelper.decodePath(path);
         File file = new File(path);
         return checkIfFileExists(file);
     }
 
 
-    private static URI checkIfFileExists(File file) throws FileNotFoundExceptions {
+    private static URI checkIfFileExists(File file) throws CanNotLoadException {
         if (file.exists()) {
             return file.toURI();
         } else {
-            throw new FileNotFoundExceptions("File not found: " + file);
+            throw new CanNotLoadException("File not found: " + file);
         }
     }
 
@@ -109,7 +110,7 @@ public class FileHelper {
         return path;
     }
 
-    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws FileNotFoundExceptions {
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws CanNotLoadException {
         LOGGER.info("Loading files for {}...", pathSupplier.get());
         Map<String, File> files = new HashMap<>();
         URI mapPath = checkIfFileExists(pathSupplier.get());

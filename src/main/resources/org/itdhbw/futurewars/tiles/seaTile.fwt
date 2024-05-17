@@ -4,6 +4,7 @@ SEA_TILE
 - movementType
 SEA
 - texture
+$INTERNAL_DIR/textures/tiles/sea/SeaTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaBottomEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaCornerBottomLeftTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaCornerBottomRightTile.png
@@ -16,6 +17,5 @@ $INTERNAL_DIR/textures/tiles/sea/SeaEdgeTopTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaHorizontalTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaLeftEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaRightEndTile.png
-$INTERNAL_DIR/textures/tiles/sea/SeaTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaTopEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaVerticalTile.png

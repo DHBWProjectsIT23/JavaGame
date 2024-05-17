@@ -22,4 +22,5 @@ module org.itdhw.futurewars {
     exports org.itdhbw.futurewars.controller.ui.editor;
     opens org.itdhbw.futurewars.controller.ui.editor to javafx.fxml;
     exports org.itdhbw.futurewars.view;
+    exports org.itdhbw.futurewars.util.exceptions;
 }

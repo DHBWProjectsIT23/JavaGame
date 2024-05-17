@@ -117,16 +117,5 @@ public class UnitModel {
     public void setWoodsTravelCost(int cost) {
         this.travelCosts.put(MovementType.WOODS, cost);
     }
-
-    public void setNameType(String nameType) {
-        this.unitType = nameType;
-    }
-
-    public void debugLog() {
-        LOGGER.info("Unit model {} for team {} with id: {}", modelId, team, modelId);
-        LOGGER.info("Movement range: {}", movementRange);
-        LOGGER.info("Attack range: {}", attackRange);
-        LOGGER.info("Travel costs: {}", travelCosts);
-    }
 }
 

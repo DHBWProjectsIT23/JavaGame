@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.controller.ui;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -126,17 +127,13 @@ public class MapViewController {
     private void enterMoveMode(ActionEvent actionEvent) {
         unitMovementController.moveUnit(gameState.selectedUnitProperty().get(), gameState.selectedTileProperty().get());
         this.gameState.setActiveMode(ActiveMode.REGULAR);
-        //this.gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+        LOGGER.info("Unitview {}", Context.getUnitRepository().getUnitView(gameState.selectedUnitProperty().get()));
+        Platform.exit();
     }
 
     @FXML
     private void closeOverlay(ActionEvent actionEvent) {
         this.gameState.setActiveMode(ActiveMode.REGULAR);
-        //LOGGER.info("Spawning custom unit");
-        //for (String unitType : Context.getUnitRepository().getUnitTypes()) {
-        //    LOGGER.info("Unit type: {}", unitType);
-        //}
-        //Context.getUnitCreationController().createCustomUnit("CUSTOM_UNIT_1", 0, 0);
     }
 
     @FXML

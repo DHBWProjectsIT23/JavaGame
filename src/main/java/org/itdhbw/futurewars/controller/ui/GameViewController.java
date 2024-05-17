@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,7 +22,7 @@ import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.FileNotFoundExceptions;
+import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
 
 import java.io.IOException;
 
@@ -38,12 +37,6 @@ public class GameViewController {
     private Label movingDebug;
     @FXML
     private Label hoveredTileDebug;
-    @FXML
-    private Button newMap1Button;
-    @FXML
-    private Button newMap2Button;
-    @FXML
-    private Button newMap3Button;
     @FXML
     private Label selectedUnitTeam;
     @FXML
@@ -130,15 +123,15 @@ public class GameViewController {
 
     @FXML
     private void openSettings(ActionEvent actionEvent) {
+        Stage stage = Context.getPrimaryStage();
+        Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent menuView = FXMLLoader.load(FileHelper.getFxmlFile("options-view.fxml").toURL());
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(menuView);
+            Parent optionsView = FXMLLoader.load(FileHelper.getFxmlFile("options-view.fxml").toURL());
+            Scene scene = new Scene(optionsView);
             Context.getGameState().setPreviousScene(stage.getScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | CanNotLoadException e) {
             LOGGER.error("Error while opening settings", e);
         }
         escapeMenu.setVisible(false);
@@ -146,13 +139,13 @@ public class GameViewController {
 
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
+        Stage stage = Context.getPrimaryStage();
         try {
             Parent menuView = FXMLLoader.load(FileHelper.getFxmlFile("menu-view.fxml").toURL());
-            Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | CanNotLoadException e) {
             LOGGER.error("Error while quitting to menu", e);
         }
     }

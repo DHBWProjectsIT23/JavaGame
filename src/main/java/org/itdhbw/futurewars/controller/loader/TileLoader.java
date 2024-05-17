@@ -8,7 +8,7 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.MovementType;
 import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.FileNotFoundExceptions;
+import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,13 +37,13 @@ public class TileLoader {
         return tileFiles.size();
     }
 
-    public void retrieveSystemTiles() throws FileNotFoundExceptions {
+    public void retrieveSystemTiles() throws CanNotLoadException {
         LOGGER.info("Retrieving system tiles");
         tileFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalTilePath));
         LOGGER.info("Retrieved system tiles - total of {} tiles", tileFiles.size());
     }
 
-    public void retrieveUserTiles() throws FileNotFoundExceptions {
+    public void retrieveUserTiles() throws CanNotLoadException {
         LOGGER.info("Retrieving user tiles");
         tileFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserTilePath));
         LOGGER.info("Retrieved user tiles - total of {} tiles", tileFiles.size());
@@ -95,7 +95,7 @@ public class TileLoader {
             URI uri;
             try {
                 uri = FileHelper.getFile(line);
-            } catch (FileNotFoundExceptions e) {
+            } catch (CanNotLoadException e) {
                 LOGGER.error("Error loading texture: {}", line);
                 ErrorPopup.showRecoverableErrorPopup("Error loading texture", line);
                 continue;

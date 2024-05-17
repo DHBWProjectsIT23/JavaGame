@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.FileNotFoundExceptions;
+import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,7 +57,7 @@ public class MenuViewController {
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | CanNotLoadException e) {
             LOGGER.error("Error while starting game", e);
         }
     }
@@ -70,7 +70,7 @@ public class MenuViewController {
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | CanNotLoadException e) {
             LOGGER.error("Error while opening map editor", e);
         }
     }
@@ -87,7 +87,7 @@ public class MenuViewController {
             LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | CanNotLoadException e) {
             LOGGER.error("Error while opening settings", e);
         }
     }

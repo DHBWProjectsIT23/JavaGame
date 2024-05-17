@@ -10,7 +10,7 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.FileNotFoundExceptions;
+import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,7 +35,7 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
-    public static void loadUnits() throws FileNotFoundExceptions {
+    public static void loadUnits() throws CanNotLoadException {
         LOGGER.info("Retrieving unit files...");
         Context.getUnitLoader().retrieveSystemUnits();
         Context.getUnitLoader().retrieveUserUnits();
@@ -43,7 +43,7 @@ public class StartupController {
         Context.getUnitLoader().loadUnitsFromFiles();
     }
 
-    public static void loadTiles() throws FileNotFoundExceptions {
+    public static void loadTiles() throws CanNotLoadException {
         LOGGER.info("Retrieving tile files...");
         Context.getTileLoader().retrieveSystemTiles();
         Context.getTileLoader().retrieveUserTiles();
@@ -51,7 +51,7 @@ public class StartupController {
         Context.getTileLoader().loadTilesFromFiles();
     }
 
-    public static void retrieveMaps() throws FileNotFoundExceptions {
+    public static void retrieveMaps() throws TextureNotLoaded {
         LOGGER.info("Retrieving map files...");
         Context.getMapLoader().retrieveSystemMaps();
         Context.getMapLoader().retrieveUserMaps();
@@ -79,7 +79,7 @@ public class StartupController {
             FXMLLoader fxmlLoader = new FXMLLoader(FileHelper.getFxmlFile("menu-view.fxml").toURL());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
-        } catch (IOException | FileNotFoundExceptions e) {
+        } catch (IOException | TextureNotLoaded e) {
             ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene", e);
         }
     }

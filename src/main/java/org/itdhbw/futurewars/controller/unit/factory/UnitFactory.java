@@ -46,7 +46,6 @@ public class UnitFactory {
         unitModel.setWoodsTravelCost(travelCostWood);
         unitModel.setMountainTravelCost(travelCostMountain);
         unitModel.setSeaTravelCost(travelCostSea);
-        unitModel.debugLog();
     }
 
     private void createUnitView() {
