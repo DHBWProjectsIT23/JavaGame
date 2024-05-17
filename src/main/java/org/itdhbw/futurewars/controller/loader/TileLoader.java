@@ -6,9 +6,9 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.tile.factory.TileFactory;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.MovementType;
-import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadFileException;
+import org.itdhbw.futurewars.util.exceptions.FailedToRetrieveFilesException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,13 +37,13 @@ public class TileLoader {
         return tileFiles.size();
     }
 
-    public void retrieveSystemTiles() throws CanNotLoadException {
+    public void retrieveSystemTiles() throws FailedToLoadFileException, FailedToRetrieveFilesException {
         LOGGER.info("Retrieving system tiles");
         tileFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalTilePath));
         LOGGER.info("Retrieved system tiles - total of {} tiles", tileFiles.size());
     }
 
-    public void retrieveUserTiles() throws CanNotLoadException {
+    public void retrieveUserTiles() throws FailedToLoadFileException, FailedToRetrieveFilesException {
         LOGGER.info("Retrieving user tiles");
         tileFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserTilePath));
         LOGGER.info("Retrieved user tiles - total of {} tiles", tileFiles.size());
@@ -61,7 +61,9 @@ public class TileLoader {
                     throw new IllegalArgumentException("Given file is not a tile file");
                 }
             } catch (IOException e) {
-                LOGGER.error("Error loading tile from file: {}", file);
+                LOGGER.error("Failed to load tile!", e);
+            } catch (FailedToLoadFileException e) {
+                LOGGER.error("Failed to load tile from file!", e);
             }
 
             createTileFactory();
@@ -69,7 +71,7 @@ public class TileLoader {
         }
     }
 
-    private void loadTile(BufferedReader reader) throws IOException {
+    private void loadTile(BufferedReader reader) throws IOException, FailedToLoadFileException {
         texturePaths = new ArrayList<>();
         LOGGER.info("Loading tile from file...");
         // now on second line - skipping
@@ -93,13 +95,7 @@ public class TileLoader {
         String line;
         while ((line = reader.readLine()) != null) {
             URI uri;
-            try {
-                uri = FileHelper.getFile(line);
-            } catch (CanNotLoadException e) {
-                LOGGER.error("Error loading texture: {}", line);
-                ErrorPopup.showRecoverableErrorPopup("Error loading texture", line);
-                continue;
-            }
+            uri = FileHelper.getFile(line);
             texturePaths.addLast(uri);
         }
     }

@@ -12,8 +12,9 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
+import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadFileException;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,13 +53,14 @@ public class MenuViewController {
         String map = (String) source.getUserData();
         try {
             Context.getMapLoader().loadMap(map);
-            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("game-view.fxml").toURL());
+            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("game-viw.fxml").toURL());
             Scene scene = new Scene(gameView);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | CanNotLoadException e) {
+        } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while starting game", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to start game", e);
         }
     }
 
@@ -70,8 +72,9 @@ public class MenuViewController {
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | CanNotLoadException e) {
+        } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while opening map editor", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to open map editor", e);
         }
     }
 
@@ -87,19 +90,20 @@ public class MenuViewController {
             LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | CanNotLoadException e) {
+        } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while opening settings", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to open settings", e);
         }
     }
 
     @FXML
     private void startUnitEditor(ActionEvent actionEvent) {
-        // TODO document why this method is empty
+        // here the unit editor will start
     }
 
     @FXML
     private void startTileEditor(ActionEvent actionEvent) {
-        // TODO document why this method is empty
+        // here the tile editor will start
     }
 
     @FXML

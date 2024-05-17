@@ -3,7 +3,9 @@ package org.itdhbw.futurewars.util;
 import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadFileException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadTextureException;
+import org.itdhbw.futurewars.util.exceptions.FailedToRetrieveFilesException;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,32 +50,33 @@ public class FileHelper {
         // private constructor to prevent instantiation
     }
 
-    public static Image getInternalTexture(String path) {
+    public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
         Image texture = new Image("file:" + INTERNAL_DIR + "textures/" + path);
         if (texture.isError()) {
             LOGGER.error("Error loading internal texture: {}", texture.getException().getMessage());
+            throw new FailedToLoadTextureException(path);
         }
         return texture;
     }
 
-    public static URI getFxmlFile(String path) throws CanNotLoadException {
+    public static URI getFxmlFile(String path) throws FailedToLoadFileException {
         File file = new File(INTERNAL_DIR + "fxml/" + path);
         return checkIfFileExists(file);
     }
 
 
-    public static URI getFile(String path) throws CanNotLoadException {
+    public static URI getFile(String path) throws FailedToLoadFileException {
         path = FileHelper.decodePath(path);
         File file = new File(path);
         return checkIfFileExists(file);
     }
 
 
-    private static URI checkIfFileExists(File file) throws CanNotLoadException {
+    private static URI checkIfFileExists(File file) throws FailedToLoadFileException {
         if (file.exists()) {
             return file.toURI();
         } else {
-            throw new CanNotLoadException("File not found: " + file);
+            throw new FailedToLoadFileException("File not found: " + file);
         }
     }
 
@@ -110,7 +113,7 @@ public class FileHelper {
         return path;
     }
 
-    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws CanNotLoadException {
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws FailedToLoadFileException, FailedToRetrieveFilesException {
         LOGGER.info("Loading files for {}...", pathSupplier.get());
         Map<String, File> files = new HashMap<>();
         URI mapPath = checkIfFileExists(pathSupplier.get());
@@ -124,10 +127,8 @@ public class FileHelper {
                     });
         } catch (IOException e) {
             LOGGER.error("Error retrieving files: {}", e.getMessage());
-        } finally {
-            LOGGER.info("Found {} files", files.size());
+            throw new FailedToRetrieveFilesException(mapPath.toString());
         }
-
         return files;
     }
 

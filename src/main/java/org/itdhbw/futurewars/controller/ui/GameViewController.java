@@ -21,8 +21,9 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
+import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadFileException;
 
 import java.io.IOException;
 
@@ -131,8 +132,9 @@ public class GameViewController {
             Context.getGameState().setPreviousScene(stage.getScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | CanNotLoadException e) {
+        } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while opening settings", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to open settings", e);
         }
         escapeMenu.setVisible(false);
     }
@@ -145,8 +147,9 @@ public class GameViewController {
             Scene scene = new Scene(menuView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException | CanNotLoadException e) {
+        } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while quitting to menu", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to quit to menu", e);
         }
     }
 

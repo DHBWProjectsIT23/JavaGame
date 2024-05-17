@@ -10,7 +10,8 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
-import org.itdhbw.futurewars.util.exceptions.CanNotLoadException;
+import org.itdhbw.futurewars.util.exceptions.FailedToLoadFileException;
+import org.itdhbw.futurewars.util.exceptions.FailedToRetrieveFilesException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,26 +36,38 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
-    public static void loadUnits() throws CanNotLoadException {
-        LOGGER.info("Retrieving unit files...");
-        Context.getUnitLoader().retrieveSystemUnits();
-        Context.getUnitLoader().retrieveUserUnits();
+    public static void loadUnits() throws FailedToLoadFileException {
+        try {
+            LOGGER.info("Retrieving unit files...");
+            Context.getUnitLoader().retrieveSystemUnits();
+            Context.getUnitLoader().retrieveUserUnits();
+        } catch (FailedToRetrieveFilesException e) {
+            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve unit files", e);
+        }
         LOGGER.info("Loading units...");
         Context.getUnitLoader().loadUnitsFromFiles();
     }
 
-    public static void loadTiles() throws CanNotLoadException {
+    public static void loadTiles() throws FailedToLoadFileException {
         LOGGER.info("Retrieving tile files...");
-        Context.getTileLoader().retrieveSystemTiles();
-        Context.getTileLoader().retrieveUserTiles();
+        try {
+            Context.getTileLoader().retrieveSystemTiles();
+            Context.getTileLoader().retrieveUserTiles();
+        } catch (FailedToRetrieveFilesException e) {
+            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve tile files", e);
+        }
         LOGGER.info("Loading tiles...");
         Context.getTileLoader().loadTilesFromFiles();
     }
 
-    public static void retrieveMaps() throws TextureNotLoaded {
-        LOGGER.info("Retrieving map files...");
-        Context.getMapLoader().retrieveSystemMaps();
-        Context.getMapLoader().retrieveUserMaps();
+    public static void retrieveMaps() throws FailedToLoadFileException {
+        try {
+            LOGGER.info("Retrieving map files...");
+            Context.getMapLoader().retrieveSystemMaps();
+            Context.getMapLoader().retrieveUserMaps();
+        } catch (FailedToRetrieveFilesException e) {
+            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve map files", e);
+        }
     }
 
     public static void initializeStage(Stage stage) {
@@ -74,12 +87,12 @@ public class StartupController {
     }
 
     private static void initializeScene(Stage stage) {
-        LOGGER.info("Loading menu scene...");
         try {
+            LOGGER.info("Loading menu scene...");
             FXMLLoader fxmlLoader = new FXMLLoader(FileHelper.getFxmlFile("menu-view.fxml").toURL());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
-        } catch (IOException | TextureNotLoaded e) {
+        } catch (IOException | FailedToLoadFileException e) {
             ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene", e);
         }
     }
