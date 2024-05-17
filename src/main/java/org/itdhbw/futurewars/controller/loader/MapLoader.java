@@ -93,9 +93,9 @@ public class MapLoader {
                 }
                 if (x % 4 == 0) {
                     LOGGER.info("Loading tile type {} with variant {}", typeString, Integer.parseInt(tileData[x + 1]));
-                    loadCustomTile(typeString, x / 2, y, Integer.parseInt(tileData[x + 1]));
+                    loadTile(typeString, x / 2, y, Integer.parseInt(tileData[x + 1]));
                 } else if (x % 4 == 2) {
-                    loadCustomUnit(typeString, x / 2, y, Integer.parseInt(tileData[x + 1]));
+                    loadUnit(typeString, x / 2, y, Integer.parseInt(tileData[x + 1]));
                 }
                 x++;
             }
@@ -121,9 +121,9 @@ public class MapLoader {
                     break;
                 }
                 if (x % 2 != 0) {
-                    loadCustomUnit(typeString, x, y);
+                    loadUnit(typeString, x, y);
                 } else {
-                    loadCustomTile(typeString, x, y);
+                    loadTile(typeString, x, y);
                 }
                 x++;
             }
@@ -148,7 +148,7 @@ public class MapLoader {
                     LOGGER.error("Too many tiles in the line, ignoring the rest");
                     break;
                 }
-                loadCustomTile(tileTypeString, x, y);
+                loadTile(tileTypeString, x, y);
                 x++;
             }
             y++;
@@ -185,30 +185,27 @@ public class MapLoader {
         gameState.setTileSize(maxTileSize);
     }
 
-    private void loadCustomTile(String tileType, int x, int y, int textureVariant) {
+    private void loadTile(String tileType, int x, int y, int textureVariant) {
         if (!tileType.equals("NONE")) {
             LOGGER.info("Creating custom tile of type {} - variant {} - at x: {} - y: {}", tileType, textureVariant, x, y);
             tileCreationController.createTile(tileType, (x / 2), y, textureVariant);
         }
     }
 
-    private void loadCustomTile(String tileType, int x, int y) {
+    private void loadTile(String tileType, int x, int y) {
         if (!tileType.equals("NONE")) {
-            LOGGER.info("Creating custom tile of type {} at x: {} - y: {}", tileType, x, y);
             tileCreationController.createTile(tileType, (x / 2), y);
         }
     }
 
-    private void loadCustomUnit(String unitType, int x, int y, int team) {
+    private void loadUnit(String unitType, int x, int y, int team) {
         if (!unitType.equals("NONE")) {
-            LOGGER.info("Creating custom unit of type {} at x: {} - y: {}", unitType, x, y);
             unitCreationController.createUnit(unitType, ((x - 1) / 2), y, team);
         }
     }
 
-    private void loadCustomUnit(String unitType, int x, int y) {
+    private void loadUnit(String unitType, int x, int y) {
         if (!unitType.equals("NONE")) {
-            LOGGER.info("Creating custom unit of type {} at x: {} - y: {}", unitType, x, y);
             unitCreationController.createUnit(unitType, ((x - 1) / 2), y, 1);
         }
     }
