@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.util;
 
+import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +9,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class FileHelper {
@@ -34,22 +38,6 @@ public class FileHelper {
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
 
-    public static Optional<URI> getFile(String path) {
-        path = FileHelper.decodePath(path);
-        File file = new File(path);
-        if (file.exists()) {
-            try {
-                return Optional.of(file.toURI());
-            } catch (Exception e) {
-                LOGGER.error("Error getting file: {}", e.getMessage());
-                return Optional.empty();
-            }
-        } else {
-            LOGGER.error("File does not exist: {}", path);
-            return Optional.empty();
-        }
-    }
-
     static {
         SHORTCUTS.put("$USER_DIR", USER_DIR_SHORT);
         SHORTCUTS.put("$INTERNAL_DIR", INTERNAL_DIR_SHORT);
@@ -59,82 +47,60 @@ public class FileHelper {
         // private constructor to prevent instantiation
     }
 
-    public static URI getInternalUnitPath() {
-        try {
-            return new File(INTERNAL_DIR + UNIT_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal unit path: {}", e.getMessage());
-            return null;
+    public static Image getInternalTexture(String path) {
+        Image texture = new Image("file:" + INTERNAL_DIR + "textures/" + path);
+        if (texture.isError()) {
+            LOGGER.error("Error loading internal texture: {}", texture.getException().getMessage());
+        }
+        return texture;
+    }
+
+    public static URI getFxmlFile(String path) throws FileNotFoundExceptions {
+        File file = new File(INTERNAL_DIR + "fxml/" + path);
+        return checkIfFileExists(file);
+    }
+
+
+    public static URI getFile(String path) throws FileNotFoundExceptions {
+        path = FileHelper.decodePath(path);
+        File file = new File(path);
+        return checkIfFileExists(file);
+    }
+
+
+    private static URI checkIfFileExists(File file) throws FileNotFoundExceptions {
+        if (file.exists()) {
+            return file.toURI();
+        } else {
+            throw new FileNotFoundExceptions("File not found: " + file);
         }
     }
 
-
-
-
-    public static URI getInternalPath(String dir) {
-        try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + dir)).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal path: {}", e.getMessage());
-            return null;
-        }
+    public static File getInternalUnitPath() {
+        return new File(INTERNAL_DIR + UNIT_DIR);
     }
 
-    public static String getInternalPathString(String dir) {
-        return String.valueOf(FileHelper.getInternalPath(dir));
+    public static File getInternalMapPath() {
+        return new File(INTERNAL_DIR + MAP_DIR);
     }
 
-    public static URI getInternalMapPath() {
-        try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + MAP_DIR)).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal map path: {}", e.getMessage());
-            return null;
-        }
+    public static File getInternalTilePath() {
+        return new File(INTERNAL_DIR + TILE_DIR);
     }
 
-    public static URI getInternalTilePath() {
-        try {
-            return new File(INTERNAL_DIR + TILE_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal tile path: {}", e.getMessage());
-            return null;
-        }
+    public static File getUserMapPath() {
+        return new File(USER_DIR + MAP_DIR);
     }
 
-    public enum FileLocation {
-        INTERNAL,
-        USER
+    public static File getUserUnitPath() {
+        return new File(USER_DIR + UNIT_DIR);
     }
 
-    public static URI getUserMapPath() {
-        try {
-            return new File(USER_DIR + MAP_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting user map path: {}", e.getMessage());
-            return null;
-        }
+    public static File getUserTilePath() {
+        return new File(USER_DIR + TILE_DIR);
     }
 
-    public static URI getUserUnitPath() {
-        try {
-            return new File(USER_DIR + UNIT_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting user unit path: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public static URI getUserTilePath() {
-        try {
-            return new File(USER_DIR + TILE_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting user tile path: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public static String decodePath(String path) {
+    private static String decodePath(String path) {
         LOGGER.error("Decoding path: {}", path);
         for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
             path = path.replace(entry.getKey(), entry.getValue());
@@ -143,14 +109,10 @@ public class FileHelper {
         return path;
     }
 
-    public static Map<String, File> retrieveFiles(Supplier<URI> pathSupplier) {
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws FileNotFoundExceptions {
         LOGGER.info("Loading files for {}...", pathSupplier.get());
         Map<String, File> files = new HashMap<>();
-        URI mapPath = pathSupplier.get();
-        if (mapPath == null) {
-            LOGGER.error("Error retrieving files: path is null");
-            return files;
-        }
+        URI mapPath = checkIfFileExists(pathSupplier.get());
 
         try {
             Files.walk(Path.of(mapPath))

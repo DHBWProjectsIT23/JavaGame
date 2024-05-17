@@ -5,12 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.controller.unit.UnitRepository;
 import org.itdhbw.futurewars.controller.unit.factory.UnitFactory;
 import org.itdhbw.futurewars.model.game.Context;
+import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
+import org.itdhbw.futurewars.util.FileNotFoundExceptions;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +30,8 @@ public class UnitLoader {
     private int travelCostWood;
     private int travelCostMountain;
     private int travelCostSea;
-    private String texture1;
-    private String texture2;
+    private URI texture1;
+    private URI texture2;
 
     public UnitLoader() {
         unitRepository = Context.getUnitRepository();
@@ -40,13 +43,13 @@ public class UnitLoader {
         return unitFiles.size();
     }
 
-    public void retrieveSystemUnits() {
+    public void retrieveSystemUnits() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving system units");
         unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalUnitPath));
         LOGGER.info("Retrieved system units - total of {} units", unitFiles.size());
     }
 
-    public void retrieveUserUnits() {
+    public void retrieveUserUnits() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving user units");
         unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserUnitPath));
         LOGGER.info("Retrieved user units - total of {} units", unitFiles.size());
@@ -107,8 +110,13 @@ public class UnitLoader {
 
         // on sixth line - skip to seventh
         reader.readLine();
-        texture1 = FileHelper.decodePath(reader.readLine());
-        texture2 = FileHelper.decodePath(reader.readLine());
+        try {
+            texture1 = FileHelper.getFile(reader.readLine());
+            texture2 = FileHelper.getFile(reader.readLine());
+        } catch (FileNotFoundExceptions e) {
+            LOGGER.error("Error loading texture: {}", e.getMessage());
+            ErrorPopup.showRecoverableErrorPopup("Error loading texture for unit " + unitType, e);
+        }
 
         unitRepository.addUnitType(unitType);
     }

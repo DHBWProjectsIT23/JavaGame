@@ -8,6 +8,7 @@ import org.itdhbw.futurewars.controller.unit.UnitCreationController;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.util.FileHelper;
+import org.itdhbw.futurewars.util.FileNotFoundExceptions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,13 +46,13 @@ public class MapLoader {
         return new ArrayList<>(mapFiles.keySet());
     }
 
-    public void retrieveSystemMaps() {
+    public void retrieveSystemMaps() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving system maps");
         mapFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalMapPath));
         LOGGER.info("Retrieved system maps - total of {} maps", mapFiles.size());
     }
 
-    public void retrieveUserMaps() {
+    public void retrieveUserMaps() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving user maps");
         mapFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserMapPath));
         LOGGER.info("Retrieved user maps - total of {} maps", mapFiles.size());

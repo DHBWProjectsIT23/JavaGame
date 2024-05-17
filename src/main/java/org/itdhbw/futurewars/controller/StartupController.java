@@ -10,13 +10,12 @@ import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
+import org.itdhbw.futurewars.util.FileNotFoundExceptions;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.NoSuchElementException;
 
 public class StartupController {
     private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
@@ -36,7 +35,7 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
-    public static void loadUnits() {
+    public static void loadUnits() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving unit files...");
         Context.getUnitLoader().retrieveSystemUnits();
         Context.getUnitLoader().retrieveUserUnits();
@@ -44,7 +43,7 @@ public class StartupController {
         Context.getUnitLoader().loadUnitsFromFiles();
     }
 
-    public static void loadTiles() {
+    public static void loadTiles() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving tile files...");
         Context.getTileLoader().retrieveSystemTiles();
         Context.getTileLoader().retrieveUserTiles();
@@ -52,7 +51,7 @@ public class StartupController {
         Context.getTileLoader().loadTilesFromFiles();
     }
 
-    public static void retrieveMaps() {
+    public static void retrieveMaps() throws FileNotFoundExceptions {
         LOGGER.info("Retrieving map files...");
         Context.getMapLoader().retrieveSystemMaps();
         Context.getMapLoader().retrieveUserMaps();
@@ -70,28 +69,19 @@ public class StartupController {
         stage.setTitle("Future Wars");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-        try {
-            initializeScene(stage);
-        } catch (IOException e) {
-            LOGGER.error("Could not load menu scene", e);
-        }
+        initializeScene(stage);
 
     }
 
-    private static void initializeScene(Stage stage) throws IOException {
+    private static void initializeScene(Stage stage) {
         LOGGER.info("Loading menu scene...");
-        URI menuScene;
         try {
-            menuScene = FileHelper.getFile("$INTERNAL_DIR/fxml/menu-view.fxml").orElseThrow();
-        } catch (NoSuchElementException e) {
-            LOGGER.error("Could not load menu scene", e);
+            FXMLLoader fxmlLoader = new FXMLLoader(FileHelper.getFxmlFile("menu-view.fxml").toURL());
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setScene(scene);
+        } catch (IOException | FileNotFoundExceptions e) {
             ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene", e);
-            return;
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(menuScene.toURL());
-        Scene scene = new Scene(fxmlLoader.load());
-
-        stage.setScene(scene);
     }
 
     private static void initializeGameState(GameState gameState, Stage stage) {

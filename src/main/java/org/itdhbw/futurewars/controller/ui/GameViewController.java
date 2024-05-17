@@ -23,9 +23,9 @@ import org.itdhbw.futurewars.model.game.GameState;
 import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.util.FileHelper;
+import org.itdhbw.futurewars.util.FileNotFoundExceptions;
 
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class GameViewController {
@@ -131,14 +131,14 @@ public class GameViewController {
     @FXML
     private void openSettings(ActionEvent actionEvent) {
         try {
-            Parent menuView = FXMLLoader.load(Objects.requireNonNull(FileHelper.getInternalPath("fxml/options-view.fxml")).toURL());
+            Parent menuView = FXMLLoader.load(FileHelper.getFxmlFile("options-view.fxml").toURL());
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             Context.getGameState().setPreviousScene(stage.getScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
 
-        } catch (IOException e) {
+        } catch (IOException | FileNotFoundExceptions e) {
             LOGGER.error("Error while opening settings", e);
         }
         escapeMenu.setVisible(false);
@@ -147,13 +147,13 @@ public class GameViewController {
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
         try {
-            Parent menuView = FXMLLoader.load(getClass().getResource("/org/itdhbw/futurewars/fxml/menu-view.fxml"));
+            Parent menuView = FXMLLoader.load(FileHelper.getFxmlFile("menu-view.fxml").toURL());
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             Scene scene = new Scene(menuView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | FileNotFoundExceptions e) {
+            LOGGER.error("Error while quitting to menu", e);
         }
     }
 

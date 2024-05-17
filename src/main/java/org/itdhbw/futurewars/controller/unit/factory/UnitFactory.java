@@ -8,7 +8,6 @@ import org.itdhbw.futurewars.model.unit.UnitModel;
 import org.itdhbw.futurewars.view.UnitView;
 
 import java.net.URI;
-import java.net.URL;
 
 public class UnitFactory {
     private static final Logger LOGGER = LogManager.getLogger(UnitFactory.class);
@@ -24,7 +23,7 @@ public class UnitFactory {
     private UnitModel unitModel;
     private UnitView unitView;
 
-    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, String texture1, String texture2) {
+    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2) {
         LOGGER.info("Creating unit factory for unit type: {}", unitType);
         this.unitType = unitType;
         this.attackRange = attackRange;
@@ -33,24 +32,9 @@ public class UnitFactory {
         this.travelCostWood = travelCostWood;
         this.travelCostMountain = travelCostMountain;
         this.travelCostSea = travelCostSea;
-        URL urlTexture1 = getClass().getResource(texture1);
-        URL urlTexture2 = getClass().getResource(texture2);
 
-        URI uriTexture1 = null;
-        URI uriTexture2 = null;
-
-        try {
-            uriTexture1 = urlTexture1 == null ? URI.create(texture1) : urlTexture1.toURI();
-            uriTexture2 = urlTexture2 == null ? URI.create(texture2) : urlTexture2.toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error loading texture: {}", e.getMessage());
-            this.texture1 = null;
-            this.texture2 = null;
-            return;
-        }
-
-        this.texture1 = new Image(uriTexture1.toString());
-        this.texture2 = new Image(uriTexture2.toString());
+        this.texture1 = new Image(texture1.toString());
+        this.texture2 = new Image(texture2.toString());
     }
 
     private void createUnitModel(int team) {

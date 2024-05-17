@@ -21,9 +21,14 @@ public class Main extends Application {
 
         StartupController.initializeUserDirectory();
         StartupController.initializeContext(stage);
-        StartupController.loadTiles();
-        StartupController.loadUnits();
-        StartupController.retrieveMaps();
+        try {
+            StartupController.loadTiles();
+            StartupController.loadUnits();
+            StartupController.retrieveMaps();
+        } catch (Exception e) {
+            LOGGER.error("Error loading game data", e);
+            System.exit(1);
+        }
         StartupController.initializeStage(stage);
 
         LOGGER.info("Initialization complete!");

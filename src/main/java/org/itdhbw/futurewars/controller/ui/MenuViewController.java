@@ -13,10 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.util.FileHelper;
+import org.itdhbw.futurewars.util.FileNotFoundExceptions;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 public class MenuViewController {
 
@@ -52,12 +52,12 @@ public class MenuViewController {
         String map = (String) source.getUserData();
         try {
             Context.getMapLoader().loadMap(map);
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(Objects.requireNonNull(FileHelper.getInternalPath("fxml/game-view.fxml")).toURL()));
+            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("game-view.fxml").toURL());
             Scene scene = new Scene(gameView);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException e) {
+        } catch (IOException | FileNotFoundExceptions e) {
             LOGGER.error("Error while starting game", e);
         }
     }
@@ -66,11 +66,11 @@ public class MenuViewController {
     private void startMapEditor(ActionEvent actionEvent) {
         Stage stage = Context.getPrimaryStage();
         try {
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/fxml/map-editor-view.fxml")));
+            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("map-editor-view.fxml").toURL());
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException e) {
+        } catch (IOException | FileNotFoundExceptions e) {
             LOGGER.error("Error while opening map editor", e);
         }
     }
@@ -81,13 +81,13 @@ public class MenuViewController {
         Stage stage = Context.getPrimaryStage();
         Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/itdhbw/futurewars/fxml/options-view.fxml")));
+            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("options-view.fxml").toURL());
             Scene scene = new Scene(gameView);
             LOGGER.info("Setting previous scene...");
             LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
-        } catch (IOException e) {
+        } catch (IOException | FileNotFoundExceptions e) {
             LOGGER.error("Error while opening settings", e);
         }
     }
