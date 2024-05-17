@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public class FileHelper {
-    public static final String INTERNAL_DIR_SHORT = "/org/itdhbw/futurewars";
+    public static final String INTERNAL_DIR_SHORT = "src/main/resources/org/itdhbw/futurewars";
     public static final String INTERNAL_DIR = INTERNAL_DIR_SHORT + "/";
     public static final String USER_DIR_SHORT = System.getProperty("user.dir") + "/resources";
     public static final String USER_DIR = USER_DIR_SHORT + "/";
@@ -34,6 +34,22 @@ public class FileHelper {
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
 
+    public static Optional<URI> getFile(String path) {
+        path = FileHelper.decodePath(path);
+        File file = new File(path);
+        if (file.exists()) {
+            try {
+                return Optional.of(file.toURI());
+            } catch (Exception e) {
+                LOGGER.error("Error getting file: {}", e.getMessage());
+                return Optional.empty();
+            }
+        } else {
+            LOGGER.error("File does not exist: {}", path);
+            return Optional.empty();
+        }
+    }
+
     static {
         SHORTCUTS.put("$USER_DIR", USER_DIR_SHORT);
         SHORTCUTS.put("$INTERNAL_DIR", INTERNAL_DIR_SHORT);
@@ -42,6 +58,13 @@ public class FileHelper {
     private FileHelper() {
         // private constructor to prevent instantiation
     }
+
+    public enum FileLocation {
+        INTERNAL,
+        USER
+    }
+
+
 
 
     public static URI getInternalPath(String dir) {
@@ -84,24 +107,6 @@ public class FileHelper {
         }
     }
 
-    public static URI getInternalUnitTexturePath() {
-        try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + UNIT_TEXTURE_DIR)).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal unit texture path: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public static URI getInternalTileTexturePath() {
-        try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + TILE_TEXTURE_DIR)).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal tile texture path: {}", e.getMessage());
-            return null;
-        }
-    }
-
     public static URI getUserMapPath() {
         try {
             return new File(USER_DIR + MAP_DIR).toURI();
@@ -125,24 +130,6 @@ public class FileHelper {
             return new File(USER_DIR + TILE_DIR).toURI();
         } catch (Exception e) {
             LOGGER.error("Error getting user tile path: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public static URI getUserUnitTexturePath() {
-        try {
-            return new File(USER_DIR + UNIT_TEXTURE_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting user unit texture path: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public static URI getUserTileTexturePath() {
-        try {
-            return new File(USER_DIR + TILE_TEXTURE_DIR).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting user tile texture path: {}", e.getMessage());
             return null;
         }
     }

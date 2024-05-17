@@ -8,13 +8,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.game.GameState;
+import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 public class StartupController {
     private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
@@ -78,7 +80,15 @@ public class StartupController {
 
     private static void initializeScene(Stage stage) throws IOException {
         LOGGER.info("Loading menu scene...");
-        FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(FileHelper.getInternalPath("fxml/menu-view.fxml")).toURL());
+        URI menuScene;
+        try {
+            menuScene = FileHelper.getFile("$INTERNAL_DIR/fxml/menu-view.fxml").orElseThrow();
+        } catch (NoSuchElementException e) {
+            LOGGER.error("Could not load menu scene", e);
+            ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene", e);
+            return;
+        }
+        FXMLLoader fxmlLoader = new FXMLLoader(menuScene.toURL());
         Scene scene = new Scene(fxmlLoader.load());
 
         stage.setScene(scene);

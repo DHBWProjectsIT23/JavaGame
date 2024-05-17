@@ -9,7 +9,6 @@ import org.itdhbw.futurewars.model.tile.TileModel;
 import org.itdhbw.futurewars.view.TileView;
 
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +17,11 @@ public class TileFactory {
     private final String tileType;
     private final List<Image> textures = new ArrayList<>();
     private final MovementType movementType;
-    private final List<String> texturePaths;
+    private final List<URI> texturePaths;
     private TileModel tileModel;
     private TileView tileView;
 
-    public TileFactory(String tileType, List<String> texturePaths, MovementType movementType) {
+    public TileFactory(String tileType, List<URI> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: {}", tileType);
         this.tileType = tileType;
         this.movementType = movementType;
@@ -32,17 +31,8 @@ public class TileFactory {
 
     private void loadTextures() {
         LOGGER.info("Loading textures for tile type: {}", tileType);
-        for (String path : texturePaths) {
-            URL resource = getClass().getResource(path);
-            URI file;
-            try {
-                file = resource == null ? URI.create(path) : resource.toURI();
-            } catch (Exception e) {
-                LOGGER.error("Error loading texture: {}", e.getMessage());
-                return;
-            }
-
-            Image texture = new Image(file.toString());
+        for (URI path : texturePaths) {
+            Image texture = new Image(path.toString());
             textures.add(texture);
         }
     }

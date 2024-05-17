@@ -6,12 +6,14 @@ import org.itdhbw.futurewars.controller.tile.TileRepository;
 import org.itdhbw.futurewars.controller.tile.factory.TileFactory;
 import org.itdhbw.futurewars.model.game.Context;
 import org.itdhbw.futurewars.model.tile.MovementType;
+import org.itdhbw.futurewars.util.ErrorPopup;
 import org.itdhbw.futurewars.util.FileHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 import java.util.*;
 
 public class TileLoader {
@@ -20,7 +22,7 @@ public class TileLoader {
     private final TileRepository tileRepository;
     private final Map<String, TileFactory> tileFactories;
     private final Map<String, File> tileFiles;
-    private List<String> texturePaths;
+    private List<URI> texturePaths;
     private MovementType movementType;
     private String tileType;
 
@@ -89,7 +91,13 @@ public class TileLoader {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            texturePaths.addLast(FileHelper.decodePath(line));
+            Optional<URI> uri = FileHelper.getFile(line);
+            if (uri.isEmpty()) {
+                LOGGER.error("Error loading texture: {}", line);
+                ErrorPopup.showRecoverableErrorPopup("Error loading texture", line);
+                continue;
+            }
+            texturePaths.addLast(uri.get());
         }
     }
 
