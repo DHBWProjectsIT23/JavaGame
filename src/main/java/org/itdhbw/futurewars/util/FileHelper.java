@@ -59,9 +59,13 @@ public class FileHelper {
         // private constructor to prevent instantiation
     }
 
-    public enum FileLocation {
-        INTERNAL,
-        USER
+    public static URI getInternalUnitPath() {
+        try {
+            return new File(INTERNAL_DIR + UNIT_DIR).toURI();
+        } catch (Exception e) {
+            LOGGER.error("Error getting internal unit path: {}", e.getMessage());
+            return null;
+        }
     }
 
 
@@ -89,22 +93,18 @@ public class FileHelper {
         }
     }
 
-    public static URI getInternalUnitPath() {
-        try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + UNIT_DIR)).toURI();
-        } catch (Exception e) {
-            LOGGER.error("Error getting internal unit path: {}", e.getMessage());
-            return null;
-        }
-    }
-
     public static URI getInternalTilePath() {
         try {
-            return Objects.requireNonNull(FileHelper.class.getResource(INTERNAL_DIR + TILE_DIR)).toURI();
+            return new File(INTERNAL_DIR + TILE_DIR).toURI();
         } catch (Exception e) {
             LOGGER.error("Error getting internal tile path: {}", e.getMessage());
             return null;
         }
+    }
+
+    public enum FileLocation {
+        INTERNAL,
+        USER
     }
 
     public static URI getUserMapPath() {
