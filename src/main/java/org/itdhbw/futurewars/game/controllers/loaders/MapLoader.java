@@ -1,6 +1,5 @@
 package org.itdhbw.futurewars.game.controllers.loaders;
 
-import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
@@ -116,6 +115,7 @@ public class MapLoader {
         }
     }
 
+    //! TODO - Optimize - x * 4
     private void loadV3Map(BufferedReader reader) throws IOException {
         LOGGER.info("Loading V3 map");
         initializeMap(reader);
@@ -139,45 +139,17 @@ public class MapLoader {
                 if (x % 4 == 0) {
                     LOGGER.info("Loading tile type {} with variant {}",
                                 typeString, Integer.parseInt(tileData[x + 1]));
-                    int finalX = x;
-                    int finalY = y;
-                    Task<Void> loadTileTask = new Task<>() {
-                        @Override
-                        protected Void call() {
-                            loadTile(typeString, finalX / 2, finalY,
-                                     Integer.parseInt(tileData[finalX + 1]));
-                            return null;
-                        }
-                    };
-                    loadTileTask.setOnSucceeded(
-                            event -> LOGGER.info("Tile loaded"));
-                    loadTileTask.setOnFailed(
-                            event -> LOGGER.error("Failed to load tile"));
-                    new Thread(loadTileTask).start();
-
+                    loadTile(typeString, x / 2, y,
+                             Integer.parseInt(tileData[x + 1]));
                 } else if (x % 4 == 2) {
-                    int finalX = x;
-                    int finalY = y;
-                    Task<Void> loadUnitTask = new Task<>() {
-                        @Override
-                        protected Void call() {
-                            loadUnit(typeString, finalX, finalY,
-                                     Integer.parseInt(tileData[finalX + 1]));
-                            return null;
-                        }
-                    };
-                    loadUnitTask.setOnSucceeded(
-                            event -> LOGGER.info("Unit loaded"));
-                    loadUnitTask.setOnFailed(
-                            event -> LOGGER.error("Failed to load unit"));
-                    new Thread(loadUnitTask).start();
+                    loadUnit(typeString, x / 2, y,
+                             Integer.parseInt(tileData[x + 1]));
                 }
                 x++;
             }
             y++;
         }
     }
-
     private void loadV2Map(BufferedReader reader) throws IOException {
         LOGGER.info("Loading V2 map");
         initializeMap(reader);

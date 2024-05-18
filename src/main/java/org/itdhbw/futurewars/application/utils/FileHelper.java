@@ -64,10 +64,7 @@ public class FileHelper {
      * The constant OTHER_TEXTURE_DIR.
      */
     public static final String OTHER_TEXTURE_DIR = "textures/other/";
-    /**
-     * The constant SUB_DIRS.
-     */
-    //public static final String USER_DIR = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + "/FutureWars";
+
     public static final List<String> SUB_DIRS =
             Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR,
                           TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
@@ -193,11 +190,9 @@ public class FileHelper {
     }
 
     private static String decodePath(String path) {
-        LOGGER.error("Decoding path: {}", path);
         for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
             path = path.replace(entry.getKey(), entry.getValue());
         }
-        LOGGER.error("Decoded path: {}", path);
         return path;
     }
 

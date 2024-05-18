@@ -56,8 +56,6 @@ public class AStarPathfinder {
             }
 
             for (TileModel neighbor : getNeighbors(current)) {
-                boolean canTraverse =
-                        unit.canNotTraverse(neighbor.getMovementType());
                 if (neighbor.isOccupied() ||
                     unit.canNotTraverse(neighbor.getMovementType())) {
                     continue;
