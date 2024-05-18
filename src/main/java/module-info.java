@@ -8,19 +8,22 @@ module org.itdhw.futurewars {
 
     opens org.itdhbw.futurewars to javafx.fxml;
     exports org.itdhbw.futurewars;
-    exports org.itdhbw.futurewars.model.tile;
-    exports org.itdhbw.futurewars.model.unit;
-    exports org.itdhbw.futurewars.controller.tile;
-    exports org.itdhbw.futurewars.controller.unit;
-    exports org.itdhbw.futurewars.util;
-    opens org.itdhbw.futurewars.controller.tile to javafx.fxml;
-    exports org.itdhbw.futurewars.controller.ui;
-    opens org.itdhbw.futurewars.controller.ui to javafx.fxml;
-    exports org.itdhbw.futurewars.controller.tile.factory;
-    opens org.itdhbw.futurewars.controller.tile.factory to javafx.fxml;
-    exports org.itdhbw.futurewars.controller.unit.factory;
-    exports org.itdhbw.futurewars.controller.ui.editor;
-    opens org.itdhbw.futurewars.controller.ui.editor to javafx.fxml;
-    exports org.itdhbw.futurewars.view;
-    exports org.itdhbw.futurewars.util.exceptions;
+    exports org.itdhbw.futurewars.game.controllers.tile.factory;
+    opens org.itdhbw.futurewars.game.controllers.tile.factory to javafx.fxml;
+    exports org.itdhbw.futurewars.game.controllers.unit.factory;
+    exports org.itdhbw.futurewars.exceptions;
+    exports org.itdhbw.futurewars.editors.controllers;
+    opens org.itdhbw.futurewars.editors.controllers to javafx.fxml;
+    exports org.itdhbw.futurewars.game.models.tile;
+    exports org.itdhbw.futurewars.game.models.unit;
+    exports org.itdhbw.futurewars.game.controllers.tile;
+    opens org.itdhbw.futurewars.game.controllers.tile to javafx.fxml;
+    exports org.itdhbw.futurewars.game.controllers.unit;
+    exports org.itdhbw.futurewars.game.controllers.ui;
+    opens org.itdhbw.futurewars.game.controllers.ui to javafx.fxml;
+    exports org.itdhbw.futurewars.application.controllers.ui;
+    opens org.itdhbw.futurewars.application.controllers.ui to javafx.fxml;
+    exports org.itdhbw.futurewars.game.utils;
+    exports org.itdhbw.futurewars.application.utils;
+    exports org.itdhbw.futurewars.game.views;
 }

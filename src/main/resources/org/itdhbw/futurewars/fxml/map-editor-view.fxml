@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<SplitPane dividerPositions="0.10022271714922049" orientation="VERTICAL" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.controller.ui.editor.MapEditorController">
+<SplitPane dividerPositions="0.10022271714922049" orientation="VERTICAL" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.editors.controllers.MapEditorController">
     <HBox prefHeight="100.0" prefWidth="200.0">
         <Label fx:id="statusLabel" text="Status" />
         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveMap" text="Save" />

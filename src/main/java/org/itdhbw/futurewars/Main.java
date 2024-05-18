@@ -4,8 +4,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.controller.StartupController;
-import org.itdhbw.futurewars.model.game.Context;
+import org.itdhbw.futurewars.application.controllers.other.StartupController;
+import org.itdhbw.futurewars.application.models.Context;
 
 import java.io.IOException;
 

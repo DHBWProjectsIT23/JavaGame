@@ -34,6 +34,8 @@ _First Design UI - Figma or just general - then implement using CSS/Scene Editor
 
 ## Coding
 - Multithreading
+    - Already implemented for Pathfinding?
+    - Where else?
 - Code Quality
     - Some documentation
     - Clear Seperation of Concern
@@ -42,6 +44,13 @@ _First Design UI - Figma or just general - then implement using CSS/Scene Editor
 - Seperate Packages
     - Game - Application - Editors??
 - Improve quality of overall structure
+- Exception Handling
+    - Unify and make sensible decisions on what to handle how
+- Rework view classes
+
+## Testing
+- Test running on as many systems as possible
+- Test stupid stuff etc - try to break it
 
 ## "Branding"
 - Name okay?
