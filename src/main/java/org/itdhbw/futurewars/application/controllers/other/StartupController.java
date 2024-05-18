@@ -7,25 +7,34 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
+import org.itdhbw.futurewars.game.models.gameState.GameState;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * The type Startup controller.
+ */
 public class StartupController {
-    private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(StartupController.class);
 
     private StartupController() {
         // empty constructor
     }
 
 
+    /**
+     * Initialize context.
+     *
+     * @param stage the stage
+     */
     public static void initializeContext(Stage stage) {
         LOGGER.info("Initializing Context...");
         Context.initialize();
@@ -36,40 +45,63 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
+    /**
+     * Load units.
+     *
+     * @throws FailedToLoadFileException the failed to load file exception
+     */
     public static void loadUnits() throws FailedToLoadFileException {
         try {
             LOGGER.info("Retrieving unit files...");
             Context.getUnitLoader().retrieveSystemUnits();
             Context.getUnitLoader().retrieveUserUnits();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve unit files", e);
+            ErrorPopup.showUnrecoverableErrorPopup(
+                    "Could not retrieve unit files", e);
         }
         LOGGER.info("Loading units...");
         Context.getUnitLoader().loadUnitsFromFiles();
     }
 
+    /**
+     * Load tiles.
+     *
+     * @throws FailedToLoadFileException the failed to load file exception
+     */
     public static void loadTiles() throws FailedToLoadFileException {
         LOGGER.info("Retrieving tile files...");
         try {
             Context.getTileLoader().retrieveSystemTiles();
             Context.getTileLoader().retrieveUserTiles();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve tile files", e);
+            ErrorPopup.showUnrecoverableErrorPopup(
+                    "Could not retrieve tile files", e);
         }
         LOGGER.info("Loading tiles...");
         Context.getTileLoader().loadTilesFromFiles();
     }
 
+    /**
+     * Retrieve maps.
+     *
+     * @throws FailedToLoadFileException the failed to load file exception
+     */
     public static void retrieveMaps() throws FailedToLoadFileException {
         try {
             LOGGER.info("Retrieving map files...");
             Context.getMapLoader().retrieveSystemMaps();
             Context.getMapLoader().retrieveUserMaps();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup("Could not retrieve map files", e);
+            ErrorPopup.showUnrecoverableErrorPopup(
+                    "Could not retrieve map files", e);
         }
     }
 
+    /**
+     * Initialize stage.
+     *
+     * @param stage the stage
+     */
     public static void initializeStage(Stage stage) {
         LOGGER.info("Initializing stage...");
         stage.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -89,11 +121,13 @@ public class StartupController {
     private static void initializeScene(Stage stage) {
         try {
             LOGGER.info("Loading menu scene...");
-            FXMLLoader fxmlLoader = new FXMLLoader(FileHelper.getFxmlFile("menu-view.fxml").toURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    FileHelper.getFxmlFile("menu-view.fxml").toURL());
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
         } catch (IOException | FailedToLoadFileException e) {
-            ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene", e);
+            ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene",
+                                                   e);
         }
     }
 
@@ -102,6 +136,9 @@ public class StartupController {
         gameState.setMapHeight((int) stage.getHeight() / 100 * 90);
     }
 
+    /**
+     * Initialize user directory.
+     */
     public static void initializeUserDirectory() {
         LOGGER.info("Checking user directory...");
 

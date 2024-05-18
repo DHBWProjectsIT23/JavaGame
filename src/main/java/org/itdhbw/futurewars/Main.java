@@ -9,9 +9,17 @@ import org.itdhbw.futurewars.application.models.Context;
 
 import java.io.IOException;
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
+    /**
+     * Main.
+     *
+     * @param args the args
+     */
     public static void main(final String[] args) {
         launch();
     }

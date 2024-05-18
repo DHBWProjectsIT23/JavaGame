@@ -2,14 +2,14 @@ package org.itdhbw.futurewars.game.controllers.loaders;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
-import org.itdhbw.futurewars.game.controllers.unit.factory.UnitFactory;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.CustomException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
+import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
+import org.itdhbw.futurewars.game.controllers.unit.factory.UnitFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +19,9 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Unit loader.
+ */
 public class UnitLoader {
     private static final Logger LOGGER = LogManager.getLogger(UnitLoader.class);
     private static final String UNIT_VALIDATION = "FUTURE_WARS_UNIT_FORMAT";
@@ -35,28 +38,56 @@ public class UnitLoader {
     private URI texture1;
     private URI texture2;
 
+    /**
+     * Instantiates a new Unit loader.
+     */
     public UnitLoader() {
         unitRepository = Context.getUnitRepository();
         unitFactories = new HashMap<>();
         unitFiles = new HashMap<>();
     }
 
+    /**
+     * Number of unit files int.
+     *
+     * @return the int
+     */
     public int numberOfUnitFiles() {
         return unitFiles.size();
     }
 
-    public void retrieveSystemUnits() throws FailedToRetrieveFilesException, FailedToLoadFileException {
+    /**
+     * Retrieve system units.
+     *
+     * @throws FailedToRetrieveFilesException the failed to retrieve files exception
+     * @throws FailedToLoadFileException      the failed to load file exception
+     */
+    public void retrieveSystemUnits() throws FailedToRetrieveFilesException,
+                                             FailedToLoadFileException {
         LOGGER.info("Retrieving system units");
-        unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getInternalUnitPath));
-        LOGGER.info("Retrieved system units - total of {} units", unitFiles.size());
+        unitFiles.putAll(
+                FileHelper.retrieveFiles(FileHelper::getInternalUnitPath));
+        LOGGER.info("Retrieved system units - total of {} units",
+                    unitFiles.size());
     }
 
-    public void retrieveUserUnits() throws FailedToLoadFileException, FailedToRetrieveFilesException {
+    /**
+     * Retrieve user units.
+     *
+     * @throws FailedToLoadFileException      the failed to load file exception
+     * @throws FailedToRetrieveFilesException the failed to retrieve files exception
+     */
+    public void retrieveUserUnits() throws FailedToLoadFileException,
+                                           FailedToRetrieveFilesException {
         LOGGER.info("Retrieving user units");
         unitFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserUnitPath));
-        LOGGER.info("Retrieved user units - total of {} units", unitFiles.size());
+        LOGGER.info("Retrieved user units - total of {} units",
+                    unitFiles.size());
     }
 
+    /**
+     * Load units from files.
+     */
     public void loadUnitsFromFiles() {
         for (File file : unitFiles.values()) {
 
@@ -68,7 +99,8 @@ public class UnitLoader {
                 if (validation[0].equals(UNIT_VALIDATION)) {
                     loadUnit(reader);
                 } else {
-                    throw new IllegalArgumentException("Given file is not a unit file");
+                    throw new IllegalArgumentException(
+                            "Given file is not a unit file");
                 }
 
             } catch (IOException e) {
@@ -81,15 +113,30 @@ public class UnitLoader {
 
     private void createUnitFactory() {
         LOGGER.info("Creating unit factory");
-        UnitFactory unitFactoryCustom = new UnitFactory(unitType, attackRange, movementRange, travelCostPlain, travelCostWood, travelCostMountain, travelCostSea, texture1, texture2);
+        UnitFactory unitFactoryCustom =
+                new UnitFactory(unitType, attackRange, movementRange,
+                                travelCostPlain, travelCostWood,
+                                travelCostMountain, travelCostSea, texture1,
+                                texture2);
         unitFactories.put(unitType, unitFactoryCustom);
     }
 
+    /**
+     * Gets unit factories.
+     *
+     * @return the unit factories
+     */
     public Map<String, UnitFactory> getUnitFactories() {
         LOGGER.info("Returning unit factories: {}", unitFactories);
         return unitFactories;
     }
 
+    /**
+     * Load unit.
+     *
+     * @param reader the reader
+     * @throws IOException the io exception
+     */
     public void loadUnit(BufferedReader reader) throws IOException {
         // on second line - skip to third
         reader.readLine();
@@ -117,7 +164,8 @@ public class UnitLoader {
             texture2 = FileHelper.getFile(reader.readLine());
         } catch (CustomException e) {
             LOGGER.error("Error loading texture: {}", e.getMessage());
-            ErrorPopup.showRecoverableErrorPopup("Error loading texture for unit " + unitType, e);
+            ErrorPopup.showRecoverableErrorPopup(
+                    "Error loading texture for unit " + unitType, e);
         }
 
         unitRepository.addUnitType(unitType);

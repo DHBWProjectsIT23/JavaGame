@@ -12,8 +12,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Tile factory.
+ */
 public class TileFactory {
-    private static final Logger LOGGER = LogManager.getLogger(TileFactory.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(TileFactory.class);
     private final String tileType;
     private final List<Image> textures = new ArrayList<>();
     private final MovementType movementType;
@@ -21,6 +25,13 @@ public class TileFactory {
     private TileModel tileModel;
     private TileView tileView;
 
+    /**
+     * Instantiates a new Tile factory.
+     *
+     * @param tileType     the tile type
+     * @param texturePaths the texture paths
+     * @param movementType the movement type
+     */
     public TileFactory(String tileType, List<URI> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: {}", tileType);
         this.tileType = tileType;
@@ -56,17 +67,38 @@ public class TileFactory {
         tileView.setTexture(texture1Image);
     }
 
+    /**
+     * Create tile pair.
+     *
+     * @param x the x
+     * @param y the y
+     * @return the pair
+     */
     public Pair<TileModel, TileView> createTile(int x, int y) {
         return createTile(x, y, 0);
     }
 
+    /**
+     * Create tile pair.
+     *
+     * @param x              the x
+     * @param y              the y
+     * @param textureVariant the texture variant
+     * @return the pair
+     */
     public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
         createTileModel(x, y);
-        LOGGER.error("Creating tile view with texture variant: {}", textureVariant);
+        LOGGER.error("Creating tile view with texture variant: {}",
+                     textureVariant);
         createTileView(textureVariant);
         return new Pair<>(tileModel, tileView);
     }
 
+    /**
+     * Gets textures.
+     *
+     * @return the textures
+     */
     public List<Image> getTextures() {
         return textures;
     }

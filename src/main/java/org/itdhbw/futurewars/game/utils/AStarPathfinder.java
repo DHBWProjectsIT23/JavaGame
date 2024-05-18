@@ -2,24 +2,39 @@ package org.itdhbw.futurewars.game.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.util.*;
 
+/**
+ * The type A star pathfinder.
+ */
 public class AStarPathfinder {
-    private static final Logger LOGGER = LogManager.getLogger(AStarPathfinder.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(AStarPathfinder.class);
     private final TileRepository tileRepository;
 
+    /**
+     * Instantiates a new A star pathfinder.
+     */
     public AStarPathfinder() {
         this.tileRepository = Context.getTileRepository();
     }
 
+    /**
+     * Find path list.
+     *
+     * @param startTile the start tile
+     * @param endTile   the end tile
+     * @return the list
+     */
     public List<TileModel> findPath(TileModel startTile, TileModel endTile) {
         Map<TileModel, Integer> fScore = new HashMap<>();
-        PriorityQueue<TileModel> openSet = new PriorityQueue<>(Comparator.comparingInt(fScore::get));
+        PriorityQueue<TileModel> openSet =
+                new PriorityQueue<>(Comparator.comparingInt(fScore::get));
         Map<TileModel, TileModel> cameFrom = new HashMap<>();
         Map<TileModel, Integer> gScore = new HashMap<>();
         UnitModel unit = startTile.getOccupyingUnit();
@@ -35,28 +50,35 @@ public class AStarPathfinder {
             }
 
             if (current.equals(endTile)) {
-                LOGGER.info("Path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
+                LOGGER.info("Path found from tile {} to tile {}",
+                            startTile.modelId, endTile.modelId);
                 return reconstructPath(cameFrom, current, unit, gScore);
             }
 
             for (TileModel neighbor : getNeighbors(current)) {
-                boolean canTraverse = unit.canNotTraverse(neighbor.getMovementType());
-                if (neighbor.isOccupied() || unit.canNotTraverse(neighbor.getMovementType())) {
+                boolean canTraverse =
+                        unit.canNotTraverse(neighbor.getMovementType());
+                if (neighbor.isOccupied() ||
+                    unit.canNotTraverse(neighbor.getMovementType())) {
                     continue;
                 }
 
-                int tentativeGScore = gScore.get(current) + unit.getTravelCost(neighbor.getMovementType());
+                int tentativeGScore = gScore.get(current) + unit.getTravelCost(
+                        neighbor.getMovementType());
 
-                if (!gScore.containsKey(neighbor) || tentativeGScore < gScore.get(neighbor)) {
+                if (!gScore.containsKey(neighbor) ||
+                    tentativeGScore < gScore.get(neighbor)) {
                     cameFrom.put(neighbor, current);
                     gScore.put(neighbor, tentativeGScore);
-                    fScore.put(neighbor, tentativeGScore + neighbor.distanceTo(endTile));
+                    fScore.put(neighbor,
+                               tentativeGScore + neighbor.distanceTo(endTile));
 
                     openSet.add(neighbor);
                 }
             }
         }
-        LOGGER.warn("No path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
+        LOGGER.warn("No path found from tile {} to tile {}", startTile.modelId,
+                    endTile.modelId);
         return new ArrayList<>();
         //throw new RuntimeException("No path found");
     }
@@ -96,10 +118,14 @@ public class AStarPathfinder {
         Position position = tile.getPosition();
 
         // Calculate the positions directly
-        neighbors.add(tileRepository.getTileModel(new Position(position.getX() - 1, position.getY())));
-        neighbors.add(tileRepository.getTileModel(new Position(position.getX() + 1, position.getY())));
-        neighbors.add(tileRepository.getTileModel(new Position(position.getX(), position.getY() - 1)));
-        neighbors.add(tileRepository.getTileModel(new Position(position.getX(), position.getY() + 1)));
+        neighbors.add(tileRepository.getTileModel(
+                new Position(position.getX() - 1, position.getY())));
+        neighbors.add(tileRepository.getTileModel(
+                new Position(position.getX() + 1, position.getY())));
+        neighbors.add(tileRepository.getTileModel(
+                new Position(position.getX(), position.getY() - 1)));
+        neighbors.add(tileRepository.getTileModel(
+                new Position(position.getX(), position.getY() + 1)));
 
         // Remove null neighbors
         neighbors.removeIf(Objects::isNull);
@@ -107,8 +133,15 @@ public class AStarPathfinder {
         return neighbors;
     }
 
+    /**
+     * Gets reachable tiles.
+     *
+     * @param startTile the start tile
+     * @return the reachable tiles
+     */
     public Set<TileModel> getReachableTiles(TileModel startTile) {
-        LOGGER.info("Calculating reachable tiles for unit {} on tile {}", startTile.getOccupyingUnit().modelId, startTile.modelId);
+        LOGGER.info("Calculating reachable tiles for unit {} on tile {}",
+                    startTile.getOccupyingUnit().modelId, startTile.modelId);
         Set<TileModel> visited = new HashSet<>();
         Queue<TileModel> queue = new LinkedList<>();
         Map<TileModel, Integer> distance = new HashMap<>();
@@ -123,12 +156,18 @@ public class AStarPathfinder {
             visited.add(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied() || startTile.getOccupyingUnit().canNotTraverse(neighbor.getMovementType())) {
+                if (neighbor.isOccupied() || startTile.getOccupyingUnit()
+                                                      .canNotTraverse(
+                                                              neighbor.getMovementType())) {
                     continue;
                 }
 
-                int tentativeDistance = distance.get(current) + unit.getTravelCost(neighbor.getMovementType());
-                if (tentativeDistance <= movementRange && (!distance.containsKey(neighbor) || tentativeDistance < distance.get(neighbor))) {
+                int tentativeDistance = distance.get(current) +
+                                        unit.getTravelCost(
+                                                neighbor.getMovementType());
+                if (tentativeDistance <= movementRange &&
+                    (!distance.containsKey(neighbor) ||
+                     tentativeDistance < distance.get(neighbor))) {
                     distance.put(neighbor, tentativeDistance);
                     queue.add(neighbor);
                 }
@@ -138,8 +177,16 @@ public class AStarPathfinder {
         return visited;
     }
 
+    /**
+     * Gets attackable tiles.
+     *
+     * @param startTile     the start tile
+     * @param attackingUnit the attacking unit
+     * @return the attackable tiles
+     */
     public Set<TileModel> getAttackableTiles(TileModel startTile, UnitModel attackingUnit) {
-        LOGGER.info("Calculating attackable tiles for unit {} on tile {}", attackingUnit.modelId, startTile.modelId);
+        LOGGER.info("Calculating attackable tiles for unit {} on tile {}",
+                    attackingUnit.modelId, startTile.modelId);
         Set<TileModel> visited = new HashSet<>();
         Queue<TileModel> queue = new LinkedList<>();
         Map<TileModel, Integer> distance = new HashMap<>();
@@ -153,8 +200,11 @@ public class AStarPathfinder {
             visited.add(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
-                int tentativeDistance = distance.get(current) + 1; // Assuming each tile is at a distance of 1 from its neighbors
-                if (tentativeDistance <= attackRange && (!distance.containsKey(neighbor) || tentativeDistance < distance.get(neighbor))) {
+                int tentativeDistance = distance.get(current) +
+                                        1; // Assuming each tile is at a distance of 1 from its neighbors
+                if (tentativeDistance <= attackRange &&
+                    (!distance.containsKey(neighbor) ||
+                     tentativeDistance < distance.get(neighbor))) {
                     distance.put(neighbor, tentativeDistance);
                     queue.add(neighbor);
                 }
@@ -163,7 +213,8 @@ public class AStarPathfinder {
 
         // Filter out the tiles that are not occupied
         visited.removeIf(tile -> !tile.isOccupied());
-        visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() == attackingUnit.getTeam());
+        visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() ==
+                                 attackingUnit.getTeam());
 
         LOGGER.info("Attackable tiles: {}", visited.size());
         return visited;

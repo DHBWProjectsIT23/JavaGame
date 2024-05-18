@@ -11,18 +11,22 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.controllers.loaders.MapLoader;
 import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
-import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;
 
+/**
+ * The type Map view controller.
+ */
 public class MapViewController {
-    private static final Logger LOGGER = LogManager.getLogger(MapViewController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MapViewController.class);
     private final TileCreationController tileCreationController;
     private final UnitMovementController unitMovementController;
     private final GameState gameState;
@@ -43,6 +47,9 @@ public class MapViewController {
     @FXML
     private Button overlayAttackButton1;
 
+    /**
+     * Instantiates a new Map view controller.
+     */
     public MapViewController() {
         this.tileCreationController = Context.getTileCreationController();
         this.unitMovementController = Context.getUnitMovementController();
@@ -51,6 +58,9 @@ public class MapViewController {
     }
 
 
+    /**
+     * Initialize.
+     */
     public void initialize() {
 
         Context.setMapController(this);
@@ -86,12 +96,19 @@ public class MapViewController {
     }
 
     private void addTileToGrid(Pair<TileModel, TileView> tile) {
-        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
-        LOGGER.info("Tile position: {}", tile.getKey().getPosition().toString());
+        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(),
+                    tile.getValue());
+        LOGGER.info("Tile position: {}",
+                    tile.getKey().getPosition().toString());
         Position position = tile.getKey().getPosition();
         gameGrid.add(tile.getValue(), position.getX(), position.getY());
     }
 
+    /**
+     * Load map.
+     *
+     * @param filename the filename
+     */
     public void loadMap(String filename) {
         this.gameGrid.getChildren().clear();
         try {
@@ -106,14 +123,19 @@ public class MapViewController {
     private void addTilesToGrid() {
         LOGGER.info("Loading map...");
 
-        Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
+        Pair<TileModel, TileView>[][] allTiles =
+                Context.getTileRepository().getAllTiles();
         for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
             for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
-                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidthTiles(), y, gameState.getMapHeightTiles());
+                LOGGER.error("x: {} of {}, y: {} of {}", x,
+                             gameState.getMapWidthTiles(), y,
+                             gameState.getMapHeightTiles());
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
                     LOGGER.warn("tilePair was null");
-                    tilePair = tileCreationController.createTile("NOT_SET_TILE", x, y);
+                    tilePair =
+                            tileCreationController.createTile("NOT_SET_TILE", x,
+                                                              y);
                 }
                 this.addTileToGrid(tilePair);
             }
@@ -124,7 +146,8 @@ public class MapViewController {
 
     @FXML
     private void enterMoveMode(ActionEvent actionEvent) {
-        unitMovementController.moveUnit(gameState.selectedUnitProperty().get(), gameState.selectedTileProperty().get());
+        unitMovementController.moveUnit(gameState.selectedUnitProperty().get(),
+                                        gameState.selectedTileProperty().get());
         this.gameState.setActiveMode(ActiveMode.REGULAR);
     }
 

@@ -19,9 +19,13 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Menu view controller.
+ */
 public class MenuViewController {
 
-    private static final Logger LOGGER = LogManager.getLogger(MenuViewController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MenuViewController.class);
     @FXML
     private Button startButton;
     @FXML
@@ -29,6 +33,9 @@ public class MenuViewController {
     @FXML
     private VBox mapButtonContainer;
 
+    /**
+     * Initialize.
+     */
     public void initialize() {
         LOGGER.info("Initializing menu view...");
         mapButtonContainer.setVisible(false);
@@ -44,7 +51,8 @@ public class MenuViewController {
     @FXML
     private void showMapSelection(ActionEvent actionEvent) {
         LOGGER.info("Showing map selection...");
-        LOGGER.info("Button amount: {}", mapButtonContainer.getChildren().size());
+        LOGGER.info("Button amount: {}",
+                    mapButtonContainer.getChildren().size());
         mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
     }
 
@@ -53,9 +61,11 @@ public class MenuViewController {
         String map = (String) source.getUserData();
         try {
             Context.getMapLoader().loadMap(map);
-            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("game-view.fxml").toURL());
+            Parent gameView = FXMLLoader.load(
+                    FileHelper.getFxmlFile("game-view.fxml").toURL());
             Scene scene = new Scene(gameView);
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene()
+                                                                  .getWindow();
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
@@ -68,13 +78,15 @@ public class MenuViewController {
     private void startMapEditor(ActionEvent actionEvent) {
         Stage stage = Context.getPrimaryStage();
         try {
-            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("map-editor-view.fxml").toURL());
+            Parent gameView = FXMLLoader.load(
+                    FileHelper.getFxmlFile("map-editor-view.fxml").toURL());
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
             LOGGER.error("Error while opening map editor", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to open map editor", e);
+            ErrorPopup.showRecoverableErrorPopup("Failed to open map editor",
+                                                 e);
         }
     }
 
@@ -84,10 +96,12 @@ public class MenuViewController {
         Stage stage = Context.getPrimaryStage();
         Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile("options-view.fxml").toURL());
+            Parent gameView = FXMLLoader.load(
+                    FileHelper.getFxmlFile("options-view.fxml").toURL());
             Scene scene = new Scene(gameView);
             LOGGER.info("Setting previous scene...");
-            LOGGER.info("Previous scene: {}", Context.getGameState().getPreviousScene());
+            LOGGER.info("Previous scene: {}",
+                        Context.getGameState().getPreviousScene());
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
@@ -108,7 +122,8 @@ public class MenuViewController {
 
     @FXML
     private void exitApplication(ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage stage =
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
 
