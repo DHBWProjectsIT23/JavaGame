@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
@@ -27,14 +28,12 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.io.IOException;
 
-
 /**
  * The type Game view controller.
  */
 public class GameViewController {
 
-    private static final Logger LOGGER =
-            LogManager.getLogger(GameViewController.class);
+    private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
     @FXML
     private Label selectedTileDebug;
@@ -73,10 +72,10 @@ public class GameViewController {
         selectedTileDebug.textProperty().bind(createTileBinding(
                 gameState.selectedTileProperty(), "No tile selected"));
         hoveredTileDebug.textProperty()
-                        .bind(createTileBinding(gameState.hoveredTileProperty(),
-                                                "No tile hovered"));
+                .bind(createTileBinding(gameState.hoveredTileProperty(),
+                        "No tile hovered"));
         movingDebug.textProperty()
-                   .bind(createModeBinding(gameState.activeModeProperty()));
+                .bind(createModeBinding(gameState.activeModeProperty()));
         currentLabel.textProperty().bind(Bindings.createStringBinding(
                 () -> "Current player: " + gameState.getCurrentPlayer(),
                 gameState.currentPlayerProperty()));
@@ -106,7 +105,7 @@ public class GameViewController {
             UnitModel occupyingUnit = selectedTile.getOccupyingUnit();
             this.selectedUnitType.setText(occupyingUnit.getUnitType());
             this.selectedUnitHP.setText(occupyingUnit.getCurrentHealth() + "/" +
-                                        occupyingUnit.getMaxHealth());
+                    occupyingUnit.getMaxHealth());
             this.selectedUnitRange.setText(
                     String.valueOf(occupyingUnit.getAttackRange()));
             this.selectedUnitTeam.setText(
@@ -132,9 +131,7 @@ public class GameViewController {
     private StringBinding createTileBinding(ObjectProperty<TileModel> tileProperty, String defaultMessage) {
         return Bindings.createStringBinding(() -> {
             TileModel tile = tileProperty.get();
-            return (tile != null) ?
-                   tile.getPosition() + " - Type: " + tile.getMovementType() :
-                   defaultMessage;
+            return (tile != null) ? tile.getPosition() + " - Type: " + tile.getMovementType() : defaultMessage;
         }, tileProperty);
     }
 
@@ -150,8 +147,7 @@ public class GameViewController {
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
-            LOGGER.error("Error while opening settings", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to open settings", e);
+            ErrorHandler.addException(e, "Error opening settings");
         }
         escapeMenu.setVisible(false);
     }
@@ -166,8 +162,7 @@ public class GameViewController {
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
-            LOGGER.error("Error while quitting to menu", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to quit to menu", e);
+            ErrorHandler.addException(e, "Error exiting to menu");
         }
     }
 

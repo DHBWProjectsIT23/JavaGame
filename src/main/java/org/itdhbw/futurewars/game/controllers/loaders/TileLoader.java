@@ -3,6 +3,7 @@ package org.itdhbw.futurewars.game.controllers.loaders;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
@@ -55,12 +56,12 @@ public class TileLoader {
      * @throws FailedToRetrieveFilesException the failed to retrieve files exception
      */
     public void retrieveSystemTiles() throws FailedToLoadFileException,
-                                             FailedToRetrieveFilesException {
+            FailedToRetrieveFilesException {
         LOGGER.info("Retrieving system tiles");
         tileFiles.putAll(
                 FileHelper.retrieveFiles(FileHelper::getInternalTilePath));
         LOGGER.info("Retrieved system tiles - total of {} tiles",
-                    tileFiles.size());
+                tileFiles.size());
     }
 
     /**
@@ -70,11 +71,11 @@ public class TileLoader {
      * @throws FailedToRetrieveFilesException the failed to retrieve files exception
      */
     public void retrieveUserTiles() throws FailedToLoadFileException,
-                                           FailedToRetrieveFilesException {
+            FailedToRetrieveFilesException {
         LOGGER.info("Retrieving user tiles");
         tileFiles.putAll(FileHelper.retrieveFiles(FileHelper::getUserTilePath));
         LOGGER.info("Retrieved user tiles - total of {} tiles",
-                    tileFiles.size());
+                tileFiles.size());
     }
 
     /**
@@ -93,10 +94,8 @@ public class TileLoader {
                     throw new IllegalArgumentException(
                             "Given file is not a tile file");
                 }
-            } catch (IOException e) {
-                LOGGER.error("Failed to load tile!", e);
-            } catch (FailedToLoadFileException e) {
-                LOGGER.error("Failed to load tile from file!", e);
+            } catch (IOException | FailedToLoadFileException e) {
+                ErrorHandler.addException(e, "Failed to load tile");
             }
 
             createTileFactory();
@@ -105,7 +104,7 @@ public class TileLoader {
     }
 
     private void loadTile(BufferedReader reader) throws IOException,
-                                                        FailedToLoadFileException {
+            FailedToLoadFileException {
         texturePaths = new ArrayList<>();
         LOGGER.info("Loading tile from file...");
         // now on second line - skipping
@@ -120,7 +119,7 @@ public class TileLoader {
         try {
             movementType = MovementType.valueOf(movementTypeString);
         } catch (IllegalArgumentException e) {
-            LOGGER.error("Invalid movement type: {}", movementTypeString);
+            ErrorHandler.addException(e, "Failed to retrieve movement type");
         }
 
         // skip line
@@ -136,8 +135,7 @@ public class TileLoader {
 
     private void createTileFactory() {
         LOGGER.info("Creating unit factory");
-        TileFactory tileFactoryCustom =
-                new TileFactory(tileType, texturePaths, movementType);
+        TileFactory tileFactoryCustom = new TileFactory(tileType, texturePaths, movementType);
         tileFactories.put(tileType, tileFactoryCustom);
     }
 

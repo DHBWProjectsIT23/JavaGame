@@ -5,6 +5,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -18,8 +19,7 @@ import java.util.Properties;
  * The type Options controller.
  */
 public class OptionsController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(OptionsController.class);
+    private static final Logger LOGGER = LogManager.getLogger(OptionsController.class);
     private static final String SETTINGS_FILE = "settings.properties";
     private static final String RESOLUTION = "resolution";
     private static final String VIEW_MODE = "viewMode";
@@ -47,7 +47,7 @@ public class OptionsController {
         try (FileOutputStream output = new FileOutputStream(SETTINGS_FILE)) {
             settings.store(output, "Settings for Future Wars");
         } catch (Exception e) {
-            LOGGER.error("Failed to save settings", e);
+            ErrorHandler.addException(e, "Failed to save settings");
         }
     }
 
@@ -82,8 +82,8 @@ public class OptionsController {
     }
 
     private void calculateResolutions() {
-        int[] widths = {800, 1024, 1280, 1366, 1440, 1600, 1920, 2560, 3840};
-        int[] heights = {600, 768, 720, 800, 900, 1024, 1080, 1440, 2160};
+        int[] widths = { 800, 1024, 1280, 1366, 1440, 1600, 1920, 2560, 3840 };
+        int[] heights = { 600, 768, 720, 800, 900, 1024, 1080, 1440, 2160 };
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         resolutions = new ArrayList<>();
         double aspectRatio = calculateAspectRatio();
@@ -154,7 +154,7 @@ public class OptionsController {
             settings = new Properties();
             settings.load(reader);
         } catch (Exception e) {
-            LOGGER.error("Failed to load settings from file", e);
+            ErrorHandler.addException(e, "Failed to load settings from file");
         }
     }
 
@@ -227,22 +227,22 @@ public class OptionsController {
      */
     public void setResolution(int width, int height) {
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-        //LOGGER.info("Bounds: {}", bounds);
+        // LOGGER.info("Bounds: {}", bounds);
         int maxWidth = (int) bounds.getWidth();
         int maxHeight = (int) bounds.getHeight();
 
         if (width >= (maxWidth - 100) || height >= (maxHeight - 100)) {
-            //LOGGER.info("Setting windowed mode to maximized");
+            // LOGGER.info("Setting windowed mode to maximized");
             stage.setMaximized(true);
             width = maxWidth;
             height = maxHeight;
         }
 
-        //LOGGER.info("Max width: {}, max height: {}", maxWidth, maxHeight);
-        //LOGGER.info("Setting resolution to {}x{}", width, height);
+        // LOGGER.info("Max width: {}, max height: {}", maxWidth, maxHeight);
+        // LOGGER.info("Setting resolution to {}x{}", width, height);
         stage.setWidth(width);
         stage.setHeight(height);
-        //LOGGER.info("Centering stage on screen");
+        // LOGGER.info("Centering stage on screen");
         stage.centerOnScreen();
         settings.setProperty(RESOLUTION, width + "x" + height);
         settings.setProperty(WIDTH, String.valueOf(width));
@@ -254,7 +254,7 @@ public class OptionsController {
         settings.setProperty(VIEW_MODE, FULLSCREEN);
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         settings.setProperty(RESOLUTION, (int) bounds.getWidth() + "x" +
-                                         (int) bounds.getHeight());
+                (int) bounds.getHeight());
         this.saveSettings();
     }
 }

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
@@ -22,13 +23,11 @@ import java.nio.file.Paths;
  * The type Startup controller.
  */
 public class StartupController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(StartupController.class);
+    private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
 
     private StartupController() {
         // empty constructor
     }
-
 
     /**
      * Initialize context.
@@ -56,8 +55,7 @@ public class StartupController {
             Context.getUnitLoader().retrieveSystemUnits();
             Context.getUnitLoader().retrieveUserUnits();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup(
-                    "Could not retrieve unit files", e);
+            ErrorHandler.addException(e, "Failed to load units");
         }
         LOGGER.info("Loading units...");
         Context.getUnitLoader().loadUnitsFromFiles();
@@ -74,8 +72,7 @@ public class StartupController {
             Context.getTileLoader().retrieveSystemTiles();
             Context.getTileLoader().retrieveUserTiles();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup(
-                    "Could not retrieve tile files", e);
+            ErrorHandler.addException(e, "Failed to load tiles");
         }
         LOGGER.info("Loading tiles...");
         Context.getTileLoader().loadTilesFromFiles();
@@ -92,8 +89,7 @@ public class StartupController {
             Context.getMapLoader().retrieveSystemMaps();
             Context.getMapLoader().retrieveUserMaps();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorPopup.showUnrecoverableErrorPopup(
-                    "Could not retrieve map files", e);
+            ErrorHandler.addException(e, "Failed to load maps");
         }
     }
 
@@ -126,8 +122,7 @@ public class StartupController {
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
         } catch (IOException | FailedToLoadFileException e) {
-            ErrorPopup.showUnrecoverableErrorPopup("Could not load menu scene",
-                                                   e);
+            ErrorHandler.addException(e, "Failed to initialize scene");
         }
     }
 
@@ -153,7 +148,7 @@ public class StartupController {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Could not create directory", e);
+            ErrorHandler.addException(e, "Failed to initialize user directorys");
         }
     }
 }

@@ -30,6 +30,16 @@ public class ErrorPopup {
         });
     }
 
+    public static void showErrorPopup(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(message);
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
+    }
+
     /**
      * Show recoverable error popup.
      *

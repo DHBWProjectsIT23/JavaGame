@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.application.utils.ErrorPopup;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 
@@ -69,8 +69,7 @@ public class MenuViewController {
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
-            LOGGER.error("Error while starting game", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to start game", e);
+            ErrorHandler.addException(e, "Failed to start game");
         }
     }
 
@@ -84,9 +83,8 @@ public class MenuViewController {
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
-            LOGGER.error("Error while opening map editor", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to open map editor",
-                                                 e);
+            ErrorHandler.addException(e, "Failed to open map editor");
+            ErrorHandler.showErrorPopup();
         }
     }
 
@@ -105,8 +103,8 @@ public class MenuViewController {
             stage.setScene(scene);
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
-            LOGGER.error("Error while opening settings", e);
-            ErrorPopup.showRecoverableErrorPopup("Failed to open settings", e);
+            ErrorHandler.addException(e, "Failed to open options");
+            ErrorHandler.showErrorPopup();
         }
     }
 
@@ -127,4 +125,23 @@ public class MenuViewController {
         stage.close();
     }
 
+    @FXML
+    private void openErrorsView(ActionEvent actionEvent) {
+        LOGGER.info("Opening Error View...");
+        Stage stage = Context.getPrimaryStage();
+        Context.getGameState().setPreviousScene(stage.getScene());
+        try {
+            Parent gameView = FXMLLoader.load(
+                    FileHelper.getFxmlFile("error-view.fxml").toURL());
+            Scene scene = new Scene(gameView);
+            LOGGER.info("Setting previous scene...");
+            LOGGER.info("Previous scene: {}",
+                        Context.getGameState().getPreviousScene());
+            stage.setScene(scene);
+            Context.getOptionsController().loadSettings();
+        } catch (IOException | FailedToLoadFileException e) {
+            ErrorHandler.addException(e, "Failed to open error view");
+            ErrorHandler.showErrorPopup();
+        }
+    }
 }

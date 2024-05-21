@@ -25,8 +25,7 @@ public class FileHelper {
     /**
      * The constant INTERNAL_DIR_SHORT.
      */
-    public static final String INTERNAL_DIR_SHORT =
-            "src/main/resources/org/itdhbw/futurewars";
+    public static final String INTERNAL_DIR_SHORT = "src/main/resources/org/itdhbw/futurewars";
     /**
      * The constant INTERNAL_DIR.
      */
@@ -34,8 +33,7 @@ public class FileHelper {
     /**
      * The constant USER_DIR_SHORT.
      */
-    public static final String USER_DIR_SHORT =
-            System.getProperty("user.dir") + "/resources";
+    public static final String USER_DIR_SHORT = System.getProperty("user.dir") + "/resources";
     /**
      * The constant USER_DIR.
      */
@@ -65,9 +63,8 @@ public class FileHelper {
      */
     public static final String OTHER_TEXTURE_DIR = "textures/other/";
 
-    public static final List<String> SUB_DIRS =
-            Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR,
-                          TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
+    public static final List<String> SUB_DIRS = Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR,
+            TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
 
@@ -87,12 +84,11 @@ public class FileHelper {
      * @return the internal texture
      * @throws FailedToLoadTextureException the failed to load texture exception
      */
-    public static Image getInternalTexture(String path) throws
-                                                        FailedToLoadTextureException {
+    public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
         Image texture = new Image("file:" + INTERNAL_DIR + "textures/" + path);
         if (texture.isError()) {
             LOGGER.error("Error loading internal texture: {}",
-                         texture.getException().getMessage());
+                    texture.getException().getMessage());
             throw new FailedToLoadTextureException(path);
         }
         return texture;
@@ -105,12 +101,10 @@ public class FileHelper {
      * @return the fxml file
      * @throws FailedToLoadFileException the failed to load file exception
      */
-    public static URI getFxmlFile(String path) throws
-                                               FailedToLoadFileException {
+    public static URI getFxmlFile(String path) throws FailedToLoadFileException {
         File file = new File(INTERNAL_DIR + "fxml/" + path);
         return checkIfFileExists(file);
     }
-
 
     /**
      * Gets file.
@@ -125,9 +119,7 @@ public class FileHelper {
         return checkIfFileExists(file);
     }
 
-
-    private static URI checkIfFileExists(File file) throws
-                                                    FailedToLoadFileException {
+    private static URI checkIfFileExists(File file) throws FailedToLoadFileException {
         if (file.exists()) {
             return file.toURI();
         } else {
@@ -204,23 +196,22 @@ public class FileHelper {
      * @throws FailedToLoadFileException      the failed to load file exception
      * @throws FailedToRetrieveFilesException the failed to retrieve files exception
      */
-    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws
-                                                                               FailedToLoadFileException,
-                                                                               FailedToRetrieveFilesException {
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws FailedToLoadFileException,
+            FailedToRetrieveFilesException {
         LOGGER.info("Loading files for {}...", pathSupplier.get());
         Map<String, File> files = new HashMap<>();
         URI mapPath = checkIfFileExists(pathSupplier.get());
 
         try {
             Files.walk(Path.of(mapPath)).filter(Files::isRegularFile)
-                 .forEach(file -> {
-                     LOGGER.info("Found file: {}", file);
-                     files.put(
-                             stripFileExtension(file.getFileName().toString()),
-                             file.toFile());
-                 });
+                    .forEach(file -> {
+                        LOGGER.info("Found file: {}", file);
+                        files.put(
+                                stripFileExtension(file.getFileName().toString()),
+                                file.toFile());
+                    });
         } catch (IOException e) {
-            LOGGER.error("Error retrieving files: {}", e.getMessage());
+            ErrorHandler.addException(e, "Failed to retrieve files");
             throw new FailedToRetrieveFilesException(mapPath.toString());
         }
         return files;

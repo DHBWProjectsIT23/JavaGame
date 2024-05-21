@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.game.models.tile.MovementType;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.views.TileView;
@@ -16,8 +17,7 @@ import java.util.List;
  * The type Tile factory.
  */
 public class TileFactory {
-    private static final Logger LOGGER =
-            LogManager.getLogger(TileFactory.class);
+    private static final Logger LOGGER = LogManager.getLogger(TileFactory.class);
     private final String tileType;
     private final List<Image> textures = new ArrayList<>();
     private final MovementType movementType;
@@ -61,7 +61,7 @@ public class TileFactory {
         try {
             texture1Image = textures.get(textureVariant);
         } catch (IndexOutOfBoundsException e) {
-            LOGGER.error("Texture variant {} not found", textureVariant);
+            ErrorHandler.addException(e, "Texture variant not found");
             texture1Image = null;
         }
         tileView.setTexture(texture1Image);
@@ -89,7 +89,7 @@ public class TileFactory {
     public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
         createTileModel(x, y);
         LOGGER.error("Creating tile view with texture variant: {}",
-                     textureVariant);
+                textureVariant);
         createTileView(textureVariant);
         return new Pair<>(tileModel, tileView);
     }

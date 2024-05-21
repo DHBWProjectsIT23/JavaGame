@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
@@ -59,7 +60,7 @@ public class TileView extends StackPane {
      */
     public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId,
-                    tileModel.modelId);
+                tileModel.modelId);
         loadTextures();
 
         this.gameState = Context.getGameState();
@@ -67,23 +68,23 @@ public class TileView extends StackPane {
         this.textureLayer = new ImageView();
         this.textureLayer.fitWidthProperty().bind(gameState.tileSizeProperty());
         this.textureLayer.fitHeightProperty()
-                         .bind(gameState.tileSizeProperty());
+                .bind(gameState.tileSizeProperty());
         this.setTexture();
 
         possibleMoveOverlay.setOpacity(0.2);
         possibleMoveOverlay.setMouseTransparent(true);
         possibleMoveOverlay.setBackground(new Background(
                 new BackgroundFill(Color.RED, CornerRadii.EMPTY,
-                                   Insets.EMPTY)));
+                        Insets.EMPTY)));
 
         hoverOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         hoverOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
         selectedOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         selectedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
         highlightedOverlay.fitWidthProperty()
-                          .bind(gameState.tileSizeProperty());
+                .bind(gameState.tileSizeProperty());
         highlightedOverlay.fitHeightProperty()
-                          .bind(gameState.tileSizeProperty());
+                .bind(gameState.tileSizeProperty());
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);
@@ -95,8 +96,7 @@ public class TileView extends StackPane {
         try {
             selectedOverlay = new ImageView(
                     FileHelper.getInternalTexture("other/64Selected.png"));
-            texture =
-                    FileHelper.getInternalTexture("tiles/misc/TileNotSet.png");
+            texture = FileHelper.getInternalTexture("tiles/misc/TileNotSet.png");
             hoverImage = FileHelper.getInternalTexture("other/64Hovered.png");
             hoverOccupiedImage = FileHelper.getInternalTexture(
                     "other/64HoveredOccupied.png");
@@ -104,9 +104,7 @@ public class TileView extends StackPane {
             highlightedOverlay = new ImageView(
                     FileHelper.getInternalTexture("other/64Highlighted.png"));
         } catch (FailedToLoadTextureException e) {
-            LOGGER.error("Failed to load textures: {}", e.getMessage());
-            ErrorPopup.showUnrecoverableErrorPopup("Failed to load textures",
-                                                   e);
+            ErrorHandler.addException(e, "Failed to load textures");
         }
     }
 
@@ -230,7 +228,7 @@ public class TileView extends StackPane {
      */
     public void setPossibleMove(boolean transparent) {
         LOGGER.info("Setting possible move overlay for tile {}...",
-                    this.viewId);
+                this.viewId);
         if (transparent) {
             this.getChildren().add(possibleMoveOverlay);
         } else {
