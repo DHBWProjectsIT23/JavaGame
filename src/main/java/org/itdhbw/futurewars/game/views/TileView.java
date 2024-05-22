@@ -3,17 +3,15 @@ package org.itdhbw.futurewars.game.views;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
-import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
@@ -71,11 +69,8 @@ public class TileView extends StackPane {
                 .bind(gameState.tileSizeProperty());
         this.setTexture();
 
-        possibleMoveOverlay.setOpacity(0.2);
         possibleMoveOverlay.setMouseTransparent(true);
-        possibleMoveOverlay.setBackground(new Background(
-                new BackgroundFill(Color.RED, CornerRadii.EMPTY,
-                        Insets.EMPTY)));
+        possibleMoveOverlay.getStyleClass().add("possible-move-overlay");
 
         hoverOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         hoverOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());

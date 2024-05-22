@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="150.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.application.controllers.ui.MenuViewController">
-    <HBox>
-        <VBox alignment="CENTER">
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#showMapSelection" text="Start Game" />
-            <Button mnemonicParsing="false" onAction="#openOptions" text="Options" />
-            <Button fx:id="mapEditorButton" mnemonicParsing="false" onAction="#startMapEditor" text="Map Editor" />
-            <Button disable="true" mnemonicParsing="false" onAction="#startUnitEditor" text="Unit Editor" />
-            <Button disable="true" mnemonicParsing="false" onAction="#startTileEditor" text="Tile Editor" />
-            <Button mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
-         <Button mnemonicParsing="false" onAction="#openErrorsView" text="Errors" />
-        </VBox>
-        <VBox fx:id="mapButtonContainer" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
-    </HBox>
-</StackPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="backgroundPane"
+            styleClass="transparent"
+            xmlns="http://javafx.com/javafx/21"
+            fx:controller="org.itdhbw.futurewars.application.controllers.ui.MenuViewController">
+    <children>
+        <StackPane styleClass="transparent" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" spacing="20.0" styleClass="transparent">
+                <VBox alignment="CENTER" styleClass="transparent"
+                      HBox.hgrow="NEVER">
+                    <children>
+                        <VBox alignment="CENTER" spacing="10.0"
+                              styleClass="main-menu-box">
+                            <Button fx:id="startButton" mnemonicParsing="false"
+                                    onAction="#showMapSelection"
+                                    text="Start Game"/>
+                            <Button mnemonicParsing="false"
+                                    onAction="#openOptions" text="Options"/>
+                            <Button fx:id="mapEditorButton"
+                                    mnemonicParsing="false"
+                                    onAction="#startMapEditor"
+                                    text="Map Editor"/>
+                            <Button disable="true" mnemonicParsing="false"
+                                    onAction="#startUnitEditor"
+                                    text="Unit Editor"/>
+                            <Button disable="true" mnemonicParsing="false"
+                                    onAction="#startTileEditor"
+                                    text="Tile Editor"/>
+                            <Button mnemonicParsing="false"
+                                    onAction="#exitApplication" text="Exit"/>
+                            <Button mnemonicParsing="false"
+                                    onAction="#openErrorsView" text="Errors"/>
+                        </VBox>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" styleClass="transparent">
+                    <children>
+                        <VBox fx:id="mapButtonContainer" alignment="CENTER_LEFT"
+                              spacing="10.0" styleClass="map-selection-box"/>
+                    </children>
+                </VBox>
+            </HBox>
+        </StackPane>
+    </children>
+</AnchorPane>

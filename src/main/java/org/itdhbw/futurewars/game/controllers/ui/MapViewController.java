@@ -76,8 +76,8 @@ public class MapViewController {
             }
         });
         this.gameGrid.setOnMouseMoved(event -> {
-            mouseX.set(event.getSceneX());
-            mouseY.set(event.getSceneY());
+            mouseX.set(event.getX() + 20);
+            mouseY.set(event.getY() + 10);
         });
     }
 

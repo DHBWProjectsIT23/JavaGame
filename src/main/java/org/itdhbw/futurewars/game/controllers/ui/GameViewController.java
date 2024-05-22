@@ -6,27 +6,27 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
-import org.itdhbw.futurewars.application.utils.ErrorPopup;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
+import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * The type Game view controller.
@@ -54,9 +54,11 @@ public class GameViewController {
     @FXML
     private AnchorPane optionsPane;
     @FXML
-    private AnchorPane escapeMenu;
+    private StackPane escapeMenu;
     @FXML
     private Label currentLabel;
+    @FXML
+    private AnchorPane backgroundPane;
 
     /**
      * Instantiates a new Game view controller.
@@ -95,6 +97,15 @@ public class GameViewController {
                 }
             });
         });
+
+        try {
+            URL backgroundImage = FileHelper.getFile(
+                    "$INTERNAL_DIR/assets/advanceWarsSplash.jpg").toURL();
+            backgroundPane.setStyle(
+                    "-fx-background-image: url('" + backgroundImage + "')");
+        } catch (FailedToLoadFileException | MalformedURLException e) {
+            ErrorHandler.addException(e, "Failed to load background image");
+        }
     }
 
     private void setPropertyInformation() {
@@ -137,32 +148,21 @@ public class GameViewController {
 
     @FXML
     private void openSettings(ActionEvent actionEvent) {
-        Stage stage = Context.getPrimaryStage();
-        Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent optionsView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("options-view.fxml").toURL());
-            Scene scene = new Scene(optionsView);
-            Context.getGameState().setPreviousScene(stage.getScene());
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
-            ErrorHandler.addException(e, "Error opening settings");
+            SceneController.loadScene("options-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addException(e, "Failed to load settings view");
+            ErrorHandler.showErrorPopup();
         }
-        escapeMenu.setVisible(false);
     }
 
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
-        Stage stage = Context.getPrimaryStage();
         try {
-            Parent menuView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("menu-view.fxml").toURL());
-            Scene scene = new Scene(menuView);
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
-            ErrorHandler.addException(e, "Error exiting to menu");
+            SceneController.loadScene("menu-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addException(e, "Failed to load menu view");
+            ErrorHandler.showErrorPopup();
         }
     }
 

@@ -2,21 +2,23 @@ package org.itdhbw.futurewars.application.controllers.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
+import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -32,6 +34,8 @@ public class MenuViewController {
     private Button mapEditorButton;
     @FXML
     private VBox mapButtonContainer;
+    @FXML
+    private AnchorPane backgroundPane;
 
     /**
      * Initialize.
@@ -45,6 +49,14 @@ public class MenuViewController {
             button.setOnAction(this::startGame);
             button.setUserData(map);
             mapButtonContainer.getChildren().add(button);
+        }
+        try {
+            URL backgroundImage = FileHelper.getFile(
+                    "$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
+            backgroundPane.setStyle(
+                    "-fx-background-image: url('" + backgroundImage + "')");
+        } catch (FailedToLoadFileException | MalformedURLException e) {
+            ErrorHandler.addException(e, "Failed to load background image");
         }
     }
 
@@ -61,28 +73,23 @@ public class MenuViewController {
         String map = (String) source.getUserData();
         try {
             Context.getMapLoader().loadMap(map);
-            Parent gameView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("game-view.fxml").toURL());
-            Scene scene = new Scene(gameView);
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene()
-                                                                  .getWindow();
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
-            ErrorHandler.addException(e, "Failed to start game");
+        } catch (IOException e) {
+            ErrorHandler.addException(e, "Failed to load map: " + map);
+        }
+
+        try {
+            SceneController.loadScene("game-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addException(e, "Failed to load game view");
+            ErrorHandler.showErrorPopup();
         }
     }
 
     @FXML
     private void startMapEditor(ActionEvent actionEvent) {
-        Stage stage = Context.getPrimaryStage();
         try {
-            Parent gameView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("map-editor-view.fxml").toURL());
-            Scene scene = new Scene(gameView);
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
+            SceneController.loadScene("map-editor-view.fxml");
+        } catch (FailedToLoadSceneException e) {
             ErrorHandler.addException(e, "Failed to open map editor");
             ErrorHandler.showErrorPopup();
         }
@@ -90,19 +97,9 @@ public class MenuViewController {
 
     @FXML
     private void openOptions(ActionEvent actionEvent) {
-        LOGGER.info("Opening options...");
-        Stage stage = Context.getPrimaryStage();
-        Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("options-view.fxml").toURL());
-            Scene scene = new Scene(gameView);
-            LOGGER.info("Setting previous scene...");
-            LOGGER.info("Previous scene: {}",
-                        Context.getGameState().getPreviousScene());
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
+            SceneController.loadScene("options-view.fxml");
+        } catch (FailedToLoadSceneException e) {
             ErrorHandler.addException(e, "Failed to open options");
             ErrorHandler.showErrorPopup();
         }
@@ -127,20 +124,10 @@ public class MenuViewController {
 
     @FXML
     private void openErrorsView(ActionEvent actionEvent) {
-        LOGGER.info("Opening Error View...");
-        Stage stage = Context.getPrimaryStage();
-        Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView = FXMLLoader.load(
-                    FileHelper.getFxmlFile("error-view.fxml").toURL());
-            Scene scene = new Scene(gameView);
-            LOGGER.info("Setting previous scene...");
-            LOGGER.info("Previous scene: {}",
-                        Context.getGameState().getPreviousScene());
-            stage.setScene(scene);
-            Context.getOptionsController().loadSettings();
-        } catch (IOException | FailedToLoadFileException e) {
-            ErrorHandler.addException(e, "Failed to open error view");
+            SceneController.loadScene("error-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addException(e, "Failed to open errors view");
             ErrorHandler.showErrorPopup();
         }
     }

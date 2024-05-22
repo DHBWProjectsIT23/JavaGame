@@ -592,6 +592,12 @@ public class MapEditorController {
         this.saveButton.setDisable(false);
     }
 
+    @FXML
+    private void goBack(ActionEvent actionEvent) {
+        Context.getPrimaryStage()
+               .setScene(Context.getGameState().getPreviousScene());
+    }
+
     /**
      * The enum Team.
      */

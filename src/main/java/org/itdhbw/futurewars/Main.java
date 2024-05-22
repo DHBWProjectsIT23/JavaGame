@@ -1,16 +1,18 @@
 package org.itdhbw.futurewars;
 
-import java.io.IOException;
-
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.StartupController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.application.utils.FileHelper;
+import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.stage.Stage;
+import java.io.IOException;
 
 /**
  * The type Main.
@@ -29,6 +31,16 @@ public class Main extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
+
+        try {
+            Font.loadFont(FileHelper.getFile(
+                                  "$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(),
+                          12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf")
+                                    .toString(), 12);
+        } catch (FailedToLoadFileException e) {
+            ErrorHandler.addException(e, "Failed to load font");
+        }
 
         StartupController.initializeUserDirectory();
         StartupController.initializeContext(stage);

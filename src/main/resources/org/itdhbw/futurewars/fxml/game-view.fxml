@@ -1,80 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="backgroundPane"
+            styleClass="dark-blue-bg"
+            xmlns="http://javafx.com/javafx/21"
             fx:controller="org.itdhbw.futurewars.game.controllers.ui.GameViewController">
-    <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-               AnchorPane.topAnchor="0.0">
-        <VBox>
-            <GridPane>
-                <HBox>
-                    <Label text="Selected Tile: "/>
-                    <Label fx:id="selectedTileDebug" text="Label"/>
-                </HBox>
-                <HBox GridPane.columnIndex="1">
-                    <Label text="HoveredTile: "/>
-                    <Label fx:id="hoveredTileDebug" text="Label"/>
-                </HBox>
-                <HBox GridPane.columnIndex="2">
-                    <Label text="Moving: "/>
-                    <Label fx:id="movingDebug" text="Label"/>
-                </HBox>
-                <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES"/>
-                    <ColumnConstraints hgrow="SOMETIMES"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints prefHeight="20.0" vgrow="SOMETIMES"/>
-                </rowConstraints>
-            </GridPane>
-            <HBox>
-                <AnchorPane>
-                    <fx:include source="map-view.fxml"/>
-                </AnchorPane>
-                <VBox>
-                    <VBox>
-                        <Label text="Selected Tile"/>
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <center>
+            <StackPane>
+                <VBox alignment="CENTER" spacing="15.0">
+                    <GridPane>
                         <HBox>
-                            <Label text="Type: "/>
-                            <Label fx:id="selectedTileType"/>
+                            <Label text="Selected Tile: "/>
+                            <Label fx:id="selectedTileDebug" text="Label"/>
                         </HBox>
-                    </VBox>
-                    <VBox>
-                        <Label text="Selected Unit"/>
-                        <HBox>
-                            <Label text="Type: "/>
-                            <Label fx:id="selectedUnitType"/>
+                        <HBox GridPane.columnIndex="1">
+                            <Label text="HoveredTile: "/>
+                            <Label fx:id="hoveredTileDebug" text="Label"/>
                         </HBox>
-                        <HBox>
-                            <Label text="HP:"/>
-                            <Label fx:id="selectedUnitHP"/>
+                        <HBox GridPane.columnIndex="2">
+                            <Label text="Moving: "/>
+                            <Label fx:id="movingDebug" text="Label"/>
                         </HBox>
-                        <HBox>
-                            <Label text="Range:"/>
-                            <Label fx:id="selectedUnitRange"/>
-                        </HBox>
-                        <HBox>
-                            <Label text="Team: "/>
-                            <Label fx:id="selectedUnitTeam"/>
-                        </HBox>
-                    </VBox>
-                    <Button mnemonicParsing="false" onAction="#endTurn" text="endTurn"/>
-                    <Label fx:id="currentLabel" text="Current:"/>
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES"/>
+                            <ColumnConstraints hgrow="SOMETIMES"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                               prefWidth="100.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints prefHeight="20.0"
+                                            vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                    </GridPane>
+                    <HBox alignment="CENTER" spacing="15.0">
+                        <AnchorPane styleClass="game-grid">
+                            <fx:include source="map-view.fxml"
+                                        AnchorPane.bottomAnchor="0.0"
+                                        AnchorPane.leftAnchor="0.0"
+                                        AnchorPane.rightAnchor="0.0"
+                                        AnchorPane.topAnchor="0.0"/>
+                        </AnchorPane>
+                        <VBox spacing="15.0">
+                            <StackPane>
+                                <children>
+                                    <Pane styleClass="opaque-yellow"/>
+                                    <VBox spacing="5.0">
+                                        <Label text="Selected Tile"/>
+                                        <HBox>
+                                            <Label text="Type: "/>
+                                            <Label fx:id="selectedTileType"/>
+                                        </HBox>
+                                    </VBox>
+                                </children>
+                            </StackPane>
+                            <StackPane>
+                                <children>
+                                    <Pane styleClass="opaque-yellow"/>
+                                    <VBox spacing="5.0">
+                                        <Label text="Selected Unit"/>
+                                        <HBox>
+                                            <Label text="Type: "/>
+                                            <Label fx:id="selectedUnitType"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Label text="HP:"/>
+                                            <Label fx:id="selectedUnitHP"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Label text="Range:"/>
+                                            <Label fx:id="selectedUnitRange"/>
+                                        </HBox>
+                                        <HBox>
+                                            <Label text="Team: "/>
+                                            <Label fx:id="selectedUnitTeam"/>
+                                        </HBox>
+                                    </VBox>
+                                </children>
+                            </StackPane>
+                            <StackPane>
+                                <children>
+                                    <Pane styleClass="opaque-yellow"/>
+                                    <VBox>
+                                        <children>
+                                            <Button mnemonicParsing="false"
+                                                    onAction="#endTurn"
+                                                    text="endTurn"/>
+                                            <Label fx:id="currentLabel"
+                                                   text="Current:"/>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </StackPane>
+                        </VBox>
+                    </HBox>
                 </VBox>
-            </HBox>
-        </VBox>
-        <AnchorPane fx:id="escapeMenu" visible="false">
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Green; -fx-opacity: 0.2;"
-                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                  AnchorPane.topAnchor="0.0"/>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0"
-                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <Button mnemonicParsing="false" onAction="#openSettings" text="Settings"/>
-                <Button mnemonicParsing="false" onAction="#quitToMenu" text="Quit to Menu"/>
-                <Button mnemonicParsing="false" onAction="#quitToDesktop" text="Quit to Desktop"/>
-            </VBox>
-        </AnchorPane>
-    </StackPane>
+                <StackPane fx:id="escapeMenu" visible="false"
+                           StackPane.alignment="CENTER">
+                    <children>
+                        <Pane prefHeight="200.0" prefWidth="200.0"
+                              style="-fx-background-color: Green; -fx-opacity: 0.2;"/>
+                        <HBox alignment="CENTER">
+                            <children>
+                                <VBox alignment="CENTER">
+                                    <VBox alignment="CENTER" spacing="5.0"
+                                          styleClass="map-selection-box">
+                                        <children>
+                                            <Button mnemonicParsing="false"
+                                                    onAction="#openSettings"
+                                                    text="Settings"/>
+                                            <Button mnemonicParsing="false"
+                                                    onAction="#quitToMenu"
+                                                    text="Quit to Menu"/>
+                                            <Button mnemonicParsing="false"
+                                                    onAction="#quitToDesktop"
+                                                    text="Quit to Desktop"/>
+                                        </children>
+                                    </VBox>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </StackPane>
+            </StackPane>
+        </center>
+        <top>
+            <Pane prefHeight="20.0" prefWidth="20.0"
+                  BorderPane.alignment="CENTER"/>
+        </top>
+        <left>
+            <Pane prefHeight="20.0" prefWidth="20.0"
+                  BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <Pane prefHeight="20.0" prefWidth="20.0"
+                  BorderPane.alignment="CENTER"/>
+        </right>
+        <bottom>
+            <Pane prefHeight="20.0" prefWidth="20.0"
+                  BorderPane.alignment="CENTER"/>
+        </bottom>
+    </BorderPane>
 </AnchorPane>

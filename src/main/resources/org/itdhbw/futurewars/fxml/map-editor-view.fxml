@@ -2,15 +2,21 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<SplitPane dividerPositions="0.10022271714922049" orientation="VERTICAL" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.itdhbw.futurewars.editors.controllers.MapEditorController">
-    <HBox prefHeight="100.0" prefWidth="200.0">
+<?import java.lang.String?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1"
+           dividerPositions="0.10022271714922049"
+           orientation="VERTICAL"
+           xmlns="http://javafx.com/javafx/21"
+           fx:controller="org.itdhbw.futurewars.editors.controllers.MapEditorController">
+    <HBox>
         <Label fx:id="statusLabel" text="Status" />
         <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveMap" text="Save" />
         <Button mnemonicParsing="false" onAction="#saveMapAs" text="Save as..." />
         <Button mnemonicParsing="false" onAction="#loadMap" text="Load" />
+        <Button mnemonicParsing="false" onAction="#goBack" text="Quit"/>
     </HBox>
-    <SplitPane dividerPositions="0.7803504380475594" prefHeight="160.0" prefWidth="200.0">
-      <AnchorPane fx:id="editorGridContainer" prefHeight="800.0" prefWidth="1300.0">
+    <SplitPane dividerPositions="0.7803504380475594">
+        <AnchorPane fx:id="editorGridContainer">
          <children>
               <GridPane fx:id="editorGrid" gridLinesVisible="true" layoutX="0.5" layoutY="0.5" maxHeight="800.0" maxWidth="1300.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.rightAnchor="0.0">
                   <columnConstraints>
@@ -25,21 +31,21 @@
               </GridPane>
          </children>
       </AnchorPane>
-        <VBox prefHeight="200.0" prefWidth="100.0">
+        <VBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <TextField fx:id="widthInput" prefHeight="26.0" prefWidth="87.0" promptText="Width" />
                 <TextField fx:id="heightInput" prefHeight="26.0" prefWidth="101.0" promptText="Height" />
                 <Button fx:id="confirmSizeButton" mnemonicParsing="false" onAction="#setSize" text="Confirm" />
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-            <VBox>
+            <HBox>
+                <VBox spacing="10.0">
                <children>
                       <MenuButton fx:id="tileDropdown" mnemonicParsing="false" text="TileType" />
                   <MenuButton fx:id="textureDropdown" mnemonicParsing="false" text="TextureVariant" />
                </children>
             </VBox>
             <Pane prefWidth="50.0" />
-            <VBox>
+                <VBox spacing="10.0">
                <children>
                       <MenuButton fx:id="unitDropdown" mnemonicParsing="false" text="UnitType" />
                   <MenuButton fx:id="teamDropdown" mnemonicParsing="false" text="Team">
@@ -53,4 +59,8 @@
             </HBox>
         </VBox>
     </SplitPane>
+    <styleClass>
+        <String fx:value="dark-blue-bg"/>
+        <String fx:value="map-editor"/>
+    </styleClass>
 </SplitPane>
