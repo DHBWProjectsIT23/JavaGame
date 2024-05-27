@@ -5,9 +5,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,7 @@ import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
+import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;
 
@@ -40,7 +42,31 @@ public class MapViewController {
     @FXML
     private VBox overlayBox;
     @FXML
-    private Button overlayAttackButton1;
+    private Button overlayAttackButton;
+    @FXML
+    private AnchorPane statusViewOverlay;
+    @FXML
+    private VBox statusViewVBox;
+    @FXML
+    private ImageView currentTileTexture;
+    @FXML
+    private Label currentTileType;
+    @FXML
+    private Label currentTileDef;
+    @FXML
+    private Label currentTileAtk;
+    @FXML
+    private ImageView currentUnitTexture;
+    @FXML
+    private Label currentUnitType;
+    @FXML
+    private Label currentUnitHealth;
+    @FXML
+    private Button overlayInfoButton;
+    @FXML
+    private HBox currentUnitHBox;
+    @FXML
+    private Pane infoViewSeperator;
 
     public MapViewController() {
         this.tileCreationController = Context.getTileCreationController();
@@ -67,7 +93,43 @@ public class MapViewController {
             mouseY.set(event.getY() + 10);
         });
 
+        this.gameState.selectedTileProperty().addListener((_, _, newValue) -> {
+            if (newValue != null) {
+                this.showStatusView(newValue);
+            } else {
+                this.hideStatusView();
+            }
+        });
 
+    }
+
+    private void hideStatusView() {
+        this.statusViewOverlay.setVisible(false);
+    }
+
+    private void showStatusView(TileModel selectedTile) {
+        this.statusViewOverlay.setVisible(true);
+        this.currentTileType.setText(selectedTile.getTileType());
+        Image tileTexture = Context.getTileRepository()
+                                   .getTileView(selectedTile.getPosition())
+                                   .getTexture();
+        this.currentTileTexture.setImage(tileTexture);
+
+        if (selectedTile.isOccupied()) {
+            this.statusViewVBox.getChildren().addAll(this.currentUnitHBox,
+                                                     this.infoViewSeperator);
+            UnitModel selectedUnitModel =
+                    gameState.selectedTileProperty().get().getOccupyingUnit();
+            this.currentUnitTexture.setImage(
+                    Context.getUnitRepository().getUnitView(selectedUnitModel)
+                           .getTexture());
+            this.currentUnitHealth.setText(
+                    selectedUnitModel.getCurrentHealth() + "/" +
+                    selectedUnitModel.getMaxHealth() + " ♥");
+        } else {
+            this.statusViewVBox.getChildren().removeAll(this.currentUnitHBox,
+                                                        this.infoViewSeperator);
+        }
     }
 
     private void hideOverlay() {
@@ -78,6 +140,20 @@ public class MapViewController {
     private void showOverlay() {
         LOGGER.info("Showing overlay...");
         LOGGER.info("Mouse X: {} - Mouse Y: {}", mouseX.get(), mouseY.get());
+        this.overlayBox.getChildren().remove(overlayMoveButton);
+        this.overlayBox.getChildren().remove(overlayAttackButton);
+        this.overlayBox.getChildren().remove(overlayInfoButton);
+        this.overlayBox.getChildren().remove(overlayCloseButton);
+        if (gameState.getSelectedUnit().canAttack()) {
+            this.overlayBox.getChildren().add(overlayMoveButton);
+            this.overlayBox.getChildren().add(overlayAttackButton);
+            this.overlayBox.getChildren().add(overlayInfoButton);
+            this.overlayBox.getChildren().add(overlayCloseButton);
+        } else {
+            this.overlayBox.getChildren().add(overlayMoveButton);
+            this.overlayBox.getChildren().add(overlayInfoButton);
+            this.overlayBox.getChildren().add(overlayCloseButton);
+        }
         this.overlayBox.setLayoutX(mouseX.get());
         this.overlayBox.setLayoutY(mouseY.get());
         this.overlayPane.setVisible(true);

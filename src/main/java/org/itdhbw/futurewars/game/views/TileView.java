@@ -182,7 +182,12 @@ public class TileView extends StackPane {
         this.textureLayer.setImage(this.texture);
     }
 
+    public Image getTexture() {
+        return this.texture;
+    }
+
     public void setTexture(Image texture) {
+        this.texture = texture;
         this.textureLayer.setImage(texture);
     }
 }

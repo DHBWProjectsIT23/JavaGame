@@ -28,12 +28,28 @@ public class GameState {
     private final IntegerProperty mapWidthTiles = new SimpleIntegerProperty();
     private final IntegerProperty tileSize = new SimpleIntegerProperty();
     private final IntegerProperty currentPlayer = new SimpleIntegerProperty(1);
+
+
+    private final IntegerProperty currentDay = new SimpleIntegerProperty(1);
     private Scene previousScene;
     private Stage primaryStage;
 
     public GameState() {
+        currentPlayer.addListener((observable, oldValue, newValue) -> {
+            LOGGER.info("Current player changed to {}", newValue);
+            if (oldValue.equals(2) && newValue.equals(1)) {
+                currentDay.set(currentDay.get() + 1);
+            }
+        });
     }
 
+    public int getCurrentDay() {
+        return currentDay.get();
+    }
+
+    public IntegerProperty currentDayProperty() {
+        return currentDay;
+    }
     private Stage getPrimaryStage() {
         return primaryStage;
     }

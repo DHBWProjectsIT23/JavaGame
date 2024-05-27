@@ -187,6 +187,10 @@ public class AStarPathfinder {
         visited.removeIf(tile -> !tile.isOccupied());
         visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() ==
                                  attackingUnit.getTeam());
+        LOGGER.info("Attackable tiles: {}", visited.size());
+        for (TileModel tile : visited) {
+            LOGGER.info("Tile {} is attackable in Pathfinder", tile.modelId);
+        }
 
         LOGGER.info("Attackable tiles: {}", visited.size());
         return visited;

@@ -83,7 +83,7 @@
 .game-grid {
     -fx-background-color: #011936;
     -fx-border-color: #F9DC5C;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 0px;
     -fx-border-width: 15px;
 }
 
@@ -112,4 +112,50 @@
 
 .arial-font {
     -fx-font-family: "Arial";
+}
+
+.map-info-view {
+    -fx-background-color: #e3d086;
+    -fx-border-color: #8f814d;
+    -fx-padding: 5px 10px 5px 10px;
+    -fx-border-radius: 0px;
+    -fx-spacing: 5px;
+    -fx-border-width: 2px;
+}
+
+.player-action-box {
+    -fx-background-color: #e3d086;
+    -fx-border-color: #8f814d;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-border-radius: 0px;
+    -fx-border-width: 2px;
+}
+
+.map-info-label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000914;
+    -fx-padding: 5px;
+}
+
+.game-status-box {
+    -fx-background-color: #e3d086;
+    -fx-border-color: #8f814d;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-border-radius: 0px;
+    -fx-border-width: 2px;
+}
+
+.game-status-label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #000914;
+    -fx-font-size: 24px;
+    -fx-padding: 5px;
+}
+
+.red-bg {
+    -fx-background-color: #ED254E;
+}
+
+.blue-bg {
+    -fx-background-color: #256EFF;
 }

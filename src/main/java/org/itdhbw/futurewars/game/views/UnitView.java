@@ -29,4 +29,8 @@ public class UnitView extends ImageView {
             this.setImage(texture2);
         }
     }
+
+    public Image getTexture() {
+        return this.getImage();
+    }
 }

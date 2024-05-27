@@ -20,10 +20,13 @@ public class TileModel {
             new SimpleBooleanProperty(false);
     protected MovementType movementType;
     private boolean isOccupied = false;
+    private final String tileType;
+
 
     public TileModel(String tileType, final int x, final int y) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}",
                     modelId, x, y, tileType);
+        this.tileType = tileType;
         this.position = new Position(x, y, true);
     }
 
@@ -84,5 +87,9 @@ public class TileModel {
 
     public BooleanProperty partOfPossiblePathProperty() {
         return partOfPossiblePath;
+    }
+
+    public String getTileType() {
+        return tileType;
     }
 }

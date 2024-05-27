@@ -26,6 +26,16 @@ public class UnitModel {
     protected int currentHealth = 10;
     private boolean hasMoved = false;
 
+    private boolean canAttack = false;
+
+    public boolean canAttack() {
+        return canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+    }
+
     public UnitModel(String unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId,
                     team, modelId);
@@ -66,8 +76,6 @@ public class UnitModel {
     }
 
     public int getTravelCost(MovementType movementType) {
-        LOGGER.info("Getting travel cost for movement type: {}", movementType);
-        LOGGER.info("Travel costs: {}", travelCosts);
         return travelCosts.get(movementType);
     }
 
@@ -121,5 +129,6 @@ public class UnitModel {
     public void setWoodsTravelCost(int cost) {
         this.travelCosts.put(MovementType.WOODS, cost);
     }
+
 }
 
