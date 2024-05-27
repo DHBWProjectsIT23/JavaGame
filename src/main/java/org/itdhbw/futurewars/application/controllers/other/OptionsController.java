@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-/**
- * The type Options controller.
- */
 public class OptionsController {
     private static final Logger LOGGER = LogManager.getLogger(OptionsController.class);
     private static final String SETTINGS_FILE = "settings.properties";
@@ -31,18 +28,10 @@ public class OptionsController {
     private Stage stage;
     private List<String> resolutions;
 
-    /**
-     * Gets resolutions.
-     *
-     * @return the resolutions
-     */
     public List<String> getResolutions() {
         return resolutions;
     }
 
-    /**
-     * Save settings.
-     */
     public void saveSettings() {
         try (FileOutputStream output = new FileOutputStream(SETTINGS_FILE)) {
             settings.store(output, "Settings for Future Wars");
@@ -51,20 +40,10 @@ public class OptionsController {
         }
     }
 
-    /**
-     * Gets resolution.
-     *
-     * @return the resolution
-     */
     public String getResolution() {
         return settings.getProperty(RESOLUTION);
     }
 
-    /**
-     * Sets resolution.
-     *
-     * @param resolution the resolution
-     */
     public void setResolution(String resolution) {
         String[] parts = resolution.split("x");
         int width = Integer.parseInt(parts[0]);
@@ -72,11 +51,6 @@ public class OptionsController {
         setResolution(width, height);
     }
 
-    /**
-     * Gets view mode.
-     *
-     * @return the view mode
-     */
     public String getViewMode() {
         return settings.getProperty(VIEW_MODE);
     }
@@ -105,20 +79,10 @@ public class OptionsController {
 
     }
 
-    /**
-     * Gets current width.
-     *
-     * @return the current width
-     */
     public int getCurrentWidth() {
         return Integer.parseInt(settings.getProperty(WIDTH));
     }
 
-    /**
-     * Gets current height.
-     *
-     * @return the current height
-     */
     public int getCurrentHeight() {
         return Integer.parseInt(settings.getProperty(WIDTH));
     }
@@ -130,18 +94,10 @@ public class OptionsController {
         return (height / width) * 16;
     }
 
-    /**
-     * Is fullscreen boolean.
-     *
-     * @return the boolean
-     */
     public boolean isFullscreen() {
         return settings.getProperty(VIEW_MODE).equals(FULLSCREEN);
     }
 
-    /**
-     * Sets fullscreen.
-     */
     public void setFullscreen() {
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
@@ -158,19 +114,11 @@ public class OptionsController {
         }
     }
 
-    /**
-     * Load settings.
-     */
     public void loadSettings() {
         loadResolution();
         loadViewMode();
     }
 
-    /**
-     * Initialize settings.
-     *
-     * @param stage the stage
-     */
     public void initializeSettings(Stage stage) {
         this.stage = stage;
         if (!Files.exists(Path.of(SETTINGS_FILE))) {
@@ -208,9 +156,6 @@ public class OptionsController {
         setResolution(width, height);
     }
 
-    /**
-     * Sets windowed.
-     */
     public void setWindowed() {
         stage.setFullScreen(false);
         int width = Integer.parseInt(settings.getProperty(WIDTH));
@@ -219,12 +164,6 @@ public class OptionsController {
         settings.setProperty(VIEW_MODE, WINDOWED);
     }
 
-    /**
-     * Sets resolution.
-     *
-     * @param width  the width
-     * @param height the height
-     */
     public void setResolution(int width, int height) {
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
         // LOGGER.info("Bounds: {}", bounds);

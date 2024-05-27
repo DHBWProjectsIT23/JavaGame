@@ -9,28 +9,15 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.util.*;
 
-/**
- * The type A star pathfinder.
- */
 public class AStarPathfinder {
     private static final Logger LOGGER =
             LogManager.getLogger(AStarPathfinder.class);
     private final TileRepository tileRepository;
 
-    /**
-     * Instantiates a new A star pathfinder.
-     */
     public AStarPathfinder() {
         this.tileRepository = Context.getTileRepository();
     }
 
-    /**
-     * Find path list.
-     *
-     * @param startTile the start tile
-     * @param endTile   the end tile
-     * @return the list
-     */
     public List<TileModel> findPath(TileModel startTile, TileModel endTile) {
         Map<TileModel, Integer> fScore = new HashMap<>();
         PriorityQueue<TileModel> openSet =
@@ -131,12 +118,6 @@ public class AStarPathfinder {
         return neighbors;
     }
 
-    /**
-     * Gets reachable tiles.
-     *
-     * @param startTile the start tile
-     * @return the reachable tiles
-     */
     public Set<TileModel> getReachableTiles(TileModel startTile) {
         LOGGER.info("Calculating reachable tiles for unit {} on tile {}",
                     startTile.getOccupyingUnit().modelId, startTile.modelId);
@@ -175,13 +156,6 @@ public class AStarPathfinder {
         return visited;
     }
 
-    /**
-     * Gets attackable tiles.
-     *
-     * @param startTile     the start tile
-     * @param attackingUnit the attacking unit
-     * @return the attackable tiles
-     */
     public Set<TileModel> getAttackableTiles(TileModel startTile, UnitModel attackingUnit) {
         LOGGER.info("Calculating attackable tiles for unit {} on tile {}",
                     attackingUnit.modelId, startTile.modelId);

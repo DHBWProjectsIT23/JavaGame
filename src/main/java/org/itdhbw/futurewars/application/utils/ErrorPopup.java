@@ -6,20 +6,11 @@ import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-/**
- * The type Error popup.
- */
 public class ErrorPopup {
     private ErrorPopup() {
         // private constructor to prevent instantiation
     }
 
-    /**
-     * Show error popup.
-     *
-     * @param message the message
-     * @param e       the e
-     */
     public static void showErrorPopup(String message, Throwable e) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -40,22 +31,10 @@ public class ErrorPopup {
         });
     }
 
-    /**
-     * Show recoverable error popup.
-     *
-     * @param message the message
-     * @param e       the e
-     */
     public static void showRecoverableErrorPopup(String message, Throwable e) {
         showRecoverableErrorPopup(message, e.getMessage());
     }
 
-    /**
-     * Show recoverable error popup.
-     *
-     * @param message the message
-     * @param e       the e
-     */
     public static void showRecoverableErrorPopup(String message, String e) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -72,12 +51,6 @@ public class ErrorPopup {
     }
 
 
-    /**
-     * Show unrecoverable error popup.
-     *
-     * @param message the message
-     * @param e       the e
-     */
     public static void showUnrecoverableErrorPopup(String message, Throwable e) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);

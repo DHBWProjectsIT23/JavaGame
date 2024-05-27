@@ -11,20 +11,11 @@ import org.itdhbw.futurewars.game.views.TileView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The type Moving unit mode handler.
- */
 public class MovingUnitModeHandler implements MouseEventHandler {
     private static final List<TileModel> highlightedTiles = new ArrayList<>();
     private final GameState gameState;
     private final AStarPathfinder pathfinder;
 
-    /**
-     * Instantiates a new Moving unit mode handler.
-     *
-     * @param gameState  the game state
-     * @param pathfinder the pathfinder
-     */
     public MovingUnitModeHandler(GameState gameState, AStarPathfinder pathfinder) {
         this.gameState = gameState;
         this.pathfinder = pathfinder;

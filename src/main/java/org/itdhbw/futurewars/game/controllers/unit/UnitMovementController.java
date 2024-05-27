@@ -10,34 +10,19 @@ import org.itdhbw.futurewars.game.utils.AStarPathfinder;
 
 import java.util.List;
 
-/**
- * The type Unit movement controller.
- */
 public class UnitMovementController {
     private static final Logger LOGGER =
             LogManager.getLogger(UnitMovementController.class);
     private AStarPathfinder pathfinder;
 
-    /**
-     * Instantiates a new Unit movement controller.
-     */
     public UnitMovementController() {
         // empty constructor
     }
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
         this.pathfinder = Context.getPathfinder();
     }
 
-    /**
-     * Move unit.
-     *
-     * @param unit       the unit
-     * @param targetTile the target tile
-     */
     public void moveUnit(UnitModel unit, TileModel targetTile) {
         if (targetTile.isOccupied()) {
             LOGGER.error("Tile {} is already occupied!", targetTile.modelId);

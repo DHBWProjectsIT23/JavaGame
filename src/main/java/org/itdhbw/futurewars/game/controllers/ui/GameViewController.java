@@ -28,9 +28,6 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * The type Game view controller.
- */
 public class GameViewController {
 
     private static final Logger LOGGER =
@@ -63,16 +60,10 @@ public class GameViewController {
     @FXML
     private AnchorPane gamePane;
 
-    /**
-     * Instantiates a new Game view controller.
-     */
     public GameViewController() {
         this.gameState = Context.getGameState();
     }
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
         selectedTileDebug.textProperty().bind(createTileBinding(
                 gameState.selectedTileProperty(), "No tile selected"));

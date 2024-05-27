@@ -17,45 +17,22 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 
-/**
- * The type Tile view.
- */
 public class TileView extends StackPane {
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
-    /**
-     * The View id.
-     */
     public final int viewId = this.hashCode();
-    /**
-     * The Possible move overlay.
-     */
     protected final Pane possibleMoveOverlay = new Pane();
-    /**
-     * The Texture layer.
-     */
     protected final ImageView textureLayer;
     private final TileModel tileModel;
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
     private final BooleanProperty hovered = new SimpleBooleanProperty(false);
     private final GameState gameState;
-    /**
-     * The Selected overlay.
-     */
     protected ImageView selectedOverlay;
-    /**
-     * The Hover overlay.
-     */
     protected ImageView hoverOverlay;
     private ImageView highlightedOverlay;
     private Image texture;
     private Image hoverImage;
     private Image hoverOccupiedImage;
 
-    /**
-     * Instantiates a new Tile view.
-     *
-     * @param tileModel the tile model
-     */
     public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId,
                 tileModel.modelId);
@@ -147,29 +124,14 @@ public class TileView extends StackPane {
         });
     }
 
-    /**
-     * Gets tile model.
-     *
-     * @return the tile model
-     */
     public TileModel getTileModel() {
         return tileModel;
     }
 
-    /**
-     * Selected property boolean property.
-     *
-     * @return the boolean property
-     */
     public BooleanProperty selectedProperty() {
         return selected;
     }
 
-    /**
-     * Hovered property boolean property.
-     *
-     * @return the boolean property
-     */
     public BooleanProperty hoveredProperty() {
         return hovered;
     }
@@ -196,31 +158,16 @@ public class TileView extends StackPane {
         this.getChildren().remove(selectedOverlay);
     }
 
-    /**
-     * Remove from stack.
-     *
-     * @param node the node
-     */
     public void removeFromStack(Node node) {
         LOGGER.info("Removing node {} from tile view...", node.hashCode());
         this.getChildren().remove(node);
     }
 
-    /**
-     * Add to stack.
-     *
-     * @param node the node
-     */
     public void addToStack(Node node) {
         LOGGER.info("Adding node {} to tile view...", node.hashCode());
         this.getChildren().add(node);
     }
 
-    /**
-     * Sets possible move.
-     *
-     * @param transparent the transparent
-     */
     public void setPossibleMove(boolean transparent) {
         LOGGER.info("Setting possible move overlay for tile {}...",
                 this.viewId);
@@ -231,18 +178,10 @@ public class TileView extends StackPane {
         }
     }
 
-    /**
-     * Sets texture.
-     */
     protected void setTexture() {
         this.textureLayer.setImage(this.texture);
     }
 
-    /**
-     * Sets texture.
-     *
-     * @param texture the texture
-     */
     public void setTexture(Image texture) {
         this.textureLayer.setImage(texture);
     }

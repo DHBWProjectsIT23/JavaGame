@@ -5,18 +5,10 @@ import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
 
-/**
- * The type Regular mode handler.
- */
 public class RegularModeHandler implements MouseEventHandler {
 
     private final GameState gameState;
 
-    /**
-     * Instantiates a new Regular mode handler.
-     *
-     * @param gameState the game state
-     */
     public RegularModeHandler(GameState gameState) {
         this.gameState = gameState;
     }

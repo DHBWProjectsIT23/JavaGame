@@ -20,9 +20,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
-/**
- * The type Menu view controller.
- */
 public class MenuViewController {
 
     private static final Logger LOGGER =
@@ -36,9 +33,6 @@ public class MenuViewController {
     @FXML
     private AnchorPane backgroundPane;
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
         LOGGER.info("Initializing menu view...");
         mapButtonContainer.setVisible(false);

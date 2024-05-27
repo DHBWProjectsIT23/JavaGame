@@ -9,9 +9,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The type Options controller.
- */
 public class ErrorHandler {
     private static final Logger LOGGER =
             LogManager.getLogger(ErrorHandler.class);

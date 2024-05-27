@@ -20,9 +20,6 @@ import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;
 
-/**
- * The type Map view controller.
- */
 public class MapViewController {
     private static final Logger LOGGER =
             LogManager.getLogger(MapViewController.class);
@@ -45,9 +42,6 @@ public class MapViewController {
     @FXML
     private Button overlayAttackButton1;
 
-    /**
-     * Instantiates a new Map view controller.
-     */
     public MapViewController() {
         this.tileCreationController = Context.getTileCreationController();
         this.unitMovementController = Context.getUnitMovementController();
@@ -55,12 +49,8 @@ public class MapViewController {
     }
 
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
 
-        Context.setMapController(this);
         this.addTilesToGrid();
         LOGGER.info("Creating Units...");
 
@@ -97,8 +87,7 @@ public class MapViewController {
     private void addTileToGrid(Pair<TileModel, TileView> tile) {
         LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(),
                     tile.getValue());
-        LOGGER.info("Tile position: {}",
-                    tile.getKey().getPosition().toString());
+        LOGGER.info("Tile position: {}", tile.getKey().getPosition());
         Position position = tile.getKey().getPosition();
         gameGrid.add(tile.getValue(), position.getX(), position.getY());
     }

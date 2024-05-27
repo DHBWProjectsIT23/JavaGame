@@ -7,21 +7,11 @@ import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
 
-/**
- * The type Attacking unit mode handler.
- */
 public class AttackingUnitModeHandler implements MouseEventHandler {
     private final GameState gameState;
     private final UnitMovementController unitMovementController;
     private final UnitAttackController unitAttackController;
 
-    /**
-     * Instantiates a new Attacking unit mode handler.
-     *
-     * @param gameState              the game state
-     * @param unitMovementController the unit movement controller
-     * @param unitAttackController   the unit attack controller
-     */
     public AttackingUnitModeHandler(GameState gameState, UnitMovementController unitMovementController, UnitAttackController unitAttackController) {
         this.gameState = gameState;
         this.unitMovementController = unitMovementController;

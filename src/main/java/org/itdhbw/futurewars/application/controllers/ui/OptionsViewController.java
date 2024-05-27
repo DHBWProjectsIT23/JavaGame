@@ -11,16 +11,10 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.OptionsController;
 import org.itdhbw.futurewars.application.models.Context;
 
-/**
- * The type Options view controller.
- */
 public class OptionsViewController {
     private static final Logger LOGGER =
             LogManager.getLogger(OptionsViewController.class);
     private final OptionsController optionsController;
-    /**
-     * The Stage.
-     */
     Stage stage;
     @FXML
     private Button backButton;
@@ -30,16 +24,10 @@ public class OptionsViewController {
     private MenuButton resolutionButton;
     private boolean initializedResolutions = false;
 
-    /**
-     * Instantiates a new Options view controller.
-     */
     public OptionsViewController() {
         this.optionsController = Context.getOptionsController();
     }
 
-    /**
-     * Initialize.
-     */
     @FXML
     public void initialize() {
         for (MenuItem item : viewModeButton.getItems()) {

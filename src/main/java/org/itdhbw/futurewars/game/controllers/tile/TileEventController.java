@@ -23,9 +23,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The type Tile event controller.
- */
 //! BUG: Hovering over a tile that is occupied throws an NullPointerException in Moving Unit Mode
 public class TileEventController {
     private static final Logger LOGGER =
@@ -39,16 +36,10 @@ public class TileEventController {
     private AStarPathfinder pathfinder;
     private UnitMovementController unitMovementController;
 
-    /**
-     * Instantiates a new Tile event controller.
-     */
     public TileEventController() {
         this.mouseEventHandlers = new EnumMap<>(ActiveMode.class);
     }
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
@@ -131,11 +122,6 @@ public class TileEventController {
         new Thread(task).start();
     }
 
-    /**
-     * Handle mouse enter.
-     *
-     * @param event the event
-     */
     public void handleMouseEnter(MouseEvent event) {
         TileView tileView =
                 (TileView) ((StackPane) event.getSource()).getUserData();
@@ -146,11 +132,6 @@ public class TileEventController {
         }
     }
 
-    /**
-     * Handle mouse click.
-     *
-     * @param event the event
-     */
     public void handleMouseClick(MouseEvent event) {
         TileView tileView =
                 (TileView) ((StackPane) event.getSource()).getUserData();

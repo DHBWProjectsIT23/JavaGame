@@ -9,9 +9,6 @@ import org.itdhbw.futurewars.game.views.UnitView;
 
 import java.net.URI;
 
-/**
- * The type Unit factory.
- */
 public class UnitFactory {
     private static final Logger LOGGER =
             LogManager.getLogger(UnitFactory.class);
@@ -27,19 +24,6 @@ public class UnitFactory {
     private UnitModel unitModel;
     private UnitView unitView;
 
-    /**
-     * Instantiates a new Unit factory.
-     *
-     * @param unitType           the unit type
-     * @param attackRange        the attack range
-     * @param movementRange      the movement range
-     * @param travelCostPlain    the travel cost plain
-     * @param travelCostWood     the travel cost wood
-     * @param travelCostMountain the travel cost mountain
-     * @param travelCostSea      the travel cost sea
-     * @param texture1           the texture 1
-     * @param texture2           the texture 2
-     */
     public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2) {
         LOGGER.info("Creating unit factory for unit type: {}", unitType);
         this.unitType = unitType;
@@ -71,23 +55,12 @@ public class UnitFactory {
         unitView.setTexture(texture1, texture2);
     }
 
-    /**
-     * Create unit pair.
-     *
-     * @param team the team
-     * @return the pair
-     */
     public Pair<UnitModel, UnitView> createUnit(int team) {
         createUnitModel(team);
         createUnitView();
         return new Pair<>(unitModel, unitView);
     }
 
-    /**
-     * Gets unit textures.
-     *
-     * @return the unit textures
-     */
     public Pair<Image, Image> getUnitTextures() {
         return new Pair<>(texture1, texture2);
     }
