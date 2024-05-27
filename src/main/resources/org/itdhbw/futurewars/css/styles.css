@@ -87,6 +87,14 @@
     -fx-border-width: 15px;
 }
 
+.red-border {
+    -fx-border-color: #ED254E;
+}
+
+.blue-border {
+    -fx-border-color: #256EFF;
+}
+
 .possible-move-overlay {
     -fx-background-color: #ED254E;
     -fx-opacity: 0.2;
@@ -100,4 +108,8 @@
 .opaque-yellow {
     -fx-background-color: #F9DC5C;
     -fx-opacity: 0.7;
+}
+
+.arial-font {
+    -fx-font-family: "Arial";
 }

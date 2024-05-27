@@ -12,7 +12,6 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.game.controllers.loaders.MapLoader;
 import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
@@ -30,7 +29,6 @@ public class MapViewController {
     private final TileCreationController tileCreationController;
     private final UnitMovementController unitMovementController;
     private final GameState gameState;
-    private final MapLoader mapLoader;
     private final DoubleProperty mouseX = new SimpleDoubleProperty();
     private final DoubleProperty mouseY = new SimpleDoubleProperty();
 
@@ -54,7 +52,6 @@ public class MapViewController {
         this.tileCreationController = Context.getTileCreationController();
         this.unitMovementController = Context.getUnitMovementController();
         this.gameState = Context.getGameState();
-        this.mapLoader = Context.getMapLoader();
     }
 
 
@@ -79,6 +76,8 @@ public class MapViewController {
             mouseX.set(event.getX() + 20);
             mouseY.set(event.getY() + 10);
         });
+
+
     }
 
     private void hideOverlay() {
@@ -102,22 +101,6 @@ public class MapViewController {
                     tile.getKey().getPosition().toString());
         Position position = tile.getKey().getPosition();
         gameGrid.add(tile.getValue(), position.getX(), position.getY());
-    }
-
-    /**
-     * Load map.
-     *
-     * @param filename the filename
-     */
-    public void loadMap(String filename) {
-        this.gameGrid.getChildren().clear();
-        try {
-            mapLoader.loadMap(filename);
-            this.addTilesToGrid();
-        } catch (Exception e) {
-            LOGGER.error("Error loading map: {}", e.getMessage());
-        }
-
     }
 
     private void addTilesToGrid() {

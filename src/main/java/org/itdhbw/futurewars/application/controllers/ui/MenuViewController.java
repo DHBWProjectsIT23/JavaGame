@@ -16,10 +16,9 @@ import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.Set;
 
 /**
  * The type Menu view controller.
@@ -43,7 +42,7 @@ public class MenuViewController {
     public void initialize() {
         LOGGER.info("Initializing menu view...");
         mapButtonContainer.setVisible(false);
-        List<String> maps = Context.getMapLoader().getMapNames();
+        Set<String> maps = Context.getMapRepository().getMapNames();
         for (String map : maps) {
             Button button = new Button(map);
             button.setOnAction(this::startGame);
@@ -72,8 +71,8 @@ public class MenuViewController {
         Node source = (Node) actionEvent.getSource();
         String map = (String) source.getUserData();
         try {
-            Context.getMapLoader().loadMap(map);
-        } catch (IOException e) {
+            Context.getFileLoader().loadMap(map);
+        } catch (FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load map: " + map);
         }
 

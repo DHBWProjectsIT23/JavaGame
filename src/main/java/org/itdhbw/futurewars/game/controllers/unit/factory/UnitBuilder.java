@@ -9,11 +9,9 @@ import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.views.UnitView;
 
+import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The type Unit builder.
- */
 public class UnitBuilder {
     private static final Logger LOGGER =
             LogManager.getLogger(UnitBuilder.class);
@@ -21,34 +19,22 @@ public class UnitBuilder {
     private final Map<String, UnitFactory> unitFactories;
     private final TileRepository tileRepository;
 
-    /**
-     * Instantiates a new Unit builder.
-     */
     public UnitBuilder() {
-        this.unitFactories = Context.getUnitLoader().getUnitFactories();
+        this.unitFactories = new HashMap<>();
 
         this.unitRepository = Context.getUnitRepository();
         this.tileRepository = Context.getTileRepository();
 
     }
 
-    /**
-     * Create unit pair.
-     *
-     * @param unitType the unit type
-     * @return the pair
-     */
+    public void addUnitFactory(String unitType, UnitFactory factory) {
+        unitFactories.put(unitType, factory);
+    }
+
     public Pair<UnitModel, UnitView> createUnit(String unitType) {
         return createUnit(unitType, 1);
     }
 
-    /**
-     * Create unit pair.
-     *
-     * @param unitType the unit type
-     * @param team     the team
-     * @return the pair
-     */
     public Pair<UnitModel, UnitView> createUnit(String unitType, int team) {
         UnitFactory factory = unitFactories.get(unitType);
         if (factory == null) {
@@ -80,11 +66,6 @@ public class UnitBuilder {
         });
     }
 
-    /**
-     * Gets unit factories.
-     *
-     * @return the unit factories
-     */
     public Map<String, UnitFactory> getUnitFactories() {
         return unitFactories;
     }

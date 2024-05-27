@@ -33,7 +33,8 @@ import java.net.URL;
  */
 public class GameViewController {
 
-    private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
     @FXML
     private Label selectedTileDebug;
@@ -59,6 +60,8 @@ public class GameViewController {
     private Label currentLabel;
     @FXML
     private AnchorPane backgroundPane;
+    @FXML
+    private AnchorPane gamePane;
 
     /**
      * Instantiates a new Game view controller.
@@ -74,10 +77,10 @@ public class GameViewController {
         selectedTileDebug.textProperty().bind(createTileBinding(
                 gameState.selectedTileProperty(), "No tile selected"));
         hoveredTileDebug.textProperty()
-                .bind(createTileBinding(gameState.hoveredTileProperty(),
-                        "No tile hovered"));
+                        .bind(createTileBinding(gameState.hoveredTileProperty(),
+                                                "No tile hovered"));
         movingDebug.textProperty()
-                .bind(createModeBinding(gameState.activeModeProperty()));
+                   .bind(createModeBinding(gameState.activeModeProperty()));
         currentLabel.textProperty().bind(Bindings.createStringBinding(
                 () -> "Current player: " + gameState.getCurrentPlayer(),
                 gameState.currentPlayerProperty()));
@@ -106,6 +109,18 @@ public class GameViewController {
         } catch (FailedToLoadFileException | MalformedURLException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }
+
+        gameState.currentPlayerProperty().addListener((_, _, newValue) -> {
+            if (newValue.equals(1)) {
+                LOGGER.info("Player 1's turn");
+                gamePane.getStyleClass().remove("red-border");
+                gamePane.getStyleClass().add("blue-border");
+            } else {
+                LOGGER.info("Player 2's turn");
+                gamePane.getStyleClass().remove("blue-border");
+                gamePane.getStyleClass().add("red-border");
+            }
+        });
     }
 
     private void setPropertyInformation() {
@@ -116,7 +131,7 @@ public class GameViewController {
             UnitModel occupyingUnit = selectedTile.getOccupyingUnit();
             this.selectedUnitType.setText(occupyingUnit.getUnitType());
             this.selectedUnitHP.setText(occupyingUnit.getCurrentHealth() + "/" +
-                    occupyingUnit.getMaxHealth());
+                                        occupyingUnit.getMaxHealth());
             this.selectedUnitRange.setText(
                     String.valueOf(occupyingUnit.getAttackRange()));
             this.selectedUnitTeam.setText(
@@ -142,7 +157,9 @@ public class GameViewController {
     private StringBinding createTileBinding(ObjectProperty<TileModel> tileProperty, String defaultMessage) {
         return Bindings.createStringBinding(() -> {
             TileModel tile = tileProperty.get();
-            return (tile != null) ? tile.getPosition() + " - Type: " + tile.getMovementType() : defaultMessage;
+            return (tile != null) ?
+                   tile.getPosition() + " - Type: " + tile.getMovementType() :
+                   defaultMessage;
         }, tileProperty);
     }
 
@@ -173,6 +190,7 @@ public class GameViewController {
 
     @FXML
     private void endTurn(ActionEvent actionEvent) {
+
         Context.getGameState().endTurn();
     }
 }

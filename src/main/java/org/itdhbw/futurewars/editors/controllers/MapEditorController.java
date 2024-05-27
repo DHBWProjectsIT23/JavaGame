@@ -28,25 +28,25 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/**
- * The type Map editor controller.
- */
 public class MapEditorController {
     private static final int MIN_MAP_SIZE = 5;
     private static final int MAX_MAP_SIZE = 50;
-    private static final int EDITOR_GRID_WIDTH = 1300;
-    private static final int EDITOR_GRID_HEIGHT = 800;
     private static final String INVALID_MAP_SIZE = "Invalid map size";
-    private static final String MAP_SIZE_MUST_BE_AT_LEAST = "Map size must be at least 5x5";
-    private static final String MAP_SIZE_MUST_BE_AT_MOST = "Map size must be at most 50x50";
+    private static final String MAP_SIZE_MUST_BE_AT_LEAST =
+            "Map size must be at least 5x5";
+    private static final String MAP_SIZE_MUST_BE_AT_MOST =
+            "Map size must be at most 50x50";
 
-    private static final Logger LOGGER = LogManager.getLogger(MapEditorController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(MapEditorController.class);
     private final Map<String, Map<Integer, String>> textureIndexNameMap;
-    private final Map<String, TileFactory> tileFactorieMap;
+    private final Map<String, TileFactory> tileFactoryMap;
     private final Map<String, List<Image>> textureMap;
     private final IntegerProperty width = new SimpleIntegerProperty(0);
     private final IntegerProperty height = new SimpleIntegerProperty(0);
-    private final ObjectProperty<EditorTile> activeEditorBox = new SimpleObjectProperty<>();
+    private final ObjectProperty<EditorTile> activeEditorBox =
+            new SimpleObjectProperty<>();
+    private int tileSize;
     private File selectedFile;
     @FXML
     private TextField widthInput;
@@ -69,15 +69,12 @@ public class MapEditorController {
     @FXML
     private MenuButton teamDropdown;
 
-    /**
-     * Instantiates a new Map editor controller.
-     */
     public MapEditorController() {
-        this.tileFactorieMap = Context.getTileLoader().getTileFactories();
+        this.tileFactoryMap = Context.getTileBuilder().getTileFactories();
         this.textureMap = new HashMap<>();
         this.textureIndexNameMap = new HashMap<>();
 
-        for (Map.Entry<String, TileFactory> entry : tileFactorieMap.entrySet()) {
+        for (Map.Entry<String, TileFactory> entry : tileFactoryMap.entrySet()) {
             List<Image> textures = entry.getValue().getTextures();
             textureMap.put(entry.getKey(), textures);
 
@@ -93,9 +90,6 @@ public class MapEditorController {
         }
     }
 
-    /**
-     * Initialize.
-     */
     public void initialize() {
         initializeEditorGrid();
         populateTileDropdown();
@@ -113,18 +107,18 @@ public class MapEditorController {
     }
 
     private void populateTileDropdown() {
-        String[] tileTypes = tileFactorieMap.keySet().toArray(new String[0]);
+        String[] tileTypes = tileFactoryMap.keySet().toArray(new String[0]);
         populateDropdown(tileDropdown, tileTypes,
-                this::setActiveEditorBoxTileType);
+                         this::setActiveEditorBoxTileType);
     }
 
     private void populateUnitDropdown() {
         String[] unitTypes = Context.getUnitRepository().getUnitTypes()
-                .toArray(new String[0]);
+                                    .toArray(new String[0]);
         populateDropdown(unitDropdown, unitTypes,
-                this::setActiveEditorBoxUnitType);
+                         this::setActiveEditorBoxUnitType);
         addMenuItemToDropdown(unitDropdown, "None",
-                _ -> setActiveEditorBoxUnitType(null));
+                              _ -> setActiveEditorBoxUnitType(null));
     }
 
     private void populateTextureDropdown(String tileType) {
@@ -134,21 +128,21 @@ public class MapEditorController {
         for (int i = 0; i < textures.size(); i++) {
             int finalI = i;
             addMenuItemToDropdown(textureDropdown, textureNames.get(i),
-                    _ -> setActiveEditorBoxTexture(
-                            textures.get(finalI), finalI));
+                                  _ -> setActiveEditorBoxTexture(
+                                          textures.get(finalI), finalI));
         }
     }
 
     private void populateTeamDropdown() {
         populateDropdown(teamDropdown, Team.values(),
-                this::setActiveEditorBoxUnitTeam);
+                         this::setActiveEditorBoxUnitTeam);
     }
 
     private <T> void populateDropdown(MenuButton dropdown, T[] values, Consumer<T> action) {
         dropdown.getItems().clear();
         for (T value : values) {
             addMenuItemToDropdown(dropdown, value.toString(),
-                    _ -> action.accept(value));
+                                  _ -> action.accept(value));
         }
         dropdown.setDisable(true);
     }
@@ -197,10 +191,14 @@ public class MapEditorController {
         initializeGrid(width, height);
         addNewCells(width, height);
         editorGrid.setGridLinesVisible(true);
+        printTileSize("setupNewGrid");
+    }
+
+    private void printTileSize(String where) {
         for (Node node : editorGrid.getChildren()) {
             if (node instanceof EditorTile editorTile) {
-                LOGGER.info("TileSize: {}x{}", editorTile.getWidth(),
-                        editorTile.getHeight());
+                LOGGER.info("TileSize in {}: {}x{}", where,
+                            editorTile.getWidth(), editorTile.getHeight());
             }
         }
     }
@@ -215,7 +213,8 @@ public class MapEditorController {
         // Add the new cells
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                EditorTile editorTile = createEditorTile(width, height, "PLAIN_TILE");
+                EditorTile editorTile =
+                        createEditorTile(width, height, "PLAIN_TILE");
                 setEditorTileClickHandler(editorTile);
                 editorGrid.add(editorTile, j, i);
             }
@@ -227,14 +226,15 @@ public class MapEditorController {
         editorTile.setOnMouseClicked(_ -> {
             LOGGER.info("Editor tile clicked");
             LOGGER.info("Tile Size: {}x{}", editorTile.getWidth(),
-                    editorTile.getHeight());
+                        editorTile.getHeight());
             activeEditorBox.set(editorTile);
             if (editorTile.getTileType() != null) {
                 tileDropdown.setText(editorTile.getTileType());
                 textureDropdown.setDisable(false);
 
                 int textureVariant = editorTile.getTextureVariant();
-                Map<Integer, String> textureNames = textureIndexNameMap.get(editorTile.getTileType());
+                Map<Integer, String> textureNames =
+                        textureIndexNameMap.get(editorTile.getTileType());
                 textureDropdown.setText(textureNames.get(textureVariant));
 
             } else {
@@ -258,10 +258,18 @@ public class MapEditorController {
 
     private EditorTile createEditorTile(int width, int height, String tileType) {
         EditorTile editorTile = new EditorTile(tileType);
+        editorTile.heightProperty()
+                  .addListener((observable, oldValue, newValue) -> {
+                      LOGGER.info("Height changed from {} to {} - {}", oldValue,
+                                  newValue, observable);
+                  });
 
-        int tileMaxHeight = EDITOR_GRID_HEIGHT / height;
-        int tileMaxWidth = EDITOR_GRID_WIDTH / width;
-        int tileMaxSize = Math.min(tileMaxHeight, tileMaxWidth);
+        double tileMaxHeight =
+                Context.getPrimaryStage().getHeight() / height / 100 * 80;
+        double tileMaxWidth =
+                Context.getPrimaryStage().getWidth() / width / 100 * 80;
+        int tileMaxSize = (int) Math.min(tileMaxHeight, tileMaxWidth);
+        this.tileSize = tileMaxSize;
 
         editorTile.setPrefSize(tileMaxSize, tileMaxSize);
         editorTile.setTextures(textureMap.get(tileType));
@@ -269,11 +277,9 @@ public class MapEditorController {
 
         GridPane.setFillWidth(editorTile, true);
         GridPane.setFillHeight(editorTile, true);
-        if (width > 10 || height > 10) {
-            editorTile.setLabelsVisible(false);
-        }
         LOGGER.info("Editor tile is {}x{}", editorTile.getWidth(),
-                editorTile.getHeight());
+                    editorTile.getHeight());
+
         return editorTile;
     }
 
@@ -350,6 +356,7 @@ public class MapEditorController {
                     "Map size set to " + localWidth + "x" + localHeight);
             setupNewGrid(localWidth, localHeight);
             editorGrid.setGridLinesVisible(true);
+            printTileSize("setSize");
             this.confirmSizeButton.setDisable(true);
         } catch (NumberFormatException e) {
             statusLabel.setText(INVALID_MAP_SIZE);
@@ -374,9 +381,9 @@ public class MapEditorController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Map As");
         fileChooser.getExtensionFilters()
-                .addAll(new FileChooser.ExtensionFilter(
-                        "Future Wars Map Files", "*.fwm"),
-                        new FileChooser.ExtensionFilter("All Files", "*.*"));
+                   .addAll(new FileChooser.ExtensionFilter(
+                                   "Future Wars Map Files", "*.fwm"),
+                           new FileChooser.ExtensionFilter("All Files", "*.*"));
         // Set the initial directory to the current directory
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.dir")));
@@ -389,19 +396,14 @@ public class MapEditorController {
         }
     }
 
-    /**
-     * Save map.
-     *
-     * @param actionEvent the action event
-     */
     @FXML
     public void saveMap(ActionEvent actionEvent) {
         LOGGER.info("Saving map...");
         if (selectedFile != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Are you sure you want to save the map to " +
-                            selectedFile.getName() + "?",
-                    ButtonType.YES, ButtonType.NO);
+                                    "Are you sure you want to save the map to " +
+                                    selectedFile.getName() + "?",
+                                    ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
 
             if (alert.getResult() == ButtonType.YES) {
@@ -410,11 +412,6 @@ public class MapEditorController {
         }
     }
 
-    /**
-     * Save map to file.
-     *
-     * @param file the file
-     */
     public void saveMapToFile(File file) {
         LOGGER.info("Saving map to file...");
         try {
@@ -435,20 +432,24 @@ public class MapEditorController {
             // Write the tiles
             for (int i = 0; i < height.get(); i++) {
                 for (int j = 0; j < width.get(); j++) {
-                    EditorTile editorTile = (EditorTile) getNodeFromGridPane(editorGrid, j, i);
+                    EditorTile editorTile =
+                            (EditorTile) getNodeFromGridPane(editorGrid, j, i);
                     if (editorTile == null) {
                         LOGGER.error("Editor tile is null!");
                         continue;
                     }
 
-                    String tileType = editorTile.getTileType() != null ? editorTile.getTileType() : "NONE";
-                    String textureVariant = String.valueOf(editorTile.getTextureVariant());
-                    String unitType = editorTile.getUnitType() != null ? editorTile.getUnitType() : "NONE";
+                    String tileType = editorTile.getTileType() != null ?
+                                      editorTile.getTileType() : "NONE";
+                    String textureVariant =
+                            String.valueOf(editorTile.getTextureVariant());
+                    String unitType = editorTile.getUnitType() != null ?
+                                      editorTile.getUnitType() : "NONE";
                     String unitTeam = String.valueOf(editorTile.getUnitTeam());
 
                     writer.print(
                             tileType + "," + textureVariant + "," + unitType +
-                                    "," + unitTeam);
+                            "," + unitTeam);
 
                     // If this is not the last tile in the row, add a comma
                     if (j < width.get() - 1) {
@@ -469,7 +470,7 @@ public class MapEditorController {
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col &&
-                    GridPane.getRowIndex(node) == row) {
+                GridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
@@ -482,9 +483,9 @@ public class MapEditorController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Map File");
         fileChooser.getExtensionFilters()
-                .addAll(new FileChooser.ExtensionFilter(
-                        "Future Wars Map Files", "*.fwm"),
-                        new FileChooser.ExtensionFilter("All Files", "*.*"));
+                   .addAll(new FileChooser.ExtensionFilter(
+                                   "Future Wars Map Files", "*.fwm"),
+                           new FileChooser.ExtensionFilter("All Files", "*.*"));
         // Set the initial directory to the current directory
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.dir")));
@@ -495,6 +496,8 @@ public class MapEditorController {
         } else {
             LOGGER.warn("Couldn't find file");
         }
+        this.editorGrid.setMaxWidth(tileSize * width.get());
+        this.editorGrid.setMaxHeight(tileSize * height.get());
     }
 
     private void loadMapFromFile(File file) {
@@ -519,7 +522,7 @@ public class MapEditorController {
             if (Objects.equals(validation, "FUTURE_WARS_MAP_FORMAT_NEW")) {
                 loadOldMap(reader);
             } else if (Objects.equals(validation,
-                    "FUTURE_WARS_MAP_FORMAT_V3")) {
+                                      "FUTURE_WARS_MAP_FORMAT_V3")) {
                 loadNewMap(reader);
             }
 
@@ -542,8 +545,8 @@ public class MapEditorController {
                 // Set the TileType and UnitType
                 String tileTypeString = tileData[x * 4];
                 EditorTile editorTile = this.createEditorTile(this.width.get(),
-                        this.height.get(),
-                        tileTypeString);
+                                                              this.height.get(),
+                                                              tileTypeString);
                 editorTile.setTextureVariant(
                         Integer.parseInt(tileData[x * 4 + 1]));
 
@@ -575,8 +578,8 @@ public class MapEditorController {
                 // Set the TileType and UnitType
                 String tileTypeString = tileData[x * 2];
                 EditorTile editorTile = this.createEditorTile(this.width.get(),
-                        this.height.get(),
-                        tileTypeString);
+                                                              this.height.get(),
+                                                              tileTypeString);
 
                 String unitTypeString = tileData[x * 2 + 1];
                 if (!unitTypeString.equals("NONE")) {
@@ -590,6 +593,7 @@ public class MapEditorController {
 
         this.confirmSizeButton.setDisable(true);
         this.saveButton.setDisable(false);
+
     }
 
     @FXML
@@ -598,18 +602,8 @@ public class MapEditorController {
                .setScene(Context.getGameState().getPreviousScene());
     }
 
-    /**
-     * The enum Team.
-     */
     public enum Team {
-        /**
-         * Team 1 team.
-         */
-        TEAM_1(1),
-        /**
-         * Team 2 team.
-         */
-        TEAM_2(2);
+        TEAM_1(1), TEAM_2(2);
 
         private final int value;
 
@@ -617,12 +611,6 @@ public class MapEditorController {
             this.value = value;
         }
 
-        /**
-         * From int team.
-         *
-         * @param value the value
-         * @return the team
-         */
         public static Team fromInt(int value) {
             for (Team team : Team.values()) {
                 if (team.getValue() == value) {
@@ -632,11 +620,6 @@ public class MapEditorController {
             throw new IllegalArgumentException("Invalid value: " + value);
         }
 
-        /**
-         * Gets value.
-         *
-         * @return the value
-         */
         public int getValue() {
             return value;
         }

@@ -1,6 +1,7 @@
 package org.itdhbw.futurewars.application.controllers.other;
 
 import javafx.scene.input.KeyCombination;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
+import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
 
 import java.io.IOException;
@@ -18,7 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class StartupController {
-    private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(StartupController.class);
 
     private StartupController() {
         // empty constructor
@@ -34,48 +37,43 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
-    public static void loadUnits() throws FailedToLoadFileException {
+    public static void loadFonts() {
         try {
-            LOGGER.info("Retrieving unit files...");
-            Context.getUnitLoader().retrieveSystemUnits();
-            Context.getUnitLoader().retrieveUserUnits();
-        } catch (FailedToRetrieveFilesException e) {
-            ErrorHandler.addException(e, "Failed to load units");
+            Font.loadFont(FileHelper.getFile(
+                                  "$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(),
+                          12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf")
+                                    .toString(), 12);
+        } catch (FailedToLoadFileException e) {
+            ErrorHandler.addException(e, "Failed to load font");
         }
-        LOGGER.info("Loading units...");
-        Context.getUnitLoader().loadUnitsFromFiles();
     }
 
-    public static void loadTiles() throws FailedToLoadFileException {
-        LOGGER.info("Retrieving tile files...");
+    public static void loadFiles() {
+        FileLoader fileLoader = Context.getFileLoader();
         try {
-            Context.getTileLoader().retrieveSystemTiles();
-            Context.getTileLoader().retrieveUserTiles();
+            fileLoader.retrieveSystemFiles();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorHandler.addException(e, "Failed to load tiles");
+            ErrorHandler.addException(e, "Error while retrieving system files");
         }
-        LOGGER.info("Loading tiles...");
-        Context.getTileLoader().loadTilesFromFiles();
-    }
 
-    public static void retrieveMaps() throws FailedToLoadFileException {
         try {
-            LOGGER.info("Retrieving map files...");
-            Context.getMapLoader().retrieveSystemMaps();
-            Context.getMapLoader().retrieveUserMaps();
+            fileLoader.retrieveUserFiles();
         } catch (FailedToRetrieveFilesException e) {
-            ErrorHandler.addException(e, "Failed to load maps");
+            ErrorHandler.addException(e, "Error while retrieving user files");
         }
+
+        fileLoader.loadFiles();
     }
 
     public static void initializeStage(Stage stage) {
         LOGGER.info("Initializing stage...");
-        stage.widthProperty().addListener((observable, oldValue, newValue) -> {
-            Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90);
-        });
-        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-            Context.getGameState().setMapHeight(newValue.intValue() / 100 * 90);
-        });
+        stage.widthProperty().addListener(
+                (_, _, newValue) -> Context.getGameState().setMapWidth(
+                        newValue.intValue() / 100 * 90));
+        stage.heightProperty().addListener(
+                (_, _, newValue) -> Context.getGameState().setMapHeight(
+                        newValue.intValue() / 100 * 90));
         Context.setPrimaryStage(stage);
         stage.setTitle("Future Wars");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -111,7 +109,9 @@ public class StartupController {
                 }
             }
         } catch (IOException e) {
-            ErrorHandler.addException(e, "Failed to initialize user directorys");
+            ErrorHandler.addException(e,
+                                      "Failed to initialize user directories");
         }
     }
+
 }

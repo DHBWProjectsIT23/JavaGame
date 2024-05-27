@@ -9,11 +9,9 @@ import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.views.TileView;
 
+import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The type Tile builder.
- */
 public class TileBuilder {
     private static final Logger LOGGER =
             LogManager.getLogger(TileBuilder.class);
@@ -21,24 +19,16 @@ public class TileBuilder {
     private final TileRepository tileRepository;
     private final TileEventController tileEventController;
 
-    /**
-     * Instantiates a new Tile builder.
-     */
     public TileBuilder() {
-        this.tileFactories = Context.getTileLoader().getTileFactories();
+        this.tileFactories = new HashMap<>();
         this.tileRepository = Context.getTileRepository();
         this.tileEventController = Context.getTileEventController();
     }
 
-    /**
-     * Create tile pair.
-     *
-     * @param tileType       the tile type
-     * @param x              the x
-     * @param y              the y
-     * @param textureVariant the texture variant
-     * @return the pair
-     */
+    public void addTileFactory(String tileType, TileFactory factory) {
+        tileFactories.put(tileType, factory);
+    }
+
     public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
         TileFactory factory = tileFactories.get(tileType);
         if (factory == null) {
@@ -55,14 +45,6 @@ public class TileBuilder {
         return tilePair;
     }
 
-    /**
-     * Create tile pair.
-     *
-     * @param tileType the tile type
-     * @param x        the x
-     * @param y        the y
-     * @return the pair
-     */
     public Pair<TileModel, TileView> createTile(String tileType, int x, int y) {
         return createTile(tileType, x, y, 0);
     }
@@ -73,11 +55,6 @@ public class TileBuilder {
         tileView.setOnMouseEntered(tileEventController::handleMouseEnter);
     }
 
-    /**
-     * Gets tile factories.
-     *
-     * @return the tile factories
-     */
     public Map<String, TileFactory> getTileFactories() {
         return tileFactories;
     }
