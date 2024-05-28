@@ -19,3 +19,7 @@ $INTERNAL_DIR/textures/tiles/sea/SeaLeftEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaRightEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaTopEndTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaVerticalTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaInnerCornerBottomLeftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaInnerCornerBottomRightTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaInnerCornerTopLeftTile.png
+$INTERNAL_DIR/textures/tiles/sea/SeaInnerCornerTopRightTile.png
