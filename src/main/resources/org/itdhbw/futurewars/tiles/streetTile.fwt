@@ -1,0 +1,14 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+STREET_TILE
+- movementType
+STREET 
+- texture
+$INTERNAL_DIR/textures/tiles/streets/CrossingSimple.png
+$INTERNAL_DIR/textures/tiles/streets/CrossingToBottom.png
+$INTERNAL_DIR/textures/tiles/streets/CrossingToTop.png
+$INTERNAL_DIR/textures/tiles/streets/CurveLeftToBottom.png
+$INTERNAL_DIR/textures/tiles/streets/CurveLeftToTop.png
+$INTERNAL_DIR/textures/tiles/streets/CurveRightToBottom.png
+$INTERNAL_DIR/textures/tiles/streets/CurveRightToTop.png
+$INTERNAL_DIR/textures/tiles/streets/StreetSimple.png
