@@ -14287,3 +14287,719 @@
 09:33:42.433 INFO  controllers.MapEditorController	 | Tile Size: 72.0x72.0
 09:33:42.434 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@2ca99576 - newValue: EditorTile@4daaee41
 09:33:42.435 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:06.732 INFO  other.StartupController	 | Checking user directory...
+10:00:06.743 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps exists
+10:00:06.744 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units exists
+10:00:06.745 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles exists
+10:00:06.745 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\units exists
+10:00:06.746 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\tiles exists
+10:00:06.746 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\other exists
+10:00:06.747 INFO  other.StartupController	 | Initializing Context...
+10:00:06.776 INFO  other.StartupController	 | Initializing settings...
+10:00:06.781 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\maps...
+10:00:06.784 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\eonSprings.fwm
+10:00:06.785 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\littleIsland.fwm
+10:00:06.786 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\pistonDam.fwm
+10:00:06.787 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\tiles...
+10:00:06.788 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\mountainTile.fwt
+10:00:06.789 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\notSetTile.fwt
+10:00:06.790 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\plainTile.fwt
+10:00:06.792 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\seaTile.fwt
+10:00:06.793 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\streetTile.fwt
+10:00:06.794 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\testTile.fwt
+10:00:06.794 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\woodTile.fwt
+10:00:06.796 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\units...
+10:00:06.798 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\artilleryUnit.fwu
+10:00:06.799 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\battleCopterUnit.fwu
+10:00:06.800 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\bomberUnit.fwu
+10:00:06.801 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\infantryUnit.fwu
+10:00:06.801 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\mechanizedUnit.fwu
+10:00:06.802 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\tankUnit.fwu
+10:00:06.803 INFO  loaders.FileLoader	 | Retrieved 16 system files
+10:00:06.804 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps...
+10:00:06.805 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapUnits.fwm
+10:00:06.805 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapX.fwm
+10:00:06.806 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles...
+10:00:06.807 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles\testTile.fwt
+10:00:06.809 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units...
+10:00:06.810 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units\testUnit.fwu
+10:00:06.811 INFO  loaders.FileLoader	 | Retrieved 19 user files
+10:00:06.812 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.814 INFO  factory.UnitFactory	 | Creating unit factory for unit type: ARTILLERY_UNIT
+10:00:06.831 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.833 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.834 INFO  factory.TileFactory	 | Creating tile factory for unit type: TEST_TILE
+10:00:06.834 INFO  factory.TileFactory	 | Loading textures for tile type: TEST_TILE
+10:00:06.837 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.837 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BOMBER_UNIT
+10:00:06.852 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.853 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.854 INFO  factory.TileFactory	 | Creating tile factory for unit type: WOOD_TILE
+10:00:06.854 INFO  factory.TileFactory	 | Loading textures for tile type: WOOD_TILE
+10:00:06.863 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.864 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TANK_UNIT
+10:00:06.867 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.869 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.870 INFO  factory.TileFactory	 | Creating tile factory for unit type: STREET_TILE
+10:00:06.870 INFO  factory.TileFactory	 | Loading textures for tile type: STREET_TILE
+10:00:06.885 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.886 INFO  factory.UnitFactory	 | Creating unit factory for unit type: MECHANIZED_UNIT
+10:00:06.888 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.888 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.889 INFO  factory.TileFactory	 | Creating tile factory for unit type: NOT_SET_TILE
+10:00:06.889 INFO  factory.TileFactory	 | Loading textures for tile type: NOT_SET_TILE
+10:00:06.892 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.893 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BATTLE_COPTER_UNIT
+10:00:06.896 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.897 INFO  factory.UnitFactory	 | Creating unit factory for unit type: INFANTRY_UNIT
+10:00:06.901 INFO  loaders.UnitLoader	 | Creating unit factory
+10:00:06.902 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TEST_UNIT
+10:00:06.905 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.906 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.907 INFO  factory.TileFactory	 | Creating tile factory for unit type: PLAIN_TILE
+10:00:06.907 INFO  factory.TileFactory	 | Loading textures for tile type: PLAIN_TILE
+10:00:06.910 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.911 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.912 INFO  factory.TileFactory	 | Creating tile factory for unit type: MOUNTAIN_TILE
+10:00:06.912 INFO  factory.TileFactory	 | Loading textures for tile type: MOUNTAIN_TILE
+10:00:06.913 INFO  loaders.TileLoader	 | Loading tile from file...
+10:00:06.918 INFO  loaders.TileLoader	 | Creating unit factory
+10:00:06.919 INFO  factory.TileFactory	 | Creating tile factory for unit type: SEA_TILE
+10:00:06.919 INFO  factory.TileFactory	 | Loading textures for tile type: SEA_TILE
+10:00:06.972 INFO  other.StartupController	 | Initializing stage...
+10:00:06.986 INFO  gameState.GameState	 | Setting previous scene to null
+10:00:07.169 INFO  ui.MenuViewController	 | Initializing menu view...
+10:00:07.218 INFO  utils.ErrorHandler	 | Showing error popup...
+10:00:07.219 INFO  utils.ErrorHandler	 | No exceptions to show!
+10:00:07.219 INFO  futurewars.Main	 | Initialization complete!
+10:00:07.219 INFO  futurewars.Main	 | Loaded a total of:
+10:00:07.220 INFO  futurewars.Main	 | 	 7 tiles
+10:00:07.220 INFO  futurewars.Main	 | 	 7 units
+10:00:07.221 INFO  futurewars.Main	 | 	 5 maps
+10:00:10.180 INFO  gameState.GameState	 | Setting previous scene to javafx.scene.Scene@5a0d5e8f
+10:00:10.238 INFO  controllers.MapEditorController	 | Initializing active editor box...
+10:00:10.239 INFO  controllers.MapEditorController	 | Setting map size...
+10:00:10.245 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.247 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.248 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.249 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.250 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.251 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.252 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.253 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.254 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.255 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.256 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.257 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.259 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.260 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.261 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.262 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.263 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.264 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.265 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.266 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.267 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.268 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.269 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.270 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.270 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:00:10.271 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.272 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.272 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.273 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.273 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.274 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.274 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.275 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.275 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.275 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.276 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.276 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.277 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.277 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.278 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.278 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.279 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.279 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.280 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.280 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.281 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.282 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.282 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.282 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.283 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:00:10.283 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.284 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.284 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.284 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.285 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.285 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.286 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.286 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.286 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.287 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.287 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.287 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.288 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.288 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.288 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.289 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.289 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.290 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.290 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.291 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.291 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.291 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.292 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.292 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.293 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:00:10.458 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@34d7d800, name: height, value: 141.6]
+10:00:10.459 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@12b98bfd, name: height, value: 141.6]
+10:00:10.460 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 140.8]
+10:00:10.460 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 141.6]
+10:00:10.461 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@592882a1, name: height, value: 141.6]
+10:00:10.461 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3d12370a, name: height, value: 141.6]
+10:00:10.462 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@279bd1f6, name: height, value: 141.6]
+10:00:10.463 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@727d492a, name: height, value: 141.6]
+10:00:10.464 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 140.8]
+10:00:10.464 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 141.6]
+10:00:10.465 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@706f5388, name: height, value: 141.6]
+10:00:10.466 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@622fefb0, name: height, value: 141.6]
+10:00:10.467 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 141.6]
+10:00:10.467 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 140.8]
+10:00:10.468 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 141.6]
+10:00:10.468 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 140.8]
+10:00:10.469 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@60769a20, name: height, value: 140.8]
+10:00:10.471 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 141.6]
+10:00:10.472 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 140.8]
+10:00:10.472 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 141.6]
+10:00:10.473 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 140.8]
+10:00:10.474 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6159edb4, name: height, value: 141.6]
+10:00:10.475 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@2c7665ef, name: height, value: 141.6]
+10:00:10.475 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 140.8]
+10:00:10.476 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 141.6]
+10:00:10.477 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@67fb0438, name: height, value: 141.6]
+10:00:10.478 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1a93812b, name: height, value: 141.6]
+10:00:10.478 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@37a7e9e7, name: height, value: 141.6]
+10:00:10.479 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@dab2577, name: height, value: 141.6]
+10:00:10.480 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 140.8]
+10:00:10.480 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 141.6]
+10:00:10.481 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@7e4a7f30, name: height, value: 141.6]
+10:00:10.481 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@77f80be1, name: height, value: 141.6]
+10:00:10.564 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 140.8]
+10:00:10.565 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 141.6]
+10:00:10.566 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 140.8]
+10:00:10.566 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 141.6]
+10:00:10.567 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 141.6]
+10:00:10.567 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 140.8]
+10:00:10.568 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 141.6]
+10:00:10.568 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 140.8]
+10:00:10.569 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 141.6]
+10:00:10.569 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 140.8]
+10:00:10.570 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 141.6]
+10:00:10.570 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 140.8]
+10:00:10.571 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 140.8]
+10:00:10.571 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 141.6]
+10:00:10.574 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 140.8]
+10:00:10.575 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 141.6]
+10:00:12.161 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:00:12.163 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:00:12.165 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: null - newValue: EditorTile@6a46263c
+10:00:12.167 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:15.781 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:19.877 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:00:19.881 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:00:19.883 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@6a46263c - newValue: EditorTile@1a93812b
+10:00:19.885 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:25.040 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:00:25.042 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:00:25.044 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@1a93812b - newValue: EditorTile@706f5388
+10:00:25.047 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:28.962 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:33.782 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:00:33.785 INFO  controllers.MapEditorController	 | Tile Size: 140.8x140.8
+10:00:33.787 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@706f5388 - newValue: EditorTile@286429a3
+10:00:33.792 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:00:35.297 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:00:35.301 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:00:35.302 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@286429a3 - newValue: EditorTile@77f80be1
+10:00:35.305 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:33.489 INFO  other.StartupController	 | Checking user directory...
+10:09:33.508 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps exists
+10:09:33.509 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units exists
+10:09:33.510 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles exists
+10:09:33.512 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\units exists
+10:09:33.513 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\tiles exists
+10:09:33.513 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\other exists
+10:09:33.514 INFO  other.StartupController	 | Initializing Context...
+10:09:33.549 INFO  other.StartupController	 | Initializing settings...
+10:09:33.554 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\maps...
+10:09:33.556 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\eonSprings.fwm
+10:09:33.557 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\littleIsland.fwm
+10:09:33.558 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\pistonDam.fwm
+10:09:33.559 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\tiles...
+10:09:33.559 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\mountainTile.fwt
+10:09:33.560 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\notSetTile.fwt
+10:09:33.561 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\plainTile.fwt
+10:09:33.564 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\seaTile.fwt
+10:09:33.565 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\streetTile.fwt
+10:09:33.566 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\testTile.fwt
+10:09:33.566 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\woodTile.fwt
+10:09:33.567 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\units...
+10:09:33.568 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\artilleryUnit.fwu
+10:09:33.569 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\battleCopterUnit.fwu
+10:09:33.570 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\bomberUnit.fwu
+10:09:33.571 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\infantryUnit.fwu
+10:09:33.571 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\mechanizedUnit.fwu
+10:09:33.572 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\tankUnit.fwu
+10:09:33.573 INFO  loaders.FileLoader	 | Retrieved 16 system files
+10:09:33.574 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps...
+10:09:33.575 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapUnits.fwm
+10:09:33.575 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapX.fwm
+10:09:33.576 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles...
+10:09:33.576 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles\testTile.fwt
+10:09:33.578 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units...
+10:09:33.581 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units\testUnit.fwu
+10:09:33.582 INFO  loaders.FileLoader	 | Retrieved 19 user files
+10:09:33.583 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.585 INFO  factory.UnitFactory	 | Creating unit factory for unit type: ARTILLERY_UNIT
+10:09:33.606 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.608 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.609 INFO  factory.TileFactory	 | Creating tile factory for unit type: TEST_TILE
+10:09:33.610 INFO  factory.TileFactory	 | Loading textures for tile type: TEST_TILE
+10:09:33.615 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.616 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BOMBER_UNIT
+10:09:33.635 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.636 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.636 INFO  factory.TileFactory	 | Creating tile factory for unit type: WOOD_TILE
+10:09:33.636 INFO  factory.TileFactory	 | Loading textures for tile type: WOOD_TILE
+10:09:33.649 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.651 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TANK_UNIT
+10:09:33.655 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.657 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.658 INFO  factory.TileFactory	 | Creating tile factory for unit type: STREET_TILE
+10:09:33.658 INFO  factory.TileFactory	 | Loading textures for tile type: STREET_TILE
+10:09:33.672 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.673 INFO  factory.UnitFactory	 | Creating unit factory for unit type: MECHANIZED_UNIT
+10:09:33.675 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.676 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.676 INFO  factory.TileFactory	 | Creating tile factory for unit type: NOT_SET_TILE
+10:09:33.676 INFO  factory.TileFactory	 | Loading textures for tile type: NOT_SET_TILE
+10:09:33.681 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.682 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BATTLE_COPTER_UNIT
+10:09:33.684 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.685 INFO  factory.UnitFactory	 | Creating unit factory for unit type: INFANTRY_UNIT
+10:09:33.688 INFO  loaders.UnitLoader	 | Creating unit factory
+10:09:33.689 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TEST_UNIT
+10:09:33.691 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.692 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.692 INFO  factory.TileFactory	 | Creating tile factory for unit type: PLAIN_TILE
+10:09:33.693 INFO  factory.TileFactory	 | Loading textures for tile type: PLAIN_TILE
+10:09:33.695 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.697 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.698 INFO  factory.TileFactory	 | Creating tile factory for unit type: MOUNTAIN_TILE
+10:09:33.698 INFO  factory.TileFactory	 | Loading textures for tile type: MOUNTAIN_TILE
+10:09:33.700 INFO  loaders.TileLoader	 | Loading tile from file...
+10:09:33.702 INFO  loaders.TileLoader	 | Creating unit factory
+10:09:33.717 INFO  factory.TileFactory	 | Creating tile factory for unit type: SEA_TILE
+10:09:33.718 INFO  factory.TileFactory	 | Loading textures for tile type: SEA_TILE
+10:09:33.761 INFO  other.StartupController	 | Initializing stage...
+10:09:33.782 INFO  gameState.GameState	 | Setting previous scene to null
+10:09:33.969 INFO  ui.MenuViewController	 | Initializing menu view...
+10:09:34.018 INFO  utils.ErrorHandler	 | Showing error popup...
+10:09:34.018 INFO  utils.ErrorHandler	 | No exceptions to show!
+10:09:34.019 INFO  futurewars.Main	 | Initialization complete!
+10:09:34.019 INFO  futurewars.Main	 | Loaded a total of:
+10:09:34.020 INFO  futurewars.Main	 | 	 7 tiles
+10:09:34.020 INFO  futurewars.Main	 | 	 7 units
+10:09:34.020 INFO  futurewars.Main	 | 	 5 maps
+10:09:41.053 INFO  gameState.GameState	 | Setting previous scene to javafx.scene.Scene@78dc6603
+10:09:41.108 INFO  controllers.MapEditorController	 | Initializing active editor box...
+10:09:41.283 INFO  controllers.MapEditorController	 | Setting map size...
+10:09:41.297 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.304 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.306 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.309 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.312 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.315 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.318 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.320 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.322 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.325 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.327 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.329 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.331 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.333 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.335 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.337 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.339 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.340 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.342 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.344 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.347 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.349 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.350 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.352 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.354 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:09:41.355 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.356 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.357 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.358 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.359 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.360 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.361 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.361 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.362 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.363 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.364 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.365 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.366 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.367 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.368 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.369 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.370 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.371 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.372 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.373 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.374 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.375 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.376 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.377 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.378 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:09:41.379 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.380 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.380 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.381 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.382 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.383 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.384 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.385 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.386 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.387 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.388 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.389 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.390 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.391 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.392 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.393 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.395 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.395 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.396 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.397 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.397 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.398 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.399 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.400 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.401 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:09:41.572 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@71017dd, name: height, value: 141.6]
+10:09:41.574 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@4487b3de, name: height, value: 141.6]
+10:09:41.630 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3abb718a, name: height, value: 140.8]
+10:09:41.633 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3abb718a, name: height, value: 141.6]
+10:09:41.635 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@5efb9f98, name: height, value: 141.6]
+10:09:41.639 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@132b41ce, name: height, value: 141.6]
+10:09:41.641 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@684363b3, name: height, value: 141.6]
+10:09:41.642 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3983597a, name: height, value: 141.6]
+10:09:41.644 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@118256bd, name: height, value: 140.8]
+10:09:41.647 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@118256bd, name: height, value: 141.6]
+10:09:41.650 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3890669a, name: height, value: 141.6]
+10:09:41.653 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@266bc1ff, name: height, value: 141.6]
+10:09:41.654 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@5be98402, name: height, value: 141.6]
+10:09:41.657 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@5be98402, name: height, value: 140.8]
+10:09:41.658 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@7c170b9b, name: height, value: 141.6]
+10:09:41.659 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@7c170b9b, name: height, value: 140.8]
+10:09:41.660 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3fba7139, name: height, value: 140.8]
+10:09:41.662 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255669d7, name: height, value: 141.6]
+10:09:41.663 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255669d7, name: height, value: 140.8]
+10:09:41.663 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40a9fae1, name: height, value: 141.6]
+10:09:41.664 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40a9fae1, name: height, value: 140.8]
+10:09:41.666 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@78bd4fdd, name: height, value: 141.6]
+10:09:41.667 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@688a84d4, name: height, value: 141.6]
+10:09:41.668 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@8c2f603, name: height, value: 140.8]
+10:09:41.670 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@8c2f603, name: height, value: 141.6]
+10:09:41.670 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@b3777e3, name: height, value: 141.6]
+10:09:41.671 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@12c6a82f, name: height, value: 141.6]
+10:09:41.673 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@2a1e6799, name: height, value: 141.6]
+10:09:41.673 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@596a3706, name: height, value: 141.6]
+10:09:41.675 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@2e038828, name: height, value: 140.8]
+10:09:41.675 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@2e038828, name: height, value: 141.6]
+10:09:41.675 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@bc70445, name: height, value: 141.6]
+10:09:41.677 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@e273ca5, name: height, value: 141.6]
+10:09:41.764 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3abb718a, name: height, value: 140.8]
+10:09:41.781 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3abb718a, name: height, value: 141.6]
+10:09:41.783 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@118256bd, name: height, value: 140.8]
+10:09:41.784 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@118256bd, name: height, value: 141.6]
+10:09:41.785 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@5be98402, name: height, value: 141.6]
+10:09:41.788 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@5be98402, name: height, value: 140.8]
+10:09:41.790 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@7c170b9b, name: height, value: 141.6]
+10:09:41.791 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@7c170b9b, name: height, value: 140.8]
+10:09:41.793 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255669d7, name: height, value: 141.6]
+10:09:41.819 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255669d7, name: height, value: 140.8]
+10:09:41.825 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40a9fae1, name: height, value: 141.6]
+10:09:41.826 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40a9fae1, name: height, value: 140.8]
+10:09:41.827 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@8c2f603, name: height, value: 140.8]
+10:09:41.829 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@8c2f603, name: height, value: 141.6]
+10:09:41.832 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@2e038828, name: height, value: 140.8]
+10:09:41.833 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@2e038828, name: height, value: 141.6]
+10:09:44.502 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:09:44.504 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:09:44.507 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: null - newValue: EditorTile@3890669a
+10:09:44.511 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:47.416 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:50.726 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:09:50.731 INFO  controllers.MapEditorController	 | Tile Size: 140.8x140.8
+10:09:50.734 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@3890669a - newValue: EditorTile@40a9fae1
+10:09:50.737 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:52.269 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:09:52.271 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:09:52.273 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@40a9fae1 - newValue: EditorTile@e273ca5
+10:09:52.275 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:53.783 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:09:53.786 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:09:53.789 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@e273ca5 - newValue: EditorTile@bc70445
+10:09:53.791 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:09:54.776 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:09:54.780 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:09:54.782 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@bc70445 - newValue: EditorTile@2e038828
+10:09:54.785 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:10:13.401 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:10:13.403 INFO  controllers.MapEditorController	 | Tile Size: 140.8x140.8
+10:10:13.405 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@2e038828 - newValue: EditorTile@40a9fae1
+10:10:13.406 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:13:48.568 INFO  other.StartupController	 | Checking user directory...
+10:13:48.581 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps exists
+10:13:48.582 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units exists
+10:13:48.583 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles exists
+10:13:48.584 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\units exists
+10:13:48.585 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\tiles exists
+10:13:48.586 INFO  other.StartupController	 | Directory C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\textures\other exists
+10:13:48.586 INFO  other.StartupController	 | Initializing Context...
+10:13:48.616 INFO  other.StartupController	 | Initializing settings...
+10:13:48.621 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\maps...
+10:13:48.625 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\eonSprings.fwm
+10:13:48.626 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\littleIsland.fwm
+10:13:48.626 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\maps\pistonDam.fwm
+10:13:48.627 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\tiles...
+10:13:48.628 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\mountainTile.fwt
+10:13:48.629 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\notSetTile.fwt
+10:13:48.629 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\plainTile.fwt
+10:13:48.630 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\seaTile.fwt
+10:13:48.630 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\streetTile.fwt
+10:13:48.631 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\testTile.fwt
+10:13:48.631 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\tiles\woodTile.fwt
+10:13:48.632 INFO  utils.FileHelper	 | Loading files for src\main\resources\org\itdhbw\futurewars\units...
+10:13:48.633 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\artilleryUnit.fwu
+10:13:48.635 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\battleCopterUnit.fwu
+10:13:48.635 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\bomberUnit.fwu
+10:13:48.636 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\infantryUnit.fwu
+10:13:48.637 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\mechanizedUnit.fwu
+10:13:48.637 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\src\main\resources\org\itdhbw\futurewars\units\tankUnit.fwu
+10:13:48.638 INFO  loaders.FileLoader	 | Retrieved 16 system files
+10:13:48.638 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps...
+10:13:48.639 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapUnits.fwm
+10:13:48.640 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\maps\testMapX.fwm
+10:13:48.642 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles...
+10:13:48.643 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\tiles\testTile.fwt
+10:13:48.644 INFO  utils.FileHelper	 | Loading files for C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units...
+10:13:48.645 INFO  utils.FileHelper	 | Found file: C:\UNI\Hausarbeiten&Projekte\JavaGame\resources\units\testUnit.fwu
+10:13:48.645 INFO  loaders.FileLoader	 | Retrieved 19 user files
+10:13:48.646 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.648 INFO  factory.UnitFactory	 | Creating unit factory for unit type: ARTILLERY_UNIT
+10:13:48.664 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.666 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.668 INFO  factory.TileFactory	 | Creating tile factory for unit type: TEST_TILE
+10:13:48.668 INFO  factory.TileFactory	 | Loading textures for tile type: TEST_TILE
+10:13:48.670 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.671 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BOMBER_UNIT
+10:13:48.685 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.686 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.686 INFO  factory.TileFactory	 | Creating tile factory for unit type: WOOD_TILE
+10:13:48.686 INFO  factory.TileFactory	 | Loading textures for tile type: WOOD_TILE
+10:13:48.696 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.697 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TANK_UNIT
+10:13:48.701 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.702 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.703 INFO  factory.TileFactory	 | Creating tile factory for unit type: STREET_TILE
+10:13:48.704 INFO  factory.TileFactory	 | Loading textures for tile type: STREET_TILE
+10:13:48.715 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.716 INFO  factory.UnitFactory	 | Creating unit factory for unit type: MECHANIZED_UNIT
+10:13:48.717 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.718 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.720 INFO  factory.TileFactory	 | Creating tile factory for unit type: NOT_SET_TILE
+10:13:48.720 INFO  factory.TileFactory	 | Loading textures for tile type: NOT_SET_TILE
+10:13:48.721 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.723 INFO  factory.UnitFactory	 | Creating unit factory for unit type: BATTLE_COPTER_UNIT
+10:13:48.727 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.729 INFO  factory.UnitFactory	 | Creating unit factory for unit type: INFANTRY_UNIT
+10:13:48.736 INFO  loaders.UnitLoader	 | Creating unit factory
+10:13:48.736 INFO  factory.UnitFactory	 | Creating unit factory for unit type: TEST_UNIT
+10:13:48.739 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.742 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.743 INFO  factory.TileFactory	 | Creating tile factory for unit type: PLAIN_TILE
+10:13:48.744 INFO  factory.TileFactory	 | Loading textures for tile type: PLAIN_TILE
+10:13:48.746 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.748 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.748 INFO  factory.TileFactory	 | Creating tile factory for unit type: MOUNTAIN_TILE
+10:13:48.749 INFO  factory.TileFactory	 | Loading textures for tile type: MOUNTAIN_TILE
+10:13:48.751 INFO  loaders.TileLoader	 | Loading tile from file...
+10:13:48.754 INFO  loaders.TileLoader	 | Creating unit factory
+10:13:48.757 INFO  factory.TileFactory	 | Creating tile factory for unit type: SEA_TILE
+10:13:48.758 INFO  factory.TileFactory	 | Loading textures for tile type: SEA_TILE
+10:13:48.802 INFO  other.StartupController	 | Initializing stage...
+10:13:48.816 INFO  gameState.GameState	 | Setting previous scene to null
+10:13:48.988 INFO  ui.MenuViewController	 | Initializing menu view...
+10:13:49.033 INFO  utils.ErrorHandler	 | Showing error popup...
+10:13:49.034 INFO  utils.ErrorHandler	 | No exceptions to show!
+10:13:49.034 INFO  futurewars.Main	 | Initialization complete!
+10:13:49.035 INFO  futurewars.Main	 | Loaded a total of:
+10:13:49.035 INFO  futurewars.Main	 | 	 7 tiles
+10:13:49.035 INFO  futurewars.Main	 | 	 7 units
+10:13:49.036 INFO  futurewars.Main	 | 	 5 maps
+10:13:51.674 INFO  gameState.GameState	 | Setting previous scene to javafx.scene.Scene@5a0d5e8f
+10:13:51.755 INFO  controllers.MapEditorController	 | Initializing active editor box...
+10:13:51.757 INFO  controllers.MapEditorController	 | Setting map size...
+10:13:51.763 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.766 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.767 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.768 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.769 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.770 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.771 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.772 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.773 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.774 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.775 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.776 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.778 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.779 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.780 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.781 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.781 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.782 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.783 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.784 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.785 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.786 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.787 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.787 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.788 INFO  controllers.MapEditorController	 | Editor tile is 0.0x0.0
+10:13:51.788 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.789 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.790 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.790 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.791 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.791 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.792 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.792 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.792 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.793 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.793 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.794 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.794 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.794 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.795 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.795 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.795 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.796 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.796 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.796 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.797 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.797 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.797 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.797 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.798 INFO  controllers.MapEditorController	 | TileSize in setupNewGrid: 0.0x0.0
+10:13:51.798 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.798 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.799 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.799 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.799 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.800 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.800 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.800 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.801 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.801 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.801 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.802 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.802 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.802 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.803 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.803 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.803 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.804 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.804 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.804 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.805 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.805 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.806 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.806 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.808 INFO  controllers.MapEditorController	 | TileSize in setSize: 0.0x0.0
+10:13:51.958 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@34d7d800, name: height, value: 141.6]
+10:13:51.959 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@12b98bfd, name: height, value: 141.6]
+10:13:51.960 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 140.8]
+10:13:51.960 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 141.6]
+10:13:51.961 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@592882a1, name: height, value: 141.6]
+10:13:51.962 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3d12370a, name: height, value: 141.6]
+10:13:51.962 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@279bd1f6, name: height, value: 141.6]
+10:13:51.963 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@727d492a, name: height, value: 141.6]
+10:13:51.963 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 140.8]
+10:13:51.964 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 141.6]
+10:13:51.965 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@706f5388, name: height, value: 141.6]
+10:13:51.965 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@622fefb0, name: height, value: 141.6]
+10:13:51.966 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 141.6]
+10:13:51.967 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 140.8]
+10:13:51.968 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 141.6]
+10:13:51.969 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 140.8]
+10:13:51.970 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@60769a20, name: height, value: 140.8]
+10:13:51.971 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 141.6]
+10:13:51.971 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 140.8]
+10:13:51.972 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 141.6]
+10:13:51.973 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 140.8]
+10:13:51.974 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6159edb4, name: height, value: 141.6]
+10:13:51.975 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@2c7665ef, name: height, value: 141.6]
+10:13:51.976 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 140.8]
+10:13:51.977 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 141.6]
+10:13:51.978 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@67fb0438, name: height, value: 141.6]
+10:13:51.979 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1a93812b, name: height, value: 141.6]
+10:13:51.980 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@37a7e9e7, name: height, value: 141.6]
+10:13:51.981 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@dab2577, name: height, value: 141.6]
+10:13:51.981 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 140.8]
+10:13:51.982 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 141.6]
+10:13:51.983 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@7e4a7f30, name: height, value: 141.6]
+10:13:51.984 INFO  controllers.MapEditorController	 | Height changed from 0.0 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@77f80be1, name: height, value: 141.6]
+10:13:52.072 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 140.8]
+10:13:52.073 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@3769c0a4, name: height, value: 141.6]
+10:13:52.074 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 140.8]
+10:13:52.075 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6a46263c, name: height, value: 141.6]
+10:13:52.076 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 141.6]
+10:13:52.076 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1bfbb416, name: height, value: 140.8]
+10:13:52.077 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 141.6]
+10:13:52.078 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@255f4c57, name: height, value: 140.8]
+10:13:52.079 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 141.6]
+10:13:52.079 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@40b46dc, name: height, value: 140.8]
+10:13:52.080 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 141.6]
+10:13:52.080 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@286429a3, name: height, value: 140.8]
+10:13:52.081 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 140.8]
+10:13:52.082 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@6eb38b0d, name: height, value: 141.6]
+10:13:52.082 INFO  controllers.MapEditorController	 | Height changed from 141.6 to 140.8 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 140.8]
+10:13:52.083 INFO  controllers.MapEditorController	 | Height changed from 140.8 to 141.6 - ReadOnlyDoubleProperty [bean: EditorTile@1aa68341, name: height, value: 141.6]
+10:13:52.908 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:13:52.911 INFO  controllers.MapEditorController	 | Tile Size: 140.8x140.8
+10:13:52.913 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: null - newValue: EditorTile@40b46dc
+10:13:52.916 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:13:57.697 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:14:01.854 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:14:01.858 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:14:01.860 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@40b46dc - newValue: EditorTile@1a93812b
+10:14:01.863 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:14:05.990 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:14:05.990 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:14:05.991 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@1a93812b - newValue: EditorTile@1aa68341
+10:14:05.992 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:14:07.146 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:14:07.148 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:14:07.150 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@1aa68341 - newValue: EditorTile@dab2577
+10:14:07.152 INFO  controllers.MapEditorController	 | Opacity: 0.5
+10:14:08.737 INFO  controllers.MapEditorController	 | Editor tile clicked
+10:14:08.739 INFO  controllers.MapEditorController	 | Tile Size: 141.6x141.6
+10:14:08.741 INFO  controllers.MapEditorController	 | Active editor box changed - oldValue: EditorTile@dab2577 - newValue: EditorTile@37a7e9e7
+10:14:08.744 INFO  controllers.MapEditorController	 | Opacity: 0.5
