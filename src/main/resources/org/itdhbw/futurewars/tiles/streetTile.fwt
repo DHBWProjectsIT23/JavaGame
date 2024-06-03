@@ -2,7 +2,7 @@ FUTURE_WARS_TILE_FORMAT
 - tileType
 STREET_TILE
 - movementType
-STREET 
+PLAIN
 - texture
 $INTERNAL_DIR/textures/tiles/streets/CrossingSimple.png
 $INTERNAL_DIR/textures/tiles/streets/CrossingToBottom.png
