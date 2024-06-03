@@ -11,4 +11,5 @@ $INTERNAL_DIR/textures/tiles/streets/CurveLeftToBottom.png
 $INTERNAL_DIR/textures/tiles/streets/CurveLeftToTop.png
 $INTERNAL_DIR/textures/tiles/streets/CurveRightToBottom.png
 $INTERNAL_DIR/textures/tiles/streets/CurveRightToTop.png
-$INTERNAL_DIR/textures/tiles/streets/StreetSimple.png
+$INTERNAL_DIR/textures/tiles/streets/StreetVertical.png
+$INTERNAL_DIR/textures/tiles/streets/StreetHorizontal.png
