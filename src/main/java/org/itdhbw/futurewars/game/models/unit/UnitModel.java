@@ -24,13 +24,13 @@ public class UnitModel {
             new EnumMap<>(MovementType.class);
     protected String unitType;
     protected int baseDamage;
-    protected int armor;
-    protected int piercing;
-    protected int lowAirPiercing;
+    protected double armor;
+    protected double piercing;
+    protected double lowAirPiercing;
     protected TargetType targetType;
     protected List<TargetType> canAttackType;
     protected int maxHealth = 10;
-    protected int currentHealth = 10;
+    protected int currentHealth = 9;
     private boolean hasMoved = false;
 
     private boolean canAttack = false;
@@ -106,27 +106,27 @@ public class UnitModel {
         this.baseDamage = damage;
     }
 
-    public int getArmor() {
+    public double getArmor() {
         return armor;
     }
 
-    public void setArmor(int armor) {
+    public void setArmor(double armor) {
         this.armor = armor;
     }
 
-    public int getPiercing() {
+    public double getPiercing() {
         return piercing;
     }
 
-    public void setPiercing(int piercing) {
+    public void setPiercing(double piercing) {
         this.piercing = piercing;
     }
 
-    public int getLowAirPiercing() {
+    public double getLowAirPiercing() {
         return lowAirPiercing;
     }
 
-    public void setLowAirPiercing(int lowAirPiercing) {
+    public void setLowAirPiercing(double lowAirPiercing) {
         this.lowAirPiercing = lowAirPiercing;
     }
 

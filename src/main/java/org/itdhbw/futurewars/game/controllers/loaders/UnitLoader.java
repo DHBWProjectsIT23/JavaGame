@@ -35,9 +35,9 @@ public class UnitLoader implements LoaderFactory {
     private URI texture1;
     private URI texture2;
     private int baseDamage;
-    private int armor;
-    private int piercing;
-    private int lowAirPiercing;
+    private double armor;
+    private double piercing;
+    private double lowAirPiercing;
     private TargetType targetType;
     private final List<TargetType> canAttackType;
 

@@ -24,15 +24,15 @@ public class UnitFactory {
     private final Image texture1;
     private final Image texture2;
     private final int baseDamage;
-    private final int armor;
-    private final int piercing;
-    private final int lowAirPiercing;
+    private final double armor;
+    private final double piercing;
+    private final double lowAirPiercing;
     private final TargetType targetType;
     private final List<TargetType> canAttackType;
     private UnitModel unitModel;
     private UnitView unitView;
 
-    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2, int baseDamage, int armor, int piercing, int lowAirPiercing, TargetType targetType, List<TargetType> canAttackType) {
+    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2, int baseDamage, double armor, double piercing, double lowAirPiercing, TargetType targetType, List<TargetType> canAttackType) {
         LOGGER.info("Creating unit factory for unit type: {}", unitType);
         this.unitType = unitType;
         this.attackRange = attackRange;

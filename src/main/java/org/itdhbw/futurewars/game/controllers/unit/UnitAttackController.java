@@ -18,17 +18,29 @@ public class UnitAttackController {
         this.gameState = Context.getGameState();
     }
 
-    private int calcBaseDamage(UnitModel attackedUnit) {
-        return 1;
+    private int calcBaseDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        return (int) (Math.round(attackingUnit.getBaseDamage() - (attackingUnit.getBaseDamage() * calcArmor(attackingUnit, attackedUnit))));
     }
 
-    private int calcArmor(UnitModel attackingUnit, UnitModel attackedUnit) {
+    private double calcArmor(UnitModel attackingUnit, UnitModel attackedUnit) {
         if (attackedUnit.getTargetType() == TargetType.LOW_AIR) {
             return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getLowAirPiercing());
         } else {
             return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
         }
     }
+
+    private int actualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        if (attackingUnit.getCanAttackType().contains(attackedUnit.getTargetType())) { // This is not the final version if the canAttack check
+            int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
+            int rawDamage = (int) (baseDamage*(((double) attackingUnit.getCurrentHealth())/((double)attackingUnit.getMaxHealth())));
+            double cover = ((int) (100 - (30 * (((double) attackedUnit.getCurrentHealth()) / ((double) attackedUnit.getMaxHealth()))))) / 100.0; // 30 represents terrain cover
+            return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
+        } else {
+            return 0; // To be changed... see above
+        }
+    }
+
 
     public void attack(UnitModel attackedUnit) {
         UnitModel attackingUnit = gameState.getSelectedUnit();
