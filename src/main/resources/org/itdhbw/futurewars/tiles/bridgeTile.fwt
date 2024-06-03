@@ -1,6 +1,6 @@
 FUTURE_WARS_TILE_FORMAT
 - tileType
-STREET_TILE
+BRIDGE_TILE
 - movementType
 PLAIN
 - texture
