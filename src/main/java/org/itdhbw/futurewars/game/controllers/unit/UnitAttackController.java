@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 public class UnitAttackController {
@@ -17,6 +18,18 @@ public class UnitAttackController {
         this.gameState = Context.getGameState();
     }
 
+    private int calcBaseDamage(UnitModel attackedUnit) {
+        return 1;
+    }
+
+    private int calcArmor(UnitModel attackingUnit, UnitModel attackedUnit) {
+        if (attackedUnit.getTargetType() == TargetType.LOW_AIR) {
+            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getLowAirPiercing());
+        } else {
+            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
+        }
+    }
+
     public void attack(UnitModel attackedUnit) {
         UnitModel attackingUnit = gameState.getSelectedUnit();
         if (attackingUnit == null) {
@@ -25,6 +38,7 @@ public class UnitAttackController {
         if (attackingUnit.getTeam() != gameState.getCurrentPlayer()) {
             LOGGER.error("Unit does not belong to current team");
         }
+
         attackedUnit.takeDamage(1);
         attackingUnit.setHasMoved(true);
     }

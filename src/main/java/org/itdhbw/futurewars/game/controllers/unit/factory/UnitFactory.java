@@ -4,10 +4,12 @@ import javafx.scene.image.Image;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.views.UnitView;
 
 import java.net.URI;
+import java.util.List;
 
 public class UnitFactory {
     private static final Logger LOGGER =
@@ -21,10 +23,16 @@ public class UnitFactory {
     private final int travelCostSea;
     private final Image texture1;
     private final Image texture2;
+    private final int baseDamage;
+    private final int armor;
+    private final int piercing;
+    private final int lowAirPiercing;
+    private final TargetType targetType;
+    private final List<TargetType> canAttackType;
     private UnitModel unitModel;
     private UnitView unitView;
 
-    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2) {
+    public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2, int baseDamage, int armor, int piercing, int lowAirPiercing, TargetType targetType, List<TargetType> canAttackType) {
         LOGGER.info("Creating unit factory for unit type: {}", unitType);
         this.unitType = unitType;
         this.attackRange = attackRange;
@@ -36,6 +44,13 @@ public class UnitFactory {
 
         this.texture1 = new Image(texture1.toString());
         this.texture2 = new Image(texture2.toString());
+
+        this.baseDamage = baseDamage;
+        this.armor = armor;
+        this.piercing = piercing;
+        this.lowAirPiercing = lowAirPiercing;
+        this.targetType = targetType;
+        this.canAttackType = canAttackType;
     }
 
     private void createUnitModel(int team) {
@@ -47,6 +62,12 @@ public class UnitFactory {
         unitModel.setWoodsTravelCost(travelCostWood);
         unitModel.setMountainTravelCost(travelCostMountain);
         unitModel.setSeaTravelCost(travelCostSea);
+        unitModel.setBaseDamage(baseDamage);
+        unitModel.setArmor(armor);
+        unitModel.setPiercing(piercing);
+        unitModel.setLowAirPiercing(lowAirPiercing);
+        unitModel.setTargetType(targetType);
+        unitModel.setCanAttackType(canAttackType);
     }
 
     private void createUnitView() {

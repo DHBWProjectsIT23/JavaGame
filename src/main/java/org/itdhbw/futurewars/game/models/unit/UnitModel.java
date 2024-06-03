@@ -9,6 +9,7 @@ import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.utils.Position;
 
 import java.util.EnumMap;
+import java.util.List;
 
 
 public class UnitModel {
@@ -22,6 +23,12 @@ public class UnitModel {
     protected EnumMap<MovementType, Integer> travelCosts =
             new EnumMap<>(MovementType.class);
     protected String unitType;
+    protected int baseDamage;
+    protected int armor;
+    protected int piercing;
+    protected int lowAirPiercing;
+    protected TargetType targetType;
+    protected List<TargetType> canAttackType;
     protected int maxHealth = 10;
     protected int currentHealth = 10;
     private boolean hasMoved = false;
@@ -89,6 +96,54 @@ public class UnitModel {
 
     public void setAttackRange(int range) {
         this.attackRange = range;
+    }
+
+    public int getBaseDamage() {
+        return baseDamage;
+    }
+
+    public void setBaseDamage(int damage) {
+        this.baseDamage = damage;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public int getPiercing() {
+        return piercing;
+    }
+
+    public void setPiercing(int piercing) {
+        this.piercing = piercing;
+    }
+
+    public int getLowAirPiercing() {
+        return lowAirPiercing;
+    }
+
+    public void setLowAirPiercing(int lowAirPiercing) {
+        this.lowAirPiercing = lowAirPiercing;
+    }
+
+    public TargetType getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(TargetType targetType) {
+        this.targetType = targetType;
+    }
+
+    public List<TargetType> getCanAttackType() {
+        return canAttackType;
+    }
+
+    public void setCanAttackType(List<TargetType> canAttackType) {
+        this.canAttackType = canAttackType;
     }
 
     public Position getPosition() {
