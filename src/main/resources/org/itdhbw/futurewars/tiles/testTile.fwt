@@ -3,5 +3,7 @@ FUTURE_WARS_TILE_FORMAT
 TEST_TILE
 - movementType
 PLAIN
+- terrainCover
+10
 - texture
 $INTERNAL_DIR/textures/tiles/misc/128Sample.png

@@ -109,9 +109,9 @@ public class UnitLoader implements LoaderFactory {
 
             String[] twelfthLine = reader.readLine().split(",");
             baseDamage = Integer.parseInt(twelfthLine[0]);
-            armor = Integer.parseInt(twelfthLine[1]);
-            piercing = Integer.parseInt(twelfthLine[2]);
-            lowAirPiercing = Integer.parseInt(twelfthLine[3]);
+            armor = Double.parseDouble(twelfthLine[1]);
+            piercing = Double.parseDouble(twelfthLine[2]);
+            lowAirPiercing = Double.parseDouble(twelfthLine[3]);
 
             // on thirteenth line - skip to fourteenth
             reader.readLine();

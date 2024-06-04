@@ -21,13 +21,15 @@ public class TileModel {
     protected MovementType movementType;
     private boolean isOccupied = false;
     private final String tileType;
+    private final int terrainCover;
 
 
-    public TileModel(String tileType, final int x, final int y) {
+    public TileModel(String tileType, final int x, final int y, int terrainCover) {
         LOGGER.info("Creating tile model {} at position ({}, {}) with type {}",
                     modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
+        this.terrainCover = terrainCover;
     }
 
     public int distanceTo(TileModel other) {
@@ -36,6 +38,10 @@ public class TileModel {
 
     public Position getPosition() {
         return position;
+    }
+
+    public int getTerrainCover() {
+        return terrainCover;
     }
 
     public MovementType getMovementType() {

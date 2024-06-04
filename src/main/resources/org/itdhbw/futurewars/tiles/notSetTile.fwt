@@ -3,5 +3,7 @@ FUTURE_WARS_TILE_FORMAT
 NOT_SET_TILE
 - movementType
 SEA
+- terrainCover
+10
 - texture
 $INTERNAL_DIR/textures/tiles/misc/TileNotSet.png
