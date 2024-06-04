@@ -30,7 +30,7 @@ public class UnitModel {
     protected TargetType targetType;
     protected List<TargetType> canAttackType;
     protected int maxHealth = 10;
-    protected int currentHealth = 9;
+    protected int currentHealth = 10;
     private boolean hasMoved = false;
 
     private boolean canAttack = false;

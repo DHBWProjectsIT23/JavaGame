@@ -8,3 +8,9 @@ TEST_UNIT
 - texture - 1 on line 11, 2 on line 12
 $USER_DIR/textures/units/UnitSample.png
 $USER_DIR/textures/units/UnitSample2.png
+- baseDamage, armor, piercing, lowAirPiercing
+55,0,0.55,0
+- targetType
+GROUND
+- canAttack
+GROUND,LOW_AIR
