@@ -31,19 +31,17 @@ public class UnitAttackController {
     }
 
     private int actualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
-        if (attackingUnit.getCanAttackType().contains(attackedUnit.getTargetType())) { // This is not the final version if the canAttack check
-            int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
-            int rawDamage = (int) (baseDamage
-                    * (((double) attackingUnit.getCurrentHealth())/((double)attackingUnit.getMaxHealth())));
-            double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover()
-                    * (((double) attackedUnit.getCurrentHealth()) / ((double) attackedUnit.getMaxHealth())))))
-                    / 100.0;
-            return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
-        } else {
-            return 0; // To be changed... see above
-        }
+        int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
+        int rawDamage = (int) (baseDamage *
+                (((double) attackingUnit.getCurrentHealth()) / ((double)attackingUnit.getMaxHealth())));
+        double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover() *
+                (((double) attackedUnit.getCurrentHealth()) / ((double) attackedUnit.getMaxHealth()))))) / 100.0;
+        return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
     }
 
+    private int calcDamagePoints(UnitModel attackingUnit, UnitModel attackedUnit) {
+        return (int) Math.round((double) actualPercentDamage(attackingUnit, attackedUnit)/10);
+    }
 
     public void attack(UnitModel attackedUnit) {
         UnitModel attackingUnit = gameState.getSelectedUnit();
@@ -54,7 +52,17 @@ public class UnitAttackController {
             LOGGER.error("Unit does not belong to current team");
         }
 
-        attackedUnit.takeDamage(1);
+        if (attackingUnit.getCanAttackType().contains(attackedUnit.getTargetType())) {
+            attackedUnit.takeDamage(calcDamagePoints(attackingUnit, attackedUnit));
+            if (attackedUnit.getCanAttackType().contains(attackingUnit.getTargetType())) { // Todo: Nicht machen wenn attackedUnit tot
+                attackingUnit.takeDamage(calcDamagePoints(attackedUnit, attackingUnit));
+            } else {
+                LOGGER.error("Target Unit cannot counterattack");
+            }
+        } else {
+            LOGGER.error("Unit cannot attack this target type");
+        }
+
         attackingUnit.setHasMoved(true);
     }
 
