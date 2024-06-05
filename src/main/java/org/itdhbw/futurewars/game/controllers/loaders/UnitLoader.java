@@ -39,12 +39,12 @@ public class UnitLoader implements LoaderFactory {
     private double piercing;
     private double lowAirPiercing;
     private TargetType targetType;
-    private final List<TargetType> canAttackType;
+    private List<TargetType> canAttackType;
 
     public UnitLoader() {
         unitRepository = Context.getUnitRepository();
         unitFactories = new HashMap<>();
-        canAttackType = new ArrayList<>();
+
     }
 
     public Map<String, File> getSystemFiles() throws
@@ -74,6 +74,7 @@ public class UnitLoader implements LoaderFactory {
 
     public void loadFile(BufferedReader reader, File file) throws
                                                            FailedToLoadFileException {
+        canAttackType = new ArrayList<>();
         try {
             // on second line - skip to third
             reader.readLine();

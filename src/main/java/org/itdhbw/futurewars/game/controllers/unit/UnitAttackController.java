@@ -52,6 +52,7 @@ public class UnitAttackController {
             LOGGER.error("Unit does not belong to current team");
         }
 
+        LOGGER.info("Target type: {} - Can Attack: {}", attackedUnit.getTargetType(), attackingUnit.getCanAttackType());
         if (attackingUnit.getCanAttackType().contains(attackedUnit.getTargetType())) {
             attackedUnit.takeDamage(calcDamagePoints(attackingUnit, attackedUnit));
             if (attackedUnit.getCanAttackType().contains(attackingUnit.getTargetType())) { // Todo: Nicht machen wenn attackedUnit tot
