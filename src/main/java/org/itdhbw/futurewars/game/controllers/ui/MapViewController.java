@@ -123,6 +123,7 @@ public class MapViewController {
             this.currentUnitTexture.setImage(
                     Context.getUnitRepository().getUnitView(selectedUnitModel)
                            .getTexture());
+            this.currentUnitType.setText(selectedUnitModel.getUnitType());
             this.currentUnitHealth.setText(
                     selectedUnitModel.getCurrentHealth() + "/" +
                     selectedUnitModel.getMaxHealth() + " ♥");

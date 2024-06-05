@@ -3,6 +3,8 @@ FUTURE_WARS_TILE_FORMAT
 SEA_TILE
 - movementType
 SEA
+- terrainCover
+10
 - texture
 $INTERNAL_DIR/textures/tiles/sea/SeaTile.png
 $INTERNAL_DIR/textures/tiles/sea/SeaBottomEndTile.png

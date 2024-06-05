@@ -10,12 +10,15 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.controllers.unit.factory.UnitFactory;
+import org.itdhbw.futurewars.game.models.unit.TargetType;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UnitLoader implements LoaderFactory {
@@ -31,10 +34,17 @@ public class UnitLoader implements LoaderFactory {
     private int travelCostSea;
     private URI texture1;
     private URI texture2;
+    private int baseDamage;
+    private double armor;
+    private double piercing;
+    private double lowAirPiercing;
+    private TargetType targetType;
+    private List<TargetType> canAttackType;
 
     public UnitLoader() {
         unitRepository = Context.getUnitRepository();
         unitFactories = new HashMap<>();
+
     }
 
     public Map<String, File> getSystemFiles() throws
@@ -53,7 +63,7 @@ public class UnitLoader implements LoaderFactory {
                 new UnitFactory(unitType, attackRange, movementRange,
                                 travelCostPlain, travelCostWood,
                                 travelCostMountain, travelCostSea, texture1,
-                                texture2);
+                                texture2, baseDamage, armor, piercing, lowAirPiercing, targetType, canAttackType);
         Context.getUnitBuilder().addUnitFactory(unitType, unitFactoryCustom);
     }
 
@@ -64,33 +74,59 @@ public class UnitLoader implements LoaderFactory {
 
     public void loadFile(BufferedReader reader, File file) throws
                                                            FailedToLoadFileException {
+        canAttackType = new ArrayList<>();
         try {
             // on second line - skip to third
             reader.readLine();
             unitType = reader.readLine();
 
-            // on sixth line - skip to seventh
-            reader.readLine();
-            String[] thirdLine = reader.readLine().split(",");
-            attackRange = Integer.parseInt(thirdLine[0]);
-            movementRange = Integer.parseInt(thirdLine[1]);
-
             // on fourth line - skip to fifth
             reader.readLine();
 
             String[] fifthLine = reader.readLine().split(",");
-            travelCostPlain = Integer.parseInt(fifthLine[0]);
-            travelCostWood = Integer.parseInt(fifthLine[1]);
-            travelCostSea = Integer.parseInt(fifthLine[2]);
-            travelCostMountain = Integer.parseInt(fifthLine[3]);
+            attackRange = Integer.parseInt(fifthLine[0]);
+            movementRange = Integer.parseInt(fifthLine[1]);
 
             // on sixth line - skip to seventh
+            reader.readLine();
+
+            String[] seventhLine = reader.readLine().split(",");
+            travelCostPlain = Integer.parseInt(seventhLine[0]);
+            travelCostWood = Integer.parseInt(seventhLine[1]);
+            travelCostSea = Integer.parseInt(seventhLine[2]);
+            travelCostMountain = Integer.parseInt(seventhLine[3]);
+
+            // on eighth line - skip to ninth
             reader.readLine();
             try {
                 texture1 = FileHelper.getFile(reader.readLine());
                 texture2 = FileHelper.getFile(reader.readLine());
             } catch (CustomException e) {
                 ErrorHandler.addException(e, "failed to load unit textures");
+            }
+
+            // on eleventh line - skip to twelfth
+            reader.readLine();
+
+            String[] twelfthLine = reader.readLine().split(",");
+            baseDamage = Integer.parseInt(twelfthLine[0]);
+            armor = Double.parseDouble(twelfthLine[1]);
+            piercing = Double.parseDouble(twelfthLine[2]);
+            lowAirPiercing = Double.parseDouble(twelfthLine[3]);
+
+            // on thirteenth line - skip to fourteenth
+            reader.readLine();
+            try {
+                targetType = TargetType.valueOf(reader.readLine());
+            } catch (IllegalArgumentException e) {
+                ErrorHandler.addException(e, "failed to load target type");
+            }
+
+            // on fifteenth line - skip to sixteenth
+            reader.readLine();
+            String[] sixteenthLine = reader.readLine().split(",");
+            for (String type : sixteenthLine) {
+                canAttackType.add(TargetType.valueOf(type));
             }
 
             unitRepository.addUnitType(unitType);

@@ -24,6 +24,7 @@ public class TileLoader implements LoaderFactory {
     private List<URI> texturePaths;
     private MovementType movementType;
     private String tileType;
+    private int terrainCover;
 
     public TileLoader() {
         this.tileRepository = Context.getTileRepository();
@@ -63,6 +64,11 @@ public class TileLoader implements LoaderFactory {
             // skip line
             reader.readLine();
 
+            terrainCover = Integer.parseInt(reader.readLine());
+
+            // skip line
+            reader.readLine();
+
             String line;
             while ((line = reader.readLine()) != null) {
                 URI uri;
@@ -76,9 +82,9 @@ public class TileLoader implements LoaderFactory {
     }
 
     private void createTileFactory() {
-        LOGGER.info("Creating unit factory");
+        LOGGER.info("Creating tile factory");
         TileFactory tileFactoryCustom =
-                new TileFactory(tileType, texturePaths, movementType);
+                new TileFactory(tileType, terrainCover, texturePaths, movementType);
         Context.getTileBuilder().addTileFactory(tileType, tileFactoryCustom);
     }
 }

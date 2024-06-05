@@ -3,5 +3,7 @@ FUTURE_WARS_TILE_FORMAT
 MOUNTAIN_TILE
 - movementType
 MOUNTAIN
+- terrainCover
+40
 - texture
 $INTERNAL_DIR/textures/tiles/MountainTile.png

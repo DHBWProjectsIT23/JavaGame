@@ -21,10 +21,12 @@ public class TileFactory {
     private final List<URI> texturePaths;
     private TileModel tileModel;
     private TileView tileView;
+    private int terrainCover;
 
-    public TileFactory(String tileType, List<URI> texturePaths, MovementType movementType) {
+    public TileFactory(String tileType, int terrainCover, List<URI> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: {}", tileType);
         this.tileType = tileType;
+        this.terrainCover = terrainCover;
         this.movementType = movementType;
         this.texturePaths = texturePaths;
         loadTextures();
@@ -39,13 +41,13 @@ public class TileFactory {
     }
 
     private void createTileModel(int x, int y) {
-        LOGGER.info("Creating unit model");
-        tileModel = new TileModel(tileType, x, y);
+        LOGGER.info("Creating tile model");
+        tileModel = new TileModel(tileType, x, y, terrainCover);
         tileModel.setMovementType(movementType);
     }
 
     private void createTileView(int textureVariant) {
-        LOGGER.info("Creating unit view");
+        LOGGER.info("Creating tile view");
         tileView = new TileView(tileModel);
         Image texture1Image;
         try {
