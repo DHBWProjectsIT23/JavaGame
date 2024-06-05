@@ -1,0 +1,15 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+BRIDGE_TILE
+- movementType
+PLAIN
+- texture
+$INTERNAL_DIR/textures/tiles/bridges/BridgeBottomLand.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeLeftLand.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeRightLand.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeBottomLand.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeTopLand.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeSimpleHorizontal.png 
+$INTERNAL_DIR/textures/tiles/bridges/BridgeSimpleVertical.png
+$INTERNAL_DIR/textures/tiles/bridges/BridgeSmallHorizontal.png 
+$INTERNAL_DIR/textures/tiles/bridges/BridgeSmallVertical.png
