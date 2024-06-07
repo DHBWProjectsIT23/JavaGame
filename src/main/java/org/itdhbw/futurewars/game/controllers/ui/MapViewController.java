@@ -110,6 +110,7 @@ public class MapViewController {
     private void showStatusView(TileModel selectedTile) {
         this.statusViewOverlay.setVisible(true);
         this.currentTileType.setText(selectedTile.getTileType());
+        this.currentTileDef.setText("Def: " + selectedTile.getTerrainCover()/10 + "/5");
         Image tileTexture = Context.getTileRepository()
                                    .getTileView(selectedTile.getPosition())
                                    .getTexture();
