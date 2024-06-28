@@ -80,6 +80,11 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
+        if (tileView.getTileModel().isOccupied() &&
+            tileView.getTileModel() != gameState.selectedTileProperty().get()) {
+            return;
+        }
+
         gameState.setActiveMode(ActiveMode.OVERLAY);
         gameState.selectTile(tileView.getTileModel());
 
