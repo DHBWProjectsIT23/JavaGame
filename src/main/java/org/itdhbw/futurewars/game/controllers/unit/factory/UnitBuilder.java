@@ -64,6 +64,13 @@ public class UnitBuilder {
                               .addToStack(unitView);
             }
         });
+
+        unitModel.isDeadProperty().addListener((_, _, isDead) -> {
+            if (Boolean.TRUE.equals(isDead)) {
+                unitModel.currentTileProperty().get().removeOccupyingUnit();
+                unitView.setVisible(false);
+            }
+        });
     }
 
     public Map<String, UnitFactory> getUnitFactories() {

@@ -1,6 +1,8 @@
 package org.itdhbw.futurewars.game.models.unit;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,8 +34,8 @@ public class UnitModel {
     protected int maxHealth = 10;
     protected int currentHealth = 10;
     private boolean hasMoved = false;
-
     private boolean canAttack = false;
+    private final BooleanProperty isDead = new SimpleBooleanProperty(false);
 
     public boolean canAttack() {
         return canAttack;
@@ -153,8 +155,21 @@ public class UnitModel {
     public void takeDamage(int damage) {
         currentHealth -= damage;
         if (currentHealth <= 0) {
-            //die();
+            die();
         }
+    }
+
+    public void die() {
+        LOGGER.info("Unit {} died", modelId);
+        isDead.set(true);
+    }
+
+    public BooleanProperty isDeadProperty() {
+        return isDead;
+    }
+
+    public boolean isDead() {
+        return isDead.get();
     }
 
     public void setHasMoved(boolean b) {
