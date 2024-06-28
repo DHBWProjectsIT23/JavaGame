@@ -53,6 +53,11 @@ public class MovingUnitModeHandler implements MouseEventHandler {
                     highlightedTiles.add(tile);
                 }
             }
+
+            LOGGER.info("tileModel: {}", tileView.getTileModel());
+            LOGGER.info("Last tile: {}", highlightedTiles.getLast());
+            gameState.getSelectedUnit().setCanMove(
+                    tileView.getTileModel() == highlightedTiles.getLast());
         });
 
         Task<Set<TileModel>> getAttackableTiles = new Task<>() {

@@ -35,6 +35,7 @@ public class UnitModel {
     protected int currentHealth = 10;
     private boolean hasMoved = false;
     private boolean canAttack = false;
+    private boolean canMove = false;
     private final BooleanProperty isDead = new SimpleBooleanProperty(false);
 
     public boolean canAttack() {
@@ -178,6 +179,14 @@ public class UnitModel {
 
     public boolean hasMoved() {
         return hasMoved;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean canMove() {
+        return canMove;
     }
 
     public String getUnitType() {

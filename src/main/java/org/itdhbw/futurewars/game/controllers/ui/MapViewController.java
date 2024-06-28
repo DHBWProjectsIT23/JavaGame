@@ -146,13 +146,17 @@ public class MapViewController {
         this.overlayBox.getChildren().remove(overlayAttackButton);
         this.overlayBox.getChildren().remove(overlayInfoButton);
         this.overlayBox.getChildren().remove(overlayCloseButton);
-        if (gameState.getSelectedUnit().canAttack()) {
+        if (gameState.getSelectedUnit().canAttack() &&
+            gameState.getSelectedUnit().canMove()) {
             this.overlayBox.getChildren().add(overlayMoveButton);
             this.overlayBox.getChildren().add(overlayAttackButton);
             this.overlayBox.getChildren().add(overlayInfoButton);
             this.overlayBox.getChildren().add(overlayCloseButton);
-        } else {
+        } else if (gameState.getSelectedUnit().canMove()) {
             this.overlayBox.getChildren().add(overlayMoveButton);
+            this.overlayBox.getChildren().add(overlayInfoButton);
+            this.overlayBox.getChildren().add(overlayCloseButton);
+        } else {
             this.overlayBox.getChildren().add(overlayInfoButton);
             this.overlayBox.getChildren().add(overlayCloseButton);
         }
