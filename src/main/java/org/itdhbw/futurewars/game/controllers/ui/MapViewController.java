@@ -119,11 +119,28 @@ public class MapViewController {
     }
 
     private void showTileStatusView(TileModel selectedTile) {
+        setStatusViewSide(selectedTile);
         this.statusViewOverlay.setVisible(true);
         this.currentTileType.setText(selectedTile.getTileType());
         this.currentTileDef.setText("Def: " + selectedTile.getTerrainCover() / 10 + "/5");
         Image tileTexture = Context.getTileRepository().getTileView(selectedTile.getPosition()).getTexture();
         this.currentTileTexture.setImage(tileTexture);
+    }
+
+    private void setStatusViewSide(TileModel selectedTile) {
+        int tileX = selectedTile.getPosition().getX();
+        int mapWidth = gameState.getMapWidthTiles();
+        int leftSwapTrigger = mapWidth / 4;
+        int rightSwapTrigger = mapWidth - (mapWidth / 4);
+        double anchorPosition = 16;
+
+        if (tileX < leftSwapTrigger) {
+            AnchorPane.setRightAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setLeftAnchor(this.statusViewVBox, null);
+        } else if (tileX > rightSwapTrigger) {
+            AnchorPane.setLeftAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setRightAnchor(this.statusViewVBox, null);
+        }
     }
 
     private void hideUnitStatusView() {
@@ -166,8 +183,26 @@ public class MapViewController {
             this.overlayBox.getChildren().add(overlayInfoButton);
             this.overlayBox.getChildren().add(overlayCloseButton);
         }
-        this.overlayBox.setLayoutX(mouseX.get());
-        this.overlayBox.setLayoutY(mouseY.get());
+
+        int x = (int) mouseX.get();
+        int y = (int) mouseY.get();
+
+        int width = (int) this.overlayBox.getWidth();
+        int height = (int) this.overlayBox.getHeight();
+
+        if (x + width > gameGrid.getWidth()) {
+            // Subtract 10 to make sure the overlay does not move the grid
+            x = (int) (gameGrid.getWidth() - width - 10);
+        }
+
+        if (y + height > gameGrid.getHeight()) {
+            // Subtract 10 to make sure the overlay does not move the grid
+            y = (int) (gameGrid.getHeight() - height - 10);
+        }
+
+        this.overlayBox.setLayoutX(x);
+        this.overlayBox.setLayoutY(y);
+
         this.overlayPane.setVisible(true);
         this.overlayPane.setDisable(false);
     }
