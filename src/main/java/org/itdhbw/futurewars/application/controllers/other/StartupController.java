@@ -20,8 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class StartupController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(StartupController.class);
+    private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
 
     private StartupController() {
         // empty constructor
@@ -39,11 +38,8 @@ public class StartupController {
 
     public static void loadFonts() {
         try {
-            Font.loadFont(FileHelper.getFile(
-                                  "$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(),
-                          12);
-            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf")
-                                    .toString(), 12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(), 12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf").toString(), 12);
         } catch (FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load font");
         }
@@ -68,12 +64,10 @@ public class StartupController {
 
     public static void initializeStage(Stage stage) {
         LOGGER.info("Initializing stage...");
-        stage.widthProperty().addListener(
-                (_, _, newValue) -> Context.getGameState().setMapWidth(
-                        newValue.intValue() / 100 * 90));
-        stage.heightProperty().addListener(
-                (_, _, newValue) -> Context.getGameState().setMapHeight(
-                        newValue.intValue() / 100 * 90));
+        stage.widthProperty()
+             .addListener((_, _, newValue) -> Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90));
+        stage.heightProperty()
+             .addListener((_, _, newValue) -> Context.getGameState().setMapHeight(newValue.intValue() / 100 * 90));
         Context.setPrimaryStage(stage);
         stage.setTitle("Future Wars");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -109,8 +103,7 @@ public class StartupController {
                 }
             }
         } catch (IOException e) {
-            ErrorHandler.addException(e,
-                                      "Failed to initialize user directories");
+            ErrorHandler.addException(e, "Failed to initialize user directories");
         }
     }
 

@@ -34,16 +34,14 @@ public class TileView extends StackPane {
     private Image hoverOccupiedImage;
 
     public TileView(TileModel tileModel) {
-        LOGGER.info("Creating tile view {} for tile {}", this.viewId,
-                tileModel.modelId);
+        LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);
         loadTextures();
 
         this.gameState = Context.getGameState();
         this.tileModel = tileModel;
         this.textureLayer = new ImageView();
         this.textureLayer.fitWidthProperty().bind(gameState.tileSizeProperty());
-        this.textureLayer.fitHeightProperty()
-                .bind(gameState.tileSizeProperty());
+        this.textureLayer.fitHeightProperty().bind(gameState.tileSizeProperty());
         this.setTexture();
 
         possibleMoveOverlay.setMouseTransparent(true);
@@ -53,10 +51,8 @@ public class TileView extends StackPane {
         hoverOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
         selectedOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         selectedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
-        highlightedOverlay.fitWidthProperty()
-                .bind(gameState.tileSizeProperty());
-        highlightedOverlay.fitHeightProperty()
-                .bind(gameState.tileSizeProperty());
+        highlightedOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
+        highlightedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);
@@ -66,15 +62,12 @@ public class TileView extends StackPane {
 
     private void loadTextures() {
         try {
-            selectedOverlay = new ImageView(
-                    FileHelper.getInternalTexture("other/64Selected.png"));
+            selectedOverlay = new ImageView(FileHelper.getInternalTexture("other/64Selected.png"));
             texture = FileHelper.getInternalTexture("fallback/FallbackTile.png");
             hoverImage = FileHelper.getInternalTexture("other/64Hovered.png");
-            hoverOccupiedImage = FileHelper.getInternalTexture(
-                    "other/64HoveredOccupied.png");
+            hoverOccupiedImage = FileHelper.getInternalTexture("other/64HoveredOccupied.png");
             hoverOverlay = new ImageView(hoverImage);
-            highlightedOverlay = new ImageView(
-                    FileHelper.getInternalTexture("other/64Highlighted.png"));
+            highlightedOverlay = new ImageView(FileHelper.getInternalTexture("other/64Highlighted.png"));
             LOGGER.info("Loaded textures");
         } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load textures");
@@ -83,14 +76,12 @@ public class TileView extends StackPane {
 
     private void addBindings() {
         LOGGER.info("Adding hovered binding to tile view {}...", this.viewId);
-        this.hovered.bind(Bindings.createBooleanBinding(
-                () -> gameState.hoveredTileProperty().get() == this.tileModel,
-                gameState.hoveredTileProperty()));
+        this.hovered.bind(Bindings.createBooleanBinding(() -> gameState.hoveredTileProperty().get() == this.tileModel,
+                                                        gameState.hoveredTileProperty()));
 
         LOGGER.info("Adding selected binding to tile view {}...", this.viewId);
-        this.selected.bind(Bindings.createBooleanBinding(
-                () -> gameState.selectedTileProperty().get() == this.tileModel,
-                gameState.selectedTileProperty()));
+        this.selected.bind(Bindings.createBooleanBinding(() -> gameState.selectedTileProperty().get() == this.tileModel,
+                                                         gameState.selectedTileProperty()));
     }
 
     private void addListeners() {
@@ -139,8 +130,7 @@ public class TileView extends StackPane {
 
     private void addHoverOverlay() {
         LOGGER.trace("Adding hover overlay to tile {}...", this.viewId);
-        hoverOverlay.setImage(
-                this.tileModel.isOccupied() ? hoverOccupiedImage : hoverImage);
+        hoverOverlay.setImage(this.tileModel.isOccupied() ? hoverOccupiedImage : hoverImage);
         this.getChildren().add(hoverOverlay);
     }
 
@@ -170,8 +160,7 @@ public class TileView extends StackPane {
     }
 
     public void setPossibleMove(boolean transparent) {
-        LOGGER.info("Setting possible move overlay for tile {}...",
-                this.viewId);
+        LOGGER.info("Setting possible move overlay for tile {}...", this.viewId);
         if (transparent) {
             this.getChildren().add(possibleMoveOverlay);
         } else {

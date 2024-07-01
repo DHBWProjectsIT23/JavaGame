@@ -56,8 +56,7 @@ public class ErrorPopup {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Fatal Error");
             alert.setHeaderText(message);
-            alert.setContentText(e.getMessage() +
-                                 "\nApplication will close after this message.");
+            alert.setContentText(e.getMessage() + "\nApplication will close after this message.");
             alert.showAndWait();
             Platform.exit();
         });

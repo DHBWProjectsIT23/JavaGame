@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UnitBuilder {
-    private static final Logger LOGGER =
-            LogManager.getLogger(UnitBuilder.class);
+    private static final Logger LOGGER = LogManager.getLogger(UnitBuilder.class);
     private final UnitRepository unitRepository;
     private final Map<String, UnitFactory> unitFactories;
     private final TileRepository tileRepository;
@@ -38,8 +37,7 @@ public class UnitBuilder {
     public Pair<UnitModel, UnitView> createUnit(String unitType, int team) {
         UnitFactory factory = unitFactories.get(unitType);
         if (factory == null) {
-            throw new IllegalArgumentException(
-                    "No factory found for unit type " + unitType);
+            throw new IllegalArgumentException("No factory found for unit type " + unitType);
         }
         Pair<UnitModel, UnitView> unitPairCustom = factory.createUnit(team);
         addListeners(unitPairCustom.getKey(), unitPairCustom.getValue());
@@ -55,13 +53,11 @@ public class UnitBuilder {
         unitModel.currentTileProperty().addListener((_, oldTile, newTile) -> {
             if (oldTile != null) {
                 oldTile.removeOccupyingUnit();
-                tileRepository.getTileView(newTile.getPosition())
-                              .removeFromStack(unitView);
+                tileRepository.getTileView(newTile.getPosition()).removeFromStack(unitView);
             }
             if (newTile != null) {
                 newTile.setOccupyingUnit(unitModel);
-                tileRepository.getTileView(newTile.getPosition())
-                              .addToStack(unitView);
+                tileRepository.getTileView(newTile.getPosition()).addToStack(unitView);
             }
         });
 

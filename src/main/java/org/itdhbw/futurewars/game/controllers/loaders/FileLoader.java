@@ -56,8 +56,7 @@ public class FileLoader {
         }
     }
 
-    public void loadFile(File file) throws FailedToLoadFileException,
-                                           InvalidFileFormatException {
+    public void loadFile(File file) throws FailedToLoadFileException, InvalidFileFormatException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String validation = reader.readLine().split(",")[0];
             LoaderFactory loaderFactory = loaderFactoryMap.get(validation);

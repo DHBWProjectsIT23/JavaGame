@@ -24,8 +24,7 @@ public class MapGrid extends GridPane {
 
 
     private void addTileToGrid(Pair<TileModel, TileView> tile) {
-        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(),
-                    tile.getValue());
+        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
         LOGGER.info("Tile position: {}", tile.getKey().getPosition());
         Position position = tile.getKey().getPosition();
         this.add(tile.getValue(), position.getX(), position.getY());
@@ -34,19 +33,15 @@ public class MapGrid extends GridPane {
     private void addTilesToGrid() {
         LOGGER.info("Loading map...");
 
-        Pair<TileModel, TileView>[][] allTiles =
-                Context.getTileRepository().getAllTiles();
+        Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
         for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
             for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
-                LOGGER.error("x: {} of {}, y: {} of {}", x,
-                             gameState.getMapWidthTiles(), y,
+                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidthTiles(), y,
                              gameState.getMapHeightTiles());
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
                     LOGGER.warn("tilePair was null");
-                    tilePair =
-                            tileCreationController.createTile("NOT_SET_TILE", x,
-                                                              y);
+                    tilePair = tileCreationController.createTile("NOT_SET_TILE", x, y);
                 }
                 this.addTileToGrid(tilePair);
             }

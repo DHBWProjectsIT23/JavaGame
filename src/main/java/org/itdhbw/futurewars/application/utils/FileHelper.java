@@ -147,9 +147,9 @@ public class FileHelper {
         try (Stream<Path> stream = Files.walk(Path.of(mapPath))) {
             stream.filter(Files::isRegularFile).filter(file -> file.getFileName().toString().endsWith(fileEnding))
                   .forEach(file -> {
-                     LOGGER.info("Found file: {}", file);
+                      LOGGER.info("Found file: {}", file);
                       files.put(stripFileExtension(file.getFileName().toString()), file.toFile());
-                 });
+                  });
         } catch (IOException e) {
             ErrorHandler.addException(e, "Failed to retrieve files");
             throw new FailedToRetrieveFilesException(mapPath.toString());

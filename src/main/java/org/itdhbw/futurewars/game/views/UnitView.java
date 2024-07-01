@@ -14,11 +14,9 @@ public class UnitView extends ImageView {
 
     public UnitView(UnitModel unitModel) {
         this.unitModel = unitModel;
-        LOGGER.info("Creating unit view {} for unit {}", this.viewId,
-                    unitModel.modelId);
+        LOGGER.info("Creating unit view {} for unit {}", this.viewId, unitModel.modelId);
 
-        this.fitHeightProperty()
-            .bind(Context.getGameState().tileSizeProperty());
+        this.fitHeightProperty().bind(Context.getGameState().tileSizeProperty());
         this.fitWidthProperty().bind(Context.getGameState().tileSizeProperty());
     }
 

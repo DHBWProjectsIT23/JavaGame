@@ -8,8 +8,7 @@ import java.io.File;
 import java.util.Map;
 
 public interface LoaderFactory {
-    void loadFile(BufferedReader reader, File file) throws
-                                                    FailedToLoadFileException;
+    void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException;
 
     Map<String, File> getUserFiles() throws FailedToRetrieveFilesException;
 

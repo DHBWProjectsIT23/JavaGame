@@ -16,8 +16,7 @@ import java.util.Set;
 
 public class MovingUnitModeHandler implements MouseEventHandler {
     private static final List<TileModel> highlightedTiles = new ArrayList<>();
-    private static final Logger LOGGER =
-            LogManager.getLogger(MovingUnitModeHandler.class);
+    private static final Logger LOGGER = LogManager.getLogger(MovingUnitModeHandler.class);
     private final GameState gameState;
     private final AStarPathfinder pathfinder;
 
@@ -31,9 +30,7 @@ public class MovingUnitModeHandler implements MouseEventHandler {
         Task<List<TileModel>> getMovableTiles = new Task<>() {
             @Override
             protected List<TileModel> call() {
-                return pathfinder.findPath(
-                        gameState.selectedTileProperty().get(),
-                        tileView.getTileModel());
+                return pathfinder.findPath(gameState.selectedTileProperty().get(), tileView.getTileModel());
             }
         };
 
@@ -78,8 +75,7 @@ public class MovingUnitModeHandler implements MouseEventHandler {
                 LOGGER.info("Tile {} is attackable", tile.modelId);
             }
             // Throw properly
-            gameState.selectedUnitProperty().get().orElseThrow()
-                     .setCanAttack(!attackableTiles.isEmpty());
+            gameState.selectedUnitProperty().get().orElseThrow().setCanAttack(!attackableTiles.isEmpty());
         });
 
         new Thread(getMovableTiles).start();
@@ -89,8 +85,7 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
-        if (tileView.getTileModel().isOccupied() &&
-            tileView.getTileModel() != gameState.selectedTileProperty().get()) {
+        if (tileView.getTileModel().isOccupied() && tileView.getTileModel() != gameState.selectedTileProperty().get()) {
             return;
         }
 

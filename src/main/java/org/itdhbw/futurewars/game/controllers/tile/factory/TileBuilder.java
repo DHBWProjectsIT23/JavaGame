@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TileBuilder {
-    private static final Logger LOGGER =
-            LogManager.getLogger(TileBuilder.class);
+    private static final Logger LOGGER = LogManager.getLogger(TileBuilder.class);
     private final Map<String, TileFactory> tileFactories;
     private final TileRepository tileRepository;
     private final TileEventController tileEventController;
@@ -32,11 +31,9 @@ public class TileBuilder {
     public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
         TileFactory factory = tileFactories.get(tileType);
         if (factory == null) {
-            throw new IllegalArgumentException(
-                    "No factory found for unit type " + tileType);
+            throw new IllegalArgumentException("No factory found for unit type " + tileType);
         }
-        Pair<TileModel, TileView> tilePairCustom =
-                factory.createTile(x, y, textureVariant);
+        Pair<TileModel, TileView> tilePairCustom = factory.createTile(x, y, textureVariant);
         setEventHandlers(tilePairCustom.getValue());
         TileModel tileModel = tilePairCustom.getKey();
         TileView tileView = tilePairCustom.getValue();

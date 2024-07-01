@@ -22,8 +22,7 @@ public class ErrorViewController {
     private ScrollPane scrollPane;
 
     public void initialize() {
-        errorCountLabel.textProperty()
-                       .bind(ErrorHandler.errorCountProperty().asString());
+        errorCountLabel.textProperty().bind(ErrorHandler.errorCountProperty().asString());
 
         GridPane.setHgrow(errorList, Priority.ALWAYS);
         GridPane.setVgrow(errorList, Priority.ALWAYS);
@@ -31,15 +30,13 @@ public class ErrorViewController {
         GridPane.setVgrow(scrollPane, Priority.ALWAYS);
 
 
-        for (Map.Entry<Exception, String> e : ErrorHandler.getExceptions()
-                                                          .entrySet()) {
+        for (Map.Entry<Exception, String> e : ErrorHandler.getExceptions().entrySet()) {
             HBox errorEntry = new HBox();
             Label errorIndicator = new Label("ERROR: ");
             errorIndicator.setStyle("-fx-text-fill: red;");
             Label errorLabel = new Label(e.getValue());
             Label errorMessage = new Label(e.getKey().getMessage());
-            errorEntry.getChildren()
-                      .addAll(errorIndicator, errorLabel, errorMessage);
+            errorEntry.getChildren().addAll(errorIndicator, errorLabel, errorMessage);
 
             errorList.addRow(errorList.getRowCount(), errorEntry);
         }

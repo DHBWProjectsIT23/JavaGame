@@ -56,8 +56,8 @@ public class OptionsController {
     }
 
     private void calculateResolutions() {
-        int[] widths = { 800, 1024, 1280, 1366, 1440, 1600, 1920, 2560, 3840 };
-        int[] heights = { 600, 768, 720, 800, 900, 1024, 1080, 1440, 2160 };
+        int[] widths = {800, 1024, 1280, 1366, 1440, 1600, 1920, 2560, 3840};
+        int[] heights = {600, 768, 720, 800, 900, 1024, 1080, 1440, 2160};
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         resolutions = new ArrayList<>();
         double aspectRatio = calculateAspectRatio();
@@ -105,8 +105,7 @@ public class OptionsController {
     }
 
     private void loadSettingsFromFile() {
-        try (BufferedReader reader = Files.newBufferedReader(
-                Path.of(SETTINGS_FILE))) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(SETTINGS_FILE))) {
             settings = new Properties();
             settings.load(reader);
         } catch (Exception e) {
@@ -130,8 +129,7 @@ public class OptionsController {
         calculateResolutions();
 
         stage.maximizedProperty().addListener(
-                (observable, oldValue, newValue) -> settings.setProperty(
-                        "maximized", String.valueOf(newValue)));
+                (observable, oldValue, newValue) -> settings.setProperty("maximized", String.valueOf(newValue)));
     }
 
     private void loadViewMode() {
@@ -192,8 +190,7 @@ public class OptionsController {
         settings = new Properties();
         settings.setProperty(VIEW_MODE, FULLSCREEN);
         Rectangle2D bounds = Screen.getPrimary().getBounds();
-        settings.setProperty(RESOLUTION, (int) bounds.getWidth() + "x" +
-                (int) bounds.getHeight());
+        settings.setProperty(RESOLUTION, (int) bounds.getWidth() + "x" + (int) bounds.getHeight());
         this.saveSettings();
     }
 }

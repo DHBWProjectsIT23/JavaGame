@@ -13,20 +13,17 @@ public class TileModel {
     private static final Logger LOGGER = LogManager.getLogger(TileModel.class);
     public final int modelId = this.hashCode();
     private final Position position;
-    private final ObjectProperty<UnitModel> occupyingUnit =
-            new SimpleObjectProperty<>();
+    private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty partOfPath = new SimpleBooleanProperty(false);
-    private final BooleanProperty partOfPossiblePath =
-            new SimpleBooleanProperty(false);
-    protected MovementType movementType;
-    private boolean isOccupied = false;
+    private final BooleanProperty partOfPossiblePath = new SimpleBooleanProperty(false);
     private final String tileType;
     private final int terrainCover;
+    protected MovementType movementType;
+    private boolean isOccupied = false;
 
 
     public TileModel(String tileType, final int x, final int y, int terrainCover) {
-        LOGGER.info("Creating tile model {} at position ({}, {}) with type {}",
-                    modelId, x, y, tileType);
+        LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
         this.terrainCover = terrainCover;

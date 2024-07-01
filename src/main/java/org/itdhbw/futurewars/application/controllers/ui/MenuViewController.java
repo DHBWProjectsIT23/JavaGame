@@ -22,8 +22,7 @@ import java.util.Set;
 
 public class MenuViewController {
 
-    private static final Logger LOGGER =
-            LogManager.getLogger(MenuViewController.class);
+    private static final Logger LOGGER = LogManager.getLogger(MenuViewController.class);
     @FXML
     private Button startButton;
     @FXML
@@ -44,10 +43,8 @@ public class MenuViewController {
             mapButtonContainer.getChildren().add(button);
         }
         try {
-            URL backgroundImage = FileHelper.getFile(
-                    "$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
-            backgroundPane.setStyle(
-                    "-fx-background-image: url('" + backgroundImage + "')");
+            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
+            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
         } catch (FailedToLoadFileException | MalformedURLException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }
@@ -56,8 +53,7 @@ public class MenuViewController {
     @FXML
     private void showMapSelection(ActionEvent actionEvent) {
         LOGGER.info("Showing map selection...");
-        LOGGER.info("Button amount: {}",
-                    mapButtonContainer.getChildren().size());
+        LOGGER.info("Button amount: {}", mapButtonContainer.getChildren().size());
         mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
     }
 
@@ -110,8 +106,7 @@ public class MenuViewController {
 
     @FXML
     private void exitApplication(ActionEvent actionEvent) {
-        Stage stage =
-                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
 

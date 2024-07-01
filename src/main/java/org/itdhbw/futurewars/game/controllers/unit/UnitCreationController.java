@@ -11,8 +11,7 @@ import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.UnitView;
 
 public class UnitCreationController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(UnitCreationController.class);
+    private static final Logger LOGGER = LogManager.getLogger(UnitCreationController.class);
     private final TileRepository tileRepository;
     private final UnitBuilder unitBuilderCustom;
 
@@ -23,11 +22,9 @@ public class UnitCreationController {
 
     public void createUnit(String unitType, int x, int y, int team) {
         LOGGER.info("Spawning custom unit at position ({}, {})", x, y);
-        Pair<UnitModel, UnitView> unitPair =
-                unitBuilderCustom.createUnit(unitType, team);
+        Pair<UnitModel, UnitView> unitPair = unitBuilderCustom.createUnit(unitType, team);
         LOGGER.info("Trying to spawn custom unit at position ({}, {})", x, y);
-        unitPair.getKey()
-                .spawn(tileRepository.getTileModel(new Position(x, y)));
+        unitPair.getKey().spawn(tileRepository.getTileModel(new Position(x, y)));
     }
 
 }

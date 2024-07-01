@@ -30,18 +30,15 @@ public class TileLoader implements LoaderFactory {
         this.tileRepository = Context.getTileRepository();
     }
 
-    public Map<String, File> getSystemFiles() throws
-                                              FailedToRetrieveFilesException {
+    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getInternalTilePath, FileHelper.TILE_FILE_ENDING);
     }
 
-    public Map<String, File> getUserFiles() throws
-                                            FailedToRetrieveFilesException {
+    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getUserTilePath, FileHelper.TILE_FILE_ENDING);
     }
 
-    public void loadFile(BufferedReader reader, File file) throws
-                                                           FailedToLoadFileException {
+    public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
         try {
             texturePaths = new ArrayList<>();
             LOGGER.info("Loading tile from file...");
@@ -57,8 +54,7 @@ public class TileLoader implements LoaderFactory {
             try {
                 movementType = MovementType.valueOf(movementTypeString);
             } catch (IllegalArgumentException e) {
-                ErrorHandler.addException(e,
-                                          "Failed to retrieve movement type");
+                ErrorHandler.addException(e, "Failed to retrieve movement type");
             }
 
             // skip line
@@ -83,8 +79,7 @@ public class TileLoader implements LoaderFactory {
 
     private void createTileFactory() {
         LOGGER.info("Creating tile factory");
-        TileFactory tileFactoryCustom =
-                new TileFactory(tileType, terrainCover, texturePaths, movementType);
+        TileFactory tileFactoryCustom = new TileFactory(tileType, terrainCover, texturePaths, movementType);
         Context.getTileBuilder().addTileFactory(tileType, tileFactoryCustom);
     }
 }

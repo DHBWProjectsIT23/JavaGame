@@ -14,15 +14,11 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import java.util.Optional;
 
 public class GameState {
-    private static final org.apache.logging.log4j.Logger LOGGER =
-            LogManager.getLogger(GameState.class);
-    private final ObjectProperty<TileModel> selectedTile =
-            new SimpleObjectProperty<>();
+    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameState.class);
+    private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<Optional<UnitModel>> selectedUnit = new SimpleObjectProperty<>(Optional.empty());
-    private final ObjectProperty<TileModel> hoveredTile =
-            new SimpleObjectProperty<>();
-    private final ObjectProperty<ActiveMode> activeMode =
-            new SimpleObjectProperty<>(ActiveMode.REGULAR);
+    private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
+    private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR);
     private final IntegerProperty mapHeight = new SimpleIntegerProperty();
     private final IntegerProperty mapWidth = new SimpleIntegerProperty();
     private final IntegerProperty mapHeightTiles = new SimpleIntegerProperty();
@@ -51,6 +47,7 @@ public class GameState {
     public IntegerProperty currentDayProperty() {
         return currentDay;
     }
+
     private Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -64,8 +61,7 @@ public class GameState {
     }
 
     public void endTurn() {
-        Context.getUnitRepository().getActiveUnits()
-               .forEach(unit -> unit.setHasMoved(false));
+        Context.getUnitRepository().getActiveUnits().forEach(unit -> unit.setHasMoved(false));
         currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
     }
 

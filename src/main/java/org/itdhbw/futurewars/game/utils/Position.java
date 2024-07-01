@@ -26,8 +26,7 @@ public class Position {
 
     public void setPosition(int x, int y) {
         if (isStatic) {
-            throw new UnsupportedOperationException(
-                    "Cannot change position of static object");
+            throw new UnsupportedOperationException("Cannot change position of static object");
         }
         this.x = x;
         this.y = y;

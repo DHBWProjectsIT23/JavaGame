@@ -11,8 +11,7 @@ import org.itdhbw.futurewars.game.utils.AStarPathfinder;
 import java.util.List;
 
 public class UnitMovementController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(UnitMovementController.class);
+    private static final Logger LOGGER = LogManager.getLogger(UnitMovementController.class);
     private AStarPathfinder pathfinder;
 
     public UnitMovementController() {
@@ -32,25 +31,21 @@ public class UnitMovementController {
         Task<List<TileModel>> task = new Task<>() {
             @Override
             protected List<TileModel> call() {
-                return pathfinder.findPath(unit.currentTileProperty().get(),
-                                           targetTile);
+                return pathfinder.findPath(unit.currentTileProperty().get(), targetTile);
             }
         };
 
         task.setOnSucceeded(event -> {
             List<TileModel> path = task.getValue();
             if (path.isEmpty()) {
-                LOGGER.error("No path found from tile {} to tile {}",
-                             unit.currentTileProperty().get().modelId,
+                LOGGER.error("No path found from tile {} to tile {}", unit.currentTileProperty().get().modelId,
                              targetTile.modelId);
                 return;
             }
 
             for (TileModel tile : path) {
-                LOGGER.info("Moving unit {} from tile {} to tile {}",
-                            unit.modelId,
-                            unit.currentTileProperty().get().modelId,
-                            tile.modelId);
+                LOGGER.info("Moving unit {} from tile {} to tile {}", unit.modelId,
+                            unit.currentTileProperty().get().modelId, tile.modelId);
                 unit.currentTileProperty().get().removeOccupyingUnit();
                 unit.currentTileProperty().set(tile);
                 tile.setOccupyingUnit(unit);

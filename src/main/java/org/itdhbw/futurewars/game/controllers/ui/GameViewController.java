@@ -24,8 +24,7 @@ import java.net.URL;
 
 public class GameViewController {
 
-    private static final Logger LOGGER =
-            LogManager.getLogger(GameViewController.class);
+    private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
     @FXML
     private StackPane escapeMenu;
@@ -53,10 +52,8 @@ public class GameViewController {
         });
 
         try {
-            URL backgroundImage = FileHelper.getFile(
-                    "$INTERNAL_DIR/assets/advanceWarsSplash.jpg").toURL();
-            backgroundPane.setStyle(
-                    "-fx-background-image: url('" + backgroundImage + "')");
+            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/advanceWarsSplash.jpg").toURL();
+            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
         } catch (FailedToLoadFileException | MalformedURLException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }

@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileRepository {
-    private final static Logger LOGGER =
-            LogManager.getLogger(TileRepository.class);
+    private final static Logger LOGGER = LogManager.getLogger(TileRepository.class);
     List<String> tileTypes;
     private Pair<TileModel, TileView>[][] tiles;
 
@@ -37,16 +36,11 @@ public class TileRepository {
     }
 
     public void addTile(Pair<TileModel, TileView> tilePair) {
-        this.tiles[tilePair.getKey().getPosition().getX()][tilePair.getKey()
-                                                                   .getPosition()
-                                                                   .getY()] =
-                tilePair;
+        this.tiles[tilePair.getKey().getPosition().getX()][tilePair.getKey().getPosition().getY()] = tilePair;
     }
 
     public void addTile(TileModel tileModel, TileView tileView) {
-        this.tiles[tileModel.getPosition().getX()][tileModel.getPosition()
-                                                            .getY()] =
-                new Pair<>(tileModel, tileView);
+        this.tiles[tileModel.getPosition().getX()][tileModel.getPosition().getY()] = new Pair<>(tileModel, tileView);
     }
 
     public Pair<TileModel, TileView> getTile(Position position) {
@@ -60,8 +54,7 @@ public class TileRepository {
     public TileModel getTileModel(Position position) {
         int x = position.getX();
         int y = position.getY();
-        if (x < 0 || x >= this.tiles.length || y < 0 ||
-            y >= this.tiles[0].length) {
+        if (x < 0 || x >= this.tiles.length || y < 0 || y >= this.tiles[0].length) {
             LOGGER.error("Tile out of bounds: ({}, {}) - returning null", x, y);
             return null;
         }

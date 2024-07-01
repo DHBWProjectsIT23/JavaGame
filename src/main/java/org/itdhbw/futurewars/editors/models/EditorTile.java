@@ -20,8 +20,7 @@ import java.util.List;
 public class EditorTile extends StackPane {
     private static final Image BLANK_TILE = new Image("file:resources/textures/FallbackTile.png");
     private static final Logger LOGGER = LogManager.getLogger(EditorTile.class);
-    private final ImageView tileOccupiedOverlay = new ImageView(
-            new Image("file:resources/textures/64Highlighted.png"));
+    private final ImageView tileOccupiedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     private final ImageView unitTextureOverlay = new ImageView();
     private final StringProperty unitType = new SimpleStringProperty();
     private final StringProperty tileType = new SimpleStringProperty();
@@ -61,18 +60,14 @@ public class EditorTile extends StackPane {
                 this.getChildren().remove(tileOccupiedOverlay);
                 this.getChildren().remove(unitTextureOverlay);
             } else {
-                UnitFactory factory =
-                        Context.getUnitBuilder().getUnitFactories()
-                               .get(newValue);
+                UnitFactory factory = Context.getUnitBuilder().getUnitFactories().get(newValue);
                 if (factory == null) {
                     LOGGER.error("No factory found for unit type {}", newValue);
                     this.getChildren().add(tileOccupiedOverlay);
                     return;
                 }
                 Pair<Image, Image> unitTextures = factory.getUnitTextures();
-                Image texture =
-                        this.unitTeam.get() == 1 ? unitTextures.getKey() :
-                        unitTextures.getValue();
+                Image texture = this.unitTeam.get() == 1 ? unitTextures.getKey() : unitTextures.getValue();
                 unitTextureOverlay.setImage(texture);
                 this.getChildren().add(unitTextureOverlay);
             }
@@ -82,9 +77,7 @@ public class EditorTile extends StackPane {
         this.tileType.set(tileType);
 
         this.setBorder(new Border(
-                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID,
-                                 CornerRadii.EMPTY,
-                                 BorderStroke.DEFAULT_WIDTHS)));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.DEFAULT_WIDTHS)));
     }
 
     public String getUnitType() {

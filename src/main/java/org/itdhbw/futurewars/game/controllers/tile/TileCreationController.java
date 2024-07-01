@@ -10,8 +10,7 @@ import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.views.TileView;
 
 public class TileCreationController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(TileCreationController.class);
+    private static final Logger LOGGER = LogManager.getLogger(TileCreationController.class);
     private final TileBuilder tileBuilder;
 
     public TileCreationController() {
@@ -19,8 +18,7 @@ public class TileCreationController {
     }
 
     public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
-        LOGGER.info("Creating custom tile of type {} at position ({}, {})",
-                    tileType, x, y, textureVariant);
+        LOGGER.info("Creating custom tile of type {} at position ({}, {})", tileType, x, y, textureVariant);
         return tileBuilder.createTile(tileType, x, y, textureVariant);
     }
 

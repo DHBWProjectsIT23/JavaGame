@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UnitRepository {
-    private final static Logger LOGGER =
-            LogManager.getLogger(UnitRepository.class);
+    private final static Logger LOGGER = LogManager.getLogger(UnitRepository.class);
     private final Map<UnitModel, UnitView> units;
     private final List<String> unitTypes;
 

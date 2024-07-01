@@ -25,12 +25,9 @@ import java.util.Set;
 
 //! BUG: Hovering over a tile that is occupied throws an NullPointerException in Moving Unit Mode
 public class TileEventController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(TileEventController.class);
-    private static final List<TileModel> highlightedPossibleTiles =
-            new ArrayList<>();
-    private static final List<TileModel> highlightedAttackTiles =
-            new ArrayList<>();
+    private static final Logger LOGGER = LogManager.getLogger(TileEventController.class);
+    private static final List<TileModel> highlightedPossibleTiles = new ArrayList<>();
+    private static final List<TileModel> highlightedAttackTiles = new ArrayList<>();
     private final EnumMap<ActiveMode, MouseEventHandler> mouseEventHandlers;
     private GameState gameState;
     private AStarPathfinder pathfinder;
@@ -44,26 +41,21 @@ public class TileEventController {
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
         this.unitMovementController = Context.getUnitMovementController();
-        this.mouseEventHandlers.put(ActiveMode.REGULAR,
-                                    new RegularModeHandler(gameState));
-        this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT,
-                                    new MovingUnitModeHandler(gameState,
-                                                              pathfinder));
+        this.mouseEventHandlers.put(ActiveMode.REGULAR, new RegularModeHandler(gameState));
+        this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT, new MovingUnitModeHandler(gameState, pathfinder));
         this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT,
-                                    new AttackingUnitModeHandler(gameState,
-                                                                 unitMovementController,
+                                    new AttackingUnitModeHandler(gameState, unitMovementController,
                                                                  Context.getUnitAttackController()));
-        this.gameState.activeModeProperty()
-                      .addListener((observable, oldValue, newValue) -> {
-                          LOGGER.info("Switching to mode {}", newValue);
-                          if (newValue == ActiveMode.MOVING_UNIT) {
-                              this.highlightPossibleTiles();
-                          } else if (newValue == ActiveMode.ATTACKING_UNIT) {
-                              this.highlightPossibleAttackTiles();
-                          } else {
-                              this.unhiglightPossibleTiles();
-                          }
-                      });
+        this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
+            LOGGER.info("Switching to mode {}", newValue);
+            if (newValue == ActiveMode.MOVING_UNIT) {
+                this.highlightPossibleTiles();
+            } else if (newValue == ActiveMode.ATTACKING_UNIT) {
+                this.highlightPossibleAttackTiles();
+            } else {
+                this.unhiglightPossibleTiles();
+            }
+        });
     }
 
     private void highlightPossibleTiles() {
@@ -90,11 +82,9 @@ public class TileEventController {
     }
 
     private void unhiglightPossibleTiles() {
-        highlightedPossibleTiles.forEach(
-                tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+        highlightedPossibleTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
 
-        highlightedAttackTiles.forEach(
-                tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+        highlightedAttackTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
 
         highlightedPossibleTiles.clear();
     }
@@ -124,20 +114,16 @@ public class TileEventController {
     }
 
     public void handleMouseEnter(MouseEvent event) {
-        TileView tileView =
-                (TileView) ((StackPane) event.getSource()).getUserData();
-        MouseEventHandler handler =
-                mouseEventHandlers.get(gameState.activeModeProperty().get());
+        TileView tileView = (TileView) ((StackPane) event.getSource()).getUserData();
+        MouseEventHandler handler = mouseEventHandlers.get(gameState.activeModeProperty().get());
         if (handler != null) {
             handler.handleMouseEnter(event, tileView);
         }
     }
 
     public void handleMouseClick(MouseEvent event) {
-        TileView tileView =
-                (TileView) ((StackPane) event.getSource()).getUserData();
-        MouseEventHandler handler =
-                mouseEventHandlers.get(gameState.activeModeProperty().get());
+        TileView tileView = (TileView) ((StackPane) event.getSource()).getUserData();
+        MouseEventHandler handler = mouseEventHandlers.get(gameState.activeModeProperty().get());
         if (handler != null) {
             handler.handleMouseClick(event, tileView);
         }

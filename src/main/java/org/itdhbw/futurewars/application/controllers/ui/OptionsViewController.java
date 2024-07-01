@@ -12,8 +12,7 @@ import org.itdhbw.futurewars.application.controllers.other.OptionsController;
 import org.itdhbw.futurewars.application.models.Context;
 
 public class OptionsViewController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(OptionsViewController.class);
+    private static final Logger LOGGER = LogManager.getLogger(OptionsViewController.class);
     private final OptionsController optionsController;
     Stage stage;
     @FXML
@@ -45,8 +44,7 @@ public class OptionsViewController {
 
         this.stage = Context.getPrimaryStage();
         resolutionButton.setOnShowing(event -> openResolutions());
-        LOGGER.info("Previous scene from OptionsViewController: {}",
-                    Context.getGameState().getPreviousScene());
+        LOGGER.info("Previous scene from OptionsViewController: {}", Context.getGameState().getPreviousScene());
     }
 
     private void populateResolutionMenu() {

@@ -17,18 +17,14 @@ public class SceneController {
         // Prevent instantiation
     }
 
-    public static void loadScene(String sceneName) throws
-                                                   FailedToLoadSceneException {
+    public static void loadScene(String sceneName) throws FailedToLoadSceneException {
         Stage stage = Context.getPrimaryStage();
         Context.getGameState().setPreviousScene(stage.getScene());
         try {
-            Parent gameView =
-                    FXMLLoader.load(FileHelper.getFxmlFile(sceneName).toURL());
+            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile(sceneName).toURL());
             Scene scene = new Scene(gameView);
             stage.setScene(scene);
-            scene.getStylesheets()
-                 .add(FileHelper.getFile("$INTERNAL_DIR/css/styles.css")
-                                .toString());
+            scene.getStylesheets().add(FileHelper.getFile("$INTERNAL_DIR/css/styles.css").toString());
             Context.getOptionsController().loadSettings();
         } catch (IOException | FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load file: " + sceneName);

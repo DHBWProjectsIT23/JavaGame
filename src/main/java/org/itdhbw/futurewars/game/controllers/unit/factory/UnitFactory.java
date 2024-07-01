@@ -12,8 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 public class UnitFactory {
-    private static final Logger LOGGER =
-            LogManager.getLogger(UnitFactory.class);
+    private static final Logger LOGGER = LogManager.getLogger(UnitFactory.class);
     private final String unitType;
     private final int attackRange;
     private final int movementRange;

@@ -47,23 +47,20 @@ public class UnitLoader implements LoaderFactory {
 
     }
 
-    public Map<String, File> getSystemFiles() throws
-                                              FailedToRetrieveFilesException {
+    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath, FileHelper.UNIT_FILE_ENDING);
     }
 
-    public Map<String, File> getUserFiles() throws
-                                            FailedToRetrieveFilesException {
+    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getUserUnitPath, FileHelper.UNIT_FILE_ENDING);
     }
 
     private void createUnitFactory() {
         LOGGER.info("Creating unit factory");
         UnitFactory unitFactoryCustom =
-                new UnitFactory(unitType, attackRange, movementRange,
-                                travelCostPlain, travelCostWood,
-                                travelCostMountain, travelCostSea, texture1,
-                                texture2, baseDamage, armor, piercing, lowAirPiercing, targetType, canAttackType);
+                new UnitFactory(unitType, attackRange, movementRange, travelCostPlain, travelCostWood,
+                                travelCostMountain, travelCostSea, texture1, texture2, baseDamage, armor, piercing,
+                                lowAirPiercing, targetType, canAttackType);
         Context.getUnitBuilder().addUnitFactory(unitType, unitFactoryCustom);
     }
 
@@ -72,8 +69,7 @@ public class UnitLoader implements LoaderFactory {
         return unitFactories;
     }
 
-    public void loadFile(BufferedReader reader, File file) throws
-                                                           FailedToLoadFileException {
+    public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
         canAttackType = new ArrayList<>();
         try {
             // on second line - skip to third

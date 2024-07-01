@@ -21,7 +21,7 @@ public class TileFactory {
     private final List<URI> texturePaths;
     private TileModel tileModel;
     private TileView tileView;
-    private int terrainCover;
+    private final int terrainCover;
 
     public TileFactory(String tileType, int terrainCover, List<URI> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: {}", tileType);
@@ -65,8 +65,7 @@ public class TileFactory {
 
     public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
         createTileModel(x, y);
-        LOGGER.error("Creating tile view with texture variant: {}",
-                textureVariant);
+        LOGGER.error("Creating tile view with texture variant: {}", textureVariant);
         createTileView(textureVariant);
         return new Pair<>(tileModel, tileView);
     }

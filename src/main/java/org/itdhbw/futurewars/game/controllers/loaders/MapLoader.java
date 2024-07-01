@@ -36,27 +36,23 @@ public class MapLoader implements LoaderFactory {
         this.gameState = Context.getGameState();
     }
 
-    public Map<String, File> getSystemFiles() throws
-                                              FailedToRetrieveFilesException {
+    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
 
         return FileHelper.retrieveFiles(FileHelper::getInternalMapPath, FileHelper.MAP_FILE_ENDING);
     }
 
-    public Map<String, File> getUserFiles() throws
-                                            FailedToRetrieveFilesException {
+    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getUserMapPath, FileHelper.MAP_FILE_ENDING);
     }
 
-    public void loadFile(BufferedReader reader, File file) throws
-                                                           FailedToLoadFileException {
+    public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
         mapRepository.addMap(file.getName(), file);
     }
 
     public void loadMap(String map) throws FailedToLoadFileException {
         LOGGER.info("Loading map: {}", map);
         File mapFile = mapRepository.getMapFile(map);
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(mapFile))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(mapFile))) {
             LOGGER.info("Loading V3 map");
             String validation = reader.readLine().split(",")[0];
             if (!validation.equals("FUTURE_WARS_MAP_FORMAT_V3")) {
@@ -67,22 +63,18 @@ public class MapLoader implements LoaderFactory {
             int y = 0;
             while ((line = reader.readLine()) != null) {
                 if (y >= gameState.getMapHeightTiles()) {
-                    LOGGER.error(
-                            "Too many lines in the map file, ignoring the rest");
+                    LOGGER.error("Too many lines in the map file, ignoring the rest");
                     break;
                 }
                 String[] tileData = line.split(",");
                 LOGGER.info("Line: {}", line);
                 for (int x = 0; x < tileData.length / 4; x++) {
                     if (x >= (gameState.getMapWidthTiles())) {
-                        LOGGER.warn(
-                                "Too many tiles in the line, ignoring the rest");
+                        LOGGER.warn("Too many tiles in the line, ignoring the rest");
                         break;
                     }
-                    loadTile(tileData[x * 4], x, y,
-                             Integer.parseInt(tileData[x * 4 + 1]));
-                    loadUnit(tileData[x * 4 + 2], x, y,
-                             Integer.parseInt(tileData[x * 4 + 3]));
+                    loadTile(tileData[x * 4], x, y, Integer.parseInt(tileData[x * 4 + 1]));
+                    loadUnit(tileData[x * 4 + 2], x, y, Integer.parseInt(tileData[x * 4 + 3]));
                 }
                 y++;
             }
@@ -103,14 +95,12 @@ public class MapLoader implements LoaderFactory {
         gameState.setMapWidthTiles(width);
         gameState.setMapHeightTiles(height);
 
-        gameState.mapHeightProperty()
-                 .addListener((observable, oldValue, newValue) -> {
-                     resizeTile(gameState.getMapWidth(), newValue.intValue());
-                 });
-        gameState.mapWidthProperty()
-                 .addListener((observable, oldValue, newValue) -> {
-                     resizeTile(newValue.intValue(), gameState.getMapHeight());
-                 });
+        gameState.mapHeightProperty().addListener((observable, oldValue, newValue) -> {
+            resizeTile(gameState.getMapWidth(), newValue.intValue());
+        });
+        gameState.mapWidthProperty().addListener((observable, oldValue, newValue) -> {
+            resizeTile(newValue.intValue(), gameState.getMapHeight());
+        });
 
         resizeTile(gameState.getMapWidth(), gameState.getMapHeight());
 
@@ -123,16 +113,14 @@ public class MapLoader implements LoaderFactory {
         int mapHightTiles = gameState.getMapHeightTiles();
         int mapWidthTiles = gameState.getMapWidthTiles();
 
-        int maxTileSize =
-                Math.min(mapHeight / mapHightTiles, mapWidth / mapWidthTiles);
+        int maxTileSize = Math.min(mapHeight / mapHightTiles, mapWidth / mapWidthTiles);
         gameState.setTileSize(maxTileSize);
     }
 
     private void loadTile(String tileType, int x, int y, int textureVariant) {
         if (!tileType.equals("NONE")) {
-            LOGGER.info(
-                    "Creating custom tile of type {} - variant {} - at x: {} - y: {}",
-                    tileType, textureVariant, x, y);
+            LOGGER.info("Creating custom tile of type {} - variant {} - at x: {} - y: {}", tileType, textureVariant, x,
+                        y);
             tileCreationController.createTile(tileType, x, y, textureVariant);
         }
     }

@@ -18,12 +18,11 @@ public class UnitModel {
     private static final Logger LOGGER = LogManager.getLogger(UnitModel.class);
     public final int modelId = this.hashCode();
     protected final int team;
-    private final ObjectProperty<TileModel> currentTile =
-            new SimpleObjectProperty<>();
+    private final ObjectProperty<TileModel> currentTile = new SimpleObjectProperty<>();
+    private final BooleanProperty isDead = new SimpleBooleanProperty(false);
     protected int movementRange;
     protected int attackRange;
-    protected EnumMap<MovementType, Integer> travelCosts =
-            new EnumMap<>(MovementType.class);
+    protected EnumMap<MovementType, Integer> travelCosts = new EnumMap<>(MovementType.class);
     protected String unitType;
     protected int baseDamage;
     protected double armor;
@@ -36,7 +35,14 @@ public class UnitModel {
     private boolean hasMoved = false;
     private boolean canAttack = false;
     private boolean canMove = false;
-    private final BooleanProperty isDead = new SimpleBooleanProperty(false);
+
+    public UnitModel(String unitType, final int team) {
+        LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
+        this.team = team;
+        this.unitType = unitType;
+        this.movementRange = 5;
+        this.attackRange = 1;
+    }
 
     public boolean canAttack() {
         return canAttack;
@@ -44,15 +50,6 @@ public class UnitModel {
 
     public void setCanAttack(boolean canAttack) {
         this.canAttack = canAttack;
-    }
-
-    public UnitModel(String unitType, final int team) {
-        LOGGER.info("Creating unit model {} for team {} with id: {}", modelId,
-                    team, modelId);
-        this.team = team;
-        this.unitType = unitType;
-        this.movementRange = 5;
-        this.attackRange = 1;
     }
 
     public int getMaxHealth() {
@@ -72,8 +69,7 @@ public class UnitModel {
     }
 
     public void spawn(TileModel initialTile) {
-        LOGGER.info("Spawning unit {} at tile {}", modelId,
-                    initialTile.modelId);
+        LOGGER.info("Spawning unit {} at tile {}", modelId, initialTile.modelId);
         currentTile.set(initialTile);
     }
 

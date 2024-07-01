@@ -151,6 +151,7 @@ public class MapViewController {
         this.overlayBox.getChildren().remove(overlayAttackButton);
         this.overlayBox.getChildren().remove(overlayInfoButton);
         this.overlayBox.getChildren().remove(overlayCloseButton);
+        //!TODO: Throw properly
         if (gameState.getSelectedUnit().orElse(null).canAttack() &&
             gameState.getSelectedUnit().orElse(null).canMove()) {
             this.overlayBox.getChildren().add(overlayMoveButton);

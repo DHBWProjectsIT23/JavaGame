@@ -10,12 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ErrorHandler {
-    private static final Logger LOGGER =
-            LogManager.getLogger(ErrorHandler.class);
+    private static final Logger LOGGER = LogManager.getLogger(ErrorHandler.class);
 
     private static final Map<Exception, String> EXCEPTIONS = new HashMap<>();
-    private static final IntegerProperty errorCount =
-            new SimpleIntegerProperty(0);
+    private static final IntegerProperty errorCount = new SimpleIntegerProperty(0);
     private static Pair<Exception, String> lastException;
 
     private ErrorHandler() {
@@ -24,8 +22,8 @@ public class ErrorHandler {
 
     public static void addException(Exception e, String message) {
         StackTraceElement lastElement = e.getStackTrace()[0];
-        LOGGER.error("{} - {}: {} - {}", lastElement.getClassName(),
-                     lastElement.getLineNumber(), message, e.getMessage());
+        LOGGER.error("{} - {}: {} - {}", lastElement.getClassName(), lastElement.getLineNumber(), message,
+                     e.getMessage());
         lastException = new Pair<>(e, message);
         EXCEPTIONS.put(e, message);
         errorCount.set(EXCEPTIONS.size());
@@ -58,8 +56,7 @@ public class ErrorHandler {
         if (EXCEPTIONS.size() > 1) {
             ErrorPopup.showErrorPopup("Multiple errors occurred!");
         } else {
-            ErrorPopup.showErrorPopup(lastException.getValue(),
-                                      lastException.getKey());
+            ErrorPopup.showErrorPopup(lastException.getValue(), lastException.getKey());
         }
     }
 
