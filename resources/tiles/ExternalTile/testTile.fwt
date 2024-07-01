@@ -1,0 +1,9 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+TEST_TILE
+- movementType
+PLAIN
+- terrainCover
+10
+- texture
+64Sample2.png

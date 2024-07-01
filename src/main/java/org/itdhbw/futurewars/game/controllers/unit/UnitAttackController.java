@@ -3,7 +3,7 @@ package org.itdhbw.futurewars.game.controllers.unit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
@@ -44,7 +44,8 @@ public class UnitAttackController {
     }
 
     public void attack(UnitModel attackedUnit) {
-        UnitModel attackingUnit = gameState.getSelectedUnit();
+        // Throw properly
+        UnitModel attackingUnit = gameState.getSelectedUnit().orElseThrow();
         if (attackingUnit == null) {
             LOGGER.error("No unit selected for attack");
         }

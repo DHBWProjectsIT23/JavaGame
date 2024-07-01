@@ -1,0 +1,16 @@
+FUTURE_WARS_UNIT_FORMAT
+- unitType
+ARTILLERY_UNIT
+- attackRange,movementRange
+3,5
+- (travelCost) - plain,wood,sea,mountain
+1,2,-1,-1
+- texture - 1 on line 11, 2 on line 12
+ArtilleryUnitBlue.png
+ArtilleryUnitRed.png
+- baseDamage, armor, piercing, lowAirPiercing
+90,0.7,0.8,0
+- targetType
+GROUND
+- canAttack
+GROUND

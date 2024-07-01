@@ -3,8 +3,8 @@ package org.itdhbw.futurewars.game.controllers.tile.mouse_events;
 import javafx.scene.input.MouseEvent;
 import org.itdhbw.futurewars.game.controllers.unit.UnitAttackController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
-import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
 
 public class AttackingUnitModeHandler implements MouseEventHandler {
@@ -30,7 +30,8 @@ public class AttackingUnitModeHandler implements MouseEventHandler {
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
         // TODO!
-        unitMovementController.moveUnit(gameState.selectedUnitProperty().get(),
+        // Throw properly
+        unitMovementController.moveUnit(gameState.selectedUnitProperty().get().orElseThrow(),
                                         gameState.selectedTileProperty().get());
         // tile view die mitgegeben wird enthält tile mit unit die angegriffen wrid
         unitAttackController.attack(tileView.getTileModel().getOccupyingUnit());

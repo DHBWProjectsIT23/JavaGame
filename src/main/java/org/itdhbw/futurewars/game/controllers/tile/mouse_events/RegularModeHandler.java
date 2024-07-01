@@ -1,9 +1,11 @@
 package org.itdhbw.futurewars.game.controllers.tile.mouse_events;
 
 import javafx.scene.input.MouseEvent;
-import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
+
+import java.util.Optional;
 
 public class RegularModeHandler implements MouseEventHandler {
 
@@ -27,8 +29,10 @@ public class RegularModeHandler implements MouseEventHandler {
                 tileView.getTileModel().getOccupyingUnit().hasMoved()) {
                 return;
             }
-            gameState.selectUnit(tileView.getTileModel().getOccupyingUnit());
+            gameState.selectUnit(Optional.of(tileView.getTileModel().getOccupyingUnit()));
             gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+        } else {
+            gameState.selectUnit(Optional.empty());
         }
     }
 }

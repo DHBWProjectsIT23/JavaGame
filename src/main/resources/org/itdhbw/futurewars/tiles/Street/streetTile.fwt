@@ -1,0 +1,17 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+STREET_TILE
+- movementType
+PLAIN
+- terrainCover
+10
+- texture
+CrossingSimple.png
+CrossingToBottom.png
+CrossingToTop.png
+CurveLeftToBottom.png
+CurveLeftToTop.png
+CurveRightToBottom.png
+CurveRightToTop.png
+StreetVertical.png
+StreetHorizontal.png

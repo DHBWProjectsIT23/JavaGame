@@ -12,7 +12,7 @@ import org.itdhbw.futurewars.game.controllers.MapRepository;
 import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.controllers.unit.UnitCreationController;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,12 +39,12 @@ public class MapLoader implements LoaderFactory {
     public Map<String, File> getSystemFiles() throws
                                               FailedToRetrieveFilesException {
 
-        return FileHelper.retrieveFiles(FileHelper::getInternalMapPath);
+        return FileHelper.retrieveFiles(FileHelper::getInternalMapPath, FileHelper.MAP_FILE_ENDING);
     }
 
     public Map<String, File> getUserFiles() throws
                                             FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getUserMapPath);
+        return FileHelper.retrieveFiles(FileHelper::getUserMapPath, FileHelper.MAP_FILE_ENDING);
     }
 
     public void loadFile(BufferedReader reader, File file) throws
