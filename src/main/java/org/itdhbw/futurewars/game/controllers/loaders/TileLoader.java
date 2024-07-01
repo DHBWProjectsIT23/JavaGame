@@ -32,12 +32,12 @@ public class TileLoader implements LoaderFactory {
 
     public Map<String, File> getSystemFiles() throws
                                               FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getInternalTilePath);
+        return FileHelper.retrieveFiles(FileHelper::getInternalTilePath, FileHelper.TILE_FILE_ENDING);
     }
 
     public Map<String, File> getUserFiles() throws
                                             FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getUserTilePath);
+        return FileHelper.retrieveFiles(FileHelper::getUserTilePath, FileHelper.TILE_FILE_ENDING);
     }
 
     public void loadFile(BufferedReader reader, File file) throws
@@ -72,7 +72,7 @@ public class TileLoader implements LoaderFactory {
             String line;
             while ((line = reader.readLine()) != null) {
                 URI uri;
-                uri = FileHelper.getFile(line);
+                uri = FileHelper.getTexture(file, line);
                 texturePaths.addLast(uri);
             }
         } catch (Exception e) {

@@ -11,8 +11,8 @@ import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MouseEventHandle
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MovingUnitModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.RegularModeHandler;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
-import org.itdhbw.futurewars.game.models.gameState.ActiveMode;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.utils.AStarPathfinder;
@@ -101,7 +101,8 @@ public class TileEventController {
 
     private void highlightPossibleAttackTiles() {
         TileModel startTile = gameState.selectedTileProperty().get();
-        UnitModel attackingUnit = gameState.selectedUnitProperty().get();
+        //Throw properly
+        UnitModel attackingUnit = gameState.selectedUnitProperty().get().orElse(null);
 
         Task<Set<TileModel>> task = new Task<>() {
             @Override

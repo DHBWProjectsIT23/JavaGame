@@ -17,7 +17,7 @@ import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;

@@ -14,7 +14,7 @@ import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 
 public class TileView extends StackPane {
@@ -68,13 +68,14 @@ public class TileView extends StackPane {
         try {
             selectedOverlay = new ImageView(
                     FileHelper.getInternalTexture("other/64Selected.png"));
-            texture = FileHelper.getInternalTexture("tiles/misc/TileNotSet.png");
+            texture = FileHelper.getInternalTexture("fallback/FallbackTile.png");
             hoverImage = FileHelper.getInternalTexture("other/64Hovered.png");
             hoverOccupiedImage = FileHelper.getInternalTexture(
                     "other/64HoveredOccupied.png");
             hoverOverlay = new ImageView(hoverImage);
             highlightedOverlay = new ImageView(
                     FileHelper.getInternalTexture("other/64Highlighted.png"));
+            LOGGER.info("Loaded textures");
         } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load textures");
         }

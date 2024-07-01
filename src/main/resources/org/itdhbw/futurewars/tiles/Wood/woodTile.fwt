@@ -1,0 +1,9 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+WOOD_TILE
+- movementType
+WOODS
+- terrainCover
+20
+- texture
+WoodTile.png

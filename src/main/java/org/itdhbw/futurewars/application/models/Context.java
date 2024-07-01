@@ -13,7 +13,7 @@ import org.itdhbw.futurewars.game.controllers.unit.UnitCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.controllers.unit.factory.UnitBuilder;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.utils.AStarPathfinder;
 
 public class Context {

@@ -12,7 +12,7 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
-import org.itdhbw.futurewars.game.models.gameState.GameState;
+import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.io.IOException;
 import java.nio.file.Files;

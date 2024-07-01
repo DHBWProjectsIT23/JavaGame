@@ -1,0 +1,15 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+BRIDGE_TILE
+- movementType
+PLAIN
+- texture
+BridgeBottomLand.png
+BridgeLeftLand.png
+BridgeRightLand.png
+BridgeTopLand.png
+BridgeSimpleHorizontal.png
+BridgeSimpleVertical.png
+BridgeSmallHorizontal.png
+BridgeSmallVertical.png
+BridgeBottomLand.png

@@ -49,12 +49,12 @@ public class UnitLoader implements LoaderFactory {
 
     public Map<String, File> getSystemFiles() throws
                                               FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath);
+        return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath, FileHelper.UNIT_FILE_ENDING);
     }
 
     public Map<String, File> getUserFiles() throws
                                             FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getUserUnitPath);
+        return FileHelper.retrieveFiles(FileHelper::getUserUnitPath, FileHelper.UNIT_FILE_ENDING);
     }
 
     private void createUnitFactory() {
@@ -98,9 +98,10 @@ public class UnitLoader implements LoaderFactory {
 
             // on eighth line - skip to ninth
             reader.readLine();
+            //!TODO: Move this to a separate method
             try {
-                texture1 = FileHelper.getFile(reader.readLine());
-                texture2 = FileHelper.getFile(reader.readLine());
+                texture1 = FileHelper.getTexture(file, reader.readLine());
+                texture2 = FileHelper.getTexture(file, reader.readLine());
             } catch (CustomException e) {
                 ErrorHandler.addException(e, "failed to load unit textures");
             }

@@ -13,18 +13,19 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+//!TODO: Review all file methods etc
 public class FileHelper {
-    public static final String INTERNAL_DIR_SHORT =
-            "src/main/resources/org/itdhbw/futurewars";
+    public static final String INTERNAL_DIR_SHORT = "src/main/resources/org/itdhbw/futurewars";
     public static final String INTERNAL_DIR = INTERNAL_DIR_SHORT + "/";
-    public static final String USER_DIR_SHORT =
-            System.getProperty("user.dir") + "/resources";
+    public static final String USER_DIR_SHORT = System.getProperty("user.dir") + "/resources";
     public static final String USER_DIR = USER_DIR_SHORT + "/";
     public static final String MAP_DIR = "maps/";
     public static final String UNIT_DIR = "units/";
@@ -32,10 +33,12 @@ public class FileHelper {
     public static final String UNIT_TEXTURE_DIR = "textures/units/";
     public static final String TILE_TEXTURE_DIR = "textures/tiles/";
     public static final String OTHER_TEXTURE_DIR = "textures/other/";
+    public static final String MAP_FILE_ENDING = ".fwm";
+    public static final String TILE_FILE_ENDING = ".fwt";
+    public static final String UNIT_FILE_ENDING = ".fwu";
 
     public static final List<String> SUB_DIRS =
-            Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR,
-                          TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
+            Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR, TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
 
@@ -48,19 +51,16 @@ public class FileHelper {
         // private constructor to prevent instantiation
     }
 
-    public static Image getInternalTexture(String path) throws
-                                                        FailedToLoadTextureException {
+    public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
         Image texture = new Image("file:" + INTERNAL_DIR + "textures/" + path);
         if (texture.isError()) {
-            LOGGER.error("Error loading internal texture: {}",
-                         texture.getException().getMessage());
+            LOGGER.error("Error loading internal texture: {}", texture.getException().getMessage());
             throw new FailedToLoadTextureException(path);
         }
         return texture;
     }
 
-    public static URI getFxmlFile(String path) throws
-                                               FailedToLoadFileException {
+    public static URI getFxmlFile(String path) throws FailedToLoadFileException {
         File file = new File(INTERNAL_DIR + "fxml/" + path);
         try {
             return checkIfFileExists(file);
@@ -79,13 +79,23 @@ public class FileHelper {
         }
     }
 
-    private static URI checkIfFileExists(File file) throws
-                                                    FileDoesNotExistException {
+    public static URI getTexture(File object, String texture) throws FailedToLoadTextureException {
+        // texture is at the location of the oject + "textures/" + texture
+        Path path = Paths.get(
+                object.getAbsolutePath().substring(0, object.getAbsolutePath().lastIndexOf(File.separator) + 1) +
+                "textures/" + texture);
+        try {
+            return checkIfFileExists(path.toFile());
+        } catch (FileDoesNotExistException e) {
+            throw new FailedToLoadTextureException(texture);
+        }
+    }
+
+    private static URI checkIfFileExists(File file) throws FileDoesNotExistException {
         if (file.exists()) {
             return file.toURI();
         } else {
-            FileDoesNotExistException e =
-                    new FileDoesNotExistException(file.toString());
+            FileDoesNotExistException e = new FileDoesNotExistException(file.toString());
             ErrorHandler.addException(e, "File does not exist");
             throw e;
         }
@@ -122,8 +132,8 @@ public class FileHelper {
         return path;
     }
 
-    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier) throws
-                                                                               FailedToRetrieveFilesException {
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier, String fileEnding) throws
+                                                                                                  FailedToRetrieveFilesException {
         LOGGER.info("Loading files for {}...", pathSupplier.get());
         Map<String, File> files = new HashMap<>();
         URI mapPath;
@@ -131,17 +141,14 @@ public class FileHelper {
             mapPath = checkIfFileExists(pathSupplier.get());
         } catch (FileDoesNotExistException e) {
             ErrorHandler.addException(e, "File does not exist");
-            throw new FailedToRetrieveFilesException(
-                    pathSupplier.get().toString());
+            throw new FailedToRetrieveFilesException(pathSupplier.get().toString());
         }
 
-        try {
-            Files.walk(Path.of(mapPath)).filter(Files::isRegularFile)
-                 .forEach(file -> {
+        try (Stream<Path> stream = Files.walk(Path.of(mapPath))) {
+            stream.filter(Files::isRegularFile).filter(file -> file.getFileName().toString().endsWith(fileEnding))
+                  .forEach(file -> {
                      LOGGER.info("Found file: {}", file);
-                     files.put(
-                             stripFileExtension(file.getFileName().toString()),
-                             file.toFile());
+                      files.put(stripFileExtension(file.getFileName().toString()), file.toFile());
                  });
         } catch (IOException e) {
             ErrorHandler.addException(e, "Failed to retrieve files");

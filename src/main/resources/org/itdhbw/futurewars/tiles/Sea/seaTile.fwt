@@ -1,0 +1,33 @@
+FUTURE_WARS_TILE_FORMAT
+- tileType
+SEA_TILE
+- movementType
+SEA
+- terrainCover
+10
+- texture
+SeaTile.png
+SeaBottomEndTile.png
+SeaCornerBottomLeftTile.png
+SeaCornerBottomRightTile.png
+SeaCornerTopLeftTile.png
+SeaCornerTopRightTile.png
+SeaEdgeBottomTile.png
+SeaEdgeLeftTile.png
+SeaEdgeRightTile.png
+SeaEdgeTopTile.png
+SeaHorizontalTile.png
+SeaLeftEndTile.png
+SeaRightEndTile.png
+SeaTopEndTile.png
+SeaVerticalTile.png
+SeaInnerCornerBottomLeftTile.png
+SeaInnerCornerBottomRightTile.png
+SeaInnerCornerTopLeftTile.png
+SeaInnerCornerTopRightTile.png
+SeaTopCornerBottomLeftTile.png
+SeaTopCornerBottomRightTile.png
+SeaTwoCornerRightTile.png
+SeaBottomCornerTopLeftTile.png
+SeaLeftCornerBottomRightTile.png
+SeaRightCornerTopLeftTile.png

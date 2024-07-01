@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditorTile extends StackPane {
-    private static final Image BLANK_TILE =
-            new Image("file:resources/textures/TileNotSet.png");
+    private static final Image BLANK_TILE = new Image("file:resources/textures/FallbackTile.png");
     private static final Logger LOGGER = LogManager.getLogger(EditorTile.class);
     private final ImageView tileOccupiedOverlay = new ImageView(
             new Image("file:resources/textures/64Highlighted.png"));
