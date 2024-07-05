@@ -6,8 +6,8 @@ ANTI_AIR_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,2,-1,-1
 - texture - 1 on line 11, 2 on line 12
-ArtilleryUnitBlueTBC.png
-ArtilleryUnitRedTBC.png
+AntiAirRed.png
+AntiAirBlue.png
 - baseDamage, armor, piercing, lowAirPiercing
 105,0.85,0.25,1.15
 - targetType
