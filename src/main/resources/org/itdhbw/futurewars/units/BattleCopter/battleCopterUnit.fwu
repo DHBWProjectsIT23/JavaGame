@@ -6,8 +6,8 @@ BATTLE_COPTER_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,1,1,1
 - texture - 1 on line 11, 2 on line 12
-BattleCopterUnitTBC.png
-BattleCopterUnitTBC.png
+BattleCopterRed.png
+BattleCopterBlue.png
 - baseDamage, armor, piercing, lowAirPiercing
 75,0.85,0.8,0.85
 - targetType
