@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.editors.controllers;
+package org.itdhbw.futurewars.map_editor.controllers;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -18,8 +18,8 @@ import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.editors.models.EditorTile;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileFactory;
+import org.itdhbw.futurewars.map_editor.models.EditorTile;
 
 import java.io.*;
 import java.util.HashMap;

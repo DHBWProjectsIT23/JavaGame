@@ -1,9 +1,6 @@
 package org.itdhbw.futurewars.game.models.unit;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.game.models.tile.MovementType;
@@ -29,12 +26,13 @@ public class UnitModel {
     protected double piercing;
     protected double lowAirPiercing;
     protected TargetType targetType;
-    protected List<TargetType> canAttackType;
+    protected List<TargetType> vulnerableTypes;
     protected int maxHealth = 10;
-    protected int currentHealth = 10;
+    protected IntegerProperty currentHealthProperty = new SimpleIntegerProperty(10);
     private boolean hasMoved = false;
     private boolean canAttack = false;
     private boolean canMove = false;
+    private boolean canMerge = false;
 
     public UnitModel(String unitType, final int team) {
         LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
@@ -56,8 +54,8 @@ public class UnitModel {
         return maxHealth;
     }
 
-    public int getCurrentHealth() {
-        return currentHealth;
+    public IntegerProperty currentHealthProperty() {
+        return currentHealthProperty;
     }
 
     public int getMovementRange() {
@@ -71,10 +69,6 @@ public class UnitModel {
     public void spawn(TileModel initialTile) {
         LOGGER.info("Spawning unit {} at tile {}", modelId, initialTile.modelId);
         currentTile.set(initialTile);
-    }
-
-    public int getTeam() {
-        return team;
     }
 
     public ObjectProperty<TileModel> currentTileProperty() {
@@ -137,12 +131,12 @@ public class UnitModel {
         this.targetType = targetType;
     }
 
-    public List<TargetType> getCanAttackType() {
-        return canAttackType;
+    public List<TargetType> getVulnerableTypes() {
+        return vulnerableTypes;
     }
 
-    public void setCanAttackType(List<TargetType> canAttackType) {
-        this.canAttackType = canAttackType;
+    public void setVulnerableTypes(List<TargetType> vulnerableTypes) {
+        this.vulnerableTypes = vulnerableTypes;
     }
 
     public Position getPosition() {
@@ -150,8 +144,8 @@ public class UnitModel {
     }
 
     public void takeDamage(int damage) {
-        currentHealth -= damage;
-        if (currentHealth <= 0) {
+        currentHealthProperty.set(currentHealthProperty.get() - damage);
+        if (currentHealthProperty.get() <= 0) {
             die();
         }
     }
@@ -185,8 +179,12 @@ public class UnitModel {
         return canMove;
     }
 
-    public String getUnitType() {
-        return unitType;
+    public boolean canMerge() {
+        return canMerge;
+    }
+
+    public void setCanMerge(boolean canMerge) {
+        this.canMerge = canMerge;
     }
 
     public void setMountainTravelCost(int cost) {
@@ -203,6 +201,43 @@ public class UnitModel {
 
     public void setWoodsTravelCost(int cost) {
         this.travelCosts.put(MovementType.WOODS, cost);
+    }
+
+    public void mergeInto(UnitModel unitModel) {
+        if (!this.canMergeWith(unitModel)) {
+            return;
+        }
+        int newHealth = unitModel.getCurrentHealth() + this.getCurrentHealth();
+        if (newHealth > this.maxHealth) {
+            newHealth = this.maxHealth;
+        }
+        unitModel.setCurrentHealth(newHealth);
+        unitModel.setCanMove(false);
+        this.die();
+    }
+
+    public boolean canMergeWith(UnitModel unitModel) {
+        return unitModel.getTeam() == this.team && unitModel.getUnitType().equals(this.unitType) && this != unitModel;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealthProperty.get();
+    }
+
+    public int getTeam() {
+        return team;
+    }
+
+    public String getUnitType() {
+        return unitType;
+    }
+
+    private void setCurrentHealth(int newHealth) {
+        currentHealthProperty.set(newHealth);
+    }
+
+    public boolean canAttackUnit(UnitModel unitModel) {
+        return vulnerableTypes.contains(unitModel.getTargetType());
     }
 
 }

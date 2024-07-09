@@ -6,16 +6,16 @@ import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.game.controllers.tile.mouse_events.AttackingUnitModeHandler;
+import org.itdhbw.futurewars.game.controllers.tile.mouse_events.ActionModeHandler;
+import org.itdhbw.futurewars.game.controllers.tile.mouse_events.AttackModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MouseEventHandler;
-import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MovingUnitModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.RegularModeHandler;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
-import org.itdhbw.futurewars.game.utils.AStarPathfinder;
+import org.itdhbw.futurewars.game.utils.Pathfinder;
 import org.itdhbw.futurewars.game.views.TileView;
 
 import java.util.ArrayList;
@@ -26,11 +26,12 @@ import java.util.Set;
 //! BUG: Hovering over a tile that is occupied throws an NullPointerException in Moving Unit Mode
 public class TileEventController {
     private static final Logger LOGGER = LogManager.getLogger(TileEventController.class);
-    private static final List<TileModel> highlightedPossibleTiles = new ArrayList<>();
+    private static final List<TileModel> highlightedMoveTiles = new ArrayList<>();
     private static final List<TileModel> highlightedAttackTiles = new ArrayList<>();
+    private static final List<TileModel> highlightedMergeTiles = new ArrayList<>();
     private final EnumMap<ActiveMode, MouseEventHandler> mouseEventHandlers;
     private GameState gameState;
-    private AStarPathfinder pathfinder;
+    private Pathfinder pathfinder;
     private UnitMovementController unitMovementController;
 
     public TileEventController() {
@@ -41,24 +42,26 @@ public class TileEventController {
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
         this.unitMovementController = Context.getUnitMovementController();
-        this.mouseEventHandlers.put(ActiveMode.REGULAR, new RegularModeHandler(gameState));
-        this.mouseEventHandlers.put(ActiveMode.MOVING_UNIT, new MovingUnitModeHandler(gameState, pathfinder));
-        this.mouseEventHandlers.put(ActiveMode.ATTACKING_UNIT,
-                                    new AttackingUnitModeHandler(gameState, unitMovementController,
-                                                                 Context.getUnitAttackController()));
+        this.mouseEventHandlers.put(ActiveMode.REGULAR_MODE, new RegularModeHandler(gameState));
+        this.mouseEventHandlers.put(ActiveMode.ACTION_MODE, new ActionModeHandler(gameState, pathfinder));
+        this.mouseEventHandlers.put(ActiveMode.ATTACK_MODE, new AttackModeHandler(gameState, unitMovementController,
+                                                                                  Context.getUnitAttackController()));
+
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Switching to mode {}", newValue);
-            if (newValue == ActiveMode.MOVING_UNIT) {
-                this.highlightPossibleTiles();
-            } else if (newValue == ActiveMode.ATTACKING_UNIT) {
+            if (newValue == ActiveMode.ACTION_MODE) {
+
+                this.highlightMoveTiles();
+                this.highlightPossibleMergeTiles();
+            } else if (newValue == ActiveMode.ATTACK_MODE) {
                 this.highlightPossibleAttackTiles();
             } else {
-                this.unhiglightPossibleTiles();
+                this.unHiglightTiles();
             }
         });
     }
 
-    private void highlightPossibleTiles() {
+    private void highlightMoveTiles() {
         TileModel startTile = gameState.selectedTileProperty().get();
 
         Task<Set<TileModel>> task = new Task<>() {
@@ -73,7 +76,7 @@ public class TileEventController {
             for (TileModel tile : possibleTiles) {
                 if (!tile.isOccupied()) {
                     tile.partOfPossiblePathProperty().set(true);
-                    highlightedPossibleTiles.add(tile);
+                    highlightedMoveTiles.add(tile);
                 }
             }
         });
@@ -81,12 +84,28 @@ public class TileEventController {
         new Thread(task).start();
     }
 
-    private void unhiglightPossibleTiles() {
-        highlightedPossibleTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+    private void highlightPossibleMergeTiles() {
+        TileModel startTile = gameState.selectedTileProperty().get();
+        //Throw properly
+        UnitModel mergingUnit = gameState.selectedUnitProperty().get().orElseThrow();
 
-        highlightedAttackTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+        Task<Set<TileModel>> task = new Task<>() {
+            @Override
+            protected Set<TileModel> call() {
+                return pathfinder.getMergeableTiles(startTile, mergingUnit);
+            }
+        };
+        task.setOnSucceeded(event -> {
+            Set<TileModel> possibleTiles = task.getValue();
+            possibleTiles.forEach(tile -> {
+                if (tile != startTile) {
+                    tile.possibleToMergeProperty().set(true);
+                    highlightedMergeTiles.add(tile);
+                }
+            });
+        });
 
-        highlightedPossibleTiles.clear();
+        new Thread(task).start();
     }
 
     private void highlightPossibleAttackTiles() {
@@ -111,6 +130,16 @@ public class TileEventController {
         });
 
         new Thread(task).start();
+    }
+
+    private void unHiglightTiles() {
+        highlightedMoveTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+
+        highlightedAttackTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+
+        highlightedMergeTiles.forEach(tileModel -> tileModel.possibleToMergeProperty().set(false));
+
+        highlightedMoveTiles.clear();
     }
 
     public void handleMouseEnter(MouseEvent event) {

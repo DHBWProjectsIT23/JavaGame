@@ -54,10 +54,11 @@ public class UnitAttackController {
             LOGGER.error("Unit does not belong to current team");
         }
 
-        LOGGER.info("Target type: {} - Can Attack: {}", attackedUnit.getTargetType(), attackingUnit.getCanAttackType());
-        if (attackingUnit.getCanAttackType().contains(attackedUnit.getTargetType())) {
+        LOGGER.info("Target type: {} - Can Attack: {}", attackedUnit.getTargetType(),
+                    attackingUnit.getVulnerableTypes());
+        if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {
             attackedUnit.takeDamage(calcDamagePoints(attackingUnit, attackedUnit));
-            if (attackedUnit.getCanAttackType()
+            if (attackedUnit.getVulnerableTypes()
                             .contains(attackingUnit.getTargetType())) { // Todo: Nicht machen wenn attackedUnit tot
                 attackingUnit.takeDamage(calcDamagePoints(attackedUnit, attackingUnit));
             } else {

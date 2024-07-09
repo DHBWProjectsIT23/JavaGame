@@ -18,7 +18,7 @@ public class GameState {
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<Optional<UnitModel>> selectedUnit = new SimpleObjectProperty<>(Optional.empty());
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
-    private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR);
+    private final ObjectProperty<ActiveMode> activeMode = new SimpleObjectProperty<>(ActiveMode.REGULAR_MODE);
     private final IntegerProperty mapHeight = new SimpleIntegerProperty();
     private final IntegerProperty mapWidth = new SimpleIntegerProperty();
     private final IntegerProperty mapHeightTiles = new SimpleIntegerProperty();

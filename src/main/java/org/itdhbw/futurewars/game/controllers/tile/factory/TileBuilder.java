@@ -28,7 +28,8 @@ public class TileBuilder {
         tileFactories.put(tileType, factory);
     }
 
-    public Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
+    // Package-private by default
+    Pair<TileModel, TileView> createTile(String tileType, int x, int y, int textureVariant) {
         TileFactory factory = tileFactories.get(tileType);
         if (factory == null) {
             throw new IllegalArgumentException("No factory found for unit type " + tileType);
@@ -40,10 +41,6 @@ public class TileBuilder {
         Pair<TileModel, TileView> tilePair = new Pair<>(tileModel, tileView);
         tileRepository.addTile(tilePair);
         return tilePair;
-    }
-
-    public Pair<TileModel, TileView> createTile(String tileType, int x, int y) {
-        return createTile(tileType, x, y, 0);
     }
 
     private void setEventHandlers(TileView tileView) {

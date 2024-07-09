@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileRepository {
-    private final static Logger LOGGER = LogManager.getLogger(TileRepository.class);
+    private static final Logger LOGGER = LogManager.getLogger(TileRepository.class);
     List<String> tileTypes;
     private Pair<TileModel, TileView>[][] tiles;
 
@@ -39,18 +39,6 @@ public class TileRepository {
         this.tiles[tilePair.getKey().getPosition().getX()][tilePair.getKey().getPosition().getY()] = tilePair;
     }
 
-    public void addTile(TileModel tileModel, TileView tileView) {
-        this.tiles[tileModel.getPosition().getX()][tileModel.getPosition().getY()] = new Pair<>(tileModel, tileView);
-    }
-
-    public Pair<TileModel, TileView> getTile(Position position) {
-        return this.tiles[position.getX()][position.getY()];
-    }
-
-    public Pair<TileModel, TileView> getTile(int x, int y) {
-        return this.tiles[x][y];
-    }
-
     public TileModel getTileModel(Position position) {
         int x = position.getX();
         int y = position.getY();
@@ -63,14 +51,6 @@ public class TileRepository {
 
     public TileView getTileView(Position position) {
         return this.tiles[position.getX()][position.getY()].getValue();
-    }
-
-    public void addNullTile(int x, int y) {
-        this.tiles[x][y] = null;
-    }
-
-    public List<String> getTileTypes() {
-        return tileTypes;
     }
 
 }

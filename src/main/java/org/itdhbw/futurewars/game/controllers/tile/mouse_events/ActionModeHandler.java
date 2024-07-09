@@ -7,20 +7,21 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
-import org.itdhbw.futurewars.game.utils.AStarPathfinder;
+import org.itdhbw.futurewars.game.models.unit.UnitModel;
+import org.itdhbw.futurewars.game.utils.Pathfinder;
 import org.itdhbw.futurewars.game.views.TileView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MovingUnitModeHandler implements MouseEventHandler {
+public class ActionModeHandler implements MouseEventHandler {
     private static final List<TileModel> highlightedTiles = new ArrayList<>();
-    private static final Logger LOGGER = LogManager.getLogger(MovingUnitModeHandler.class);
+    private static final Logger LOGGER = LogManager.getLogger(ActionModeHandler.class);
     private final GameState gameState;
-    private final AStarPathfinder pathfinder;
+    private final Pathfinder pathfinder;
 
-    public MovingUnitModeHandler(GameState gameState, AStarPathfinder pathfinder) {
+    public ActionModeHandler(GameState gameState, Pathfinder pathfinder) {
         this.gameState = gameState;
         this.pathfinder = pathfinder;
     }
@@ -60,9 +61,18 @@ public class MovingUnitModeHandler implements MouseEventHandler {
             }
         });
 
+        Task<Set<TileModel>> getAttackableTiles = getAttackableTilesTask(tileView);
+
+        new Thread(getMovableTiles).start();
+        new Thread(getAttackableTiles).start();
+
+    }
+
+    private Task<Set<TileModel>> getAttackableTilesTask(TileView tileView) {
         Task<Set<TileModel>> getAttackableTiles = new Task<>() {
             @Override
             protected Set<TileModel> call() {
+
                 // Throw properly
                 return pathfinder.getAttackableTiles(tileView.getTileModel(),
                                                      gameState.selectedUnitProperty().get().orElseThrow());
@@ -71,25 +81,33 @@ public class MovingUnitModeHandler implements MouseEventHandler {
 
         getAttackableTiles.setOnSucceeded(_ -> {
             Set<TileModel> attackableTiles = getAttackableTiles.getValue();
-            for (TileModel tile : attackableTiles) {
-                LOGGER.info("Tile {} is attackable", tile.modelId);
-            }
             // Throw properly
             gameState.selectedUnitProperty().get().orElseThrow().setCanAttack(!attackableTiles.isEmpty());
         });
-
-        new Thread(getMovableTiles).start();
-        new Thread(getAttackableTiles).start();
-
+        return getAttackableTiles;
     }
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
-        if (tileView.getTileModel().isOccupied() && tileView.getTileModel() != gameState.selectedTileProperty().get()) {
+        UnitModel unit = gameState.selectedUnitProperty().get().orElseThrow();
+
+        // To display attack button if on same tile
+        this.handleMouseEnter(event, tileView);
+
+        if (tileView.getTileModel().isOccupied() && tileView.getTileModel() != gameState.selectedTileProperty().get() &&
+            !tileView.getTileModel().getOccupyingUnit().canMergeWith(unit)) {
             return;
         }
+        unit.setCanMerge(
+                tileView.getTileModel().isOccupied() && tileView.getTileModel().getOccupyingUnit().canMergeWith(unit));
 
-        gameState.setActiveMode(ActiveMode.OVERLAY);
+        // Behavior needs to differ if the tile of the unit is clicked
+        if (unit.getPosition() == tileView.getTileModel().getPosition()) {
+            unit.setCanAttack(!pathfinder.getAttackableTiles(tileView.getTileModel(), unit).isEmpty());
+            unit.setCanMove(false);
+        }
+
+        gameState.setActiveMode(ActiveMode.OVERLAY_MODE);
         gameState.selectTile(tileView.getTileModel());
 
         for (TileModel tile : highlightedTiles) {

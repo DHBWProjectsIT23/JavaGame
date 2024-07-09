@@ -7,12 +7,12 @@ import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
 
-public class AttackingUnitModeHandler implements MouseEventHandler {
+public class AttackModeHandler implements MouseEventHandler {
     private final GameState gameState;
     private final UnitMovementController unitMovementController;
     private final UnitAttackController unitAttackController;
 
-    public AttackingUnitModeHandler(GameState gameState, UnitMovementController unitMovementController, UnitAttackController unitAttackController) {
+    public AttackModeHandler(GameState gameState, UnitMovementController unitMovementController, UnitAttackController unitAttackController) {
         this.gameState = gameState;
         this.unitMovementController = unitMovementController;
         this.unitAttackController = unitAttackController;
@@ -35,7 +35,7 @@ public class AttackingUnitModeHandler implements MouseEventHandler {
                                         gameState.selectedTileProperty().get());
         // tile view die mitgegeben wird enthält tile mit unit die angegriffen wrid
         unitAttackController.attack(tileView.getTileModel().getOccupyingUnit());
-        gameState.setActiveMode(ActiveMode.REGULAR);
+        gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 }
 

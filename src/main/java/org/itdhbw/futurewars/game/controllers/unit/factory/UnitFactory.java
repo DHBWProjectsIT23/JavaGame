@@ -66,7 +66,7 @@ public class UnitFactory {
         unitModel.setPiercing(piercing);
         unitModel.setLowAirPiercing(lowAirPiercing);
         unitModel.setTargetType(targetType);
-        unitModel.setCanAttackType(canAttackType);
+        unitModel.setVulnerableTypes(canAttackType);
     }
 
     private void createUnitView() {

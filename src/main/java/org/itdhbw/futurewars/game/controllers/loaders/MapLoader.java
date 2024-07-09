@@ -9,9 +9,9 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.exceptions.InvalidFileFormatException;
 import org.itdhbw.futurewars.game.controllers.MapRepository;
-import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
-import org.itdhbw.futurewars.game.controllers.unit.UnitCreationController;
+import org.itdhbw.futurewars.game.controllers.tile.factory.TileCreationController;
+import org.itdhbw.futurewars.game.controllers.unit.factory.UnitCreationController;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.io.BufferedReader;
@@ -121,7 +121,7 @@ public class MapLoader implements LoaderFactory {
         if (!tileType.equals("NONE")) {
             LOGGER.info("Creating custom tile of type {} - variant {} - at x: {} - y: {}", tileType, textureVariant, x,
                         y);
-            tileCreationController.createTile(tileType, x, y, textureVariant);
+            tileCreationController.createUnsetTile(tileType, x, y, textureVariant);
         }
     }
 

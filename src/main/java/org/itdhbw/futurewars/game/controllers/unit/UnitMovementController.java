@@ -6,13 +6,13 @@ import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
-import org.itdhbw.futurewars.game.utils.AStarPathfinder;
+import org.itdhbw.futurewars.game.utils.Pathfinder;
 
 import java.util.List;
 
 public class UnitMovementController {
     private static final Logger LOGGER = LogManager.getLogger(UnitMovementController.class);
-    private AStarPathfinder pathfinder;
+    private Pathfinder pathfinder;
 
     public UnitMovementController() {
         // empty constructor
@@ -54,8 +54,11 @@ public class UnitMovementController {
         });
 
         new Thread(task).start();
+    }
 
-
+    public void mergeUnit(UnitModel unit, TileModel targetTile) {
+        UnitModel targetUnit = targetTile.getOccupyingUnit();
+        unit.mergeInto(targetUnit);
     }
 
 

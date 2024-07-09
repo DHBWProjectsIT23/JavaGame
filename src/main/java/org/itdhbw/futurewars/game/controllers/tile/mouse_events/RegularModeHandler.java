@@ -29,7 +29,7 @@ public class RegularModeHandler implements MouseEventHandler {
                 return;
             }
             gameState.selectUnit(Optional.of(tileView.getTileModel().getOccupyingUnit()));
-            gameState.setActiveMode(ActiveMode.MOVING_UNIT);
+            gameState.setActiveMode(ActiveMode.ACTION_MODE);
         } else {
             gameState.selectUnit(Optional.empty());
         }

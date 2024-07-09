@@ -4,17 +4,17 @@ import javafx.stage.Stage;
 import org.itdhbw.futurewars.application.controllers.other.OptionsController;
 import org.itdhbw.futurewars.game.controllers.MapRepository;
 import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
-import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.tile.TileEventController;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileBuilder;
+import org.itdhbw.futurewars.game.controllers.tile.factory.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitAttackController;
-import org.itdhbw.futurewars.game.controllers.unit.UnitCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.controllers.unit.factory.UnitBuilder;
+import org.itdhbw.futurewars.game.controllers.unit.factory.UnitCreationController;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
-import org.itdhbw.futurewars.game.utils.AStarPathfinder;
+import org.itdhbw.futurewars.game.utils.Pathfinder;
 
 public class Context {
     private static TileRepository tileRepository;
@@ -26,7 +26,7 @@ public class Context {
     private static TileCreationController tileCreationController;
     private static UnitMovementController unitMovementController;
     private static GameState gameState;
-    private static AStarPathfinder pathfinder;
+    private static Pathfinder pathfinder;
     private static UnitCreationController unitCreationController;
     private static UnitAttackController unitAttackController;
     private static OptionsController optionsController;
@@ -57,7 +57,7 @@ public class Context {
         unitBuilder = new UnitBuilder();
         gameState = new GameState();
         unitAttackController = new UnitAttackController();
-        pathfinder = new AStarPathfinder();
+        pathfinder = new Pathfinder();
         unitMovementController = new UnitMovementController();
         unitCreationController = new UnitCreationController();
         tileEventController = new TileEventController();
@@ -76,7 +76,7 @@ public class Context {
         return unitCreationController;
     }
 
-    public static AStarPathfinder getPathfinder() {
+    public static Pathfinder getPathfinder() {
         return pathfinder;
     }
 

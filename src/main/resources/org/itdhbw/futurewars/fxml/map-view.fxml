@@ -3,61 +3,56 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT"
-           xmlns="http://javafx.com/javafx/21"
+<?import javafx.scene.text.Text?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.game.controllers.ui.MapViewController">
     <GridPane fx:id="gameGrid">
     </GridPane>
-    <AnchorPane fx:id="statusViewOverlay" mouseTransparent="true"
-                prefHeight="200.0" prefWidth="200.0" visible="false">
-        <VBox fx:id="statusViewVBox" layoutX="65.0" styleClass="map-info-view"
-              AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="16.0">
+    <AnchorPane fx:id="statusViewOverlay" mouseTransparent="true" prefHeight="200.0" prefWidth="200.0" visible="false">
+        <VBox fx:id="statusViewVBox" layoutX="65.0" styleClass="map-info-view" AnchorPane.bottomAnchor="16.0"
+              AnchorPane.rightAnchor="16.0">
             <HBox>
                 <VBox>
-                    <ImageView fx:id="currentTileTexture" fitHeight="64.0"
-                               fitWidth="64.0" pickOnBounds="true"
+                    <ImageView fx:id="currentTileTexture" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true"
                                preserveRatio="true"/>
                 </VBox>
                 <VBox>
-                    <Label fx:id="currentTileType" styleClass="map-info-label"
-                           text="Tile Type"/>
-                    <Label fx:id="currentTileDef" styleClass="map-info-label"
-                           text="Def: 0"/>
-                    <Label fx:id="currentTileAtk" styleClass="map-info-label"
-                           text="Atk: 0"/>
+                    <Label fx:id="currentTileType" styleClass="map-info-label" text="Tile Type"/>
+                    <Label fx:id="currentTileDef" styleClass="map-info-label" text="Def: 0"/>
+                    <Label fx:id="currentTileAtk" styleClass="map-info-label" text="Atk: 0"/>
                 </VBox>
             </HBox>
             <Pane fx:id="infoViewSeperator" prefHeight="10.0"/>
             <HBox fx:id="currentUnitHBox">
                 <VBox>
-                    <ImageView fx:id="currentUnitTexture" fitHeight="64.0"
-                               fitWidth="64.0" pickOnBounds="true"
+                    <ImageView fx:id="currentUnitTexture" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true"
                                preserveRatio="true"/>
                 </VBox>
                 <VBox>
-                    <Label fx:id="currentUnitType" styleClass="map-info-label"
-                           text="Unit Type"/>
-                    <Label fx:id="currentUnitHealth" styleClass="map-info-label"
-                           text="0/0 ♥"/>
+                    <Label fx:id="currentUnitType" styleClass="map-info-label" text="Unit Type"/>
+                    <Label fx:id="currentUnitHealth" styleClass="map-info-label" text="0/0 ♥"/>
                 </VBox>
             </HBox>
         </VBox>
     </AnchorPane>
     <AnchorPane fx:id="overlayPane" disable="true" visible="false">
-        <Pane mouseTransparent="true"
-              style="-fx-background-color: blue; -fx-opacity: 0.2;"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-        <VBox fx:id="overlayBox" layoutX="236.0" layoutY="90.0" spacing="5.0"
-              styleClass="player-action-box">
-            <Button fx:id="overlayMoveButton" mnemonicParsing="false"
-                    onAction="#enterMoveMode" text="Move" VBox.vgrow="ALWAYS"/>
-            <Button fx:id="overlayAttackButton" mnemonicParsing="false"
-                    onAction="#enterAttackMode" text="Attack"/>
-            <Button fx:id="overlayInfoButton" mnemonicParsing="false"
-                    onAction="#enterAttackMode" text="Info"/>
-            <Button fx:id="overlayCloseButton" mnemonicParsing="false"
-                    onAction="#closeOverlay" text="Cancel"/>
+        <Pane mouseTransparent="true" style="-fx-background-color: blue; -fx-opacity: 0.2;"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0"/>
+        <VBox fx:id="overlayBox" layoutX="236.0" layoutY="90.0" spacing="5.0" styleClass="player-action-box">
+            <Button fx:id="overlayMoveButton" mnemonicParsing="false" onAction="#enterMoveMode" text="Move"
+                    VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayMergeButton" mnemonicParsing="false" onAction="#enterMergeMode" text="Merge"
+                    VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayAttackButton" mnemonicParsing="false" onAction="#enterAttackMode" text="Attack"/>
+            <Button fx:id="overlayInfoButton" mnemonicParsing="false" onAction="#enterAttackMode" text="Info"/>
+            <Button fx:id="overlayCloseButton" mnemonicParsing="false" onAction="#closeOverlay" text="Cancel"/>
         </VBox>
     </AnchorPane>
+    <StackPane fx:id="infoOverlay" visible="false">
+        <children>
+            <Text fx:id="infoOverlayText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0"
+                  styleClass="day-info-text" text="Text"/>
+        </children>
+    </StackPane>
 </StackPane>

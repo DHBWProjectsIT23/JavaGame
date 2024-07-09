@@ -44,10 +44,6 @@ public class UnitRepository {
         this.units.put(tilePair.getKey(), tilePair.getValue());
     }
 
-    public void addUnit(UnitModel tileModel, UnitView tileView) {
-        this.units.put(tileModel, tileView);
-    }
-
     public UnitView getUnitView(UnitModel unitModel) {
         return units.get(unitModel);
     }

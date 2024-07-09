@@ -2,18 +2,21 @@ package org.itdhbw.futurewars.game.controllers.ui;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
-import org.itdhbw.futurewars.game.controllers.tile.TileCreationController;
+import org.itdhbw.futurewars.game.controllers.tile.factory.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
@@ -66,6 +69,12 @@ public class MapViewController {
     private HBox currentUnitHBox;
     @FXML
     private Pane infoViewSeperator;
+    @FXML
+    private Button overlayMergeButton;
+    @FXML
+    private StackPane infoOverlay;
+    @FXML
+    private Text infoOverlayText;
 
     public MapViewController() {
         this.tileCreationController = Context.getTileCreationController();
@@ -84,7 +93,7 @@ public class MapViewController {
 
 
         this.gameState.activeModeProperty().addListener((_, _, newValue) -> {
-            if (newValue == ActiveMode.OVERLAY) {
+            if (newValue == ActiveMode.OVERLAY_MODE) {
                 this.showOverlay();
             } else {
                 this.hideOverlay();
@@ -97,6 +106,7 @@ public class MapViewController {
 
         this.gameState.selectedTileProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
+                this.hideTileStatusView();
                 this.showTileStatusView(newValue);
             } else {
                 this.hideTileStatusView();
@@ -105,11 +115,19 @@ public class MapViewController {
 
         this.gameState.selectedUnitProperty().addListener((_, _, newValue) -> {
             if (newValue.isPresent()) {
-                // Throw properly
+                this.hideUnitStatusView();
                 this.showUnitStatusView(newValue.orElseThrow());
             } else {
                 this.hideUnitStatusView();
             }
+        });
+
+        this.gameState.currentDayProperty().addListener((_, _, newValue) -> {
+            showDayChangeInfo(newValue);
+        });
+
+        this.infoOverlayText.setOnMouseClicked(event -> {
+            this.infoOverlay.setVisible(false);
         });
 
     }
@@ -161,28 +179,28 @@ public class MapViewController {
         this.overlayPane.setDisable(true);
     }
 
-    private void showOverlay() {
-        LOGGER.info("Showing overlay...");
-        LOGGER.info("Mouse X: {} - Mouse Y: {}", mouseX.get(), mouseY.get());
-        this.overlayBox.getChildren().remove(overlayMoveButton);
-        this.overlayBox.getChildren().remove(overlayAttackButton);
-        this.overlayBox.getChildren().remove(overlayInfoButton);
-        this.overlayBox.getChildren().remove(overlayCloseButton);
-        //!TODO: Throw properly
-        if (gameState.getSelectedUnit().orElse(null).canAttack() &&
-            gameState.getSelectedUnit().orElse(null).canMove()) {
-            this.overlayBox.getChildren().add(overlayMoveButton);
-            this.overlayBox.getChildren().add(overlayAttackButton);
-            this.overlayBox.getChildren().add(overlayInfoButton);
-            this.overlayBox.getChildren().add(overlayCloseButton);
-        } else if (gameState.getSelectedUnit().orElse(null).canMove()) {
-            this.overlayBox.getChildren().add(overlayMoveButton);
-            this.overlayBox.getChildren().add(overlayInfoButton);
-            this.overlayBox.getChildren().add(overlayCloseButton);
-        } else {
-            this.overlayBox.getChildren().add(overlayInfoButton);
-            this.overlayBox.getChildren().add(overlayCloseButton);
+    private void addTilesToGrid() {
+        LOGGER.info("Loading map...");
+
+        Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
+        for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
+            for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
+                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidthTiles(), y,
+                             gameState.getMapHeightTiles());
+                Pair<TileModel, TileView> tilePair = allTiles[x][y];
+                if (tilePair == null) {
+                    LOGGER.warn("tilePair was null");
+                    tilePair = tileCreationController.createUnsetTile(x, y);
+                }
+                this.addTileToGrid(tilePair);
+            }
         }
+
+
+    }
+
+    private void showOverlay() {
+        addOverlayButtons();
 
         int x = (int) mouseX.get();
         int y = (int) mouseY.get();
@@ -214,41 +232,74 @@ public class MapViewController {
         gameGrid.add(tile.getValue(), position.getX(), position.getY());
     }
 
-    private void addTilesToGrid() {
-        LOGGER.info("Loading map...");
-
-        Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
-        for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
-            for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
-                LOGGER.error("x: {} of {}, y: {} of {}", x, gameState.getMapWidthTiles(), y,
-                             gameState.getMapHeightTiles());
-                Pair<TileModel, TileView> tilePair = allTiles[x][y];
-                if (tilePair == null) {
-                    LOGGER.warn("tilePair was null");
-                    tilePair = tileCreationController.createTile("NOT_SET_TILE", x, y);
-                }
-                this.addTileToGrid(tilePair);
+    private void showDayChangeInfo(Number day) {
+        this.infoOverlayText.setText("Day " + day);
+        this.infoOverlay.setVisible(true);
+        Thread thread = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            this.infoOverlay.setVisible(false);
+        });
+        thread.start();
+    }
+
+    private void addOverlayButtons() {
+        ObservableList<Node> overlayChildren = this.overlayBox.getChildren();
+        UnitModel selectedUnit = gameState.getSelectedUnit().orElseThrow();
+
+        overlayChildren.remove(overlayMoveButton);
+        overlayChildren.remove(overlayMergeButton);
+        overlayChildren.remove(overlayAttackButton);
+        overlayChildren.remove(overlayInfoButton);
+        overlayChildren.remove(overlayCloseButton);
+        if (selectedUnit.canMerge()) {
+            overlayChildren.add(overlayMergeButton);
+            overlayChildren.add(overlayInfoButton);
+            overlayChildren.add(overlayCloseButton);
+        } else if (selectedUnit.canAttack() && selectedUnit.canMove()) {
+            overlayChildren.add(overlayMoveButton);
+            overlayChildren.add(overlayAttackButton);
+            overlayChildren.add(overlayInfoButton);
+            overlayChildren.add(overlayCloseButton);
+        } else if (selectedUnit.canMove()) {
+            overlayChildren.add(overlayMoveButton);
+            overlayChildren.add(overlayInfoButton);
+            overlayChildren.add(overlayCloseButton);
+        } else if (selectedUnit.canAttack()) {
+            overlayChildren.add(overlayAttackButton);
+            overlayChildren.add(overlayInfoButton);
+            overlayChildren.add(overlayCloseButton);
+        } else {
+            overlayChildren.add(overlayInfoButton);
+            overlayChildren.add(overlayCloseButton);
         }
-
-
     }
 
     @FXML
     private void enterMoveMode(ActionEvent actionEvent) {
-        unitMovementController.moveUnit(gameState.selectedUnitProperty().get().orElse(null),
+        unitMovementController.moveUnit(gameState.selectedUnitProperty().get().orElseThrow(),
                                         gameState.selectedTileProperty().get());
-        this.gameState.setActiveMode(ActiveMode.REGULAR);
+        this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 
     @FXML
     private void closeOverlay(ActionEvent actionEvent) {
-        this.gameState.setActiveMode(ActiveMode.REGULAR);
+        this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 
     @FXML
     private void enterAttackMode(ActionEvent actionEvent) {
         LOGGER.info("Entering attack mode...");
-        this.gameState.setActiveMode(ActiveMode.ATTACKING_UNIT);
+        this.gameState.setActiveMode(ActiveMode.ATTACK_MODE);
+    }
+
+    @FXML
+    private void enterMergeMode(ActionEvent actionEvent) {
+        unitMovementController.mergeUnit(gameState.selectedUnitProperty().get().orElseThrow(),
+                                         gameState.selectedTileProperty().get());
+        this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 }

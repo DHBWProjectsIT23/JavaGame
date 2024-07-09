@@ -9,11 +9,11 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.util.*;
 
-public class AStarPathfinder {
-    private static final Logger LOGGER = LogManager.getLogger(AStarPathfinder.class);
+public class Pathfinder {
+    private static final Logger LOGGER = LogManager.getLogger(Pathfinder.class);
     private final TileRepository tileRepository;
 
-    public AStarPathfinder() {
+    public Pathfinder() {
         this.tileRepository = Context.getTileRepository();
     }
 
@@ -40,7 +40,9 @@ public class AStarPathfinder {
             }
 
             for (TileModel neighbor : getNeighbors(current)) {
-                if (neighbor.isOccupied() || unit.canNotTraverse(neighbor.getMovementType())) {
+                if ((neighbor.isOccupied() &&
+                     !neighbor.getOccupyingUnit().canMergeWith(startTile.getOccupyingUnit())) ||
+                    unit.canNotTraverse(neighbor.getMovementType())) {
                     continue;
                 }
 
@@ -167,12 +169,53 @@ public class AStarPathfinder {
         // Filter out the tiles that are not occupied
         visited.removeIf(tile -> !tile.isOccupied());
         visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() == attackingUnit.getTeam());
+        visited.removeIf(tile -> !attackingUnit.canAttackUnit(tile.getOccupyingUnit()));
         LOGGER.info("Attackable tiles: {}", visited.size());
         for (TileModel tile : visited) {
             LOGGER.info("Tile {} is attackable in Pathfinder", tile.modelId);
         }
 
         LOGGER.info("Attackable tiles: {}", visited.size());
+        return visited;
+    }
+
+    public Set<TileModel> getMergeableTiles(TileModel startTile, UnitModel mergingUnit) {
+        Set<TileModel> visited = new HashSet<>();
+        Queue<TileModel> queue = new LinkedList<>();
+        Map<TileModel, Integer> distance = new HashMap<>();
+        UnitModel unit = startTile.getOccupyingUnit();
+        int movementRange = unit.getMovementRange();
+
+        queue.add(startTile);
+        distance.put(startTile, 0);
+
+        while (!queue.isEmpty()) {
+            TileModel current = queue.poll();
+            visited.add(current);
+
+            for (TileModel neighbor : getNeighbors(current)) {
+                if (startTile.getOccupyingUnit().canNotTraverse(neighbor.getMovementType())) {
+                    continue;
+                }
+
+                int tentativeDistance = distance.get(current) + unit.getTravelCost(neighbor.getMovementType());
+                if (tentativeDistance <= movementRange &&
+                    (!distance.containsKey(neighbor) || tentativeDistance < distance.get(neighbor))) {
+                    distance.put(neighbor, tentativeDistance);
+                    queue.add(neighbor);
+                }
+            }
+        }
+        // Filter out the tiles that are not occupied
+        visited.removeIf(tile -> !tile.isOccupied());
+        visited.removeIf(tile -> tile == startTile);
+        visited.removeIf(tile -> {
+            LOGGER.info("Checking if tile {} can be merged with {}", tile.getPosition(), mergingUnit.getPosition());
+            boolean b = !tile.getOccupyingUnit().canMergeWith(mergingUnit);
+            return b;
+        });
+
+        LOGGER.info("Mergeable tiles: {}", visited.size());
         return visited;
     }
 }

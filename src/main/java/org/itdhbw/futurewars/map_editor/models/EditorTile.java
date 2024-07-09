@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.editors.models;
+package org.itdhbw.futurewars.map_editor.models;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

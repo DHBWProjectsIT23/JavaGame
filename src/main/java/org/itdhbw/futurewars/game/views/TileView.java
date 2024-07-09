@@ -21,6 +21,7 @@ public class TileView extends StackPane {
     private static final Logger LOGGER = LogManager.getLogger(TileView.class);
     public final int viewId = this.hashCode();
     protected final Pane possibleMoveOverlay = new Pane();
+    protected final Pane possibleMergeOverlay = new Pane();
     protected final ImageView textureLayer;
     private final TileModel tileModel;
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
@@ -46,6 +47,9 @@ public class TileView extends StackPane {
 
         possibleMoveOverlay.setMouseTransparent(true);
         possibleMoveOverlay.getStyleClass().add("possible-move-overlay");
+
+        possibleMergeOverlay.setMouseTransparent(true);
+        possibleMergeOverlay.getStyleClass().add("possible-merge-overlay");
 
         hoverOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         hoverOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
@@ -111,6 +115,11 @@ public class TileView extends StackPane {
             }
         });
 
+        tileModel.possibleToMergeProperty().addListener((_, _, newValue) -> {
+            LOGGER.info("Possible merge for {}: {}", this.viewId, newValue);
+            this.setPossibleMerge(Boolean.TRUE.equals(newValue));
+        });
+
         tileModel.partOfPossiblePathProperty().addListener((_, _, newValue) -> {
             this.setPossibleMove(Boolean.TRUE.equals(newValue));
         });
@@ -160,11 +169,18 @@ public class TileView extends StackPane {
     }
 
     public void setPossibleMove(boolean transparent) {
-        LOGGER.info("Setting possible move overlay for tile {}...", this.viewId);
         if (transparent) {
             this.getChildren().add(possibleMoveOverlay);
         } else {
             this.getChildren().remove(possibleMoveOverlay);
+        }
+    }
+
+    public void setPossibleMerge(boolean transparent) {
+        if (transparent) {
+            this.getChildren().add(possibleMergeOverlay);
+        } else {
+            this.getChildren().remove(possibleMergeOverlay);
         }
     }
 

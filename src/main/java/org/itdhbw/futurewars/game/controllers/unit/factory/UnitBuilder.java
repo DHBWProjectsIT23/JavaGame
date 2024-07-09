@@ -30,11 +30,8 @@ public class UnitBuilder {
         unitFactories.put(unitType, factory);
     }
 
-    public Pair<UnitModel, UnitView> createUnit(String unitType) {
-        return createUnit(unitType, 1);
-    }
-
-    public Pair<UnitModel, UnitView> createUnit(String unitType, int team) {
+    // Package-private by default
+    Pair<UnitModel, UnitView> createUnit(String unitType, int team) {
         UnitFactory factory = unitFactories.get(unitType);
         if (factory == null) {
             throw new IllegalArgumentException("No factory found for unit type " + unitType);

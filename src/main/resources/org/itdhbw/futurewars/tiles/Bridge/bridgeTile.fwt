@@ -3,8 +3,9 @@ FUTURE_WARS_TILE_FORMAT
 BRIDGE_TILE
 - movementType
 PLAIN
+- terrainCover
+10
 - texture
-BridgeBottomLand.png
 BridgeLeftLand.png
 BridgeRightLand.png
 BridgeTopLand.png

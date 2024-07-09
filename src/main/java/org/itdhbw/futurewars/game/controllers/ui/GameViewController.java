@@ -61,27 +61,18 @@ public class GameViewController {
 
         gameState.currentPlayerProperty().addListener((_, _, newValue) -> {
             if (newValue.equals(1)) {
-                LOGGER.info("Player 1's turn");
-                gamePane.getStyleClass().remove("red-border");
-                gamePane.getStyleClass().add("blue-border");
-
-                currentPlayerLabel.setText("Player 1");
-                currentTurnLabel.getStyleClass().add("blue-bg");
-                currentTurnLabel.getStyleClass().remove("red-bg");
+                setTurnPlayer1();
             } else {
-                LOGGER.info("Player 2's turn");
-                gamePane.getStyleClass().remove("blue-border");
-                gamePane.getStyleClass().add("red-border");
-
-                currentPlayerLabel.setText("Player 2");
-                currentTurnLabel.getStyleClass().add("red-bg");
-                currentTurnLabel.getStyleClass().remove("blue-bg");
+                setTurnPlayer2();
             }
         });
 
         gameState.currentDayProperty().addListener((_, _, newValue) -> {
             currentTurnLabel.setText("Day " + newValue);
         });
+
+
+        setTurnPlayer1();
 
     }
 
@@ -95,9 +86,27 @@ public class GameViewController {
         }
     }
 
+    private void setTurnPlayer1() {
+        gamePane.getStyleClass().remove("red-border");
+        gamePane.getStyleClass().add("blue-border");
+
+        currentPlayerLabel.setText("Player 1");
+        currentTurnLabel.getStyleClass().add("blue-bg");
+        currentTurnLabel.getStyleClass().remove("red-bg");
+    }
+
+    private void setTurnPlayer2() {
+        gamePane.getStyleClass().remove("blue-border");
+        gamePane.getStyleClass().add("red-border");
+
+        currentPlayerLabel.setText("Player 2");
+        currentTurnLabel.getStyleClass().add("red-bg");
+        currentTurnLabel.getStyleClass().remove("blue-bg");
+    }
+
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
-        Context.getGameState().setActiveMode(ActiveMode.REGULAR);
+        Context.getGameState().setActiveMode(ActiveMode.REGULAR_MODE);
         LOGGER.info("{}", Context.getUnitRepository().getUnitCount());
         try {
             SceneController.loadScene("menu-view.fxml");
