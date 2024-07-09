@@ -1,7 +1,7 @@
 package org.itdhbw.futurewars.game.views;
 
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -15,7 +15,6 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 public class UnitView extends StackPane {
     private static final Logger LOGGER = LogManager.getLogger(UnitView.class);
     private final ImageView textureLayer = new ImageView();
-    private final Text hpText = new Text();
     public final int viewId = this.hashCode();
     protected final UnitModel unitModel;
 
@@ -25,21 +24,30 @@ public class UnitView extends StackPane {
 
         this.textureLayer.fitHeightProperty().bind(Context.getGameState().tileSizeProperty());
         this.textureLayer.fitWidthProperty().bind(Context.getGameState().tileSizeProperty());
+        this.textureLayer.getStyleClass().add("image-border");
 
-        this.hpText.textProperty()
-                   .bind(Bindings.createStringBinding(() -> unitModel.currentHealthProperty().get() + "♥",
-                                                      unitModel.currentHealthProperty().asString()));
-        if (unitModel.getTeam() == 1) {
-            this.hpText.setFill(Color.BLUE);
-            this.hpText.getStyleClass().add("white-shadow");
-        } else {
-            this.hpText.setFill(Color.RED);
-            this.hpText.getStyleClass().add("black-shadow");
-        }
+        Text hpText = new Text();
+        hpText.textProperty().bind(unitModel.currentHealthProperty().asString());
+        hpText.setFill(Color.WHITE);
+        hpText.getStyleClass().add("black-stroke-border");
+        hpText.getStyleClass().add("health-text");
+
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setSaturation(-0.5);
+
+        this.unitModel.hasMadeAnActionProperty().addListener((_, _, newValue) -> {
+            if (Boolean.TRUE.equals(newValue)) {
+                this.setOpacity(0.7);
+                this.textureLayer.setEffect(colorAdjust);
+            } else {
+                this.setOpacity(1);
+                this.textureLayer.setEffect(null);
+            }
+        });
 
         this.getChildren().add(this.textureLayer);
-        this.getChildren().add(this.hpText);
-        StackPane.setAlignment(this.hpText, Pos.TOP_CENTER);
+        this.getChildren().add(hpText);
+        StackPane.setAlignment(hpText, Pos.BOTTOM_RIGHT);
     }
 
 

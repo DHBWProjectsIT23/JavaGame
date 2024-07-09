@@ -29,7 +29,7 @@ public class UnitModel {
     protected List<TargetType> vulnerableTypes;
     protected int maxHealth = 10;
     protected IntegerProperty currentHealthProperty = new SimpleIntegerProperty(10);
-    private boolean hasMoved = false;
+    private BooleanProperty hasMadeAnAction = new SimpleBooleanProperty(false);
     private boolean canAttack = false;
     private boolean canMove = false;
     private boolean canMerge = false;
@@ -163,12 +163,16 @@ public class UnitModel {
         return isDead.get();
     }
 
-    public void setHasMoved(boolean b) {
-        hasMoved = b;
+    public void setHasMadeAnAction(boolean b) {
+        hasMadeAnAction.set(b);
     }
 
-    public boolean hasMoved() {
-        return hasMoved;
+    public boolean hasMadeAnAction() {
+        return hasMadeAnAction.get();
+    }
+
+    public BooleanProperty hasMadeAnActionProperty() {
+        return hasMadeAnAction;
     }
 
     public void setCanMove(boolean canMove) {

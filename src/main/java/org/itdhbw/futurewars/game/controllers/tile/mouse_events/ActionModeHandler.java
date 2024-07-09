@@ -4,6 +4,8 @@ import javafx.concurrent.Task;
 import javafx.scene.input.MouseEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
@@ -12,6 +14,7 @@ import org.itdhbw.futurewars.game.utils.Pathfinder;
 import org.itdhbw.futurewars.game.views.TileView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +34,7 @@ public class ActionModeHandler implements MouseEventHandler {
         Task<List<TileModel>> getMovableTiles = new Task<>() {
             @Override
             protected List<TileModel> call() {
-                return pathfinder.findPath(gameState.selectedTileProperty().get(), tileView.getTileModel());
+                return pathfinder.findPath(gameState.getSelectedTile(), tileView.getTileModel());
             }
         };
 
@@ -52,12 +55,18 @@ public class ActionModeHandler implements MouseEventHandler {
                 }
             }
 
-            //!TODO: Throw properly
+            UnitModel selectedUnit;
+            try {
+                selectedUnit = gameState.getSelectedUnit();
+            } catch (NoUnitSelectedException e) {
+                ErrorHandler.addVerboseException(e, "No unit selected, could not calculate path");
+                return;
+            }
+
             if (highlightedTiles.size() > 1) {
-                gameState.getSelectedUnit().orElseThrow()
-                         .setCanMove(tileView.getTileModel() == highlightedTiles.getLast());
+                selectedUnit.setCanMove(tileView.getTileModel() == highlightedTiles.getLast());
             } else {
-                gameState.getSelectedUnit().orElseThrow().setCanMove(false);
+                selectedUnit.setCanMove(false);
             }
         });
 
@@ -73,28 +82,43 @@ public class ActionModeHandler implements MouseEventHandler {
             @Override
             protected Set<TileModel> call() {
 
-                // Throw properly
-                return pathfinder.getAttackableTiles(tileView.getTileModel(),
-                                                     gameState.selectedUnitProperty().get().orElseThrow());
+                UnitModel selectedUnit;
+                try {
+                    selectedUnit = gameState.getSelectedUnit();
+                } catch (NoUnitSelectedException e) {
+                    ErrorHandler.addVerboseException(e, "No unit selected, could not calculate attackable tiles");
+                    return new HashSet<>();
+                }
+                return pathfinder.getAttackableTiles(tileView.getTileModel(), selectedUnit);
             }
         };
 
         getAttackableTiles.setOnSucceeded(_ -> {
             Set<TileModel> attackableTiles = getAttackableTiles.getValue();
             // Throw properly
-            gameState.selectedUnitProperty().get().orElseThrow().setCanAttack(!attackableTiles.isEmpty());
+            UnitModel selectedUnit;
+            try {
+                selectedUnit = gameState.getSelectedUnit();
+            } catch (NoUnitSelectedException e) {
+                ErrorHandler.addVerboseException(e, "No unit selected, could not calculate attackable tiles");
+                return;
+            }
+            selectedUnit.setCanAttack(!attackableTiles.isEmpty());
         });
         return getAttackableTiles;
     }
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
-        UnitModel unit = gameState.selectedUnitProperty().get().orElseThrow();
+        UnitModel unit;
+        try {
+            unit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not calculate possible actions");
+            return;
+        }
 
-        // To display attack button if on same tile
-        this.handleMouseEnter(event, tileView);
-
-        if (tileView.getTileModel().isOccupied() && tileView.getTileModel() != gameState.selectedTileProperty().get() &&
+        if (tileView.getTileModel().isOccupied() && tileView.getTileModel() != gameState.getSelectedTile() &&
             !tileView.getTileModel().getOccupyingUnit().canMergeWith(unit)) {
             return;
         }

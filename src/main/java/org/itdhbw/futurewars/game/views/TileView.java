@@ -29,6 +29,7 @@ public class TileView extends StackPane {
     private final GameState gameState;
     protected ImageView selectedOverlay;
     protected ImageView hoverOverlay;
+    protected ImageView attackableOverlay;
     private ImageView highlightedOverlay;
     private Image texture;
     private Image hoverImage;
@@ -57,6 +58,8 @@ public class TileView extends StackPane {
         selectedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
         highlightedOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         highlightedOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
+        attackableOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
+        attackableOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
 
         this.getChildren().add(this.textureLayer);
         this.setUserData(this);
@@ -66,12 +69,13 @@ public class TileView extends StackPane {
 
     private void loadTextures() {
         try {
-            selectedOverlay = new ImageView(FileHelper.getInternalTexture("other/64Selected.png"));
-            texture = FileHelper.getInternalTexture("fallback/FallbackTile.png");
-            hoverImage = FileHelper.getInternalTexture("other/64Hovered.png");
-            hoverOccupiedImage = FileHelper.getInternalTexture("other/64HoveredOccupied.png");
+            attackableOverlay = new ImageView(FileHelper.getMiscTexture(FileHelper.MiscTextures.ATTACKABLE));
+            selectedOverlay = new ImageView(FileHelper.getMiscTexture(FileHelper.MiscTextures.SELECTED));
+            texture = FileHelper.getMiscTexture(FileHelper.MiscTextures.FALLBACK);
+            hoverImage = FileHelper.getMiscTexture(FileHelper.MiscTextures.HOVERED);
+            hoverOccupiedImage = FileHelper.getMiscTexture(FileHelper.MiscTextures.HOVERED_OCCUPIED);
             hoverOverlay = new ImageView(hoverImage);
-            highlightedOverlay = new ImageView(FileHelper.getInternalTexture("other/64Highlighted.png"));
+            highlightedOverlay = new ImageView(FileHelper.getMiscTexture(FileHelper.MiscTextures.HIGHLIGHTED));
             LOGGER.info("Loaded textures");
         } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load textures");
@@ -123,6 +127,10 @@ public class TileView extends StackPane {
         tileModel.partOfPossiblePathProperty().addListener((_, _, newValue) -> {
             this.setPossibleMove(Boolean.TRUE.equals(newValue));
         });
+
+        tileModel.possibleToAttackProperty().addListener((_, _, newValue) -> {
+            this.setPossibleAttack(Boolean.TRUE.equals(newValue));
+        });
     }
 
     public TileModel getTileModel() {
@@ -173,6 +181,20 @@ public class TileView extends StackPane {
             this.getChildren().add(possibleMoveOverlay);
         } else {
             this.getChildren().remove(possibleMoveOverlay);
+        }
+    }
+
+    public void setPossibleAttack(boolean transparent) {
+        if (transparent) {
+            for (Node node : this.getChildren()) {
+                node.setOpacity(0.5);
+            }
+            this.getChildren().add(attackableOverlay);
+        } else {
+            for (Node node : this.getChildren()) {
+                node.setOpacity(1);
+            }
+            this.getChildren().remove(attackableOverlay);
         }
     }
 

@@ -5,8 +5,6 @@ import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.views.TileView;
 
-import java.util.Optional;
-
 public class RegularModeHandler implements MouseEventHandler {
 
     private final GameState gameState;
@@ -25,13 +23,13 @@ public class RegularModeHandler implements MouseEventHandler {
         gameState.selectTile(tileView.getTileModel());
         if (tileView.getTileModel().isOccupied()) {
             if (tileView.getTileModel().getOccupyingUnit().getTeam() != gameState.getCurrentPlayer() ||
-                tileView.getTileModel().getOccupyingUnit().hasMoved()) {
+                tileView.getTileModel().getOccupyingUnit().hasMadeAnAction()) {
                 return;
             }
-            gameState.selectUnit(Optional.of(tileView.getTileModel().getOccupyingUnit()));
+            gameState.selectUnit(tileView.getTileModel().getOccupyingUnit());
             gameState.setActiveMode(ActiveMode.ACTION_MODE);
         } else {
-            gameState.selectUnit(Optional.empty());
+            gameState.deselectUnit();
         }
     }
 }

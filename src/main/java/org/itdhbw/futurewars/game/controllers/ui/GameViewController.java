@@ -17,7 +17,6 @@ import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
-import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.net.MalformedURLException;
@@ -106,13 +105,11 @@ public class GameViewController {
 
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
-        Context.getGameState().setActiveMode(ActiveMode.REGULAR_MODE);
-        LOGGER.info("{}", Context.getUnitRepository().getUnitCount());
+        gameState.resetGame();
         try {
             SceneController.loadScene("menu-view.fxml");
         } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to load menu view");
-            ErrorHandler.showErrorPopup();
+            ErrorHandler.addVerboseException(e, "Failed to load menu view");
         }
     }
 
@@ -123,7 +120,6 @@ public class GameViewController {
 
     @FXML
     private void endTurn(ActionEvent actionEvent) {
-
         Context.getGameState().endTurn();
     }
 }

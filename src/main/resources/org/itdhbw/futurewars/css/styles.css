@@ -180,3 +180,18 @@
 .white-shadow {
     -fx-effect: dropshadow(gaussian, rgba(180, 180, 180, 0.5), 10, 0.5, 0, 0); /* Shadow effect */
 }
+
+.black-stroke-border {
+    -fx-stroke: black; /* Border color */
+    -fx-stroke-width: 2; /* Border width */
+    -fx-stroke-type: outside; /* Border position */
+}
+
+.image-border {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 1), 2, 1, 0, 0); /* Shadow effect */
+}
+
+
+.health-text {
+    -fx-font-size: 18px;
+}

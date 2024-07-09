@@ -16,6 +16,8 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileCreationController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
@@ -104,21 +106,18 @@ public class MapViewController {
             mouseY.set(event.getY() + 10);
         });
 
-        this.gameState.selectedTileProperty().addListener((_, _, newValue) -> {
+        this.gameState.hoveredTileProperty().addListener((_, _, newValue) -> {
             if (newValue != null) {
                 this.hideTileStatusView();
                 this.showTileStatusView(newValue);
+                if (newValue.isOccupied()) {
+                    this.hideUnitStatusView();
+                    this.showUnitStatusView(newValue.getOccupyingUnit());
+                } else {
+                    this.hideUnitStatusView();
+                }
             } else {
                 this.hideTileStatusView();
-            }
-        });
-
-        this.gameState.selectedUnitProperty().addListener((_, _, newValue) -> {
-            if (newValue.isPresent()) {
-                this.hideUnitStatusView();
-                this.showUnitStatusView(newValue.orElseThrow());
-            } else {
-                this.hideUnitStatusView();
             }
         });
 
@@ -132,51 +131,17 @@ public class MapViewController {
 
     }
 
+    private void hideOverlay() {
+        this.overlayPane.setVisible(false);
+        this.overlayPane.setDisable(true);
+    }
+
     private void hideTileStatusView() {
         this.statusViewOverlay.setVisible(false);
     }
 
-    private void showTileStatusView(TileModel selectedTile) {
-        setStatusViewSide(selectedTile);
-        this.statusViewOverlay.setVisible(true);
-        this.currentTileType.setText(selectedTile.getTileType());
-        this.currentTileDef.setText("Def: " + selectedTile.getTerrainCover() / 10 + "/5");
-        Image tileTexture = Context.getTileRepository().getTileView(selectedTile.getPosition()).getTexture();
-        this.currentTileTexture.setImage(tileTexture);
-    }
-
-    private void setStatusViewSide(TileModel selectedTile) {
-        int tileX = selectedTile.getPosition().getX();
-        int mapWidth = gameState.getMapWidthTiles();
-        int leftSwapTrigger = mapWidth / 4;
-        int rightSwapTrigger = mapWidth - (mapWidth / 4);
-        double anchorPosition = 16;
-
-        if (tileX < leftSwapTrigger) {
-            AnchorPane.setRightAnchor(this.statusViewVBox, anchorPosition);
-            AnchorPane.setLeftAnchor(this.statusViewVBox, null);
-        } else if (tileX > rightSwapTrigger) {
-            AnchorPane.setLeftAnchor(this.statusViewVBox, anchorPosition);
-            AnchorPane.setRightAnchor(this.statusViewVBox, null);
-        }
-    }
-
     private void hideUnitStatusView() {
         this.statusViewVBox.getChildren().removeAll(this.currentUnitHBox, this.infoViewSeperator);
-    }
-
-    private void showUnitStatusView(UnitModel selectedUnitModel) {
-        LOGGER.info("Showing unit status view for unit {}", selectedUnitModel.modelId);
-        this.currentUnitTexture.setImage(Context.getUnitRepository().getUnitView(selectedUnitModel).getTexture());
-        this.currentUnitType.setText(selectedUnitModel.getUnitType());
-        this.currentUnitHealth.setText(
-                selectedUnitModel.getCurrentHealth() + "/" + selectedUnitModel.getMaxHealth() + " ♥");
-        this.statusViewVBox.getChildren().addAll(this.currentUnitHBox, this.infoViewSeperator);
-    }
-
-    private void hideOverlay() {
-        this.overlayPane.setVisible(false);
-        this.overlayPane.setDisable(true);
     }
 
     private void addTilesToGrid() {
@@ -225,11 +190,22 @@ public class MapViewController {
         this.overlayPane.setDisable(false);
     }
 
-    private void addTileToGrid(Pair<TileModel, TileView> tile) {
-        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
-        LOGGER.info("Tile position: {}", tile.getKey().getPosition());
-        Position position = tile.getKey().getPosition();
-        gameGrid.add(tile.getValue(), position.getX(), position.getY());
+    private void showTileStatusView(TileModel selectedTile) {
+        setStatusViewSide(selectedTile);
+        this.statusViewOverlay.setVisible(true);
+        this.currentTileType.setText(selectedTile.getTileType().replace("_", " "));
+        this.currentTileDef.setText("Def: " + selectedTile.getTerrainCover() / 10 + "/5");
+        Image tileTexture = Context.getTileRepository().getTileView(selectedTile.getPosition()).getTexture();
+        this.currentTileTexture.setImage(tileTexture);
+    }
+
+    private void showUnitStatusView(UnitModel selectedUnitModel) {
+        LOGGER.info("Showing unit status view for unit {}", selectedUnitModel.modelId);
+        this.currentUnitTexture.setImage(Context.getUnitRepository().getUnitView(selectedUnitModel).getTexture());
+        this.currentUnitType.setText(selectedUnitModel.getUnitType().replace("_", " "));
+        this.currentUnitHealth.setText(
+                selectedUnitModel.getCurrentHealth() + "/" + selectedUnitModel.getMaxHealth() + " ♥");
+        this.statusViewVBox.getChildren().addAll(this.currentUnitHBox, this.infoViewSeperator);
     }
 
     private void showDayChangeInfo(Number day) {
@@ -246,9 +222,38 @@ public class MapViewController {
         thread.start();
     }
 
+    private void setStatusViewSide(TileModel selectedTile) {
+        int tileX = selectedTile.getPosition().getX();
+        int mapWidth = gameState.getMapWidthTiles();
+        int leftSwapTrigger = mapWidth / 4;
+        int rightSwapTrigger = mapWidth - (mapWidth / 4);
+        double anchorPosition = 16;
+
+        if (tileX < leftSwapTrigger) {
+            AnchorPane.setRightAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setLeftAnchor(this.statusViewVBox, null);
+        } else if (tileX > rightSwapTrigger) {
+            AnchorPane.setLeftAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setRightAnchor(this.statusViewVBox, null);
+        }
+    }
+
+    private void addTileToGrid(Pair<TileModel, TileView> tile) {
+        LOGGER.info("Pair: {} - Model: {} - View: {}", tile, tile.getKey(), tile.getValue());
+        LOGGER.info("Tile position: {}", tile.getKey().getPosition());
+        Position position = tile.getKey().getPosition();
+        gameGrid.add(tile.getValue(), position.getX(), position.getY());
+    }
+
     private void addOverlayButtons() {
         ObservableList<Node> overlayChildren = this.overlayBox.getChildren();
-        UnitModel selectedUnit = gameState.getSelectedUnit().orElseThrow();
+        UnitModel selectedUnit;
+        try {
+            selectedUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not add overlay buttons");
+            return;
+        }
 
         overlayChildren.remove(overlayMoveButton);
         overlayChildren.remove(overlayMergeButton);
@@ -279,9 +284,15 @@ public class MapViewController {
     }
 
     @FXML
-    private void enterMoveMode(ActionEvent actionEvent) {
-        unitMovementController.moveUnit(gameState.selectedUnitProperty().get().orElseThrow(),
-                                        gameState.selectedTileProperty().get());
+    private void moveUnit(ActionEvent actionEvent) {
+        UnitModel selectedUnit;
+        try {
+            selectedUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not move unit");
+            return;
+        }
+        unitMovementController.moveUnit(selectedUnit, gameState.getSelectedTile());
         this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 
@@ -297,9 +308,15 @@ public class MapViewController {
     }
 
     @FXML
-    private void enterMergeMode(ActionEvent actionEvent) {
-        unitMovementController.mergeUnit(gameState.selectedUnitProperty().get().orElseThrow(),
-                                         gameState.selectedTileProperty().get());
+    private void mergeUnits(ActionEvent actionEvent) {
+        UnitModel selectedUnit;
+        try {
+            selectedUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not merge units");
+            return;
+        }
+        unitMovementController.mergeUnit(selectedUnit, gameState.getSelectedTile());
         this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 }

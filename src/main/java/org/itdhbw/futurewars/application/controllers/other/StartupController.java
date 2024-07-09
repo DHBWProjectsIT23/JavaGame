@@ -14,6 +14,7 @@ import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,6 +105,15 @@ public class StartupController {
             }
         } catch (IOException e) {
             ErrorHandler.addException(e, "Failed to initialize user directories");
+        }
+
+        File userProperties = new File(FileHelper.USER_DIR + FileHelper.OTHER_TEXTURE_DIR + FileHelper.PROPERTIES_FILE);
+        if (!userProperties.exists()) {
+            try {
+                userProperties.createNewFile();
+            } catch (IOException e) {
+                ErrorHandler.addException(e, "Failed to create user properties file");
+            }
         }
     }
 

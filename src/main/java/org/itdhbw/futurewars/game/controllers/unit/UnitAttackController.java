@@ -3,6 +3,8 @@ package org.itdhbw.futurewars.game.controllers.unit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
@@ -46,10 +48,14 @@ public class UnitAttackController {
 
     public void attack(UnitModel attackedUnit) {
         // Throw properly
-        UnitModel attackingUnit = gameState.getSelectedUnit().orElseThrow();
-        if (attackingUnit == null) {
-            LOGGER.error("No unit selected for attack");
+        UnitModel attackingUnit;
+        try {
+            attackingUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, cannot attack");
+            return;
         }
+
         if (attackingUnit.getTeam() != gameState.getCurrentPlayer()) {
             LOGGER.error("Unit does not belong to current team");
         }
@@ -68,7 +74,7 @@ public class UnitAttackController {
             LOGGER.error("Unit cannot attack this target type");
         }
 
-        attackingUnit.setHasMoved(true);
+        attackingUnit.setHasMadeAnAction(true);
     }
 
 }

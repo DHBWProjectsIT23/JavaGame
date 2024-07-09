@@ -16,6 +16,7 @@ public class TileModel {
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty partOfPath = new SimpleBooleanProperty(false);
     private final BooleanProperty partOfPossiblePath = new SimpleBooleanProperty(false);
+    private final BooleanProperty possibleToAttack = new SimpleBooleanProperty(false);
     private final BooleanProperty possibleToMerge = new SimpleBooleanProperty(false);
     private final String tileType;
     private final int terrainCover;
@@ -83,6 +84,10 @@ public class TileModel {
 
     public BooleanProperty possibleToMergeProperty() {
         return possibleToMerge;
+    }
+
+    public BooleanProperty possibleToAttackProperty() {
+        return possibleToAttack;
     }
 
     public boolean getPartOfPath() {

@@ -6,6 +6,8 @@ import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.ActionModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.AttackModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MouseEventHandler;
@@ -62,7 +64,7 @@ public class TileEventController {
     }
 
     private void highlightMoveTiles() {
-        TileModel startTile = gameState.selectedTileProperty().get();
+        TileModel startTile = gameState.getSelectedTile();
 
         Task<Set<TileModel>> task = new Task<>() {
             @Override
@@ -85,10 +87,21 @@ public class TileEventController {
     }
 
     private void highlightPossibleMergeTiles() {
-        TileModel startTile = gameState.selectedTileProperty().get();
-        //Throw properly
-        UnitModel mergingUnit = gameState.selectedUnitProperty().get().orElseThrow();
+        TileModel startTile = gameState.getSelectedTile();
+        UnitModel mergingUnit;
+        try {
+            mergingUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not calculate mergeable units");
+            return;
+        }
 
+        Task<Set<TileModel>> task = getMergeableTilesTask(startTile, mergingUnit);
+
+        new Thread(task).start();
+    }
+
+    private Task<Set<TileModel>> getMergeableTilesTask(TileModel startTile, UnitModel mergingUnit) {
         Task<Set<TileModel>> task = new Task<>() {
             @Override
             protected Set<TileModel> call() {
@@ -104,15 +117,26 @@ public class TileEventController {
                 }
             });
         });
+        return task;
+    }
+
+    private void highlightPossibleAttackTiles() {
+        TileModel startTile = gameState.getSelectedTile();
+        //Throw properly
+        UnitModel attackingUnit;
+        try {
+            attackingUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not calculate attackable units");
+            return;
+        }
+
+        Task<Set<TileModel>> task = getAttackableTilesTask(startTile, attackingUnit);
 
         new Thread(task).start();
     }
 
-    private void highlightPossibleAttackTiles() {
-        TileModel startTile = gameState.selectedTileProperty().get();
-        //Throw properly
-        UnitModel attackingUnit = gameState.selectedUnitProperty().get().orElse(null);
-
+    private Task<Set<TileModel>> getAttackableTilesTask(TileModel startTile, UnitModel attackingUnit) {
         Task<Set<TileModel>> task = new Task<>() {
             @Override
             protected Set<TileModel> call() {
@@ -123,19 +147,18 @@ public class TileEventController {
             Set<TileModel> possibleTiles = task.getValue();
             possibleTiles.forEach(tile -> {
                 if (tile != startTile) {
-                    tile.partOfPossiblePathProperty().set(true);
+                    tile.possibleToAttackProperty().set(true);
                     highlightedAttackTiles.add(tile);
                 }
             });
         });
-
-        new Thread(task).start();
+        return task;
     }
 
     private void unHiglightTiles() {
         highlightedMoveTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
 
-        highlightedAttackTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+        highlightedAttackTiles.forEach(tileModel -> tileModel.possibleToAttackProperty().set(false));
 
         highlightedMergeTiles.forEach(tileModel -> tileModel.possibleToMergeProperty().set(false));
 

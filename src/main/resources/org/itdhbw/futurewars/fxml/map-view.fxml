@@ -19,7 +19,6 @@
                 <VBox>
                     <Label fx:id="currentTileType" styleClass="map-info-label" text="Tile Type"/>
                     <Label fx:id="currentTileDef" styleClass="map-info-label" text="Def: 0"/>
-                    <Label fx:id="currentTileAtk" styleClass="map-info-label" text="Atk: 0"/>
                 </VBox>
             </HBox>
             <Pane fx:id="infoViewSeperator" prefHeight="10.0"/>
@@ -40,13 +39,16 @@
               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0"/>
         <VBox fx:id="overlayBox" layoutX="236.0" layoutY="90.0" spacing="5.0" styleClass="player-action-box">
-            <Button fx:id="overlayMoveButton" mnemonicParsing="false" onAction="#enterMoveMode" text="Move"
-                    VBox.vgrow="ALWAYS"/>
-            <Button fx:id="overlayMergeButton" mnemonicParsing="false" onAction="#enterMergeMode" text="Merge"
-                    VBox.vgrow="ALWAYS"/>
-            <Button fx:id="overlayAttackButton" mnemonicParsing="false" onAction="#enterAttackMode" text="Attack"/>
-            <Button fx:id="overlayInfoButton" mnemonicParsing="false" onAction="#enterAttackMode" text="Info"/>
-            <Button fx:id="overlayCloseButton" mnemonicParsing="false" onAction="#closeOverlay" text="Cancel"/>
+            <Button fx:id="overlayMoveButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onAction="#moveUnit" text="Move" VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayMergeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onAction="#mergeUnits" text="Merge" VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayAttackButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onAction="#enterAttackMode" text="Attack" VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayInfoButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onAction="#enterAttackMode" text="Info" VBox.vgrow="ALWAYS"/>
+            <Button fx:id="overlayCloseButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onAction="#closeOverlay" text="Cancel" VBox.vgrow="ALWAYS"/>
         </VBox>
     </AnchorPane>
     <StackPane fx:id="infoOverlay" visible="false">

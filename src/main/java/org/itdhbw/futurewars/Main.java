@@ -28,6 +28,7 @@ public class Main extends Application {
         StartupController.initializeStage(stage);
         ErrorHandler.showErrorPopup();
 
+
         LOGGER.info("Initialization complete!");
         LOGGER.info("Loaded a total of:");
         LOGGER.info("\t {} tiles", Context.getTileRepository().getTileCount());

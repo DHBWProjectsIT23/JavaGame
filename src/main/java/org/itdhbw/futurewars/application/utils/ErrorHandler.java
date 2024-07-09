@@ -29,6 +29,11 @@ public class ErrorHandler {
         errorCount.set(EXCEPTIONS.size());
     }
 
+    public static void addVerboseException(Exception e, String message) {
+        addException(e, message);
+        showErrorPopup();
+    }
+
     public static void logExceptions() {
         for (Map.Entry<Exception, String> e : EXCEPTIONS.entrySet()) {
             LOGGER.error("{}: {}", e.getValue(), e.getKey().getMessage());

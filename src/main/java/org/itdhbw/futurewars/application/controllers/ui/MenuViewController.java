@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -37,9 +38,11 @@ public class MenuViewController {
         mapButtonContainer.setVisible(false);
         Set<String> maps = Context.getMapRepository().getMapNames();
         for (String map : maps) {
-            Button button = new Button(map);
+            Button button = new Button(map.split("\\.")[0].replace("_", " "));
             button.setOnAction(this::startGame);
             button.setUserData(map);
+            button.setMaxWidth(Double.MAX_VALUE);
+            VBox.setVgrow(button, Priority.ALWAYS);
             mapButtonContainer.getChildren().add(button);
         }
         try {

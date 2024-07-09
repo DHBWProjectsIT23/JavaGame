@@ -5,9 +5,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
@@ -25,11 +25,8 @@ public class GameState {
     private final IntegerProperty mapWidthTiles = new SimpleIntegerProperty();
     private final IntegerProperty tileSize = new SimpleIntegerProperty();
     private final IntegerProperty currentPlayer = new SimpleIntegerProperty(1);
-
-
     private final IntegerProperty currentDay = new SimpleIntegerProperty(1);
     private Scene previousScene;
-    private Stage primaryStage;
 
     public GameState() {
         currentPlayer.addListener((observable, oldValue, newValue) -> {
@@ -40,20 +37,8 @@ public class GameState {
         });
     }
 
-    public int getCurrentDay() {
-        return currentDay.get();
-    }
-
     public IntegerProperty currentDayProperty() {
         return currentDay;
-    }
-
-    private Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    private void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
     }
 
     public int getCurrentPlayer() {
@@ -61,11 +46,10 @@ public class GameState {
     }
 
     public void endTurn() {
-        Context.getUnitRepository().getActiveUnits().forEach(unit -> unit.setHasMoved(false));
+        Context.getUnitRepository().getActiveUnits().forEach(unit -> unit.setHasMadeAnAction(false));
         currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
     }
 
-    //!TODO: Custom exception
     public Scene getPreviousScene() throws IllegalStateException {
         if (previousScene == null) {
             throw new IllegalStateException("No previous scene set");
@@ -92,6 +76,22 @@ public class GameState {
 
     public void setMapHeight(int mapHeight) {
         this.mapHeight.set(mapHeight);
+    }
+
+    public void resetGame() {
+        this.selectedTile.set(null);
+        this.selectedUnit.set(Optional.empty());
+        this.hoveredTile.set(null);
+        this.activeMode.set(ActiveMode.REGULAR_MODE);
+        this.currentPlayer.set(1);
+        this.currentDay.set(1);
+    }
+
+    public UnitModel getSelectedUnit() throws NoUnitSelectedException {
+        if (selectedUnit.get().isEmpty()) {
+            throw new NoUnitSelectedException();
+        }
+        return selectedUnit.get().get();
     }
 
     public void setTileSize(int tileSize) {
@@ -134,19 +134,16 @@ public class GameState {
         return tileSize;
     }
 
-    public Optional<UnitModel> getSelectedUnit() {
-        //!TODO: Dont return null
-        return selectedUnit.get();
+    public void selectUnit(UnitModel unit) {
+        if (unit == null) {
+            throw new IllegalArgumentException("Unit cannot be null");
+        }
+        selectedUnit.set(Optional.of(unit));
     }
 
-    public void selectUnit(Optional<UnitModel> unit) {
-        selectedUnit.set(unit);
+    public void deselectUnit() {
+        selectedUnit.set(Optional.empty());
     }
-
-    public ObjectProperty<Optional<UnitModel>> selectedUnitProperty() {
-        return selectedUnit;
-    }
-
 
     public ObjectProperty<TileModel> selectedTileProperty() {
         return this.selectedTile;
@@ -182,5 +179,9 @@ public class GameState {
 
     public IntegerProperty currentPlayerProperty() {
         return currentPlayer;
+    }
+
+    public TileModel getSelectedTile() {
+        return selectedTile.get();
     }
 }

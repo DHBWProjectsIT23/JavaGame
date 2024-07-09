@@ -8,16 +8,15 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.exceptions.FileDoesNotExistException;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -30,17 +29,29 @@ public class FileHelper {
     public static final String MAP_DIR = "maps/";
     public static final String UNIT_DIR = "units/";
     public static final String TILE_DIR = "tiles/";
-    public static final String UNIT_TEXTURE_DIR = "textures/units/";
-    public static final String TILE_TEXTURE_DIR = "textures/tiles/";
     public static final String OTHER_TEXTURE_DIR = "textures/other/";
     public static final String MAP_FILE_ENDING = ".fwm";
     public static final String TILE_FILE_ENDING = ".fwt";
     public static final String UNIT_FILE_ENDING = ".fwu";
-
-    public static final List<String> SUB_DIRS =
-            Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, UNIT_TEXTURE_DIR, TILE_TEXTURE_DIR, OTHER_TEXTURE_DIR);
+    public static final List<String> SUB_DIRS = Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, OTHER_TEXTURE_DIR);
+    public static final String PROPERTIES_FILE = "textures.properties";
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
+
+    public static Image getMiscTexture(MiscTextures texture) throws FailedToLoadTextureException {
+        Properties userTextures = loadTextureProperties(USER_DIR + OTHER_TEXTURE_DIR);
+        Properties internalTextures = loadTextureProperties(INTERNAL_DIR + OTHER_TEXTURE_DIR);
+
+        if (userTextures.containsKey(texture.toString())) {
+            String textureFile = userTextures.get(texture.toString()).toString();
+            return getUserTexture("other/" + textureFile);
+        } else if (internalTextures.containsKey(texture.toString())) {
+            String textureFile = internalTextures.get(texture.toString()).toString();
+            return getInternalTexture("other/" + textureFile);
+        } else {
+            throw new FailedToLoadTextureException(texture.toString());
+        }
+    }
 
     static {
         SHORTCUTS.put("$USER_DIR", USER_DIR_SHORT);
@@ -58,6 +69,18 @@ public class FileHelper {
             throw new FailedToLoadTextureException(path);
         }
         return texture;
+    }
+
+    private static Properties loadTextureProperties(String dir) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(dir + "textures.properties"))) {
+            Properties properties = new Properties();
+            properties.load(reader);
+            return properties;
+        } catch (IOException e) {
+            ErrorHandler.addException(e, "Failed to load texture properties");
+            return new Properties();
+        }
+
     }
 
     public static URI getFxmlFile(String path) throws FailedToLoadFileException {
@@ -160,4 +183,18 @@ public class FileHelper {
     private static String stripFileExtension(String filename) {
         return filename.substring(0, filename.lastIndexOf('.'));
     }
+
+    public static Image getUserTexture(String path) throws FailedToLoadTextureException {
+        Image texture = new Image("file:" + USER_DIR + "textures/" + path);
+        if (texture.isError()) {
+            LOGGER.error("Error loading user texture: {}", texture.getException().getMessage());
+            throw new FailedToLoadTextureException(path);
+        }
+        return texture;
+    }
+
+    public enum MiscTextures {
+        FALLBACK, HIGHLIGHTED, SELECTED, ATTACKABLE, HOVERED, HOVERED_OCCUPIED
+    }
+
 }
