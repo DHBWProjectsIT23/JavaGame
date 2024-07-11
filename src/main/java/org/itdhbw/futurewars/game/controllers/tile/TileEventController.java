@@ -12,6 +12,7 @@ import org.itdhbw.futurewars.game.controllers.tile.mouse_events.ActionModeHandle
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.AttackModeHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.MouseEventHandler;
 import org.itdhbw.futurewars.game.controllers.tile.mouse_events.RegularModeHandler;
+import org.itdhbw.futurewars.game.controllers.unit.UnitAttackController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
@@ -47,7 +48,7 @@ public class TileEventController {
         this.mouseEventHandlers.put(ActiveMode.REGULAR_MODE, new RegularModeHandler(gameState));
         this.mouseEventHandlers.put(ActiveMode.ACTION_MODE, new ActionModeHandler(gameState, pathfinder));
         this.mouseEventHandlers.put(ActiveMode.ATTACK_MODE, new AttackModeHandler(gameState, unitMovementController,
-                                                                                  Context.getUnitAttackController()));
+                                                                                  new UnitAttackController()));
 
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Switching to mode {}", newValue);

@@ -32,8 +32,9 @@ public class MapLoader implements LoaderFactory {
         this.tileRepository = Context.getTileRepository();
         this.mapRepository = Context.getMapRepository();
         this.tileCreationController = Context.getTileCreationController();
-        this.unitCreationController = Context.getUnitCreationController();
         this.gameState = Context.getGameState();
+
+        this.unitCreationController = new UnitCreationController();
     }
 
     public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {

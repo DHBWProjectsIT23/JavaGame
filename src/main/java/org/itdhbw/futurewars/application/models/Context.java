@@ -8,11 +8,9 @@ import org.itdhbw.futurewars.game.controllers.tile.TileEventController;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileBuilder;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileCreationController;
-import org.itdhbw.futurewars.game.controllers.unit.UnitAttackController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitMovementController;
 import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.controllers.unit.factory.UnitBuilder;
-import org.itdhbw.futurewars.game.controllers.unit.factory.UnitCreationController;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.utils.Pathfinder;
 
@@ -27,8 +25,6 @@ public class Context {
     private static UnitMovementController unitMovementController;
     private static GameState gameState;
     private static Pathfinder pathfinder;
-    private static UnitCreationController unitCreationController;
-    private static UnitAttackController unitAttackController;
     private static OptionsController optionsController;
     private static FileLoader fileLoader;
     private static Stage primaryStage;
@@ -56,10 +52,8 @@ public class Context {
         unitRepository = new UnitRepository();
         unitBuilder = new UnitBuilder();
         gameState = new GameState();
-        unitAttackController = new UnitAttackController();
         pathfinder = new Pathfinder();
         unitMovementController = new UnitMovementController();
-        unitCreationController = new UnitCreationController();
         tileEventController = new TileEventController();
         tileBuilder = new TileBuilder();
         tileCreationController = new TileCreationController();
@@ -70,10 +64,6 @@ public class Context {
 
     public static MapRepository getMapRepository() {
         return mapRepository;
-    }
-
-    public static UnitCreationController getUnitCreationController() {
-        return unitCreationController;
     }
 
     public static Pathfinder getPathfinder() {
@@ -106,10 +96,6 @@ public class Context {
 
     public static UnitRepository getUnitRepository() {
         return unitRepository;
-    }
-
-    public static UnitAttackController getUnitAttackController() {
-        return unitAttackController;
     }
 
     public static Stage getPrimaryStage() {
