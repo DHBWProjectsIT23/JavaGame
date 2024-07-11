@@ -11,8 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ConfirmPopup;
@@ -27,8 +25,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class GameViewController {
-
-    private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
     private final UnitRepository unitRepository;
     @FXML
@@ -74,7 +70,7 @@ public class GameViewController {
             ErrorHandler.addException(e, "Failed to load background image");
         }
 
-        gameState.currentPlayerProperty().addListener((_, _, newValue) -> {
+        gameState.currentPlayerProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals(1)) {
                 setTurnPlayer1();
             } else {
@@ -82,17 +78,16 @@ public class GameViewController {
             }
         });
 
-        gameState.currentDayProperty().addListener((_, _, newValue) -> {
-            currentTurnLabel.setText("Day " + newValue);
-        });
+        gameState.currentDayProperty()
+                 .addListener((observable, oldValue, newValue) -> currentTurnLabel.setText("Day " + newValue));
 
-        unitRepository.team1UnitCountProperty().addListener((_, _, newValue) -> {
+        unitRepository.team1UnitCountProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() <= 0) {
                 showGameOverScreen(2);
             }
         });
 
-        unitRepository.team2UnitCountProperty().addListener((_, _, newValue) -> {
+        unitRepository.team2UnitCountProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() <= 0) {
                 showGameOverScreen(1);
             }

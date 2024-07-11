@@ -34,22 +34,8 @@ public class ErrorHandler {
         showErrorPopup();
     }
 
-    public static void logExceptions() {
-        for (Map.Entry<Exception, String> e : EXCEPTIONS.entrySet()) {
-            LOGGER.error("{}: {}", e.getValue(), e.getKey().getMessage());
-        }
-    }
-
-    public static Pair<Exception, String> getLastError() {
-        return lastException;
-    }
-
     public static Map<Exception, String> getExceptions() {
         return EXCEPTIONS;
-    }
-
-    public static boolean hasErrors() {
-        return !EXCEPTIONS.isEmpty();
     }
 
     public static void showErrorPopup() {

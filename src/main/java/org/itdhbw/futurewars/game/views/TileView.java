@@ -94,7 +94,7 @@ public class TileView extends StackPane {
 
     private void addListeners() {
         LOGGER.info("Adding hovered listener to tile view {}...", this.viewId);
-        this.hovered.addListener((_, _, newValue) -> {
+        this.hovered.addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
                 addHoverOverlay();
             } else {
@@ -103,7 +103,7 @@ public class TileView extends StackPane {
         });
 
         LOGGER.info("Adding selected listener to tile view {}...", this.viewId);
-        selected.addListener((_, _, newValue) -> {
+        selected.addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
                 addSelectedOverlay();
             } else {
@@ -111,7 +111,7 @@ public class TileView extends StackPane {
             }
         });
 
-        tileModel.partOfPathProperty().addListener((_, _, newValue) -> {
+        tileModel.partOfPathProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
                 this.getChildren().add(highlightedOverlay);
             } else {
@@ -119,18 +119,16 @@ public class TileView extends StackPane {
             }
         });
 
-        tileModel.possibleToMergeProperty().addListener((_, _, newValue) -> {
+        tileModel.possibleToMergeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Possible merge for {}: {}", this.viewId, newValue);
             this.setPossibleMerge(Boolean.TRUE.equals(newValue));
         });
 
-        tileModel.partOfPossiblePathProperty().addListener((_, _, newValue) -> {
-            this.setPossibleMove(Boolean.TRUE.equals(newValue));
-        });
+        tileModel.partOfPossiblePathProperty()
+                 .addListener((observable, oldValue, newValue) -> this.setPossibleMove(Boolean.TRUE.equals(newValue)));
 
-        tileModel.possibleToAttackProperty().addListener((_, _, newValue) -> {
-            this.setPossibleAttack(Boolean.TRUE.equals(newValue));
-        });
+        tileModel.possibleToAttackProperty().addListener(
+                (observable, oldValue, newValue) -> this.setPossibleAttack(Boolean.TRUE.equals(newValue)));
     }
 
     public TileModel getTileModel() {

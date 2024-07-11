@@ -13,6 +13,7 @@ import org.itdhbw.futurewars.game.models.tile.MovementType;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,6 @@ public class TileLoader implements LoaderFactory {
         this.tileRepository = Context.getTileRepository();
     }
 
-    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getInternalTilePath, FileHelper.TILE_FILE_ENDING);
-    }
-
-    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getUserTilePath, FileHelper.TILE_FILE_ENDING);
-    }
-
     public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
         try {
             texturePaths = new ArrayList<>();
@@ -50,12 +43,7 @@ public class TileLoader implements LoaderFactory {
             // skip line
             reader.readLine();
 
-            String movementTypeString = reader.readLine();
-            try {
-                movementType = MovementType.valueOf(movementTypeString);
-            } catch (IllegalArgumentException e) {
-                ErrorHandler.addException(e, "Failed to retrieve movement type");
-            }
+            readMovementType(reader);
 
             // skip line
             reader.readLine();
@@ -75,6 +63,23 @@ public class TileLoader implements LoaderFactory {
             ErrorHandler.addException(e, "Failed to load tile");
         }
         createTileFactory();
+    }
+
+    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
+        return FileHelper.retrieveFiles(FileHelper::getUserTilePath, FileHelper.TILE_FILE_ENDING);
+    }
+
+    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
+        return FileHelper.retrieveFiles(FileHelper::getInternalTilePath, FileHelper.TILE_FILE_ENDING);
+    }
+
+    private void readMovementType(BufferedReader reader) throws IOException {
+        String movementTypeString = reader.readLine();
+        try {
+            movementType = MovementType.valueOf(movementTypeString);
+        } catch (IllegalArgumentException e) {
+            ErrorHandler.addException(e, "Failed to retrieve movement type");
+        }
     }
 
     private void createTileFactory() {

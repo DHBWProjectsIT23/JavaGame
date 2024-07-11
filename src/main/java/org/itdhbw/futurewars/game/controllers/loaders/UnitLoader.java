@@ -94,13 +94,8 @@ public class UnitLoader implements LoaderFactory {
 
             // on eighth line - skip to ninth
             reader.readLine();
-            //!TODO: Move this to a separate method
-            try {
-                texture1 = FileHelper.getTexture(file, reader.readLine());
-                texture2 = FileHelper.getTexture(file, reader.readLine());
-            } catch (CustomException e) {
-                ErrorHandler.addException(e, "failed to load unit textures");
-            }
+
+            readTextures(reader, file);
 
             // on eleventh line - skip to twelfth
             reader.readLine();
@@ -112,12 +107,7 @@ public class UnitLoader implements LoaderFactory {
             lowAirPiercing = Double.parseDouble(twelfthLine[3]);
 
             // on thirteenth line - skip to fourteenth
-            reader.readLine();
-            try {
-                targetType = TargetType.valueOf(reader.readLine());
-            } catch (IllegalArgumentException e) {
-                ErrorHandler.addException(e, "failed to load target type");
-            }
+            readTargetType(reader);
 
             // on fifteenth line - skip to sixteenth
             reader.readLine();
@@ -132,5 +122,23 @@ public class UnitLoader implements LoaderFactory {
         }
 
         createUnitFactory();
+    }
+
+    private void readTextures(BufferedReader reader, File file) throws IOException {
+        try {
+            texture1 = FileHelper.getTexture(file, reader.readLine());
+            texture2 = FileHelper.getTexture(file, reader.readLine());
+        } catch (CustomException e) {
+            ErrorHandler.addException(e, "failed to load unit textures");
+        }
+    }
+
+    private void readTargetType(BufferedReader reader) throws IOException {
+        reader.readLine();
+        try {
+            targetType = TargetType.valueOf(reader.readLine());
+        } catch (IllegalArgumentException e) {
+            ErrorHandler.addException(e, "failed to load target type");
+        }
     }
 }

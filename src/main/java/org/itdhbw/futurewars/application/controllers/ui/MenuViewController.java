@@ -27,10 +27,7 @@ import java.util.Set;
 public class MenuViewController {
 
     private static final Logger LOGGER = LogManager.getLogger(MenuViewController.class);
-    @FXML
-    private Button startButton;
-    @FXML
-    private Button mapEditorButton;
+
     @FXML
     private VBox mapButtonContainer;
     @FXML
@@ -87,25 +84,17 @@ public class MenuViewController {
             this.loadingText.setVisible(false);
         }
         });
-
-        //        try {
-        //            thread.join();
-        //        } catch (InterruptedException e) {
-        //            Thread.currentThread().interrupt();
-        //            ErrorHandler.addVerboseException(e, "Loading Map");
-        //        }
-
     }
 
     @FXML
-    private void showMapSelection(ActionEvent actionEvent) {
+    private void showMapSelection(ActionEvent ignored) {
         LOGGER.info("Showing map selection...");
         LOGGER.info("Button amount: {}", mapButtonContainer.getChildren().size());
         mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
     }
 
     @FXML
-    private void startMapEditor(ActionEvent actionEvent) {
+    private void startMapEditor(ActionEvent ignored) {
         try {
             SceneController.loadScene("map-editor-view.fxml");
         } catch (FailedToLoadSceneException e) {
@@ -114,7 +103,7 @@ public class MenuViewController {
     }
 
     @FXML
-    private void openOptions(ActionEvent actionEvent) {
+    private void openOptions(ActionEvent ignored) {
         try {
             SceneController.loadScene("options-view.fxml");
         } catch (FailedToLoadSceneException e) {
@@ -123,12 +112,12 @@ public class MenuViewController {
     }
 
     @FXML
-    private void exitApplication(ActionEvent actionEvent) {
+    private void exitApplication(ActionEvent ignored) {
         ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to exit?", "", Platform::exit);
     }
 
     @FXML
-    private void openErrorsView(ActionEvent actionEvent) {
+    private void openErrorsView(ActionEvent ignored) {
         try {
             SceneController.loadScene("error-view.fxml");
         } catch (FailedToLoadSceneException e) {

@@ -20,7 +20,6 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-//!TODO: Review all file methods etc
 public class FileHelper {
     public static final String INTERNAL_DIR_SHORT = "src/main/resources/org/itdhbw/futurewars";
     public static final String INTERNAL_DIR = INTERNAL_DIR_SHORT + "/";
@@ -30,6 +29,7 @@ public class FileHelper {
     public static final String UNIT_DIR = "units/";
     public static final String TILE_DIR = "tiles/";
     public static final String OTHER_TEXTURE_DIR = "textures/other/";
+    public static final String TEXTURES_DIR = "textures/";
     public static final String MAP_FILE_ENDING = ".fwm";
     public static final String TILE_FILE_ENDING = ".fwt";
     public static final String UNIT_FILE_ENDING = ".fwu";
@@ -63,7 +63,7 @@ public class FileHelper {
     }
 
     public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
-        Image texture = new Image("file:" + INTERNAL_DIR + "textures/" + path);
+        Image texture = new Image("file:" + INTERNAL_DIR + TEXTURES_DIR + path);
         if (texture.isError()) {
             LOGGER.error("Error loading internal texture: {}", texture.getException().getMessage());
             throw new FailedToLoadTextureException(path);
@@ -106,7 +106,7 @@ public class FileHelper {
         // texture is at the location of the oject + "textures/" + texture
         Path path = Paths.get(
                 object.getAbsolutePath().substring(0, object.getAbsolutePath().lastIndexOf(File.separator) + 1) +
-                "textures/" + texture);
+                TEXTURES_DIR + texture);
         try {
             return checkIfFileExists(path.toFile());
         } catch (FileDoesNotExistException e) {
@@ -185,7 +185,7 @@ public class FileHelper {
     }
 
     public static Image getUserTexture(String path) throws FailedToLoadTextureException {
-        Image texture = new Image("file:" + USER_DIR + "textures/" + path);
+        Image texture = new Image("file:" + USER_DIR + TEXTURES_DIR + path);
         if (texture.isError()) {
             LOGGER.error("Error loading user texture: {}", texture.getException().getMessage());
             throw new FailedToLoadTextureException(path);

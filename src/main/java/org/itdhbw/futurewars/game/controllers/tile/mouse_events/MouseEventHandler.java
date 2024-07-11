@@ -7,8 +7,4 @@ public interface MouseEventHandler {
     void handleMouseEnter(MouseEvent event, TileView tileView);
 
     void handleMouseClick(MouseEvent event, TileView tileView);
-
-    default void highlightPossibleTiles() {
-
-    }
 }

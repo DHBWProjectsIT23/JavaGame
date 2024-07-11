@@ -2,7 +2,6 @@ package org.itdhbw.futurewars.application.controllers.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
@@ -22,8 +21,7 @@ public class OptionsViewController {
     private static final Logger LOGGER = LogManager.getLogger(OptionsViewController.class);
     private final OptionsController optionsController;
     Stage stage;
-    @FXML
-    private Button backButton;
+
     @FXML
     private MenuButton viewModeButton;
     @FXML
@@ -46,7 +44,7 @@ public class OptionsViewController {
         }
 
         for (MenuItem item : viewModeButton.getItems()) {
-            item.setOnAction(event -> {
+            item.setOnAction(ignored -> {
                 handleViewModeChange(item.getText());
                 viewModeButton.setText(item.getText());
             });
@@ -59,7 +57,7 @@ public class OptionsViewController {
 
 
         this.stage = Context.getPrimaryStage();
-        resolutionButton.setOnShowing(event -> openResolutions());
+        resolutionButton.setOnShowing(ignored -> openResolutions());
         LOGGER.info("Previous scene from OptionsViewController: {}", Context.getGameState().getPreviousRoot());
     }
 
@@ -69,7 +67,7 @@ public class OptionsViewController {
             LOGGER.info("Adding resolution {}", resolution);
             MenuItem item = new MenuItem(resolution);
             resolutionButton.getItems().add(item);
-            item.setOnAction(event -> {
+            item.setOnAction(ignored -> {
                 handleResolutionChange(item.getText());
                 resolutionButton.setText(item.getText());
             });
@@ -81,9 +79,6 @@ public class OptionsViewController {
         switch (viewMode) {
             case "Fullscreen":
                 optionsController.setFullscreen();
-                break;
-            case "Borderless":
-                //setBorderless();
                 break;
             case "Windowed":
                 optionsController.setWindowed();
@@ -103,22 +98,9 @@ public class OptionsViewController {
 
 
     @FXML
-    private void goBack(ActionEvent actionEvent) {
+    private void goBack(ActionEvent ignored) {
         optionsController.saveSettings();
         stage.getScene().setRoot(Context.getGameState().getPreviousRoot());
-    }
-
-    private void setBorderless() {
-        /*stage.initStyle(StageStyle.UNDECORATED);
-        Rectangle2D primaryScreenBounds = javafx.stage.Screen.getPrimary().getBounds();
-        stage.setX(primaryScreenBounds.getMinX());
-        stage.setY(primaryScreenBounds.getMinY());
-        stage.setWidth(primaryScreenBounds.getWidth());
-        stage.setHeight(primaryScreenBounds.getHeight());*/
-    }
-
-    private void setWindowed() {
-        stage.setFullScreen(false);
     }
 
     private void openResolutions() {

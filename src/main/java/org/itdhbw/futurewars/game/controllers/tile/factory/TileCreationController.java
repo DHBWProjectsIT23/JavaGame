@@ -6,7 +6,6 @@ import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.views.TileView;
 
-//!TODO: log
 public class TileCreationController {
     private final TileBuilder tileBuilder;
 

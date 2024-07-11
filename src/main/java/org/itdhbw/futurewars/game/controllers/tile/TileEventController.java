@@ -35,16 +35,17 @@ public class TileEventController {
     private final EnumMap<ActiveMode, MouseEventHandler> mouseEventHandlers;
     private GameState gameState;
     private Pathfinder pathfinder;
-    private UnitMovementController unitMovementController;
+
 
     public TileEventController() {
         this.mouseEventHandlers = new EnumMap<>(ActiveMode.class);
     }
 
     public void initialize() {
+        UnitMovementController unitMovementController;
         this.gameState = Context.getGameState();
         this.pathfinder = Context.getPathfinder();
-        this.unitMovementController = Context.getUnitMovementController();
+        unitMovementController = Context.getUnitMovementController();
         this.mouseEventHandlers.put(ActiveMode.REGULAR_MODE, new RegularModeHandler(gameState));
         this.mouseEventHandlers.put(ActiveMode.ACTION_MODE, new ActionModeHandler(gameState, pathfinder));
         this.mouseEventHandlers.put(ActiveMode.ATTACK_MODE, new AttackModeHandler(gameState, unitMovementController,
@@ -52,14 +53,16 @@ public class TileEventController {
 
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.info("Switching to mode {}", newValue);
-            if (newValue == ActiveMode.ACTION_MODE) {
-
-                this.highlightMoveTiles();
-                this.highlightPossibleMergeTiles();
-            } else if (newValue == ActiveMode.ATTACK_MODE) {
-                this.highlightPossibleAttackTiles();
-            } else {
-                this.unHiglightTiles();
+            switch (newValue) {
+                case ActiveMode.ACTION_MODE:
+                    this.highlightMoveTiles();
+                    this.highlightPossibleMergeTiles();
+                    break;
+                case ActiveMode.ATTACK_MODE:
+                    this.highlightPossibleAttackTiles();
+                    break;
+                default:
+                    this.unHiglightTiles();
             }
         });
     }
@@ -102,6 +105,32 @@ public class TileEventController {
         new Thread(task).start();
     }
 
+    private void highlightPossibleAttackTiles() {
+        TileModel startTile = gameState.getSelectedTile();
+        //Throw properly
+        UnitModel attackingUnit;
+        try {
+            attackingUnit = gameState.getSelectedUnit();
+        } catch (NoUnitSelectedException e) {
+            ErrorHandler.addVerboseException(e, "No unit selected, could not calculate attackable units");
+            return;
+        }
+
+        Task<Set<TileModel>> task = getAttackableTilesTask(startTile, attackingUnit);
+
+        new Thread(task).start();
+    }
+
+    private void unHiglightTiles() {
+        highlightedMoveTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
+
+        highlightedAttackTiles.forEach(tileModel -> tileModel.possibleToAttackProperty().set(false));
+
+        highlightedMergeTiles.forEach(tileModel -> tileModel.possibleToMergeProperty().set(false));
+
+        highlightedMoveTiles.clear();
+    }
+
     private Task<Set<TileModel>> getMergeableTilesTask(TileModel startTile, UnitModel mergingUnit) {
         Task<Set<TileModel>> task = new Task<>() {
             @Override
@@ -121,22 +150,6 @@ public class TileEventController {
         return task;
     }
 
-    private void highlightPossibleAttackTiles() {
-        TileModel startTile = gameState.getSelectedTile();
-        //Throw properly
-        UnitModel attackingUnit;
-        try {
-            attackingUnit = gameState.getSelectedUnit();
-        } catch (NoUnitSelectedException e) {
-            ErrorHandler.addVerboseException(e, "No unit selected, could not calculate attackable units");
-            return;
-        }
-
-        Task<Set<TileModel>> task = getAttackableTilesTask(startTile, attackingUnit);
-
-        new Thread(task).start();
-    }
-
     private Task<Set<TileModel>> getAttackableTilesTask(TileModel startTile, UnitModel attackingUnit) {
         Task<Set<TileModel>> task = new Task<>() {
             @Override
@@ -154,16 +167,6 @@ public class TileEventController {
             });
         });
         return task;
-    }
-
-    private void unHiglightTiles() {
-        highlightedMoveTiles.forEach(tileModel -> tileModel.partOfPossiblePathProperty().set(false));
-
-        highlightedAttackTiles.forEach(tileModel -> tileModel.possibleToAttackProperty().set(false));
-
-        highlightedMergeTiles.forEach(tileModel -> tileModel.possibleToMergeProperty().set(false));
-
-        highlightedMoveTiles.clear();
     }
 
     public void handleMouseEnter(MouseEvent event) {

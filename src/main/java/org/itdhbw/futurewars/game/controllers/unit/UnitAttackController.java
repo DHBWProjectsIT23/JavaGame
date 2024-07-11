@@ -11,11 +11,9 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 public class UnitAttackController {
     private static final Logger LOGGER = LogManager.getLogger(UnitAttackController.class);
-    private final UnitRepository unitRepository;
     private final GameState gameState;
 
     public UnitAttackController() {
-        this.unitRepository = Context.getUnitRepository();
         this.gameState = Context.getGameState();
     }
 
@@ -30,20 +28,6 @@ public class UnitAttackController {
         } else {
             return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
         }
-    }
-
-    private int actualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
-        int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
-        int rawDamage = (int) (baseDamage *
-                               (((double) attackingUnit.getCurrentHealth()) / ((double) attackingUnit.getMaxHealth())));
-        double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover() *
-                                      (((double) attackedUnit.getCurrentHealth()) /
-                                       ((double) attackedUnit.getMaxHealth()))))) / 100.0;
-        return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
-    }
-
-    private int calcDamagePoints(UnitModel attackingUnit, UnitModel attackedUnit) {
-        return (int) Math.round((double) actualPercentDamage(attackingUnit, attackedUnit) / 10);
     }
 
     public void attack(UnitModel attackedUnit) {
@@ -63,10 +47,10 @@ public class UnitAttackController {
         LOGGER.info("Target type: {} - Can Attack: {}", attackedUnit.getTargetType(),
                     attackingUnit.getVulnerableTypes());
         if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {
-            attackedUnit.takeDamage(calcDamagePoints(attackingUnit, attackedUnit));
+            attackedUnit.takeDamage(calculateDamagePoints(attackingUnit, attackedUnit));
             if (attackedUnit.getVulnerableTypes()
                             .contains(attackingUnit.getTargetType())) { // Todo: Nicht machen wenn attackedUnit tot
-                attackingUnit.takeDamage(calcDamagePoints(attackedUnit, attackingUnit));
+                attackingUnit.takeDamage(calculateDamagePoints(attackedUnit, attackingUnit));
             } else {
                 LOGGER.error("Target Unit cannot counterattack");
             }
@@ -75,6 +59,20 @@ public class UnitAttackController {
         }
 
         attackingUnit.setHasMadeAnAction(true);
+    }
+
+    private int calculateDamagePoints(UnitModel attackingUnit, UnitModel attackedUnit) {
+        return (int) Math.round((double) calculateActualPercentDamage(attackingUnit, attackedUnit) / 10);
+    }
+
+    private int calculateActualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
+        int rawDamage = (int) (baseDamage *
+                               (((double) attackingUnit.getCurrentHealth()) / ((double) attackingUnit.getMaxHealth())));
+        double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover() *
+                                      (((double) attackedUnit.getCurrentHealth()) /
+                                       ((double) attackedUnit.getMaxHealth()))))) / 100.0;
+        return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
     }
 
 }

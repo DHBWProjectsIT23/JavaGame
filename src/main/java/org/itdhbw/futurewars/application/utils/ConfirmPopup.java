@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
-import java.util.function.Consumer;
-
 public class ConfirmPopup {
     private ConfirmPopup() {
         // private constructor to prevent instantiation
@@ -29,13 +27,13 @@ public class ConfirmPopup {
             Button cancelButton = new Button("Cancel");
             cancelButton.getStyleClass().add("yellow-background");
 
-            okButton.setOnAction(event -> {
+            okButton.setOnAction(ignored -> {
                 runnable.run();
                 parent.getChildren().remove(mainLayout);
                 adjustBackground(parent, false, 1);
             });
 
-            cancelButton.setOnAction(event -> {
+            cancelButton.setOnAction(ignored -> {
                 parent.getChildren().remove(mainLayout);
                 adjustBackground(parent, false, 1);
             });
@@ -82,37 +80,4 @@ public class ConfirmPopup {
             parent.getChildren().add(mainLayout);
         }
     }
-
-    public static void showWithCallback(Pane parent, String header, String message, Consumer<Boolean> callback) {
-        Platform.runLater(() -> {
-            adjustBackground(parent, true, 0.5);
-            VBox mainLayout = createMainLayout();
-            HBox buttonLayout = createButtonLayout();
-
-            Text headerText = new Text(header);
-            headerText.getStyleClass().add("dialogue-header");
-            Text messageText = new Text(message);
-            messageText.getStyleClass().add("dialogue-message");
-
-            Button okButton = new Button("Confirm");
-            Button cancelButton = new Button("Cancel");
-            cancelButton.getStyleClass().add("yellow-background");
-
-            okButton.setOnAction(event -> {
-                callback.accept(true);
-                parent.getChildren().remove(mainLayout);
-                adjustBackground(parent, false, 1);
-            });
-
-            cancelButton.setOnAction(event -> {
-                callback.accept(false);
-                parent.getChildren().remove(mainLayout);
-                adjustBackground(parent, false, 1);
-            });
-
-            finalizePopup(parent, mainLayout, buttonLayout, headerText, messageText, okButton, cancelButton);
-        });
-    }
-
-
 }

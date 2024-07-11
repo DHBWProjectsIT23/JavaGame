@@ -43,7 +43,7 @@ public class ErrorViewController {
     }
 
     @FXML
-    private void backToPrevious(ActionEvent actionEvent) {
+    private void backToPrevious(ActionEvent ignored) {
         Stage stage = (Stage) errorList.getScene().getWindow();
         stage.getScene().setRoot(Context.getGameState().getPreviousRoot());
     }

@@ -47,7 +47,7 @@ public class UnitBuilder {
 
     private void addListeners(UnitModel unitModel, UnitView unitView) {
         LOGGER.info("Adding listeners to unit {} view", unitModel.modelId);
-        unitModel.currentTileProperty().addListener((_, oldTile, newTile) -> {
+        unitModel.currentTileProperty().addListener((observable, oldTile, newTile) -> {
             if (oldTile != null) {
                 oldTile.removeOccupyingUnit();
                 tileRepository.getTileView(newTile.getPosition()).removeFromStack(unitView);
@@ -58,7 +58,7 @@ public class UnitBuilder {
             }
         });
 
-        unitModel.isDeadProperty().addListener((_, _, isDead) -> {
+        unitModel.isDeadProperty().addListener((observable, oldValue, isDead) -> {
             if (Boolean.TRUE.equals(isDead)) {
                 unitModel.currentTileProperty().get().removeOccupyingUnit();
                 unitView.setVisible(false);

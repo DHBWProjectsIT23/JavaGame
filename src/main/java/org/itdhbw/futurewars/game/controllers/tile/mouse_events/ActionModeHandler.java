@@ -2,8 +2,6 @@ package org.itdhbw.futurewars.game.controllers.tile.mouse_events;
 
 import javafx.concurrent.Task;
 import javafx.scene.input.MouseEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.game_state.ActiveMode;
@@ -20,7 +18,6 @@ import java.util.Set;
 
 public class ActionModeHandler implements MouseEventHandler {
     private static final List<TileModel> highlightedTiles = new ArrayList<>();
-    private static final Logger LOGGER = LogManager.getLogger(ActionModeHandler.class);
     private final GameState gameState;
     private final Pathfinder pathfinder;
 
@@ -93,7 +90,7 @@ public class ActionModeHandler implements MouseEventHandler {
             }
         };
 
-        getAttackableTiles.setOnSucceeded(_ -> {
+        getAttackableTiles.setOnSucceeded(ignored -> {
             Set<TileModel> attackableTiles = getAttackableTiles.getValue();
             // Throw properly
             UnitModel selectedUnit;

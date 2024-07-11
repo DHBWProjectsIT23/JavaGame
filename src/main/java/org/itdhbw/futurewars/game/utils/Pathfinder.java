@@ -36,7 +36,7 @@ public class Pathfinder {
 
             if (current.equals(endTile)) {
                 LOGGER.info("Path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
-                return reconstructPath(cameFrom, current, unit, gScore);
+                return reconstructPath(cameFrom, current, unit);
             }
 
             for (TileModel neighbor : getNeighbors(current)) {
@@ -59,10 +59,9 @@ public class Pathfinder {
         }
         LOGGER.warn("No path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
         return new ArrayList<>();
-        //throw new RuntimeException("No path found");
     }
 
-    private List<TileModel> reconstructPath(Map<TileModel, TileModel> cameFrom, TileModel current, UnitModel unit, Map<TileModel, Integer> gScore) {
+    private List<TileModel> reconstructPath(Map<TileModel, TileModel> cameFrom, TileModel current, UnitModel unit) {
         LOGGER.info("Reconstructing path...");
         List<TileModel> totalPath = new ArrayList<>();
         totalPath.add(current);
@@ -209,11 +208,7 @@ public class Pathfinder {
         // Filter out the tiles that are not occupied
         visited.removeIf(tile -> !tile.isOccupied());
         visited.removeIf(tile -> tile == startTile);
-        visited.removeIf(tile -> {
-            LOGGER.info("Checking if tile {} can be merged with {}", tile.getPosition(), mergingUnit.getPosition());
-            boolean b = !tile.getOccupyingUnit().canMergeWith(mergingUnit);
-            return b;
-        });
+        visited.removeIf(tile -> !tile.getOccupyingUnit().canMergeWith(mergingUnit));
 
         LOGGER.info("Mergeable tiles: {}", visited.size());
         return visited;

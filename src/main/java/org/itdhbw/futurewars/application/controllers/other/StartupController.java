@@ -41,8 +41,6 @@ public class StartupController {
         try {
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(), 12);
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf").toString(), 12);
-            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/BebasNeue-Regular.ttf").toString(), 12);
-            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/coolvetica-rg.otf").toString(), 12);
         } catch (FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load font");
         }
@@ -67,10 +65,10 @@ public class StartupController {
 
     public static void initializeStage(Stage stage) {
         LOGGER.info("Initializing stage...");
-        stage.widthProperty()
-             .addListener((_, _, newValue) -> Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90));
-        stage.heightProperty()
-             .addListener((_, _, newValue) -> Context.getGameState().setMapHeight(newValue.intValue() / 100 * 90));
+        stage.widthProperty().addListener(
+                (observable, oldValue, newValue) -> Context.getGameState().setMapWidth(newValue.intValue() / 100 * 90));
+        stage.heightProperty().addListener((observable, oldValue, newValue) -> Context.getGameState().setMapHeight(
+                newValue.intValue() / 100 * 90));
         Context.setPrimaryStage(stage);
         stage.setTitle("Future Wars");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -112,7 +110,9 @@ public class StartupController {
         File userProperties = new File(FileHelper.USER_DIR + FileHelper.OTHER_TEXTURE_DIR + FileHelper.PROPERTIES_FILE);
         if (!userProperties.exists()) {
             try {
-                userProperties.createNewFile();
+                if (!userProperties.createNewFile()) {
+                    throw new IOException("Failed to create user properties file");
+                }
             } catch (IOException e) {
                 ErrorHandler.addException(e, "Failed to create user properties file");
             }

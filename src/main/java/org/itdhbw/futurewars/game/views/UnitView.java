@@ -36,7 +36,7 @@ public class UnitView extends StackPane {
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-0.5);
 
-        this.unitModel.hasMadeAnActionProperty().addListener((_, _, newValue) -> {
+        this.unitModel.hasMadeAnActionProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
                 this.setOpacity(0.7);
                 this.textureLayer.setEffect(colorAdjust);

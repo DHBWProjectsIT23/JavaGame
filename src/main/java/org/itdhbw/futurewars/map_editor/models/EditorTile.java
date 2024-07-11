@@ -35,13 +35,9 @@ public class EditorTile extends StackPane {
         this.minWidth(32);
 
 
-        this.widthProperty().addListener((observable, oldValue, newValue) -> {
-            this.setHeight(newValue.doubleValue());
-        });
+        this.widthProperty().addListener((observable, oldValue, newValue) -> this.setHeight(newValue.doubleValue()));
 
-        this.heightProperty().addListener((observable, oldValue, newValue) -> {
-            this.setWidth(newValue.doubleValue());
-        });
+        this.heightProperty().addListener((observable, oldValue, newValue) -> this.setWidth(newValue.doubleValue()));
 
 
         imageView.fitWidthProperty().bind(this.prefWidthProperty());

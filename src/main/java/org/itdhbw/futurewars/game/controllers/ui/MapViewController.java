@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.game.controllers.ui;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
@@ -94,7 +95,7 @@ public class MapViewController {
         LOGGER.info("Creating Units...");
 
 
-        this.gameState.activeModeProperty().addListener((_, _, newValue) -> {
+        this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == ActiveMode.OVERLAY_MODE) {
                 this.showOverlay();
             } else {
@@ -106,7 +107,7 @@ public class MapViewController {
             mouseY.set(event.getY() + 10);
         });
 
-        this.gameState.hoveredTileProperty().addListener((_, _, newValue) -> {
+        this.gameState.hoveredTileProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 this.hideTileStatusView();
                 this.showTileStatusView(newValue);
@@ -121,13 +122,10 @@ public class MapViewController {
             }
         });
 
-        this.gameState.currentDayProperty().addListener((_, _, newValue) -> {
-            showDayChangeInfo(newValue);
-        });
+        this.gameState.currentDayProperty()
+                      .addListener((observable, oldValue, newValue) -> showDayChangeInfo(newValue));
 
-        this.infoOverlayText.setOnMouseClicked(event -> {
-            this.infoOverlay.setVisible(false);
-        });
+        this.infoOverlayText.setOnMouseClicked(event -> this.infoOverlay.setVisible(false));
 
     }
 
@@ -209,15 +207,15 @@ public class MapViewController {
     private void showDayChangeInfo(Number day) {
         this.infoOverlayText.setText("Day " + day);
         this.infoOverlay.setVisible(true);
-        Thread thread = new Thread(() -> {
+        Thread.startVirtualThread(() -> {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                ErrorHandler.addVerboseException(e, "Failed properly show Day Info");
+                Thread.currentThread().interrupt();
             }
-            this.infoOverlay.setVisible(false);
+            Platform.runLater(() -> this.infoOverlay.setVisible(false));
         });
-        thread.start();
     }
 
     private void setStatusViewSide(TileModel selectedTile) {

@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class MapLoader implements LoaderFactory {
     private static final Logger LOGGER = LogManager.getLogger(MapLoader.class);
+    private static final String MAP_FORMAT_INVALID = "Invalid map file format";
     private final TileRepository tileRepository;
     private final TileCreationController tileCreationController;
     private final UnitCreationController unitCreationController;
@@ -57,7 +58,7 @@ public class MapLoader implements LoaderFactory {
             LOGGER.info("Loading V3 map");
             String validation = reader.readLine().split(",")[0];
             if (!validation.equals("FUTURE_WARS_MAP_FORMAT_V3")) {
-                throw new InvalidFileFormatException("Invalid map file format");
+                throw new InvalidFileFormatException(MAP_FORMAT_INVALID);
             }
             initializeMap(reader);
             String line;
@@ -83,8 +84,8 @@ public class MapLoader implements LoaderFactory {
             ErrorHandler.addException(e, "Failed to load map file");
             throw new FailedToLoadFileException("Failed to load map file");
         } catch (InvalidFileFormatException e) {
-            ErrorHandler.addException(e, "Invalid map file format");
-            throw new FailedToLoadFileException("Invalid map file format");
+            ErrorHandler.addException(e, MAP_FORMAT_INVALID);
+            throw new FailedToLoadFileException(MAP_FORMAT_INVALID);
         }
     }
 
@@ -96,12 +97,10 @@ public class MapLoader implements LoaderFactory {
         gameState.setMapWidthTiles(width);
         gameState.setMapHeightTiles(height);
 
-        gameState.mapHeightProperty().addListener((observable, oldValue, newValue) -> {
-            resizeTile(gameState.getMapWidth(), newValue.intValue());
-        });
-        gameState.mapWidthProperty().addListener((observable, oldValue, newValue) -> {
-            resizeTile(newValue.intValue(), gameState.getMapHeight());
-        });
+        gameState.mapHeightProperty().addListener(
+                (observable, oldValue, newValue) -> resizeTile(gameState.getMapWidth(), newValue.intValue()));
+        gameState.mapWidthProperty().addListener(
+                (observable, oldValue, newValue) -> resizeTile(newValue.intValue(), gameState.getMapHeight()));
 
         resizeTile(gameState.getMapWidth(), gameState.getMapHeight());
 

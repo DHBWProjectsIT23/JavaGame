@@ -109,7 +109,19 @@ public class MapEditorController {
     private void populateUnitDropdown() {
         String[] unitTypes = Context.getUnitRepository().getUnitTypes().toArray(new String[0]);
         populateDropdown(unitDropdown, unitTypes, this::setActiveEditorBoxUnitType);
-        addMenuItemToDropdown(unitDropdown, "None", _ -> setActiveEditorBoxUnitType(null));
+        addMenuItemToDropdown(unitDropdown, "None", ignored -> setActiveEditorBoxUnitType(null));
+    }
+
+    private <T> void populateDropdown(MenuButton dropdown, T[] values, Consumer<T> action) {
+        dropdown.getItems().clear();
+        for (T value : values) {
+            addMenuItemToDropdown(dropdown, value.toString(), ignored -> action.accept(value));
+        }
+        dropdown.setDisable(true);
+    }
+
+    private void populateTeamDropdown() {
+        populateDropdown(teamDropdown, Team.values(), this::setActiveEditorBoxUnitTeam);
     }
 
     private void populateTextureDropdown(String tileType) {
@@ -119,20 +131,8 @@ public class MapEditorController {
         for (int i = 0; i < textures.size(); i++) {
             int finalI = i;
             addMenuItemToDropdown(textureDropdown, textureNames.get(i),
-                                  _ -> setActiveEditorBoxTexture(textures.get(finalI), finalI));
+                                  ignored -> setActiveEditorBoxTexture(textures.get(finalI), finalI));
         }
-    }
-
-    private void populateTeamDropdown() {
-        populateDropdown(teamDropdown, Team.values(), this::setActiveEditorBoxUnitTeam);
-    }
-
-    private <T> void populateDropdown(MenuButton dropdown, T[] values, Consumer<T> action) {
-        dropdown.getItems().clear();
-        for (T value : values) {
-            addMenuItemToDropdown(dropdown, value.toString(), _ -> action.accept(value));
-        }
-        dropdown.setDisable(true);
     }
 
     private void setActiveEditorBoxTileType(String tileType) {
@@ -208,7 +208,7 @@ public class MapEditorController {
     }
 
     private void setEditorTileClickHandler(EditorTile editorTile) {
-        editorTile.setOnMouseClicked(_ -> {
+        editorTile.setOnMouseClicked(ignored -> {
             LOGGER.info("Editor tile clicked");
             LOGGER.info("Tile Size: {}x{}", editorTile.getWidth(), editorTile.getHeight());
             activeEditorBox.set(editorTile);
@@ -240,9 +240,9 @@ public class MapEditorController {
 
     private EditorTile createEditorTile(int width, int height, String tileType) {
         EditorTile editorTile = new EditorTile(tileType);
-        editorTile.heightProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Height changed from {} to {} - {}", oldValue, newValue, observable);
-        });
+        editorTile.heightProperty().addListener(
+                (observable, oldValue, newValue) -> LOGGER.info("Height changed from {} to {} - {}", oldValue, newValue,
+                                                                observable));
 
         double tileMaxHeight = Context.getPrimaryStage().getHeight() / height / 100 * 80;
         double tileMaxWidth = Context.getPrimaryStage().getWidth() / width / 100 * 80;
@@ -456,8 +456,8 @@ public class MapEditorController {
         } else {
             LOGGER.warn("Couldn't find file");
         }
-        this.editorGrid.setMaxWidth(tileSize * width.get());
-        this.editorGrid.setMaxHeight(tileSize * height.get());
+        this.editorGrid.setMaxWidth(tileSize * (double) width.get());
+        this.editorGrid.setMaxHeight(tileSize * (double) height.get());
     }
 
     private void loadMapFromFile(File file) {
