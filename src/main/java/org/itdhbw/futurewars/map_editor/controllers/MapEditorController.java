@@ -10,14 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ConfirmPopup;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileFactory;
 import org.itdhbw.futurewars.map_editor.models.EditorTile;
 
@@ -64,6 +62,8 @@ public class MapEditorController {
     private MenuButton textureDropdown;
     @FXML
     private MenuButton teamDropdown;
+    @FXML
+    private AnchorPane parentPane;
 
     public MapEditorController() {
         this.tileFactoryMap = Context.getTileBuilder().getTileFactories();
@@ -552,7 +552,12 @@ public class MapEditorController {
 
     @FXML
     private void goBack(ActionEvent actionEvent) {
-        Context.getPrimaryStage().setScene(Context.getGameState().getPreviousScene());
+        ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to leave?",
+                                      "All unsave progress will be lost!", this::returnToPrevious);
+    }
+
+    private void returnToPrevious() {
+        Context.getPrimaryStage().getScene().setRoot(Context.getGameState().getPreviousRoot());
     }
 
     public enum Team {

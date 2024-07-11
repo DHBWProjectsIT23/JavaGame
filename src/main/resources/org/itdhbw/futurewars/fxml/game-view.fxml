@@ -2,9 +2,9 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import java.lang.String?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21"
+<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="parentPane" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.game.controllers.ui.GameViewController">
     <AnchorPane fx:id="backgroundPane" styleClass="dark-blue-bg">
         <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -19,28 +19,25 @@
                     </HBox>
                     <HBox>
                         <HBox styleClass="game-status-box">
-                            <VBox>
-                                <Label fx:id="currentTurnLabel" text="Day 1">
+                            <VBox fx:id="labelBox" prefHeight="33.0" prefWidth="60.0" spacing="10.0">
+                                <Text fx:id="currentTurnLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Day 1">
                                     <styleClass>
                                         <String fx:value="current-turn-label"/>
                                         <String fx:value="game-status-label"/>
+                                        <String fx:value="pixel-font"/>
                                     </styleClass>
-                                    <font>
-                                        <Font size="24.0"/>
-                                    </font>
-                                </Label>
-                                <Label fx:id="currentPlayerLabel" text="Player 1">
+                                </Text>
+                                <Text fx:id="currentPlayerLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
                                     <styleClass>
                                         <String fx:value="current-player-label"/>
                                         <String fx:value="game-status-label"/>
+                                        <String fx:value="pixel-font"/>
                                     </styleClass>
-                                    <font>
-                                        <Font size="24.0"/>
-                                    </font>
-                                </Label>
+                                </Text>
                             </VBox>
                             <Pane prefWidth="50.0"/>
-                            <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#endTurn" text="End Turn"/>
+                            <Button fx:id="endTurnButton" contentDisplay="RIGHT" mnemonicParsing="false"
+                                    onAction="#endTurn" text="End Turn"/>
                         </HBox>
                     </HBox>
                 </VBox>
@@ -48,24 +45,30 @@
         </VBox>
     </AnchorPane>
     <StackPane fx:id="escapeMenu" visible="false">
-        <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Green; -fx-opacity: 0.2;"/>
-            <HBox alignment="CENTER">
-                <children>
-                    <VBox alignment="CENTER">
-                        <VBox alignment="CENTER" spacing="5.0" styleClass="map-selection-box">
-                            <children>
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                        onAction="#openSettings" text="Settings" VBox.vgrow="ALWAYS"/>
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitToMenu"
-                                        text="Quit to Menu" VBox.vgrow="ALWAYS"/>
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                        onAction="#quitToDesktop" text="Quit to Desktop" VBox.vgrow="ALWAYS"/>
-                            </children>
-                        </VBox>
-                    </VBox>
-                </children>
-            </HBox>
-        </children>
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Green; -fx-opacity: 0.2;"/>
+        <HBox alignment="CENTER">
+            <VBox alignment="CENTER">
+                <VBox alignment="CENTER" spacing="5.0" styleClass="map-selection-box">
+                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openSettings"
+                            text="Settings" VBox.vgrow="ALWAYS"/>
+                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitToMenu"
+                            text="Quit to Menu" VBox.vgrow="ALWAYS"/>
+                    <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitToDesktop"
+                            text="Quit to Desktop" VBox.vgrow="ALWAYS"/>
+                </VBox>
+            </VBox>
+        </HBox>
     </StackPane>
+    <VBox fx:id="gameOverBox" alignment="CENTER" visible="false">
+        <Text fx:id="gameOverText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0" text="Player X wins!">
+            <styleClass>
+                <String fx:value="day-info-text"/>
+                <String fx:value="pixel-font"/>
+            </styleClass>
+        </Text>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Button mnemonicParsing="false" onAction="#returnToMenu" styleClass="game-over-buttons"
+                    text="Return to Menu" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
 </StackPane>

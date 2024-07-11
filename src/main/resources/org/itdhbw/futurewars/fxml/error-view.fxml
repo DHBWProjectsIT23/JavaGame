@@ -21,7 +21,7 @@
       </GridPane>
     </ScrollPane>
     <HBox prefHeight="39.0" prefWidth="482.0">
-        <Label text="Errors:" />
+        <Label styleClass="pixel-font" text="Errors:"/>
         <Label fx:id="errorCountLabel" />
       <Button mnemonicParsing="false" onAction="#backToPrevious" text="Back" />
     </HBox>

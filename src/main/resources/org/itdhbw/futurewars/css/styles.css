@@ -9,7 +9,6 @@
 * {
     -fx-background-color: transparent;
     -fx-text-fill: #F4FFFD;
-    -fx-font-family: "Upheaval TT (BRK)";
     -fx-font-size: 14px;
     -fx-fill-height: true;
     -fx-fill-width: true;
@@ -27,14 +26,19 @@
 }
 
 .button {
+    -fx-font-family: "Upheaval TT (BRK)";
     -fx-background-color: #256EFF;
     -fx-text-fill: #F4FFFD;
-    -fx-font-family: "VCR OSD MONO";
     -fx-font-size: 14px;
 }
 
-.button:hover {
+.red-button {
     -fx-background-color: #ED254E;
+}
+
+.button:hover {
+    -fx-text-fill: #000914;
+    -fx-background-color: #F9DC5C;
     -fx-cursor: hand;
 }
 
@@ -43,14 +47,16 @@
     -fx-padding: 20px;
     -fx-border-color: #ED254E;
     -fx-border-radius: 5px;
+    -fx-background-radius: 10px;
     -fx-border-width: 5px;
 }
 
 .map-selection-box {
     -fx-background-color: #011936;
     -fx-padding: 20px;
-    -fx-border-color: #ED254E;
+    -fx-border-color: #F9DC5C;
     -fx-border-radius: 5px;
+    -fx-background-radius: 8px;
     -fx-border-width: 2px;
 }
 
@@ -59,23 +65,59 @@
     -fx-text-fill: #F4FFFD;
     -fx-border-color: #ED254E;
     -fx-border-width: 1px;
+    -fx-background-radius: 5px;
     -fx-border-radius: 5px;
 }
 
 .menu-button {
-    -fx-background-color: #256EFF;
+    -fx-background-color: #F9DC5C;
+}
+
+.menu-button .label {
+    -fx-border-color: #F9DC5C;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 8px;
 }
 
 .menu-button:hover {
     -fx-background-color: #ED254E;
+    -fx-text-fill: #F4FFFD;
     -fx-cursor: hand;
 }
 
 .menu-item {
-    -fx-background-color: #011936;
+    -fx-background-color: #256EFF;
+    -fx-background-radius: 5px;
+    -fx-background-size: 1px;
+    -fx-text-fill: #F4FFFD;
+    -fx-border-width: 2px;
+    -fx-border-color: #F9DC5C;
+}
+
+.menu-item .label {
+    -fx-border-width: 0px;
+    -fx-background-color: #256EFF;
+    -fx-text-fill: #F4FFFD;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+.menu-item .label {
+    -fx-background-color: #256EFF;
+    -fx-background-radius: 5px;
+    -fx-background-size: 1px;
+    -fx-text-fill: #F4FFFD;
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
 }
 
 .menu-item:hover {
+    -fx-background-color: #ED254E;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover .label {
     -fx-background-color: #ED254E;
     -fx-cursor: hand;
 }
@@ -84,7 +126,8 @@
     -fx-background-color: #011936;
     -fx-border-color: #F9DC5C;
     -fx-border-radius: 0px;
-    -fx-border-width: 15px;
+    -fx-background-radius: 0px;
+    -fx-border-width: 5px;
 }
 
 .red-border {
@@ -117,6 +160,10 @@
 
 .arial-font {
     -fx-font-family: "Arial";
+}
+
+.regular-font {
+    -fx-font-family: "Calibri";
 }
 
 .map-info-view {
@@ -168,8 +215,9 @@
 }
 
 .day-info-text {
-    -fx-font-size: 148px;
+    -fx-font-size: 9em;
     -fx-fill: #F9DC5C;
+    -fx-font-family: "Upheaval TT (BRK)";
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 50, 0.5, 0, 0);
 }
 
@@ -194,4 +242,50 @@
 
 .health-text {
     -fx-font-size: 18px;
+}
+
+.pixel-font {
+    -fx-font-family: "Upheaval TT (BRK)";
+}
+
+.dialogue-pane {
+    -fx-background-color: #011936;
+    -fx-border-color: #F9DC5C;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 5px;
+    -fx-padding: 20px;
+}
+
+.dialogue-header {
+    -fx-font-family: "Upheaval TT (BRK)";
+    -fx-fill: #F4FFFD;
+    -fx-font-size: 18px;
+}
+
+.dialogue-message {
+    -fx-font-family: "Upheaval TT (BRK)";
+    -fx-fill: #F4FFFD;
+    -fx-font-size: 14px;
+}
+
+.yellow-background {
+    -fx-background-color: #F9DC5C;
+    -fx-text-fill: #000914;
+}
+
+.current-turn-label {
+}
+
+.current-player-label {
+}
+
+.game-over-buttons {
+    -fx-background-color: #F9DC5C;
+    -fx-text-fill: #000914;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-font-size: 28px;
+
 }

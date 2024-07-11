@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Scene;
+import javafx.scene.Parent;
 import org.apache.logging.log4j.LogManager;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
@@ -26,7 +26,7 @@ public class GameState {
     private final IntegerProperty tileSize = new SimpleIntegerProperty();
     private final IntegerProperty currentPlayer = new SimpleIntegerProperty(1);
     private final IntegerProperty currentDay = new SimpleIntegerProperty(1);
-    private Scene previousScene;
+    private Parent previousRoot;
 
     public GameState() {
         currentPlayer.addListener((observable, oldValue, newValue) -> {
@@ -50,16 +50,16 @@ public class GameState {
         currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
     }
 
-    public Scene getPreviousScene() throws IllegalStateException {
-        if (previousScene == null) {
+    public Parent getPreviousRoot() throws IllegalStateException {
+        if (previousRoot == null) {
             throw new IllegalStateException("No previous scene set");
         }
-        return previousScene;
+        return previousRoot;
     }
 
-    public void setPreviousScene(Scene previousScene) {
-        LOGGER.info("Setting previous scene to {}", previousScene);
-        this.previousScene = previousScene;
+    public void setPreviousRoot(Parent previousRoot) {
+        LOGGER.info("Setting previous scene to {}", previousRoot);
+        this.previousRoot = previousRoot;
     }
 
     public int getMapWidth() {
@@ -85,6 +85,8 @@ public class GameState {
         this.activeMode.set(ActiveMode.REGULAR_MODE);
         this.currentPlayer.set(1);
         this.currentDay.set(1);
+
+        Context.getUnitRepository().reset();
     }
 
     public UnitModel getSelectedUnit() throws NoUnitSelectedException {

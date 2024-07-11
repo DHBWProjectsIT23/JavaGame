@@ -19,13 +19,19 @@ public class SceneController {
 
     public static void loadScene(String sceneName) throws FailedToLoadSceneException {
         Stage stage = Context.getPrimaryStage();
-        Context.getGameState().setPreviousScene(stage.getScene());
+        if (stage.getScene() != null) {
+            Context.getGameState().setPreviousRoot(stage.getScene().getRoot());
+        }
         try {
-            Parent gameView = FXMLLoader.load(FileHelper.getFxmlFile(sceneName).toURL());
-            Scene scene = new Scene(gameView);
-            stage.setScene(scene);
-            scene.getStylesheets().add(FileHelper.getFile("$INTERNAL_DIR/css/styles.css").toString());
-            Context.getOptionsController().loadSettings();
+            Parent view = FXMLLoader.load(FileHelper.getFxmlFile(sceneName).toURL());
+
+            Scene currentScene = stage.getScene();
+            if (currentScene == null) {
+                currentScene = new Scene(view);
+                stage.setScene(currentScene);
+            }
+            currentScene.getStylesheets().add(FileHelper.getFile("$INTERNAL_DIR/css/styles.css").toString());
+            stage.getScene().setRoot(view);
         } catch (IOException | FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load file: " + sceneName);
             throw new FailedToLoadSceneException(sceneName);

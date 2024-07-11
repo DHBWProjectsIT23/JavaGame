@@ -79,23 +79,11 @@ public class OptionsController {
 
     }
 
-    public int getCurrentWidth() {
-        return Integer.parseInt(settings.getProperty(WIDTH));
-    }
-
-    public int getCurrentHeight() {
-        return Integer.parseInt(settings.getProperty(WIDTH));
-    }
-
     private double calculateAspectRatio() {
         Rectangle2D bounds = Screen.getPrimary().getBounds();
         double width = bounds.getWidth();
         double height = bounds.getHeight();
         return (height / width) * 16;
-    }
-
-    public boolean isFullscreen() {
-        return settings.getProperty(VIEW_MODE).equals(FULLSCREEN);
     }
 
     public void setFullscreen() {
@@ -164,22 +152,17 @@ public class OptionsController {
 
     public void setResolution(int width, int height) {
         Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-        // LOGGER.info("Bounds: {}", bounds);
         int maxWidth = (int) bounds.getWidth();
         int maxHeight = (int) bounds.getHeight();
 
         if (width >= (maxWidth - 100) || height >= (maxHeight - 100)) {
-            // LOGGER.info("Setting windowed mode to maximized");
             stage.setMaximized(true);
             width = maxWidth;
             height = maxHeight;
         }
 
-        // LOGGER.info("Max width: {}, max height: {}", maxWidth, maxHeight);
-        // LOGGER.info("Setting resolution to {}x{}", width, height);
         stage.setWidth(width);
         stage.setHeight(height);
-        // LOGGER.info("Centering stage on screen");
         stage.centerOnScreen();
         settings.setProperty(RESOLUTION, width + "x" + height);
         settings.setProperty(WIDTH, String.valueOf(width));

@@ -5,11 +5,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.OptionsController;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.application.utils.FileHelper;
+import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class OptionsViewController {
     private static final Logger LOGGER = LogManager.getLogger(OptionsViewController.class);
@@ -22,6 +29,8 @@ public class OptionsViewController {
     @FXML
     private MenuButton resolutionButton;
     private boolean initializedResolutions = false;
+    @FXML
+    private StackPane backgroundPane;
 
     public OptionsViewController() {
         this.optionsController = Context.getOptionsController();
@@ -29,6 +38,13 @@ public class OptionsViewController {
 
     @FXML
     public void initialize() {
+        try {
+            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
+            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
+        } catch (FailedToLoadFileException | MalformedURLException e) {
+            ErrorHandler.addException(e, "Failed to load background image");
+        }
+
         for (MenuItem item : viewModeButton.getItems()) {
             item.setOnAction(event -> {
                 handleViewModeChange(item.getText());
@@ -44,7 +60,7 @@ public class OptionsViewController {
 
         this.stage = Context.getPrimaryStage();
         resolutionButton.setOnShowing(event -> openResolutions());
-        LOGGER.info("Previous scene from OptionsViewController: {}", Context.getGameState().getPreviousScene());
+        LOGGER.info("Previous scene from OptionsViewController: {}", Context.getGameState().getPreviousRoot());
     }
 
     private void populateResolutionMenu() {
@@ -89,8 +105,7 @@ public class OptionsViewController {
     @FXML
     private void goBack(ActionEvent actionEvent) {
         optionsController.saveSettings();
-        stage.setScene(Context.getGameState().getPreviousScene());
-        Context.getOptionsController().loadSettings();
+        stage.getScene().setRoot(Context.getGameState().getPreviousRoot());
     }
 
     private void setBorderless() {

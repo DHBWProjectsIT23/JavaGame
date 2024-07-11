@@ -14,7 +14,7 @@ public class ErrorPopup {
     public static void showErrorPopup(String message, Throwable e) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            alert.setTitle("An Error occured!");
             alert.setHeaderText(message);
             alert.setContentText(e.getMessage());
             alert.showAndWait();

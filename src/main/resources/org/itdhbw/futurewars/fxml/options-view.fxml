@@ -2,38 +2,32 @@
 
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.5"
-           styleClass="dark-blue-bg"
-           xmlns="http://javafx.com/javafx/21"
+<?import javafx.scene.layout.*?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="backgroundPane" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.application.controllers.ui.OptionsViewController">
-    <VBox alignment="CENTER">
-        <children>
-            <Button fx:id="backButton" mnemonicParsing="false"
-                    onAction="#goBack" text="Back"/>
-        </children>
-    </VBox>
-    <VBox alignment="CENTER_LEFT">
-        <MenuButton fx:id="resolutionButton" mnemonicParsing="false"
-                    text="Resolution">
-            <items>
-                <MenuItem mnemonicParsing="false" text="2560x1440"/>
-                <MenuItem mnemonicParsing="false" text="1920x1080"/>
-                <MenuItem mnemonicParsing="false" text="1600x900"/>
-                <MenuItem mnemonicParsing="false" text="1366x768"/>
-                <MenuItem mnemonicParsing="false" text="1280x720"/>
-                <MenuItem mnemonicParsing="false" text="1024x768"/>
-                <MenuItem mnemonicParsing="false" text="800x600"/>
-            </items>
-        </MenuButton>
-        <MenuButton fx:id="viewModeButton" mnemonicParsing="false"
-                    text="ViewMode">
-            <items>
-                <MenuItem mnemonicParsing="false" text="Fullscreen"/>
-                <MenuItem disable="true" mnemonicParsing="false"
-                          text="Borderless"/>
-                <MenuItem mnemonicParsing="false" text="Windowed"/>
-            </items>
-        </MenuButton>
-    </VBox>
-</SplitPane>
+    <children>
+        <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0"
+              styleClass="map-selection-box" StackPane.alignment="CENTER">
+            <MenuButton fx:id="resolutionButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                        text="Resolution" VBox.vgrow="ALWAYS">
+                <items>
+                    <MenuItem mnemonicParsing="false" text="2560x1440"/>
+                    <MenuItem mnemonicParsing="false" text="1920x1080"/>
+                    <MenuItem mnemonicParsing="false" text="1600x900"/>
+                    <MenuItem mnemonicParsing="false" text="1366x768"/>
+                    <MenuItem mnemonicParsing="false" text="1280x720"/>
+                    <MenuItem mnemonicParsing="false" text="1024x768"/>
+                    <MenuItem mnemonicParsing="false" text="800x600"/>
+                </items>
+            </MenuButton>
+            <MenuButton fx:id="viewModeButton" mnemonicParsing="false" text="ViewMode" VBox.vgrow="ALWAYS">
+                <items>
+                    <MenuItem mnemonicParsing="false" styleClass="test-item" text="Fullscreen"/>
+                    <MenuItem mnemonicParsing="false" text="Windowed"/>
+                </items>
+            </MenuButton>
+            <Pane prefHeight="54.0" prefWidth="200.0"/>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" text="Back"/>
+        </VBox>
+    </children>
+</StackPane>

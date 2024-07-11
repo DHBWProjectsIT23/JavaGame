@@ -72,7 +72,7 @@ public class FileHelper {
     }
 
     private static Properties loadTextureProperties(String dir) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(dir + "textures.properties"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(dir + PROPERTIES_FILE))) {
             Properties properties = new Properties();
             properties.load(reader);
             return properties;

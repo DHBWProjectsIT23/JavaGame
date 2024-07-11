@@ -4,6 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import java.lang.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.game.controllers.ui.MapViewController">
     <GridPane fx:id="gameGrid">
@@ -17,8 +18,18 @@
                                preserveRatio="true"/>
                 </VBox>
                 <VBox>
-                    <Label fx:id="currentTileType" styleClass="map-info-label" text="Tile Type"/>
-                    <Label fx:id="currentTileDef" styleClass="map-info-label" text="Def: 0"/>
+                    <Label fx:id="currentTileType" text="Tile Type">
+                        <styleClass>
+                            <String fx:value="map-info-label"/>
+                            <String fx:value="pixel-font"/>
+                        </styleClass>
+                    </Label>
+                    <Label fx:id="currentTileDef" text="Def: 0">
+                        <styleClass>
+                            <String fx:value="map-info-label"/>
+                            <String fx:value="pixel-font"/>
+                        </styleClass>
+                    </Label>
                 </VBox>
             </HBox>
             <Pane fx:id="infoViewSeperator" prefHeight="10.0"/>
@@ -28,8 +39,18 @@
                                preserveRatio="true"/>
                 </VBox>
                 <VBox>
-                    <Label fx:id="currentUnitType" styleClass="map-info-label" text="Unit Type"/>
-                    <Label fx:id="currentUnitHealth" styleClass="map-info-label" text="0/0 ♥"/>
+                    <Label fx:id="currentUnitType" text="Unit Type">
+                        <styleClass>
+                            <String fx:value="map-info-label"/>
+                            <String fx:value="pixel-font"/>
+                        </styleClass>
+                    </Label>
+                    <Label fx:id="currentUnitHealth" text="0/0 ♥">
+                        <styleClass>
+                            <String fx:value="map-info-label"/>
+                            <String fx:value="pixel-font"/>
+                        </styleClass>
+                    </Label>
                 </VBox>
             </HBox>
         </VBox>
@@ -53,8 +74,12 @@
     </AnchorPane>
     <StackPane fx:id="infoOverlay" visible="false">
         <children>
-            <Text fx:id="infoOverlayText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0"
-                  styleClass="day-info-text" text="Text"/>
+            <Text fx:id="infoOverlayText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                <styleClass>
+                    <String fx:value="day-info-text"/>
+                    <String fx:value="pixel-font"/>
+                </styleClass>
+            </Text>
         </children>
     </StackPane>
 </StackPane>

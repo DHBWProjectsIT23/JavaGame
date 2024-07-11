@@ -41,6 +41,8 @@ public class StartupController {
         try {
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(), 12);
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf").toString(), 12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/BebasNeue-Regular.ttf").toString(), 12);
+            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/coolvetica-rg.otf").toString(), 12);
         } catch (FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load font");
         }

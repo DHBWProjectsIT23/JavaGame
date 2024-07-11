@@ -4,19 +4,23 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ConfirmPopup;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
+import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 
 import java.net.MalformedURLException;
@@ -26,6 +30,7 @@ public class GameViewController {
 
     private static final Logger LOGGER = LogManager.getLogger(GameViewController.class);
     private final GameState gameState;
+    private final UnitRepository unitRepository;
     @FXML
     private StackPane escapeMenu;
     @FXML
@@ -33,17 +38,28 @@ public class GameViewController {
     @FXML
     private AnchorPane gamePane;
     @FXML
-    private Label currentTurnLabel;
+    private Text currentTurnLabel;
     @FXML
-    private Label currentPlayerLabel;
+    private Text currentPlayerLabel;
+    @FXML
+    private StackPane parentPane;
+    @FXML
+    private Text gameOverText;
+    @FXML
+    private VBox gameOverBox;
+    @FXML
+    private Button endTurnButton;
+    @FXML
+    private VBox labelBox;
 
     public GameViewController() {
         this.gameState = Context.getGameState();
+        this.unitRepository = Context.getUnitRepository();
     }
 
     public void initialize() {
         Platform.runLater(() -> {
-            Scene scene = this.backgroundPane.getScene();
+            Scene scene = Context.getPrimaryStage().getScene();
             scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
                     escapeMenu.setVisible(!escapeMenu.isVisible());
@@ -70,6 +86,21 @@ public class GameViewController {
             currentTurnLabel.setText("Day " + newValue);
         });
 
+        unitRepository.team1UnitCountProperty().addListener((_, _, newValue) -> {
+            if (newValue.intValue() <= 0) {
+                showGameOverScreen(2);
+            }
+        });
+
+        unitRepository.team2UnitCountProperty().addListener((_, _, newValue) -> {
+            if (newValue.intValue() <= 0) {
+                showGameOverScreen(1);
+            }
+        });
+
+        double width = labelBox.getPrefWidth();
+        double widthWithMargins = width + (width / 100 * 40);
+        labelBox.setMinWidth(widthWithMargins);
 
         setTurnPlayer1();
 
@@ -89,22 +120,37 @@ public class GameViewController {
         gamePane.getStyleClass().remove("red-border");
         gamePane.getStyleClass().add("blue-border");
 
+        endTurnButton.getStyleClass().remove("red-button");
+
         currentPlayerLabel.setText("Player 1");
-        currentTurnLabel.getStyleClass().add("blue-bg");
-        currentTurnLabel.getStyleClass().remove("red-bg");
+
     }
 
     private void setTurnPlayer2() {
         gamePane.getStyleClass().remove("blue-border");
         gamePane.getStyleClass().add("red-border");
 
+        endTurnButton.getStyleClass().add("red-button");
+
         currentPlayerLabel.setText("Player 2");
-        currentTurnLabel.getStyleClass().add("red-bg");
-        currentTurnLabel.getStyleClass().remove("blue-bg");
+    }
+
+    private void showGameOverScreen(int player) {
+        if (player == 1) {
+            gameOverText.setText("Player 1 wins!");
+        } else {
+            gameOverText.setText("Player 2 wins!");
+        }
+        gameOverBox.setVisible(true);
     }
 
     @FXML
     private void quitToMenu(ActionEvent actionEvent) {
+        ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to quit to the menu?",
+                                      "The current game state will be lost", this::quitToMenuRunnable);
+    }
+
+    private void quitToMenuRunnable() {
         gameState.resetGame();
         try {
             SceneController.loadScene("menu-view.fxml");
@@ -121,5 +167,10 @@ public class GameViewController {
     @FXML
     private void endTurn(ActionEvent actionEvent) {
         Context.getGameState().endTurn();
+    }
+
+    @FXML
+    private void returnToMenu(ActionEvent actionEvent) {
+        quitToMenuRunnable();
     }
 }

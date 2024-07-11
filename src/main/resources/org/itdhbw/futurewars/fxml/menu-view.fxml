@@ -2,10 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="backgroundPane" styleClass="transparent"
             xmlns="http://javafx.com/javafx/21"
             fx:controller="org.itdhbw.futurewars.application.controllers.ui.MenuViewController">
-    <StackPane styleClass="transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+    <StackPane fx:id="parentPane" styleClass="transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <HBox alignment="CENTER" spacing="20.0" styleClass="transparent">
             <VBox alignment="CENTER" styleClass="transparent" HBox.hgrow="NEVER">
@@ -23,11 +24,10 @@
                 </VBox>
             </VBox>
             <VBox alignment="CENTER" styleClass="transparent">
-                <children>
-                    <VBox fx:id="mapButtonContainer" alignment="CENTER_LEFT" spacing="10.0"
-                          styleClass="map-selection-box"/>
-                </children>
+                <VBox fx:id="mapButtonContainer" alignment="CENTER_LEFT" spacing="10.0" styleClass="map-selection-box"/>
             </VBox>
         </HBox>
+        <Text fx:id="loadingText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="day-info-text" text="Loading..."
+              visible="false"/>
     </StackPane>
 </AnchorPane>

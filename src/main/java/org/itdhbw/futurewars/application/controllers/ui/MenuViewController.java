@@ -1,17 +1,20 @@
 package org.itdhbw.futurewars.application.controllers.ui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ConfirmPopup;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
@@ -32,6 +35,10 @@ public class MenuViewController {
     private VBox mapButtonContainer;
     @FXML
     private AnchorPane backgroundPane;
+    @FXML
+    private Text loadingText;
+    @FXML
+    private StackPane parentPane;
 
     public void initialize() {
         LOGGER.info("Initializing menu view...");
@@ -53,6 +60,43 @@ public class MenuViewController {
         }
     }
 
+    private void startGame(ActionEvent actionEvent) {
+        this.loadingText.setVisible(true);
+        Thread thread = new Thread(() -> loadGameScene(actionEvent));
+        thread.start();
+    }
+
+    private void loadGameScene(ActionEvent actionEvent) {
+
+        Node source = (Node) actionEvent.getSource();
+        String map = (String) source.getUserData();
+
+
+        try {
+            Context.getFileLoader().loadMap(map);
+        } catch (FailedToLoadFileException e) {
+            ErrorHandler.addVerboseException(e, "Failed to load map: " + map);
+        }
+
+        Platform.runLater(() -> {
+        try {
+            SceneController.loadScene("game-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addVerboseException(e, "Failed to load game view");
+        } finally {
+            this.loadingText.setVisible(false);
+        }
+        });
+
+        //        try {
+        //            thread.join();
+        //        } catch (InterruptedException e) {
+        //            Thread.currentThread().interrupt();
+        //            ErrorHandler.addVerboseException(e, "Loading Map");
+        //        }
+
+    }
+
     @FXML
     private void showMapSelection(ActionEvent actionEvent) {
         LOGGER.info("Showing map selection...");
@@ -60,30 +104,12 @@ public class MenuViewController {
         mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
     }
 
-    private void startGame(ActionEvent actionEvent) {
-        Node source = (Node) actionEvent.getSource();
-        String map = (String) source.getUserData();
-        try {
-            Context.getFileLoader().loadMap(map);
-        } catch (FailedToLoadFileException e) {
-            ErrorHandler.addException(e, "Failed to load map: " + map);
-        }
-
-        try {
-            SceneController.loadScene("game-view.fxml");
-        } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to load game view");
-            ErrorHandler.showErrorPopup();
-        }
-    }
-
     @FXML
     private void startMapEditor(ActionEvent actionEvent) {
         try {
             SceneController.loadScene("map-editor-view.fxml");
         } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to open map editor");
-            ErrorHandler.showErrorPopup();
+            ErrorHandler.addVerboseException(e, "Failed to open map editor");
         }
     }
 
@@ -92,25 +118,13 @@ public class MenuViewController {
         try {
             SceneController.loadScene("options-view.fxml");
         } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to open options");
-            ErrorHandler.showErrorPopup();
+            ErrorHandler.addVerboseException(e, "Failed to open options");
         }
     }
 
     @FXML
-    private void startUnitEditor(ActionEvent actionEvent) {
-        // here the unit editor will start
-    }
-
-    @FXML
-    private void startTileEditor(ActionEvent actionEvent) {
-        // here the tile editor will start
-    }
-
-    @FXML
     private void exitApplication(ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.close();
+        ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to exit?", "", Platform::exit);
     }
 
     @FXML
@@ -118,8 +132,7 @@ public class MenuViewController {
         try {
             SceneController.loadScene("error-view.fxml");
         } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to open errors view");
-            ErrorHandler.showErrorPopup();
+            ErrorHandler.addVerboseException(e, "Failed to open errors view");
         }
     }
 }
