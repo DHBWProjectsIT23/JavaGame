@@ -6,8 +6,8 @@ FIGHTER_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,2,-1,-1
 - texture - 1 on line 11, 2 on line 12
-FighterBlue.png
-FighterRed.png
+Fighter_Blue.png
+Fighter_Red.png
 - baseDamage, armor, piercing, lowAirPiercing
 100,0.5,0.1,1
 - targetType

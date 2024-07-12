@@ -6,8 +6,8 @@ MECHANIZED_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,1,-1,1
 - texture - 1 on line 11, 2 on line 12
-MechanizedUnitBlue.png
-MechanizedUnitRed.png
+Mechanized_Unit_Blue.png
+Mechanized_Unit_Red.png
 - baseDamage, armor, piercing, lowAirPiercing
 65,0.2,0.95,0
 - targetType

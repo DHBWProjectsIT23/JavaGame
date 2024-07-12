@@ -6,8 +6,8 @@ INFANTRY_UNIT
 - (travelCost) - plain,wood,sea,mountain
 1,1,-1,2
 - texture - 1 on line 11, 2 on line 12
-InfantryBlue.png
-InfantryRed.png
+Infantry_Blue.png
+Infantry_Red.png
 - baseDamage, armor, piercing, lowAirPiercing
 55,0,0.55,0
 - targetType

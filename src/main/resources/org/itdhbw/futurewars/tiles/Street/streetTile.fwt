@@ -6,12 +6,12 @@ PLAIN
 - terrainCover
 10
 - texture
-CrossingSimple.png
-CrossingToBottom.png
-CrossingToTop.png
-CurveLeftToBottom.png
-CurveLeftToTop.png
-CurveRightToBottom.png
-CurveRightToTop.png
-StreetVertical.png
-StreetHorizontal.png
+Crossing_Simple.png
+Crossing_To_Bottom.png
+Crossing_To_Top.png
+Curve_Left_To_Bottom.png
+Curve_Left_To_Top.png
+Curve_Right_To_Bottom.png
+Curve_Right_To_Top.png
+Street_Vertical.png
+Street_Horizontal.png

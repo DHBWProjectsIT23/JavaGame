@@ -6,11 +6,11 @@ PLAIN
 - terrainCover
 10
 - texture
-BridgeLeftLand.png
-BridgeRightLand.png
-BridgeTopLand.png
-BridgeSimpleHorizontal.png
-BridgeSimpleVertical.png
-BridgeSmallHorizontal.png
-BridgeSmallVertical.png
-BridgeBottomLand.png
+Bridge_Left_Land.png
+Bridge_Right_Land.png
+Bridge_Top_Land.png
+Bridge_Simple_Horizontal.png
+Bridge_Simple_Vertical.png
+Bridge_Small_Horizontal.png
+Bridge_Small_Vertical.png
+Bridge_Bottom_Land.png
