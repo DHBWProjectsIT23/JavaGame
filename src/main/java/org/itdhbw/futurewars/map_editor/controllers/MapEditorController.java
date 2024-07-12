@@ -78,6 +78,7 @@ public class MapEditorController {
             Map<Integer, String> textureNames = new HashMap<>();
             for (Image texture : textures) {
                 String textureName = texture.getUrl().substring(texture.getUrl().lastIndexOf("/") + 1);
+                textureName = textureName.split("\\.")[0].replace("_", " ");
                 textureNames.put(i, textureName);
                 i++;
             }
@@ -157,12 +158,13 @@ public class MapEditorController {
             unitDropdown.setText(unitType);
             activeEditorBox.get().setUnitType(unitType);
             teamDropdown.setDisable(false);
+            setActiveEditorBoxUnitTeam(Team.TEAM_1);
         }
     }
 
     private void setActiveEditorBoxUnitTeam(Team team) {
         if (activeEditorBox.get() != null) {
-            teamDropdown.setText("Team " + team);
+            teamDropdown.setText(team.toString());
             activeEditorBox.get().setUnitTeam(team.getValue());
         }
     }
