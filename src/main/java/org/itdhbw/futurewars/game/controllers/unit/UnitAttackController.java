@@ -17,17 +17,18 @@ public class UnitAttackController {
         this.gameState = Context.getGameState();
     }
 
-    private int calcBaseDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
-        return (int) (Math.round(attackingUnit.getBaseDamage() -
-                                 (attackingUnit.getBaseDamage() * calcArmor(attackingUnit, attackedUnit))));
+    public static int calculateDamagePoints(UnitModel attackingUnit, UnitModel attackedUnit) {
+        return (int) Math.round((double) calculateActualPercentDamage(attackingUnit, attackedUnit) / 10);
     }
 
-    private double calcArmor(UnitModel attackingUnit, UnitModel attackedUnit) {
-        if (attackedUnit.getTargetType() == TargetType.LOW_AIR) {
-            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getLowAirPiercing());
-        } else {
-            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
-        }
+    private static int calculateActualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
+        int rawDamage = (int) (baseDamage *
+                               (((double) attackingUnit.getCurrentHealth()) / ((double) attackingUnit.getMaxHealth())));
+        double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover() *
+                                      (((double) attackedUnit.getCurrentHealth()) /
+                                       ((double) attackedUnit.getMaxHealth()))))) / 100.0;
+        return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
     }
 
     public void attack(UnitModel attackedUnit) {
@@ -61,18 +62,17 @@ public class UnitAttackController {
         attackingUnit.setHasMadeAnAction(true);
     }
 
-    private int calculateDamagePoints(UnitModel attackingUnit, UnitModel attackedUnit) {
-        return (int) Math.round((double) calculateActualPercentDamage(attackingUnit, attackedUnit) / 10);
+    private static int calcBaseDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        return (int) (Math.round(attackingUnit.getBaseDamage() -
+                                 (attackingUnit.getBaseDamage() * calcArmor(attackingUnit, attackedUnit))));
     }
 
-    private int calculateActualPercentDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
-        int baseDamage = calcBaseDamage(attackingUnit, attackedUnit);
-        int rawDamage = (int) (baseDamage *
-                               (((double) attackingUnit.getCurrentHealth()) / ((double) attackingUnit.getMaxHealth())));
-        double cover = ((int) (100 - (attackedUnit.currentTileProperty().get().getTerrainCover() *
-                                      (((double) attackedUnit.getCurrentHealth()) /
-                                       ((double) attackedUnit.getMaxHealth()))))) / 100.0;
-        return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
+    private static double calcArmor(UnitModel attackingUnit, UnitModel attackedUnit) {
+        if (attackedUnit.getTargetType() == TargetType.LOW_AIR) {
+            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getLowAirPiercing());
+        } else {
+            return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
+        }
     }
 
 }

@@ -29,9 +29,9 @@ public class UnitView extends StackPane {
         Text hpText = new Text();
         hpText.textProperty().bind(unitModel.currentHealthProperty().asString());
         hpText.setFill(Color.WHITE);
-        hpText.getStyleClass().add("black-stroke-border");
-        hpText.getStyleClass().add("pixel-font");
-        hpText.getStyleClass().add("health-text");
+        hpText.getStyleClass().addAll("black-stroke-border", "pixel-font", "hp-text");
+
+
 
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setSaturation(-0.5);
@@ -63,4 +63,5 @@ public class UnitView extends StackPane {
     public Image getTexture() {
         return this.textureLayer.getImage();
     }
+
 }

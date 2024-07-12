@@ -53,4 +53,8 @@ public class TileRepository {
         return this.tiles[position.getX()][position.getY()].getValue();
     }
 
+    public TileView getTileView(TileModel tileModel) {
+        return this.tiles[tileModel.getPosition().getX()][tileModel.getPosition().getY()].getValue();
+    }
+
 }

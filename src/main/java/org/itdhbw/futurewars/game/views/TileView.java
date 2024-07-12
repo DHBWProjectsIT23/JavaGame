@@ -3,11 +3,14 @@ package org.itdhbw.futurewars.game.views;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
@@ -34,6 +37,7 @@ public class TileView extends StackPane {
     private Image texture;
     private Image hoverImage;
     private Image hoverOccupiedImage;
+    private Text damageText;
 
     public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);
@@ -61,7 +65,14 @@ public class TileView extends StackPane {
         attackableOverlay.fitWidthProperty().bind(gameState.tileSizeProperty());
         attackableOverlay.fitHeightProperty().bind(gameState.tileSizeProperty());
 
+        damageText = new Text();
+        damageText.setFill(Color.RED);
+        damageText.getStyleClass().addAll("black-stroke-border", "pixel-font", "hp-text");
+
+        StackPane.setAlignment(damageText, Pos.TOP_RIGHT);
+
         this.getChildren().add(this.textureLayer);
+
         this.setUserData(this);
         this.addBindings();
         this.addListeners();
@@ -215,5 +226,15 @@ public class TileView extends StackPane {
     public void setTexture(Image texture) {
         this.texture = texture;
         this.textureLayer.setImage(texture);
+    }
+
+    public void showDamageText(int damage) {
+        LOGGER.info("Showing damage text");
+        this.damageText.setText("-" + damage);
+        this.getChildren().add(damageText);
+    }
+
+    public void hideDamageText() {
+        this.getChildren().remove(damageText);
     }
 }

@@ -155,6 +155,10 @@ public class GameState {
         return this.hoveredTile;
     }
 
+    public TileModel getHoveredTile() {
+        return hoveredTile.get();
+    }
+
     public ObjectProperty<ActiveMode> activeModeProperty() {
         return this.activeMode;
     }
