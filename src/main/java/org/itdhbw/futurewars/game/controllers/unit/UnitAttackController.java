@@ -49,15 +49,20 @@ public class UnitAttackController {
                     attackingUnit.getVulnerableTypes());
         if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {
             attackedUnit.takeDamage(calculateDamagePoints(attackingUnit, attackedUnit));
-            if (attackedUnit.getVulnerableTypes()
-                            .contains(attackingUnit.getTargetType())) { // Todo: Nicht machen wenn attackedUnit tot
-                attackingUnit.takeDamage(calculateDamagePoints(attackedUnit, attackingUnit));
+            if (!attackedUnit.isDead()) {
+                if (attackedUnit.getVulnerableTypes()
+                        .contains(attackingUnit.getTargetType())) {
+                    attackingUnit.takeDamage(calculateDamagePoints(attackedUnit, attackingUnit));
+                } else {
+                    LOGGER.error("Target Unit cannot counterattack");
+                }
             } else {
-                LOGGER.error("Target Unit cannot counterattack");
+            LOGGER.info("Target Unit cant counterattack cause it is dead");
             }
         } else {
             LOGGER.error("Unit cannot attack this target type");
         }
+
 
         attackingUnit.setHasMadeAnAction(true);
     }
