@@ -236,7 +236,7 @@ public class UnitModel {
         return unitType;
     }
 
-    private void setCurrentHealth(int newHealth) {
+    public void setCurrentHealth(int newHealth) {
         currentHealthProperty.set(newHealth);
     }
 

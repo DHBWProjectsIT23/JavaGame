@@ -1,5 +1,6 @@
 package org.itdhbw.futurewars.game.controllers.unit;
 
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
@@ -8,6 +9,8 @@ import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
+
+import java.util.List;
 
 public class UnitAttackController {
     private static final Logger LOGGER = LogManager.getLogger(UnitAttackController.class);
@@ -29,6 +32,16 @@ public class UnitAttackController {
                                       (((double) attackedUnit.getCurrentHealth()) /
                                        ((double) attackedUnit.getMaxHealth()))))) / 100.0;
         return (int) (rawDamage * cover);  // All these (double) casts are actually necessary as long health is int
+    }
+
+    public static int calculatePreviewDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
+        int oldAttackedHealth = attackedUnit.getCurrentHealth();
+        if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {
+            attackedUnit.takeDamage(calculateDamagePoints(attackingUnit, attackedUnit));
+        }
+        int previewDamage = calculateDamagePoints(attackedUnit, attackingUnit);
+        attackedUnit.setCurrentHealth(oldAttackedHealth);
+        return previewDamage;
     }
 
     public void attack(UnitModel attackedUnit) {
@@ -79,5 +92,4 @@ public class UnitAttackController {
             return attackedUnit.getArmor() - (attackedUnit.getArmor() * attackingUnit.getPiercing());
         }
     }
-
 }
