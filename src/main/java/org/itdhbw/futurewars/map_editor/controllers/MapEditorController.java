@@ -12,10 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ConfirmPopup;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileFactory;
 import org.itdhbw.futurewars.map_editor.models.EditorTile;
 
@@ -25,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 public class MapEditorController {
     private static final int MIN_MAP_SIZE = 5;
@@ -33,7 +33,7 @@ public class MapEditorController {
     private static final String MAP_SIZE_MUST_BE_AT_LEAST = "Map size must be at least 5x5";
     private static final String MAP_SIZE_MUST_BE_AT_MOST = "Map size must be at most 50x50";
 
-    private static final Logger LOGGER = LogManager.getLogger(MapEditorController.class);
+    private static final Logger LOGGER = Logger.getLogger(MapEditorController.class.getSimpleName());
     private final Map<String, Map<Integer, String>> textureIndexNameMap;
     private final Map<String, TileFactory> tileFactoryMap;
     private final Map<String, List<Image>> textureMap;
@@ -185,15 +185,6 @@ public class MapEditorController {
         initializeGrid(width, height);
         addNewCells(width, height);
         editorGrid.setGridLinesVisible(true);
-        printTileSize("setupNewGrid");
-    }
-
-    private void printTileSize(String where) {
-        for (Node node : editorGrid.getChildren()) {
-            if (node instanceof EditorTile editorTile) {
-                LOGGER.info("TileSize in {}: {}x{}", where, editorTile.getWidth(), editorTile.getHeight());
-            }
-        }
     }
 
     private void clearGrid() {
@@ -217,7 +208,6 @@ public class MapEditorController {
     private void setEditorTileClickHandler(EditorTile editorTile) {
         editorTile.setOnMouseClicked(ignored -> {
             LOGGER.info("Editor tile clicked");
-            LOGGER.info("Tile Size: {}x{}", editorTile.getWidth(), editorTile.getHeight());
             activeEditorBox.set(editorTile);
             if (editorTile.getTileType() != null) {
                 tileDropdown.setText(editorTile.getTileType());
@@ -247,9 +237,6 @@ public class MapEditorController {
 
     private EditorTile createEditorTile(int width, int height, String tileType) {
         EditorTile editorTile = new EditorTile(tileType);
-        editorTile.heightProperty().addListener(
-                (observable, oldValue, newValue) -> LOGGER.info("Height changed from {} to {} - {}", oldValue, newValue,
-                                                                observable));
 
         double tileMaxHeight = Context.getPrimaryStage().getHeight() / height / 100 * 80;
         double tileMaxWidth = Context.getPrimaryStage().getWidth() / width / 100 * 80;
@@ -262,7 +249,6 @@ public class MapEditorController {
 
         GridPane.setFillWidth(editorTile, true);
         GridPane.setFillHeight(editorTile, true);
-        LOGGER.info("Editor tile is {}x{}", editorTile.getWidth(), editorTile.getHeight());
 
         return editorTile;
     }
@@ -274,9 +260,6 @@ public class MapEditorController {
 
     private void onEditorTileSelected(EditorTile editorTile) {
         this.activeEditorBox.get().setOpacityOnSelection(true);
-        Double opacity = this.activeEditorBox.get().getOpacity();
-        String opacityString = String.valueOf(opacity);
-        LOGGER.info("Opacity: {}", opacityString);
         populateTextureDropdown(editorTile.getTileType());
         textureDropdown.setDisable(false);
         tileDropdown.setDisable(false);
@@ -302,7 +285,6 @@ public class MapEditorController {
     private void initializeActiveEditorBox() {
         LOGGER.info("Initializing active editor box...");
         activeEditorBox.addListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Active editor box changed - oldValue: {} - newValue: {}", oldValue, newValue);
             if (oldValue != null) {
                 oldValue.setOpacityOnSelection(false);
             }
@@ -324,7 +306,7 @@ public class MapEditorController {
     }
 
     @FXML
-    private void setSize(ActionEvent actionEvent) {
+    private void setSize(ActionEvent ignored) {
         LOGGER.info("Setting map size...");
         try {
             int localWidth = Integer.parseInt(widthInput.getText());
@@ -337,7 +319,6 @@ public class MapEditorController {
             statusLabel.setText("Map size set to " + localWidth + "x" + localHeight);
             setupNewGrid(localWidth, localHeight);
             editorGrid.setGridLinesVisible(true);
-            printTileSize("setSize");
             this.confirmSizeButton.setDisable(true);
         } catch (NumberFormatException e) {
             statusLabel.setText(INVALID_MAP_SIZE);
@@ -357,7 +338,7 @@ public class MapEditorController {
     }
 
     @FXML
-    private void saveMapAs(ActionEvent actionEvent) {
+    private void saveMapAs(ActionEvent ignored) {
         LOGGER.info("Saving map as...");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Map As");
@@ -371,21 +352,6 @@ public class MapEditorController {
             this.selectedFile = file;
             this.saveButton.setDisable(false);
             saveMapToFile(file);
-        }
-    }
-
-    @FXML
-    public void saveMap(ActionEvent actionEvent) {
-        LOGGER.info("Saving map...");
-        if (selectedFile != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                                    "Are you sure you want to save the map to " + selectedFile.getName() + "?",
-                                    ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-
-            if (alert.getResult() == ButtonType.YES) {
-                saveMapToFile(selectedFile);
-            }
         }
     }
 
@@ -411,7 +377,7 @@ public class MapEditorController {
                 for (int j = 0; j < width.get(); j++) {
                     EditorTile editorTile = (EditorTile) getNodeFromGridPane(editorGrid, j, i);
                     if (editorTile == null) {
-                        LOGGER.error("Editor tile is null!");
+                        LOGGER.severe("Editor tile is null!");
                         continue;
                     }
 
@@ -434,7 +400,22 @@ public class MapEditorController {
 
             writer.close();
         } catch (FileNotFoundException e) {
-            LOGGER.error("Error saving map to file", e);
+            ErrorHandler.addException(e, "Failed to save map!");
+        }
+    }
+
+    @FXML
+    public void saveMap(ActionEvent ignored) {
+        LOGGER.info("Saving map...");
+        if (selectedFile != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                    "Are you sure you want to save the map to " + selectedFile.getName() + "?",
+                                    ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                saveMapToFile(selectedFile);
+            }
         }
     }
 
@@ -448,7 +429,7 @@ public class MapEditorController {
     }
 
     @FXML
-    private void loadMap(ActionEvent actionEvent) {
+    private void loadMap(ActionEvent ignored) {
         LOGGER.info("Loading map...");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Map File");
@@ -461,7 +442,7 @@ public class MapEditorController {
         if (selectedFile != null) {
             loadMapFromFile(selectedFile);
         } else {
-            LOGGER.warn("Couldn't find file");
+            LOGGER.warning("Couldn't find file");
         }
         this.editorGrid.setMaxWidth(tileSize * (double) width.get());
         this.editorGrid.setMaxHeight(tileSize * (double) height.get());
@@ -493,7 +474,7 @@ public class MapEditorController {
             }
 
         } catch (IOException e) {
-            LOGGER.error("Error loading map", e);
+            ErrorHandler.addException(e, "Failed to load map!");
         }
     }
 
@@ -515,7 +496,6 @@ public class MapEditorController {
 
                 String unitTypeString = tileData[x * 4 + 2];
                 if (!unitTypeString.equals("NONE")) {
-                    LOGGER.info("Setting unit type to {}", unitTypeString);
                     editorTile.setUnitType(unitTypeString);
                 }
                 editorTile.setUnitTeam(Integer.parseInt(tileData[x * 4 + 3]));
@@ -558,7 +538,7 @@ public class MapEditorController {
     }
 
     @FXML
-    private void goBack(ActionEvent actionEvent) {
+    private void goBack(ActionEvent ignored) {
         ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to leave?",
                                       "All unsave progress will be lost!", this::returnToPrevious);
     }

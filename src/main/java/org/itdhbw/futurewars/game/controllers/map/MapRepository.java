@@ -1,4 +1,4 @@
-package org.itdhbw.futurewars.game.controllers;
+package org.itdhbw.futurewars.game.controllers.map;
 
 import java.io.File;
 import java.util.HashMap;

@@ -35,7 +35,7 @@ public class ActionModeHandler implements MouseEventHandler {
             }
         };
 
-        getMovableTiles.setOnSucceeded(taskEvent -> {
+        getMovableTiles.setOnSucceeded(ignored -> {
             List<TileModel> newPath = getMovableTiles.getValue();
 
             for (TileModel tile : new ArrayList<>(highlightedTiles)) {
@@ -136,5 +136,9 @@ public class ActionModeHandler implements MouseEventHandler {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ActionModeHandler{" + "gameState=" + gameState + ", pathfinder=" + pathfinder + '}';
+    }
 }
 

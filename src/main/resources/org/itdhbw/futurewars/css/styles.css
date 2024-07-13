@@ -44,7 +44,7 @@
 
 .main-menu-box {
     -fx-background-color: #011936;
-    -fx-padding: 20px;
+    -fx-padding: 10px;
     -fx-border-color: #ED254E;
     -fx-border-radius: 5px;
     -fx-background-radius: 10px;
@@ -54,6 +54,17 @@
 .new-main-menu-box {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
+}
+
+.border-box {
+    -fx-padding: 5px;
+    -fx-border-color: #256EFF;
+    -fx-border-width: 8px;
+}
+
+.border-box-2 {
+    -fx-border-color: #000914;
+    -fx-border-width: 3px;
 }
 
 .new-main-menu-box .button {
@@ -82,12 +93,18 @@
 }
 
 .map-selection-box {
-    -fx-background-color: #011936;
-    -fx-padding: 20px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
     -fx-border-color: #F9DC5C;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 8px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
     -fx-border-width: 2px;
+    -fx-spacing: 3px;
+}
+
+.map-selection-box .button {
+    -fx-border-color: #000914;
+    -fx-font-size: 14px;
 }
 
 .text-field {
@@ -170,7 +187,7 @@
 
 .possible-move-overlay {
     -fx-background-color: #ED254E;
-    -fx-opacity: 0.2;
+    -fx-opacity: 0.5;
 }
 
 .possible-merge-overlay {

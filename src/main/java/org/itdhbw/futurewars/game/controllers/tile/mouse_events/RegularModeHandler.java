@@ -32,5 +32,10 @@ public class RegularModeHandler implements MouseEventHandler {
             gameState.deselectUnit();
         }
     }
+
+    @Override
+    public String toString() {
+        return "RegularModeHandler{" + "gameState=" + gameState + '}';
+    }
 }
 

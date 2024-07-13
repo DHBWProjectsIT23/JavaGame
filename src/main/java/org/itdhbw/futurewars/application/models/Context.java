@@ -2,8 +2,8 @@ package org.itdhbw.futurewars.application.models;
 
 import javafx.stage.Stage;
 import org.itdhbw.futurewars.application.controllers.other.OptionsController;
-import org.itdhbw.futurewars.game.controllers.MapRepository;
 import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
+import org.itdhbw.futurewars.game.controllers.map.MapRepository;
 import org.itdhbw.futurewars.game.controllers.tile.TileEventController;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.controllers.tile.factory.TileBuilder;
@@ -14,6 +14,10 @@ import org.itdhbw.futurewars.game.controllers.unit.factory.UnitBuilder;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
 import org.itdhbw.futurewars.game.utils.Pathfinder;
 
+// Context is used for dependency management
+// While this might not be the best practice, we decided
+// that for this project it would cause the least amount of
+// headaches and work best
 public class Context {
     private static TileRepository tileRepository;
     private static UnitRepository unitRepository;
@@ -104,5 +108,10 @@ public class Context {
 
     public static void setPrimaryStage(Stage primaryStage) {
         Context.primaryStage = primaryStage;
+    }
+
+    @Override
+    public String toString() {
+        return "Context{}";
     }
 }

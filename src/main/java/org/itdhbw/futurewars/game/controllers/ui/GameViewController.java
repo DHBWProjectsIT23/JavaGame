@@ -28,8 +28,6 @@ public class GameViewController {
     @FXML
     private StackPane escapeMenu;
     @FXML
-    private AnchorPane backgroundPane;
-    @FXML
     private AnchorPane gamePane;
     @FXML
     private Text currentTurnLabel;
@@ -102,16 +100,6 @@ public class GameViewController {
 
     }
 
-    @FXML
-    private void openSettings(ActionEvent actionEvent) {
-        try {
-            SceneController.loadScene("options-view.fxml");
-        } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addException(e, "Failed to load settings view");
-            ErrorHandler.showErrorPopup();
-        }
-    }
-
     private void setTurnPlayer1() {
         gamePane.getStyleClass().remove("red-border");
         gamePane.getStyleClass().add("blue-border");
@@ -141,7 +129,17 @@ public class GameViewController {
     }
 
     @FXML
-    private void quitToMenu(ActionEvent actionEvent) {
+    private void openSettings(ActionEvent ignored) {
+        try {
+            SceneController.loadScene("options-view.fxml");
+        } catch (FailedToLoadSceneException e) {
+            ErrorHandler.addException(e, "Failed to load settings view");
+            ErrorHandler.showErrorPopup();
+        }
+    }
+
+    @FXML
+    private void quitToMenu(ActionEvent ignored) {
         ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to quit to the menu?",
                                       "The current game state will be lost", this::quitToMenuRunnable);
     }
@@ -156,17 +154,27 @@ public class GameViewController {
     }
 
     @FXML
-    private void quitToDesktop(ActionEvent actionEvent) {
-        Platform.exit();
+    private void quitToDesktop(ActionEvent ignored) {
+        ConfirmPopup.showWithRunnable(parentPane, "Are you sure you want to quit to the desktop?",
+                                      "The current game state will be lost", Platform::exit);
     }
 
     @FXML
-    private void endTurn(ActionEvent actionEvent) {
+    private void endTurn(ActionEvent ignored) {
         Context.getGameState().endTurn();
     }
 
     @FXML
-    private void returnToMenu(ActionEvent actionEvent) {
+    private void returnToMenu(ActionEvent ignored) {
         quitToMenuRunnable();
+    }
+
+    @Override
+    public String toString() {
+        return "GameViewController{" + "gameState=" + gameState + ", unitRepository=" + unitRepository +
+               ", escapeMenu=" + escapeMenu + ", gamePane=" + gamePane + ", currentTurnLabel=" + currentTurnLabel +
+               ", currentPlayerLabel=" + currentPlayerLabel + ", parentPane=" + parentPane + ", gameOverText=" +
+               gameOverText + ", gameOverBox=" + gameOverBox + ", endTurnButton=" + endTurnButton + ", labelBox=" +
+               labelBox + ", backgroundImagePane=" + backgroundImagePane + '}';
     }
 }

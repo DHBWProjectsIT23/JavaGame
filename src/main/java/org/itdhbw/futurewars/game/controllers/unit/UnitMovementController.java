@@ -1,17 +1,16 @@
 package org.itdhbw.futurewars.game.controllers.unit;
 
 import javafx.concurrent.Task;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.utils.Pathfinder;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class UnitMovementController {
-    private static final Logger LOGGER = LogManager.getLogger(UnitMovementController.class);
+    private static final Logger LOGGER = Logger.getLogger(UnitMovementController.class.getSimpleName());
     private Pathfinder pathfinder;
 
     public UnitMovementController() {
@@ -24,7 +23,7 @@ public class UnitMovementController {
 
     public void moveUnit(UnitModel unit, TileModel targetTile) {
         if (targetTile.isOccupied()) {
-            LOGGER.error("Tile {} is already occupied!", targetTile.modelId);
+            LOGGER.warning("Tile is already occupied!");
             return;
         }
 
@@ -38,14 +37,11 @@ public class UnitMovementController {
         task.setOnSucceeded(event -> {
             List<TileModel> path = task.getValue();
             if (path.isEmpty()) {
-                LOGGER.error("No path found from tile {} to tile {}", unit.currentTileProperty().get().modelId,
-                             targetTile.modelId);
+                LOGGER.warning("No Path found!");
                 return;
             }
 
             for (TileModel tile : path) {
-                LOGGER.info("Moving unit {} from tile {} to tile {}", unit.modelId,
-                            unit.currentTileProperty().get().modelId, tile.modelId);
                 unit.currentTileProperty().get().removeOccupyingUnit();
                 unit.currentTileProperty().set(tile);
                 tile.setOccupyingUnit(unit);
@@ -61,5 +57,8 @@ public class UnitMovementController {
         unit.mergeInto(targetUnit);
     }
 
-
+    @Override
+    public String toString() {
+        return "UnitMovementController{" + "pathfinder=" + pathfinder + '}';
+    }
 }

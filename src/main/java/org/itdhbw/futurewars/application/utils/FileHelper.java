@@ -1,8 +1,6 @@
 package org.itdhbw.futurewars.application.utils;
 
 import javafx.scene.image.Image;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
@@ -18,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class FileHelper {
@@ -36,7 +35,16 @@ public class FileHelper {
     public static final List<String> SUB_DIRS = Arrays.asList(MAP_DIR, UNIT_DIR, TILE_DIR, OTHER_TEXTURE_DIR);
     public static final String PROPERTIES_FILE = "textures.properties";
     private static final Map<String, String> SHORTCUTS = new HashMap<>();
-    private static final Logger LOGGER = LogManager.getLogger(FileHelper.class);
+    private static final Logger LOGGER = Logger.getLogger(FileHelper.class.getSimpleName());
+
+    static {
+        SHORTCUTS.put("$USER_DIR", USER_DIR_SHORT);
+        SHORTCUTS.put("$INTERNAL_DIR", INTERNAL_DIR_SHORT);
+    }
+
+    private FileHelper() {
+        // private constructor to prevent instantiation
+    }
 
     public static Image getMiscTexture(MiscTextures texture) throws FailedToLoadTextureException {
         Properties userTextures = loadTextureProperties(USER_DIR + OTHER_TEXTURE_DIR);
@@ -53,24 +61,6 @@ public class FileHelper {
         }
     }
 
-    static {
-        SHORTCUTS.put("$USER_DIR", USER_DIR_SHORT);
-        SHORTCUTS.put("$INTERNAL_DIR", INTERNAL_DIR_SHORT);
-    }
-
-    private FileHelper() {
-        // private constructor to prevent instantiation
-    }
-
-    public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
-        Image texture = new Image("file:" + INTERNAL_DIR + TEXTURES_DIR + path);
-        if (texture.isError()) {
-            LOGGER.error("Error loading internal texture: {}", texture.getException().getMessage());
-            throw new FailedToLoadTextureException(path);
-        }
-        return texture;
-    }
-
     private static Properties loadTextureProperties(String dir) {
         try (BufferedReader reader = new BufferedReader(new FileReader(dir + PROPERTIES_FILE))) {
             Properties properties = new Properties();
@@ -80,7 +70,24 @@ public class FileHelper {
             ErrorHandler.addException(e, "Failed to load texture properties");
             return new Properties();
         }
+    }
 
+    public static Image getUserTexture(String path) throws FailedToLoadTextureException {
+        Image texture = new Image("file:" + USER_DIR + TEXTURES_DIR + path);
+        if (texture.isError()) {
+            LOGGER.severe("Error loading user texture: " + texture.getException().getMessage());
+            throw new FailedToLoadTextureException(path);
+        }
+        return texture;
+    }
+
+    public static Image getInternalTexture(String path) throws FailedToLoadTextureException {
+        Image texture = new Image("file:" + INTERNAL_DIR + TEXTURES_DIR + path);
+        if (texture.isError()) {
+            LOGGER.severe("Error loading internal texture: " + texture.getException().getMessage());
+            throw new FailedToLoadTextureException(path);
+        }
+        return texture;
     }
 
     public static URI getFxmlFile(String path) throws FailedToLoadFileException {
@@ -90,6 +97,13 @@ public class FileHelper {
         } catch (FileDoesNotExistException e) {
             throw new FailedToLoadFileException(path);
         }
+    }
+
+    private static String decodePath(String path) {
+        for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
+            path = path.replace(entry.getKey(), entry.getValue());
+        }
+        return path;
     }
 
     public static URI getFile(String path) throws FailedToLoadFileException {
@@ -102,6 +116,30 @@ public class FileHelper {
         }
     }
 
+    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier, String fileEnding) throws
+                                                                                                  FailedToRetrieveFilesException {
+        LOGGER.info("Loading files for " + pathSupplier.get() + "...");
+        Map<String, File> files = new HashMap<>();
+        URI mapPath;
+        try {
+            mapPath = checkIfFileExists(pathSupplier.get());
+        } catch (FileDoesNotExistException e) {
+            ErrorHandler.addException(e, "File does not exist");
+            throw new FailedToRetrieveFilesException(pathSupplier.get().toString());
+        }
+
+        try (Stream<Path> stream = Files.walk(Path.of(mapPath))) {
+            stream.filter(Files::isRegularFile).filter(file -> file.getFileName().toString().endsWith(fileEnding))
+                  .forEach(file -> {
+                      files.put(stripFileExtension(file.getFileName().toString()), file.toFile());
+                  });
+        } catch (IOException e) {
+            ErrorHandler.addException(e, "Failed to retrieve files");
+            throw new FailedToRetrieveFilesException(mapPath.toString());
+        }
+        return files;
+    }
+
     public static URI getTexture(File object, String texture) throws FailedToLoadTextureException {
         // texture is at the location of the oject + "textures/" + texture
         Path path = Paths.get(
@@ -111,16 +149,6 @@ public class FileHelper {
             return checkIfFileExists(path.toFile());
         } catch (FileDoesNotExistException e) {
             throw new FailedToLoadTextureException(texture);
-        }
-    }
-
-    private static URI checkIfFileExists(File file) throws FileDoesNotExistException {
-        if (file.exists()) {
-            return file.toURI();
-        } else {
-            FileDoesNotExistException e = new FileDoesNotExistException(file.toString());
-            ErrorHandler.addException(e, "File does not exist");
-            throw e;
         }
     }
 
@@ -148,53 +176,26 @@ public class FileHelper {
         return new File(USER_DIR + TILE_DIR);
     }
 
-    private static String decodePath(String path) {
-        for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
-            path = path.replace(entry.getKey(), entry.getValue());
-        }
-        return path;
-    }
-
-    public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier, String fileEnding) throws
-                                                                                                  FailedToRetrieveFilesException {
-        LOGGER.info("Loading files for {}...", pathSupplier.get());
-        Map<String, File> files = new HashMap<>();
-        URI mapPath;
-        try {
-            mapPath = checkIfFileExists(pathSupplier.get());
-        } catch (FileDoesNotExistException e) {
+    private static URI checkIfFileExists(File file) throws FileDoesNotExistException {
+        if (file.exists()) {
+            return file.toURI();
+        } else {
+            FileDoesNotExistException e = new FileDoesNotExistException(file.toString());
             ErrorHandler.addException(e, "File does not exist");
-            throw new FailedToRetrieveFilesException(pathSupplier.get().toString());
+            throw e;
         }
-
-        try (Stream<Path> stream = Files.walk(Path.of(mapPath))) {
-            stream.filter(Files::isRegularFile).filter(file -> file.getFileName().toString().endsWith(fileEnding))
-                  .forEach(file -> {
-                      LOGGER.info("Found file: {}", file);
-                      files.put(stripFileExtension(file.getFileName().toString()), file.toFile());
-                  });
-        } catch (IOException e) {
-            ErrorHandler.addException(e, "Failed to retrieve files");
-            throw new FailedToRetrieveFilesException(mapPath.toString());
-        }
-        return files;
     }
 
     private static String stripFileExtension(String filename) {
         return filename.substring(0, filename.lastIndexOf('.'));
     }
 
-    public static Image getUserTexture(String path) throws FailedToLoadTextureException {
-        Image texture = new Image("file:" + USER_DIR + TEXTURES_DIR + path);
-        if (texture.isError()) {
-            LOGGER.error("Error loading user texture: {}", texture.getException().getMessage());
-            throw new FailedToLoadTextureException(path);
-        }
-        return texture;
+    @Override
+    public String toString() {
+        return "FileHelper{}";
     }
 
     public enum MiscTextures {
-        FALLBACK, HIGHLIGHTED, SELECTED, ATTACKABLE, HOVERED, HOVERED_OCCUPIED, SPLASH_ART
+        FALLBACK, HIGHLIGHTED, SELECTED, ATTACKABLE, HOVERED, HOVERED_OCCUPIED, SPLASH_ART, ICON
     }
-
 }

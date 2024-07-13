@@ -3,14 +3,13 @@ package org.itdhbw.futurewars.application.utils;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ErrorHandler {
-    private static final Logger LOGGER = LogManager.getLogger(ErrorHandler.class);
+    private static final Logger LOGGER = Logger.getLogger(ErrorHandler.class.getSimpleName());
 
     private static final Map<Exception, String> EXCEPTIONS = new HashMap<>();
     private static final IntegerProperty errorCount = new SimpleIntegerProperty(0);
@@ -20,22 +19,18 @@ public class ErrorHandler {
         // Prevent instantiation
     }
 
-    public static void addException(Exception e, String message) {
-        StackTraceElement lastElement = e.getStackTrace()[0];
-        LOGGER.error("{} - {}: {} - {}", lastElement.getClassName(), lastElement.getLineNumber(), message,
-                     e.getMessage());
-        lastException = new Pair<>(e, message);
-        EXCEPTIONS.put(e, message);
-        errorCount.set(EXCEPTIONS.size());
-    }
-
     public static void addVerboseException(Exception e, String message) {
         addException(e, message);
         showErrorPopup();
     }
 
-    public static Map<Exception, String> getExceptions() {
-        return EXCEPTIONS;
+    public static void addException(Exception e, String message) {
+        StackTraceElement lastElement = e.getStackTrace()[0];
+        LOGGER.severe(lastElement.getClassName() + " - " + lastElement.getLineNumber() + ": " + message + " - " +
+                      e.getMessage());
+        lastException = new Pair<>(e, message);
+        EXCEPTIONS.put(e, message);
+        errorCount.set(EXCEPTIONS.size());
     }
 
     public static void showErrorPopup() {
@@ -51,7 +46,16 @@ public class ErrorHandler {
         }
     }
 
+    public static Map<Exception, String> getExceptions() {
+        return EXCEPTIONS;
+    }
+
     public static IntegerProperty errorCountProperty() {
         return errorCount;
+    }
+
+    @Override
+    public String toString() {
+        return "ErrorHandler{}";
     }
 }

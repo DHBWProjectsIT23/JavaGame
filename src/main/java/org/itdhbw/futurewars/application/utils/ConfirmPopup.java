@@ -7,12 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.util.logging.Logger;
+
 public class ConfirmPopup {
+    private static final Logger LOGGER = Logger.getLogger(ConfirmPopup.class.getSimpleName());
     private ConfirmPopup() {
         // private constructor to prevent instantiation
     }
 
     public static void showWithRunnable(Pane parent, String header, String message, Runnable runnable) {
+        LOGGER.info("Showing confirmation popup...");
         Platform.runLater(() -> {
             adjustBackground(parent, true, 0.5);
             VBox mainLayout = createMainLayout();
@@ -31,11 +35,13 @@ public class ConfirmPopup {
                 runnable.run();
                 parent.getChildren().remove(mainLayout);
                 adjustBackground(parent, false, 1);
+                LOGGER.info("Confirmed action in popup");
             });
 
             cancelButton.setOnAction(ignored -> {
                 parent.getChildren().remove(mainLayout);
                 adjustBackground(parent, false, 1);
+                LOGGER.info("Cancelled action in popup");
             });
 
             finalizePopup(parent, mainLayout, buttonLayout, headerText, messageText, okButton, cancelButton);
@@ -79,5 +85,10 @@ public class ConfirmPopup {
         } else {
             parent.getChildren().add(mainLayout);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ConfirmPopup{}";
     }
 }

@@ -20,4 +20,9 @@ public class TileCreationController {
     public Pair<TileModel, TileView> createUnsetTile(String tileType, int x, int y, int textureVariant) {
         return tileBuilder.createTile(tileType, x, y, textureVariant);
     }
+
+    @Override
+    public String toString() {
+        return "TileCreationController{" + "tileBuilder=" + tileBuilder + '}';
+    }
 }

@@ -7,20 +7,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 public class UnitView extends StackPane {
-    private static final Logger LOGGER = LogManager.getLogger(UnitView.class);
-    private final ImageView textureLayer = new ImageView();
-    public final int viewId = this.hashCode();
     protected final UnitModel unitModel;
+    private final ImageView textureLayer = new ImageView();
 
     public UnitView(UnitModel unitModel) {
         this.unitModel = unitModel;
-        LOGGER.info("Creating unit view {} for unit {}", this.viewId, unitModel.modelId);
 
         this.textureLayer.fitHeightProperty().bind(Context.getGameState().tileSizeProperty());
         this.textureLayer.fitWidthProperty().bind(Context.getGameState().tileSizeProperty());
@@ -30,7 +25,6 @@ public class UnitView extends StackPane {
         hpText.textProperty().bind(unitModel.currentHealthProperty().asString());
         hpText.setFill(Color.WHITE);
         hpText.getStyleClass().addAll("black-stroke-border", "pixel-font", "hp-text");
-
 
 
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -63,5 +57,4 @@ public class UnitView extends StackPane {
     public Image getTexture() {
         return this.textureLayer.getImage();
     }
-
 }

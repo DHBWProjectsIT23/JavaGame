@@ -5,16 +5,16 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
-import org.apache.logging.log4j.LogManager;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class GameState {
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(GameState.class);
+    private static final Logger LOGGER = Logger.getLogger(GameState.class.getSimpleName());
     private final ObjectProperty<TileModel> selectedTile = new SimpleObjectProperty<>();
     private final ObjectProperty<Optional<UnitModel>> selectedUnit = new SimpleObjectProperty<>(Optional.empty());
     private final ObjectProperty<TileModel> hoveredTile = new SimpleObjectProperty<>();
@@ -29,8 +29,8 @@ public class GameState {
     private Parent previousRoot;
 
     public GameState() {
-        currentPlayer.addListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Current player changed to {}", newValue);
+        currentPlayer.addListener((ignored, oldValue, newValue) -> {
+            LOGGER.info("Current player changed to " + newValue);
             if (oldValue.equals(2) && newValue.equals(1)) {
                 currentDay.set(currentDay.get() + 1);
             }
@@ -58,7 +58,7 @@ public class GameState {
     }
 
     public void setPreviousRoot(Parent previousRoot) {
-        LOGGER.info("Setting previous scene to {}", previousRoot);
+        LOGGER.info("Setting previous scene to " + previousRoot);
         this.previousRoot = previousRoot;
     }
 
@@ -108,20 +108,12 @@ public class GameState {
         this.mapHeightTiles.set(mapHeightTiles);
     }
 
-    public IntegerProperty mapHeightTilesProperty() {
-        return mapHeightTiles;
-    }
-
     public int getMapWidthTiles() {
         return mapWidthTiles.get();
     }
 
     public void setMapWidthTiles(int mapWidthTiles) {
         this.mapWidthTiles.set(mapWidthTiles);
-    }
-
-    public IntegerProperty mapWidthTilesProperty() {
-        return mapWidthTiles;
     }
 
     public IntegerProperty mapHeightProperty() {
@@ -189,5 +181,14 @@ public class GameState {
 
     public TileModel getSelectedTile() {
         return selectedTile.get();
+    }
+
+    @Override
+    public String toString() {
+        return "GameState{" + "selectedTile=" + selectedTile + ", selectedUnit=" + selectedUnit + ", hoveredTile=" +
+               hoveredTile + ", activeMode=" + activeMode + ", mapHeight=" + mapHeight + ", mapWidth=" + mapWidth +
+               ", mapHeightTiles=" + mapHeightTiles + ", mapWidthTiles=" + mapWidthTiles + ", tileSize=" + tileSize +
+               ", currentPlayer=" + currentPlayer + ", currentDay=" + currentDay + ", previousRoot=" + previousRoot +
+               '}';
     }
 }

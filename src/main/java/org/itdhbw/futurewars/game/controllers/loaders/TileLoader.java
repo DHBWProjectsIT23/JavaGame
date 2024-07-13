@@ -1,7 +1,5 @@
 package org.itdhbw.futurewars.game.controllers.loaders;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
@@ -18,9 +16,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class TileLoader implements LoaderFactory {
-    private static final Logger LOGGER = LogManager.getLogger(TileLoader.class);
+    private static final Logger LOGGER = Logger.getLogger(TileLoader.class.getSimpleName());
     private final TileRepository tileRepository;
     private List<URI> texturePaths;
     private MovementType movementType;
@@ -86,5 +85,12 @@ public class TileLoader implements LoaderFactory {
         LOGGER.info("Creating tile factory");
         TileFactory tileFactoryCustom = new TileFactory(tileType, terrainCover, texturePaths, movementType);
         Context.getTileBuilder().addTileFactory(tileType, tileFactoryCustom);
+    }
+
+    @Override
+    public String toString() {
+        return "TileLoader{" + "tileRepository=" + tileRepository + ", texturePaths=" + texturePaths +
+               ", movementType=" + movementType + ", tileType='" + tileType + '\'' + ", terrainCover=" + terrainCover +
+               '}';
     }
 }

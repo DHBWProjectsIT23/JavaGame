@@ -1,16 +1,15 @@
 package org.itdhbw.futurewars.game.utils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.game.controllers.tile.TileRepository;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class Pathfinder {
-    private static final Logger LOGGER = LogManager.getLogger(Pathfinder.class);
+    private static final Logger LOGGER = Logger.getLogger(Pathfinder.class.getSimpleName());
     private final TileRepository tileRepository;
 
     public Pathfinder() {
@@ -35,7 +34,7 @@ public class Pathfinder {
             }
 
             if (current.equals(endTile)) {
-                LOGGER.info("Path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
+                LOGGER.info("Found path, reconstructing...");
                 return reconstructPath(cameFrom, current, unit);
             }
 
@@ -57,16 +56,14 @@ public class Pathfinder {
                 }
             }
         }
-        LOGGER.warn("No path found from tile {} to tile {}", startTile.modelId, endTile.modelId);
+        LOGGER.warning("No path found!");
         return new ArrayList<>();
     }
 
     private List<TileModel> reconstructPath(Map<TileModel, TileModel> cameFrom, TileModel current, UnitModel unit) {
-        LOGGER.info("Reconstructing path...");
         List<TileModel> totalPath = new ArrayList<>();
         totalPath.add(current);
         int unitRange = unit.getMovementRange();
-        LOGGER.info("Unit range: {}", unitRange);
         while (cameFrom.containsKey(current)) {
             current = cameFrom.get(current);
             totalPath.addFirst(current);
@@ -87,8 +84,8 @@ public class Pathfinder {
             cutPath.add(tile);
         }
 
-        LOGGER.info("Total travel cost: {}", totalCost);
-        LOGGER.info("Returning path with {} tiles", cutPath.size());
+        LOGGER.info("Total travel cost: " + totalCost);
+        LOGGER.info("Returning path with " + cutPath.size() + " tiles");
         return cutPath;
     }
 
@@ -109,8 +106,6 @@ public class Pathfinder {
     }
 
     public Set<TileModel> getReachableTiles(TileModel startTile) {
-        LOGGER.info("Calculating reachable tiles for unit {} on tile {}", startTile.getOccupyingUnit().modelId,
-                    startTile.modelId);
         Set<TileModel> visited = new HashSet<>();
         Queue<TileModel> queue = new LinkedList<>();
         Map<TileModel, Integer> distance = new HashMap<>();
@@ -137,16 +132,15 @@ public class Pathfinder {
                 }
             }
         }
-        LOGGER.info("Reachable tiles: {}", visited.size());
         return visited;
     }
 
     public Set<TileModel> getAttackableTiles(TileModel startTile, UnitModel attackingUnit) {
-        LOGGER.info("Calculating attackable tiles for unit {} on tile {}", attackingUnit.modelId, startTile.modelId);
         Set<TileModel> visited = new HashSet<>();
         Queue<TileModel> queue = new LinkedList<>();
         Map<TileModel, Integer> distance = new HashMap<>();
         int attackRange = attackingUnit.getAttackRange();
+        int movementRange = attackingUnit.getMovementRange();
 
         queue.add(startTile);
         distance.put(startTile, 0);
@@ -156,9 +150,11 @@ public class Pathfinder {
             visited.add(current);
 
             for (TileModel neighbor : getNeighbors(current)) {
+                int distanceTotal = neighbor.distanceTo(attackingUnit.currentTileProperty().get());
+
                 int tentativeDistance =
                         distance.get(current) + 1; // Assuming each tile is at a distance of 1 from its neighbors
-                if (tentativeDistance <= attackRange &&
+                if (tentativeDistance <= attackRange && distanceTotal <= movementRange + attackRange &&
                     (!distance.containsKey(neighbor) || tentativeDistance < distance.get(neighbor))) {
                     distance.put(neighbor, tentativeDistance);
                     queue.add(neighbor);
@@ -170,12 +166,7 @@ public class Pathfinder {
         visited.removeIf(tile -> !tile.isOccupied());
         visited.removeIf(tile -> tile.getOccupyingUnit().getTeam() == attackingUnit.getTeam());
         visited.removeIf(tile -> !attackingUnit.canAttackUnit(tile.getOccupyingUnit()));
-        LOGGER.info("Attackable tiles: {}", visited.size());
-        for (TileModel tile : visited) {
-            LOGGER.info("Tile {} is attackable in Pathfinder", tile.modelId);
-        }
 
-        LOGGER.info("Attackable tiles: {}", visited.size());
         return visited;
     }
 
@@ -211,7 +202,11 @@ public class Pathfinder {
         visited.removeIf(tile -> tile == startTile);
         visited.removeIf(tile -> !tile.getOccupyingUnit().canMergeWith(mergingUnit));
 
-        LOGGER.info("Mergeable tiles: {}", visited.size());
         return visited;
+    }
+
+    @Override
+    public String toString() {
+        return "Pathfinder{" + "tileRepository=" + tileRepository + '}';
     }
 }

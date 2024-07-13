@@ -14,8 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
@@ -28,8 +26,10 @@ import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;
 
+import java.util.logging.Logger;
+
 public class MapViewController {
-    private static final Logger LOGGER = LogManager.getLogger(MapViewController.class);
+    private static final Logger LOGGER = Logger.getLogger(MapViewController.class.getSimpleName());
     private final TileCreationController tileCreationController;
     private final UnitMovementController unitMovementController;
     private final GameState gameState;
@@ -59,15 +59,11 @@ public class MapViewController {
     @FXML
     private Label currentTileDef;
     @FXML
-    private Label currentTileAtk;
-    @FXML
     private ImageView currentUnitTexture;
     @FXML
     private Label currentUnitType;
     @FXML
     private Label currentUnitHealth;
-    @FXML
-    private Button overlayInfoButton;
     @FXML
     private HBox currentUnitHBox;
     @FXML
@@ -92,8 +88,6 @@ public class MapViewController {
         hideUnitStatusView();
 
         this.addTilesToGrid();
-        LOGGER.info("Creating Units...");
-
 
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == ActiveMode.OVERLAY_MODE) {
@@ -125,7 +119,7 @@ public class MapViewController {
         this.gameState.currentDayProperty()
                       .addListener((observable, oldValue, newValue) -> showDayChangeInfo(newValue));
 
-        this.infoOverlayText.setOnMouseClicked(event -> this.infoOverlay.setVisible(false));
+        this.infoOverlayText.setOnMouseClicked(ignored -> this.infoOverlay.setVisible(false));
 
     }
 
@@ -143,14 +137,14 @@ public class MapViewController {
     }
 
     private void addTilesToGrid() {
-        LOGGER.info("Loading map...");
+        LOGGER.info("Adding tiles to grid...");
 
         Pair<TileModel, TileView>[][] allTiles = Context.getTileRepository().getAllTiles();
         for (int x = 0; x < (gameState.getMapWidthTiles()); x++) {
             for (int y = 0; y < (gameState.getMapHeightTiles()); y++) {
                 Pair<TileModel, TileView> tilePair = allTiles[x][y];
                 if (tilePair == null) {
-                    LOGGER.warn("tilePair was null");
+                    LOGGER.warning("tilePair was null");
                     tilePair = tileCreationController.createUnsetTile(x, y);
                 }
                 this.addTileToGrid(tilePair);
@@ -196,7 +190,6 @@ public class MapViewController {
     }
 
     private void showUnitStatusView(UnitModel selectedUnitModel) {
-        LOGGER.info("Showing unit status view for unit {}", selectedUnitModel.modelId);
         this.currentUnitTexture.setImage(Context.getUnitRepository().getUnitView(selectedUnitModel).getTexture());
         this.currentUnitType.setText(selectedUnitModel.getUnitType().replace("_", " "));
         this.currentUnitHealth.setText(
@@ -218,22 +211,6 @@ public class MapViewController {
         });
     }
 
-    private void setStatusViewSide(TileModel selectedTile) {
-        int tileX = selectedTile.getPosition().getX();
-        int mapWidth = gameState.getMapWidthTiles();
-        int leftSwapTrigger = mapWidth / 4;
-        int rightSwapTrigger = mapWidth - (mapWidth / 4);
-        double anchorPosition = 16;
-
-        if (tileX < leftSwapTrigger) {
-            AnchorPane.setRightAnchor(this.statusViewVBox, anchorPosition);
-            AnchorPane.setLeftAnchor(this.statusViewVBox, null);
-        } else if (tileX > rightSwapTrigger) {
-            AnchorPane.setLeftAnchor(this.statusViewVBox, anchorPosition);
-            AnchorPane.setRightAnchor(this.statusViewVBox, null);
-        }
-    }
-
     private void addTileToGrid(Pair<TileModel, TileView> tile) {
         Position position = tile.getKey().getPosition();
         gameGrid.add(tile.getValue(), position.getX(), position.getY());
@@ -252,33 +229,43 @@ public class MapViewController {
         overlayChildren.remove(overlayMoveButton);
         overlayChildren.remove(overlayMergeButton);
         overlayChildren.remove(overlayAttackButton);
-        overlayChildren.remove(overlayInfoButton);
         overlayChildren.remove(overlayCloseButton);
         if (selectedUnit.canMerge()) {
             overlayChildren.add(overlayMergeButton);
-            overlayChildren.add(overlayInfoButton);
             overlayChildren.add(overlayCloseButton);
         } else if (selectedUnit.canAttack() && selectedUnit.canMove()) {
             overlayChildren.add(overlayMoveButton);
             overlayChildren.add(overlayAttackButton);
-            overlayChildren.add(overlayInfoButton);
             overlayChildren.add(overlayCloseButton);
         } else if (selectedUnit.canMove()) {
             overlayChildren.add(overlayMoveButton);
-            overlayChildren.add(overlayInfoButton);
             overlayChildren.add(overlayCloseButton);
         } else if (selectedUnit.canAttack()) {
             overlayChildren.add(overlayAttackButton);
-            overlayChildren.add(overlayInfoButton);
             overlayChildren.add(overlayCloseButton);
         } else {
-            overlayChildren.add(overlayInfoButton);
             overlayChildren.add(overlayCloseButton);
         }
     }
 
+    private void setStatusViewSide(TileModel selectedTile) {
+        int tileX = selectedTile.getPosition().getX();
+        int mapWidth = gameState.getMapWidthTiles();
+        int leftSwapTrigger = mapWidth / 4;
+        int rightSwapTrigger = mapWidth - (mapWidth / 4);
+        double anchorPosition = 16;
+
+        if (tileX < leftSwapTrigger) {
+            AnchorPane.setRightAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setLeftAnchor(this.statusViewVBox, null);
+        } else if (tileX > rightSwapTrigger) {
+            AnchorPane.setLeftAnchor(this.statusViewVBox, anchorPosition);
+            AnchorPane.setRightAnchor(this.statusViewVBox, null);
+        }
+    }
+
     @FXML
-    private void moveUnit(ActionEvent actionEvent) {
+    private void moveUnit(ActionEvent ignored) {
         UnitModel selectedUnit;
         try {
             selectedUnit = gameState.getSelectedUnit();
@@ -291,18 +278,18 @@ public class MapViewController {
     }
 
     @FXML
-    private void closeOverlay(ActionEvent actionEvent) {
+    private void closeOverlay(ActionEvent ignored) {
         this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
 
     @FXML
-    private void enterAttackMode(ActionEvent actionEvent) {
+    private void enterAttackMode(ActionEvent ignored) {
         LOGGER.info("Entering attack mode...");
         this.gameState.setActiveMode(ActiveMode.ATTACK_MODE);
     }
 
     @FXML
-    private void mergeUnits(ActionEvent actionEvent) {
+    private void mergeUnits(ActionEvent ignored) {
         UnitModel selectedUnit;
         try {
             selectedUnit = gameState.getSelectedUnit();
@@ -312,5 +299,20 @@ public class MapViewController {
         }
         unitMovementController.mergeUnit(selectedUnit, gameState.getSelectedTile());
         this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
+    }
+
+    @Override
+    public String toString() {
+        return "MapViewController{" + "tileCreationController=" + tileCreationController + ", unitMovementController=" +
+               unitMovementController + ", gameState=" + gameState + ", mouseX=" + mouseX + ", mouseY=" + mouseY +
+               ", gameGrid=" + gameGrid + ", overlayPane=" + overlayPane + ", overlayMoveButton=" + overlayMoveButton +
+               ", overlayCloseButton=" + overlayCloseButton + ", overlayBox=" + overlayBox + ", overlayAttackButton=" +
+               overlayAttackButton + ", statusViewOverlay=" + statusViewOverlay + ", statusViewVBox=" + statusViewVBox +
+               ", currentTileTexture=" + currentTileTexture + ", currentTileType=" + currentTileType +
+               ", currentTileDef=" + currentTileDef + ", currentUnitTexture=" + currentUnitTexture +
+               ", currentUnitType=" + currentUnitType + ", currentUnitHealth=" + currentUnitHealth +
+               ", currentUnitHBox=" + currentUnitHBox + ", infoViewSeperator=" + infoViewSeperator +
+               ", overlayMergeButton=" + overlayMergeButton + ", infoOverlay=" + infoOverlay + ", infoOverlayText=" +
+               infoOverlayText + '}';
     }
 }

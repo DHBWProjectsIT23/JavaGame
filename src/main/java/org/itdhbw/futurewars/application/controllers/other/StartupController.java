@@ -3,13 +3,12 @@ package org.itdhbw.futurewars.application.controllers.other;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
+import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
 import org.itdhbw.futurewars.game.controllers.loaders.FileLoader;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
@@ -19,9 +18,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 public class StartupController {
-    private static final Logger LOGGER = LogManager.getLogger(StartupController.class);
+    private static final Logger LOGGER = Logger.getLogger(StartupController.class.getSimpleName());
 
     private StartupController() {
         // empty constructor
@@ -37,7 +37,9 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
+
     public static void loadFonts() {
+        LOGGER.info("Loading fonts...");
         try {
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(), 12);
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf").toString(), 12);
@@ -47,6 +49,7 @@ public class StartupController {
     }
 
     public static void loadFiles() {
+        LOGGER.info("Loading files...");
         FileLoader fileLoader = Context.getFileLoader();
         try {
             fileLoader.retrieveSystemFiles();
@@ -72,12 +75,19 @@ public class StartupController {
         Context.setPrimaryStage(stage);
         stage.setTitle("Future Wars");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        try {
+            stage.getIcons().add(FileHelper.getMiscTexture(FileHelper.MiscTextures.ICON));
+        } catch (FailedToLoadTextureException e) {
+            ErrorHandler.addException(e, "Failed to load icon");
+        }
+        stage.setResizable(false);
 
         initializeScene();
 
     }
 
     private static void initializeScene() {
+        LOGGER.info("Initializing menu scene...");
         try {
             SceneController.loadScene("menu-view.fxml");
         } catch (FailedToLoadSceneException e) {
@@ -86,21 +96,22 @@ public class StartupController {
     }
 
     private static void initializeGameState(GameState gameState, Stage stage) {
+        LOGGER.info("Initializing game state...");
         gameState.setMapWidth((int) (stage.getWidth() / 100 * 80));
         gameState.setMapHeight((int) stage.getHeight() / 100 * 80);
     }
 
     public static void initializeUserDirectory() {
-        LOGGER.info("Checking user directory...");
+        LOGGER.info("Initializing user directory...");
 
         try {
             for (String subDir : FileHelper.SUB_DIRS) {
                 Path dirPath = Paths.get(FileHelper.USER_DIR, subDir);
                 if (!Files.exists(dirPath)) {
                     Files.createDirectories(dirPath);
-                    LOGGER.info("Directory {} created", dirPath);
+                    LOGGER.info("Directory " + dirPath + " created!");
                 } else {
-                    LOGGER.info("Directory {} exists", dirPath);
+                    LOGGER.info("Directory " + dirPath + " exists!");
                 }
             }
         } catch (IOException e) {
@@ -119,4 +130,8 @@ public class StartupController {
         }
     }
 
+    @Override
+    public String toString() {
+        return "StartupController{}";
+    }
 }

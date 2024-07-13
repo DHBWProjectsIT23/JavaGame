@@ -3,8 +3,6 @@ package org.itdhbw.futurewars.game.controllers.tile;
 import javafx.concurrent.Task;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.exceptions.NoUnitSelectedException;
@@ -25,10 +23,11 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 //! BUG: Hovering over a tile that is occupied throws an NullPointerException in Moving Unit Mode
 public class TileEventController {
-    private static final Logger LOGGER = LogManager.getLogger(TileEventController.class);
+    private static final Logger LOGGER = Logger.getLogger(TileEventController.class.getSimpleName());
     private static final List<TileModel> highlightedMoveTiles = new ArrayList<>();
     private static final List<TileModel> highlightedAttackTiles = new ArrayList<>();
     private static final List<TileModel> highlightedMergeTiles = new ArrayList<>();
@@ -52,7 +51,7 @@ public class TileEventController {
                                                                                   new UnitAttackController()));
 
         this.gameState.activeModeProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Switching to mode {}", newValue);
+            LOGGER.info("Switching to mode " + newValue);
             switch (newValue) {
                 case ActiveMode.ACTION_MODE:
                     this.highlightMoveTiles();
@@ -77,7 +76,7 @@ public class TileEventController {
             }
         };
 
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(ignored -> {
             Set<TileModel> possibleTiles = task.getValue();
             for (TileModel tile : possibleTiles) {
                 if (!tile.isOccupied()) {
@@ -138,7 +137,7 @@ public class TileEventController {
                 return pathfinder.getMergeableTiles(startTile, mergingUnit);
             }
         };
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(ignored -> {
             Set<TileModel> possibleTiles = task.getValue();
             possibleTiles.forEach(tile -> {
                 if (tile != startTile) {
@@ -157,7 +156,7 @@ public class TileEventController {
                 return pathfinder.getAttackableTiles(startTile, attackingUnit);
             }
         };
-        task.setOnSucceeded(event -> {
+        task.setOnSucceeded(ignored -> {
             Set<TileModel> possibleTiles = task.getValue();
             possibleTiles.forEach(tile -> {
                 if (tile != startTile) {
@@ -183,6 +182,12 @@ public class TileEventController {
         if (handler != null) {
             handler.handleMouseClick(event, tileView);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TileEventController{" + "mouseEventHandlers=" + mouseEventHandlers + ", gameState=" + gameState +
+               ", pathfinder=" + pathfinder + '}';
     }
 }
 

@@ -13,7 +13,10 @@ import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.views.TileView;
 
+import java.util.logging.Logger;
+
 public class AttackModeHandler implements MouseEventHandler {
+    private static final Logger LOGGER = Logger.getLogger(AttackModeHandler.class.getName());
     private final GameState gameState;
     private final UnitMovementController unitMovementController;
     private final UnitAttackController unitAttackController;
@@ -45,8 +48,7 @@ public class AttackModeHandler implements MouseEventHandler {
 
 
         if (hoveredUnit.getTeam() == gameState.getCurrentPlayer()) {
-            System.out.println(
-                    "Unit Team: " + selectedUnit.getTeam() + " Current Player: " + gameState.getCurrentPlayer());
+            LOGGER.info("Unit Team: " + selectedUnit.getTeam() + " Current Player: " + gameState.getCurrentPlayer());
             return;
         }
 
@@ -62,12 +64,11 @@ public class AttackModeHandler implements MouseEventHandler {
             tileView.showDamageText(predictedDamageEnemy);
             int predictedDamageToSelf;
             if (hoveredUnit.getVulnerableTypes().contains(selectedUnit.getTargetType())) {
-                predictedDamageToSelf = UnitAttackController.calculateDamagePoints(hoveredUnit, selectedUnit);
+                predictedDamageToSelf = UnitAttackController.calculatePreviewDamage(hoveredUnit, selectedUnit);
             } else {
                 predictedDamageToSelf = 0;
             }
             Context.getTileRepository().getTileView(selectedUnit.getPosition()).showDamageText(predictedDamageToSelf);
-        } else {
         }
     }
 
@@ -105,6 +106,12 @@ public class AttackModeHandler implements MouseEventHandler {
 
     private static void hideDamageTextOnSelectedUnit(UnitModel selectedUnit) {
         Context.getTileRepository().getTileView(selectedUnit.getPosition()).hideDamageText();
+    }
+
+    @Override
+    public String toString() {
+        return "AttackModeHandler{" + "gameState=" + gameState + ", unitMovementController=" + unitMovementController +
+               ", unitAttackController=" + unitAttackController + '}';
     }
 }
 

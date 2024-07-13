@@ -66,8 +66,6 @@
                     mnemonicParsing="false" onAction="#mergeUnits" text="Merge" VBox.vgrow="ALWAYS"/>
             <Button fx:id="overlayAttackButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                     mnemonicParsing="false" onAction="#enterAttackMode" text="Attack" VBox.vgrow="ALWAYS"/>
-            <Button fx:id="overlayInfoButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                    mnemonicParsing="false" onAction="#enterAttackMode" text="Info" VBox.vgrow="ALWAYS"/>
             <Button fx:id="overlayCloseButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                     mnemonicParsing="false" onAction="#closeOverlay" text="Cancel" VBox.vgrow="ALWAYS"/>
         </VBox>

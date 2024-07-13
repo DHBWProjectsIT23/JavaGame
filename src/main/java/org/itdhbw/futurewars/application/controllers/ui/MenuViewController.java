@@ -11,8 +11,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.controllers.other.SceneController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ConfirmPopup;
@@ -23,10 +21,11 @@ import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class MenuViewController {
 
-    private static final Logger LOGGER = LogManager.getLogger(MenuViewController.class);
+    private static final Logger LOGGER = Logger.getLogger(MenuViewController.class.getSimpleName());
 
     @FXML
     private VBox mapButtonContainer;
@@ -76,20 +75,19 @@ public class MenuViewController {
         }
 
         Platform.runLater(() -> {
-        try {
-            SceneController.loadScene("game-view.fxml");
-        } catch (FailedToLoadSceneException e) {
-            ErrorHandler.addVerboseException(e, "Failed to load game view");
-        } finally {
-            this.loadingText.setVisible(false);
-        }
+            try {
+                SceneController.loadScene("game-view.fxml");
+            } catch (FailedToLoadSceneException e) {
+                ErrorHandler.addVerboseException(e, "Failed to load game view");
+            } finally {
+                this.loadingText.setVisible(false);
+            }
         });
     }
 
     @FXML
     private void showMapSelection(ActionEvent ignored) {
         LOGGER.info("Showing map selection...");
-        LOGGER.info("Button amount: {}", mapButtonContainer.getChildren().size());
         mapButtonContainer.setVisible(!mapButtonContainer.isVisible());
     }
 
@@ -123,5 +121,11 @@ public class MenuViewController {
         } catch (FailedToLoadSceneException e) {
             ErrorHandler.addVerboseException(e, "Failed to open errors view");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "MenuViewController{" + "mapButtonContainer=" + mapButtonContainer + ", backgroundPane=" +
+               backgroundPane + ", loadingText=" + loadingText + ", parentPane=" + parentPane + '}';
     }
 }

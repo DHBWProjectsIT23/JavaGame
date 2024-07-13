@@ -1,7 +1,5 @@
 package org.itdhbw.futurewars.game.controllers.loaders;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
@@ -20,9 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class UnitLoader implements LoaderFactory {
-    private static final Logger LOGGER = LogManager.getLogger(UnitLoader.class);
+    private static final Logger LOGGER = Logger.getLogger(UnitLoader.class.getSimpleName());
     private final Map<String, UnitFactory> unitFactories;
     private final UnitRepository unitRepository;
     private String unitType;
@@ -45,28 +44,6 @@ public class UnitLoader implements LoaderFactory {
         unitRepository = Context.getUnitRepository();
         unitFactories = new HashMap<>();
 
-    }
-
-    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath, FileHelper.UNIT_FILE_ENDING);
-    }
-
-    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
-        return FileHelper.retrieveFiles(FileHelper::getUserUnitPath, FileHelper.UNIT_FILE_ENDING);
-    }
-
-    private void createUnitFactory() {
-        LOGGER.info("Creating unit factory");
-        UnitFactory unitFactoryCustom =
-                new UnitFactory(unitType, attackRange, movementRange, travelCostPlain, travelCostWood,
-                                travelCostMountain, travelCostSea, texture1, texture2, baseDamage, armor, piercing,
-                                lowAirPiercing, targetType, canAttackType);
-        Context.getUnitBuilder().addUnitFactory(unitType, unitFactoryCustom);
-    }
-
-    public Map<String, UnitFactory> getUnitFactories() {
-        LOGGER.info("Returning unit factories: {}", unitFactories);
-        return unitFactories;
     }
 
     public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
@@ -124,6 +101,18 @@ public class UnitLoader implements LoaderFactory {
         createUnitFactory();
     }
 
+    public Map<String, File> getUserFiles() throws FailedToRetrieveFilesException {
+        return FileHelper.retrieveFiles(FileHelper::getUserUnitPath, FileHelper.UNIT_FILE_ENDING);
+    }
+
+    public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
+        return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath, FileHelper.UNIT_FILE_ENDING);
+    }
+
+    //    public Map<String, UnitFactory> getUnitFactories() {
+    //        return unitFactories;
+    //    }
+
     private void readTextures(BufferedReader reader, File file) throws IOException {
         try {
             texture1 = FileHelper.getTexture(file, reader.readLine());
@@ -140,5 +129,25 @@ public class UnitLoader implements LoaderFactory {
         } catch (IllegalArgumentException e) {
             ErrorHandler.addException(e, "failed to load target type");
         }
+    }
+
+    private void createUnitFactory() {
+        LOGGER.info("Creating unit factory");
+        UnitFactory unitFactoryCustom =
+                new UnitFactory(unitType, attackRange, movementRange, travelCostPlain, travelCostWood,
+                                travelCostMountain, travelCostSea, texture1, texture2, baseDamage, armor, piercing,
+                                lowAirPiercing, targetType, canAttackType);
+        Context.getUnitBuilder().addUnitFactory(unitType, unitFactoryCustom);
+    }
+
+    @Override
+    public String toString() {
+        return "UnitLoader{" + "unitFactories=" + unitFactories + ", unitRepository=" + unitRepository +
+               ", unitType='" + unitType + '\'' + ", attackRange=" + attackRange + ", movementRange=" + movementRange +
+               ", travelCostPlain=" + travelCostPlain + ", travelCostWood=" + travelCostWood + ", travelCostMountain=" +
+               travelCostMountain + ", travelCostSea=" + travelCostSea + ", texture1=" + texture1 + ", texture2=" +
+               texture2 + ", baseDamage=" + baseDamage + ", armor=" + armor + ", piercing=" + piercing +
+               ", lowAirPiercing=" + lowAirPiercing + ", targetType=" + targetType + ", canAttackType=" +
+               canAttackType + '}';
     }
 }

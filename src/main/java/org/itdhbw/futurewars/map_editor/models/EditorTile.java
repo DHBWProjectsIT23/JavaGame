@@ -9,17 +9,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.models.Context;
+import org.itdhbw.futurewars.application.utils.ErrorHandler;
+import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.game.controllers.unit.factory.UnitFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class EditorTile extends StackPane {
     private static final Image BLANK_TILE = new Image("file:resources/textures/FallbackTile.png");
-    private static final Logger LOGGER = LogManager.getLogger(EditorTile.class);
+    private static final Logger LOGGER = Logger.getLogger(EditorTile.class.getSimpleName());
     private final ImageView tileOccupiedOverlay = new ImageView(new Image("file:resources/textures/64Highlighted.png"));
     private final ImageView unitTextureOverlay = new ImageView();
     private final StringProperty unitType = new SimpleStringProperty();
@@ -58,7 +59,7 @@ public class EditorTile extends StackPane {
             } else {
                 UnitFactory factory = Context.getUnitBuilder().getUnitFactories().get(newValue);
                 if (factory == null) {
-                    LOGGER.error("No factory found for unit type {}", newValue);
+                    LOGGER.severe("No factory found for unit type " + newValue);
                     this.getChildren().add(tileOccupiedOverlay);
                     return;
                 }
@@ -115,14 +116,22 @@ public class EditorTile extends StackPane {
         }
     }
 
-    public void setBackgroundImage(Image image) {
-        this.imageView.setImage(image);
-    }
-
     public void setTextures(List<Image> textures) {
         this.textures.clear();
         this.textures.addAll(textures);
         this.setBackgroundImage(textures.getFirst());
+    }
+
+    public void setTextureVariant(int textureVariant) {
+        this.textureVariant = textureVariant;
+        Image texture = textures.get(textureVariant);
+        if (texture != null && !texture.isError()) {
+            setBackgroundImage(texture);
+        } else {
+            ErrorHandler.addException(new FailedToLoadTextureException(String.valueOf(textureVariant), ""),
+                                      "Failed to load texture variant " + textureVariant + " for tile " + this);
+            setBackgroundImage(BLANK_TILE);
+        }
     }
 
     public int getUnitTeam() {
@@ -137,15 +146,44 @@ public class EditorTile extends StackPane {
         return textureVariant;
     }
 
-    public void setTextureVariant(int textureVariant) {
-        this.textureVariant = textureVariant;
-        Image texture = textures.get(textureVariant);
-        if (texture != null && !texture.isError()) {
-            setBackgroundImage(texture);
-        } else {
-            LOGGER.error("Texture not found for variant: {}", textureVariant);
-            setBackgroundImage(BLANK_TILE);
+    public void setBackgroundImage(Image image) {
+        this.imageView.setImage(image);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = tileOccupiedOverlay.hashCode();
+        result = 31 * result + unitTextureOverlay.hashCode();
+        result = 31 * result + unitType.hashCode();
+        result = 31 * result + tileType.hashCode();
+        result = 31 * result + imageView.hashCode();
+        result = 31 * result + textures.hashCode();
+        result = 31 * result + unitTeam.hashCode();
+        result = 31 * result + textureVariant;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        EditorTile that = (EditorTile) o;
+        return textureVariant == that.textureVariant && tileOccupiedOverlay.equals(that.tileOccupiedOverlay) &&
+               unitTextureOverlay.equals(that.unitTextureOverlay) && unitType.equals(that.unitType) &&
+               tileType.equals(that.tileType) && imageView.equals(that.imageView) && textures.equals(that.textures) &&
+               unitTeam.equals(that.unitTeam);
+    }
+
+    @Override
+    public String toString() {
+        return "EditorTile{" + "tileOccupiedOverlay=" + tileOccupiedOverlay + ", unitTextureOverlay=" +
+               unitTextureOverlay + ", unitType=" + unitType + ", tileType=" + tileType + ", imageView=" + imageView +
+               ", textures=" + textures + ", unitTeam=" + unitTeam + ", textureVariant=" + textureVariant + '}';
     }
 }
 

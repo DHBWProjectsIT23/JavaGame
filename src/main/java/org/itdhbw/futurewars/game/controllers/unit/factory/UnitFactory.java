@@ -2,17 +2,16 @@ package org.itdhbw.futurewars.game.controllers.unit.factory;
 
 import javafx.scene.image.Image;
 import javafx.util.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.game.models.unit.TargetType;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.views.UnitView;
 
 import java.net.URI;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class UnitFactory {
-    private static final Logger LOGGER = LogManager.getLogger(UnitFactory.class);
+    private static final Logger LOGGER = Logger.getLogger(UnitFactory.class.getSimpleName());
     private final String unitType;
     private final int attackRange;
     private final int movementRange;
@@ -32,7 +31,7 @@ public class UnitFactory {
     private UnitView unitView;
 
     public UnitFactory(String unitType, int attackRange, int movementRange, int travelCostPlain, int travelCostWood, int travelCostMountain, int travelCostSea, URI texture1, URI texture2, int baseDamage, double armor, double piercing, double lowAirPiercing, TargetType targetType, List<TargetType> canAttackType) {
-        LOGGER.info("Creating unit factory for unit type: {}", unitType);
+        LOGGER.info("Creating unit factory for unit type: " + unitType);
         this.unitType = unitType;
         this.attackRange = attackRange;
         this.movementRange = movementRange;
@@ -50,6 +49,12 @@ public class UnitFactory {
         this.lowAirPiercing = lowAirPiercing;
         this.targetType = targetType;
         this.canAttackType = canAttackType;
+    }
+
+    public Pair<UnitModel, UnitView> createUnit(int team) {
+        createUnitModel(team);
+        createUnitView();
+        return new Pair<>(unitModel, unitView);
     }
 
     private void createUnitModel(int team) {
@@ -75,13 +80,17 @@ public class UnitFactory {
         unitView.setTexture(texture1, texture2);
     }
 
-    public Pair<UnitModel, UnitView> createUnit(int team) {
-        createUnitModel(team);
-        createUnitView();
-        return new Pair<>(unitModel, unitView);
-    }
-
     public Pair<Image, Image> getUnitTextures() {
         return new Pair<>(texture1, texture2);
+    }
+
+    @Override
+    public String toString() {
+        return "UnitFactory{" + "unitType='" + unitType + '\'' + ", attackRange=" + attackRange + ", movementRange=" +
+               movementRange + ", travelCostPlain=" + travelCostPlain + ", travelCostWood=" + travelCostWood +
+               ", travelCostMountain=" + travelCostMountain + ", travelCostSea=" + travelCostSea + ", texture1=" +
+               texture1 + ", texture2=" + texture2 + ", baseDamage=" + baseDamage + ", armor=" + armor + ", piercing=" +
+               piercing + ", lowAirPiercing=" + lowAirPiercing + ", targetType=" + targetType + ", canAttackType=" +
+               canAttackType + ", unitModel=" + unitModel + ", unitView=" + unitView + '}';
     }
 }

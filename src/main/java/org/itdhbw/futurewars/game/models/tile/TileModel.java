@@ -4,14 +4,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.game.models.unit.UnitModel;
 import org.itdhbw.futurewars.game.utils.Position;
 
 public class TileModel {
-    private static final Logger LOGGER = LogManager.getLogger(TileModel.class);
-    public final int modelId = this.hashCode();
     private final Position position;
     private final ObjectProperty<UnitModel> occupyingUnit = new SimpleObjectProperty<>();
     private final BooleanProperty partOfPath = new SimpleBooleanProperty(false);
@@ -25,7 +21,6 @@ public class TileModel {
 
 
     public TileModel(String tileType, final int x, final int y, int terrainCover) {
-        LOGGER.info("Creating tile model {} at position ({}, {}) with type {}", modelId, x, y, tileType);
         this.tileType = tileType;
         this.position = new Position(x, y, true);
         this.terrainCover = terrainCover;
@@ -56,13 +51,8 @@ public class TileModel {
     }
 
     public void removeOccupyingUnit() {
-        LOGGER.info("Removing unit from tile {}", modelId);
         this.isOccupied = false;
         this.occupyingUnit.set(null);
-    }
-
-    public ObjectProperty<UnitModel> occupyingUnitProperty() {
-        return occupyingUnit;
     }
 
     public UnitModel getOccupyingUnit() {
@@ -73,7 +63,6 @@ public class TileModel {
     }
 
     public void setOccupyingUnit(UnitModel unitModel) {
-        LOGGER.info("Setting unit {} on tile {}", unitModel.modelId, modelId);
         this.occupyingUnit.set(unitModel);
         this.isOccupied = true;
     }
@@ -88,10 +77,6 @@ public class TileModel {
 
     public BooleanProperty possibleToAttackProperty() {
         return possibleToAttack;
-    }
-
-    public boolean getPartOfPath() {
-        return partOfPath.get();
     }
 
     public void setPartOfPath(boolean partOfPath) {

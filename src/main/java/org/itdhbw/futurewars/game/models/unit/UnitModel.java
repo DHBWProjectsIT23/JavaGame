@@ -1,22 +1,22 @@
 package org.itdhbw.futurewars.game.models.unit;
 
 import javafx.beans.property.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.game.models.tile.MovementType;
 import org.itdhbw.futurewars.game.models.tile.TileModel;
 import org.itdhbw.futurewars.game.utils.Position;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class UnitModel {
-    private static final Logger LOGGER = LogManager.getLogger(UnitModel.class);
-    public final int modelId = this.hashCode();
+    private static final Logger LOGGER = Logger.getLogger(UnitModel.class.getSimpleName());
     protected final int team;
+    protected final IntegerProperty currentHealthProperty = new SimpleIntegerProperty(10);
     private final ObjectProperty<TileModel> currentTile = new SimpleObjectProperty<>();
     private final BooleanProperty isDead = new SimpleBooleanProperty(false);
+    private final BooleanProperty hasMadeAnAction = new SimpleBooleanProperty(false);
     protected int movementRange;
     protected int attackRange;
     protected EnumMap<MovementType, Integer> travelCosts = new EnumMap<>(MovementType.class);
@@ -28,14 +28,12 @@ public class UnitModel {
     protected TargetType targetType;
     protected List<TargetType> vulnerableTypes;
     protected int maxHealth = 10;
-    protected IntegerProperty currentHealthProperty = new SimpleIntegerProperty(10);
-    private BooleanProperty hasMadeAnAction = new SimpleBooleanProperty(false);
     private boolean canAttack = false;
     private boolean canMove = false;
     private boolean canMerge = false;
 
     public UnitModel(String unitType, final int team) {
-        LOGGER.info("Creating unit model {} for team {} with id: {}", modelId, team, modelId);
+        LOGGER.info("Creating unit model for unit type: " + unitType);
         this.team = team;
         this.unitType = unitType;
         this.movementRange = 5;
@@ -67,7 +65,7 @@ public class UnitModel {
     }
 
     public void spawn(TileModel initialTile) {
-        LOGGER.info("Spawning unit {} at tile {}", modelId, initialTile.modelId);
+        LOGGER.info("Unit spawned at " + initialTile.getPosition());
         currentTile.set(initialTile);
     }
 
@@ -123,14 +121,6 @@ public class UnitModel {
         this.lowAirPiercing = lowAirPiercing;
     }
 
-    public TargetType getTargetType() {
-        return targetType;
-    }
-
-    public void setTargetType(TargetType targetType) {
-        this.targetType = targetType;
-    }
-
     public List<TargetType> getVulnerableTypes() {
         return vulnerableTypes;
     }
@@ -151,7 +141,7 @@ public class UnitModel {
     }
 
     public void die() {
-        LOGGER.info("Unit {} died", modelId);
+        LOGGER.info("Unit died");
         isDead.set(true);
     }
 
@@ -173,10 +163,6 @@ public class UnitModel {
 
     public BooleanProperty hasMadeAnActionProperty() {
         return hasMadeAnAction;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
     }
 
     public boolean canMove() {
@@ -228,6 +214,10 @@ public class UnitModel {
         return currentHealthProperty.get();
     }
 
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
     public int getTeam() {
         return team;
     }
@@ -244,5 +234,16 @@ public class UnitModel {
         return vulnerableTypes.contains(unitModel.getTargetType());
     }
 
+    public TargetType getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(TargetType targetType) {
+        this.targetType = targetType;
+    }
+
+    public boolean isInRange(TileModel tile) {
+        return currentTile.get().getPosition().calculateDistance(tile.getPosition()) <= movementRange;
+    }
 }
 

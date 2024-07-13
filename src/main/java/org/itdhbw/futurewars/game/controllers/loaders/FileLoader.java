@@ -1,7 +1,5 @@
 package org.itdhbw.futurewars.game.controllers.loaders;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToRetrieveFilesException;
@@ -13,12 +11,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class FileLoader {
     private static final String UNIT_FILE = "FUTURE_WARS_UNIT_FORMAT";
     private static final String TILE_FILE = "FUTURE_WARS_TILE_FORMAT";
     private static final String MAP_FILE = "FUTURE_WARS_MAP_FORMAT_V3";
-    private static final Logger LOGGER = LogManager.getLogger(FileLoader.class);
+    private static final Logger LOGGER = Logger.getLogger(FileLoader.class.getSimpleName());
     private final Map<String, LoaderFactory> loaderFactoryMap;
     private final Map<String, File> files;
 
@@ -34,14 +33,14 @@ public class FileLoader {
         for (LoaderFactory loaderFactory : loaderFactoryMap.values()) {
             files.putAll(loaderFactory.getSystemFiles());
         }
-        LOGGER.info("Retrieved {} system files", files.size());
+        LOGGER.info("Retrieved " + files.size() + " system files");
     }
 
     public void retrieveUserFiles() throws FailedToRetrieveFilesException {
         for (LoaderFactory loaderFactory : loaderFactoryMap.values()) {
             files.putAll(loaderFactory.getUserFiles());
         }
-        LOGGER.info("Retrieved {} user files", files.size());
+        LOGGER.info("Retrieved " + files.size() + " user files");
     }
 
     public void loadFiles() {
@@ -73,8 +72,13 @@ public class FileLoader {
     }
 
     public void loadMap(String map) throws FailedToLoadFileException {
-        LOGGER.info("Loading map: {}", map);
+        LOGGER.info("Loading map: " + map);
         MapLoader mapLoader = (MapLoader) loaderFactoryMap.get(MAP_FILE);
         mapLoader.loadMap(map);
+    }
+
+    @Override
+    public String toString() {
+        return "FileLoader{" + "loaderFactoryMap=" + loaderFactoryMap + ", files=" + files + '}';
     }
 }
