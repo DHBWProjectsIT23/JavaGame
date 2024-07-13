@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<map version="2.0">
+    <mapID target="Tile File" url="tile-file.html" default="no"/>
+    <mapID target="How-to-add-your-own-Tiles" url="how-to-add-your-own-tiles.html" default="no"/>
+    <mapID target="Tile-File.md" url="tile-file.html" default="no"/>
+    <mapID target="How to create your own Map" url="how-to-create-your-own-map.html" default="no"/>
+    <mapID target="How+Mod+the+Game" url="how-mod-the-game.html" default="no"/>
+    <mapID target="How to" url="how-to.html" default="no"/>
+    <mapID target="How-to-modify-exisiting-Textures.md" url="how-to-modify-exisiting-textures.html" default="no"/>
+    <mapID target="How+to+modify+exisiting+Textures" url="how-to-modify-exisiting-textures.html" default="no"/>
+    <mapID target="starter-topic" url="starter-topic.html" default="yes"/>
+    <mapID target="How Mod the Game" url="how-mod-the-game.html" default="no"/>
+    <mapID target="How-to-create-your-own-Map.md" url="how-to-create-your-own-map.html" default="no"/>
+    <mapID target="How to add your own Units" url="how-to-add-your-own-units.html" default="no"/>
+    <mapID target="How-to.md" url="how-to.html" default="no"/>
+    <mapID target="starter-topic.md" url="starter-topic.html" default="yes"/>
+    <mapID target="Unit-File" url="unit-file.html" default="no"/>
+    <mapID target="How-Mod-the-Game" url="how-mod-the-game.html" default="no"/>
+    <mapID target="How-to" url="how-to.html" default="no"/>
+    <mapID target="Future Wars" url="starter-topic.html" default="no"/>
+    <mapID target="FileTypes" url="filetypes.html" default="no"/>
+    <mapID target="How+to" url="how-to.html" default="no"/>
+    <mapID target="Damage-Calculation.md" url="damage-calculation.html" default="no"/>
+    <mapID target="FileTypes.md" url="filetypes.html" default="no"/>
+    <mapID target="Damage-Calculation" url="damage-calculation.html" default="no"/>
+    <mapID target="Map+File" url="map-file.html" default="no"/>
+    <mapID target="Tile-File" url="tile-file.html" default="no"/>
+    <mapID target="How-to-add-your-own-Units.md" url="how-to-add-your-own-units.html" default="no"/>
+    <mapID target="Unit File" url="unit-file.html" default="no"/>
+    <mapID target="How+to+create+your+own+Map" url="how-to-create-your-own-map.html" default="no"/>
+    <mapID target="Damage Calculation" url="damage-calculation.html" default="no"/>
+    <mapID target="Tile+File" url="tile-file.html" default="no"/>
+    <mapID target="How+to+add+your+own+Units" url="how-to-add-your-own-units.html" default="no"/>
+    <mapID target="How-to-add-your-own-Tiles.md" url="how-to-add-your-own-tiles.html" default="no"/>
+    <mapID target="How to modify exisiting Textures" url="how-to-modify-exisiting-textures.html" default="no"/>
+    <mapID target="How to add your own Tiles" url="how-to-add-your-own-tiles.html" default="no"/>
+    <mapID target="How-to-create-your-own-Map" url="how-to-create-your-own-map.html" default="no"/>
+    <mapID target="How+to+add+your+own+Tiles" url="how-to-add-your-own-tiles.html" default="no"/>
+    <mapID target="Unit-File.md" url="unit-file.html" default="no"/>
+    <mapID target="How-to-modify-exisiting-Textures" url="how-to-modify-exisiting-textures.html" default="no"/>
+    <mapID target="Map File" url="map-file.html" default="no"/>
+    <mapID target="Unit+File" url="unit-file.html" default="no"/>
+    <mapID target="How-to-add-your-own-Units" url="how-to-add-your-own-units.html" default="no"/>
+    <mapID target="Map-File.md" url="map-file.html" default="no"/>
+    <mapID target="Map-File" url="map-file.html" default="no"/>
+    <mapID target="How-Mod-the-Game.md" url="how-mod-the-game.html" default="no"/>
+    <mapID target="Damage+Calculation" url="damage-calculation.html" default="no"/>
+    <mapID target="Future+Wars" url="starter-topic.html" default="no"/>
+</map>
