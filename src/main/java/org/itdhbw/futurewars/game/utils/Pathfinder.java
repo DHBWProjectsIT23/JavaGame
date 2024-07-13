@@ -88,6 +88,7 @@ public class Pathfinder {
         }
 
         LOGGER.info("Total travel cost: {}", totalCost);
+        LOGGER.info("Returning path with {} tiles", cutPath.size());
         return cutPath;
     }
 

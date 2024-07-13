@@ -60,7 +60,7 @@ public class ActionModeHandler implements MouseEventHandler {
                 return;
             }
 
-            if (highlightedTiles.size() > 1) {
+            if (!highlightedTiles.isEmpty()) {
                 selectedUnit.setCanMove(tileView.getTileModel() == highlightedTiles.getLast());
             } else {
                 selectedUnit.setCanMove(false);

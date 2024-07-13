@@ -231,6 +231,7 @@ public class TileView extends StackPane {
     public void showDamageText(int damage) {
         LOGGER.info("Showing damage text");
         this.damageText.setText("-" + damage);
+        this.getChildren().remove(damageText);
         this.getChildren().add(damageText);
     }
 

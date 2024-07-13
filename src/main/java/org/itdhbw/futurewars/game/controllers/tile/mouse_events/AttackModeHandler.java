@@ -35,10 +35,28 @@ public class AttackModeHandler implements MouseEventHandler {
         }
 
         hideOldDamagePrediction();
+        hideDamageTextOnSelectedUnit(selectedUnit);
+        gameState.unhoverTile();
 
-        if (tileView.getTileModel().isOccupied() &&
-            selectedUnit.canAttackUnit(tileView.getTileModel().getOccupyingUnit())) {
-            UnitModel hoveredUnit = tileView.getTileModel().getOccupyingUnit();
+        if (!tileView.getTileModel().isOccupied()) {
+            return;
+        }
+        UnitModel hoveredUnit = tileView.getTileModel().getOccupyingUnit();
+
+
+        if (hoveredUnit.getTeam() == gameState.getCurrentPlayer()) {
+            System.out.println(
+                    "Unit Team: " + selectedUnit.getTeam() + " Current Player: " + gameState.getCurrentPlayer());
+            return;
+        }
+
+        if (gameState.getSelectedTile().getPosition().calculateDistance(tileView.getTileModel().getPosition()) >
+            selectedUnit.getAttackRange()) {
+            return;
+        }
+
+
+        if (selectedUnit.canAttackUnit(tileView.getTileModel().getOccupyingUnit())) {
             gameState.hoverTile(tileView.getTileModel());
             int predictedDamageEnemy = UnitAttackController.calculateDamagePoints(selectedUnit, hoveredUnit);
             tileView.showDamageText(predictedDamageEnemy);
@@ -50,8 +68,6 @@ public class AttackModeHandler implements MouseEventHandler {
             }
             Context.getTileRepository().getTileView(selectedUnit.getPosition()).showDamageText(predictedDamageToSelf);
         } else {
-            hideDamageTextOnSelectedUnit(selectedUnit);
-            gameState.unhoverTile();
         }
     }
 
