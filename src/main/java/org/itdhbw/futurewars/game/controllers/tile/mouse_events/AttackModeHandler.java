@@ -64,7 +64,7 @@ public class AttackModeHandler implements MouseEventHandler {
             tileView.showDamageText(predictedDamageEnemy);
             int predictedDamageToSelf;
             if (hoveredUnit.getVulnerableTypes().contains(selectedUnit.getTargetType())) {
-                predictedDamageToSelf = UnitAttackController.calculatePreviewDamage(hoveredUnit, selectedUnit);
+                predictedDamageToSelf = UnitAttackController.calculatePreviewDamage(selectedUnit, hoveredUnit);
             } else {
                 predictedDamageToSelf = 0;
             }
