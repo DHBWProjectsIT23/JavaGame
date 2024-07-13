@@ -37,7 +37,7 @@ public class TileView extends StackPane {
     private Image texture;
     private Image hoverImage;
     private Image hoverOccupiedImage;
-    private Text damageText;
+    private final Text damageText;
 
     public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);

@@ -51,6 +51,36 @@
     -fx-border-width: 5px;
 }
 
+.new-main-menu-box {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.new-main-menu-box .button {
+    -fx-background-color: transparent;
+    -fx-alignment: center-left;
+    -fx-padding: 0px;
+}
+
+.new-main-menu-box .button:hover .text {
+    -fx-fill: #F9DC5C;
+    -fx-stroke: #000914;
+}
+
+.new-main-menu-box .text {
+    -fx-font-family: "Upheaval TT (BRK)";
+    -fx-background-color: transparent;
+    -fx-stroke: #F4FFFD;
+    -fx-stroke-width: 2px;
+    -fx-fill: #011936;
+    -fx-font-size: 42px;
+}
+
+.new-main-menu-box .text:hover {
+    -fx-text-fill: #256EFF;
+    -fx-cursor: hand;
+}
+
 .map-selection-box {
     -fx-background-color: #011936;
     -fx-padding: 20px;
