@@ -74,7 +74,8 @@ public class AttackModeHandler implements MouseEventHandler {
 
     @Override
     public void handleMouseClick(MouseEvent event, TileView tileView) {
-        if (event.getButton() == MouseButton.SECONDARY || !tileView.getTileModel().isOccupied()) {
+        if (event.getButton() == MouseButton.SECONDARY ||
+            !Context.getTileEventController().isPartOfAttackableTiles(tileView)) {
             gameState.deselectTile();
             gameState.setActiveMode(ActiveMode.REGULAR_MODE);
             return;

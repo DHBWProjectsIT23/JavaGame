@@ -384,6 +384,9 @@ public class MapEditorController {
                     String tileType = editorTile.getTileType() != null ? editorTile.getTileType() : "NONE";
                     String textureVariant = String.valueOf(editorTile.getTextureVariant());
                     String unitType = editorTile.getUnitType() != null ? editorTile.getUnitType() : "NONE";
+                    if (unitType.equals("No Unit")) {
+                        unitType = "NONE";
+                    }
                     String unitTeam = String.valueOf(editorTile.getUnitTeam());
 
                     writer.print(tileType + "," + textureVariant + "," + unitType + "," + unitTeam);

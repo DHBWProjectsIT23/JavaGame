@@ -40,6 +40,10 @@ public class TileEventController {
         this.mouseEventHandlers = new EnumMap<>(ActiveMode.class);
     }
 
+    public boolean isPartOfAttackableTiles(TileView tileView) {
+        return highlightedAttackTiles.contains(tileView.getTileModel());
+    }
+
     public void initialize() {
         UnitMovementController unitMovementController;
         this.gameState = Context.getGameState();

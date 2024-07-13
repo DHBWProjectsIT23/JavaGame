@@ -93,6 +93,10 @@ public class EditorTile extends StackPane {
     }
 
     public void setUnitType(String unitType) {
+        if (unitType.equals("No Unit")) {
+            this.unitType.set(null);
+            return;
+        }
         this.unitType.set(unitType);
     }
 
