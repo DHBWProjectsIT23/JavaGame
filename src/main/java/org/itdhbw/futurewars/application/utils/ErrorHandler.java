@@ -53,9 +53,4 @@ public class ErrorHandler {
     public static IntegerProperty errorCountProperty() {
         return errorCount;
     }
-
-    @Override
-    public String toString() {
-        return "ErrorHandler{}";
-    }
 }

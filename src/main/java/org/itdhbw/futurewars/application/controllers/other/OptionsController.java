@@ -176,10 +176,4 @@ public class OptionsController {
         setResolution(width, height);
         settings.setProperty(VIEW_MODE, WINDOWED);
     }
-
-    @Override
-    public String toString() {
-        return "OptionsController{" + "settings=" + settings + ", stage=" + stage + ", resolutions=" + resolutions +
-               '}';
-    }
 }

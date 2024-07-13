@@ -187,12 +187,12 @@
 
 .possible-move-overlay {
     -fx-background-color: #ED254E;
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.3;
 }
 
 .possible-merge-overlay {
     -fx-background-color: #F9DC5C;
-    -fx-opacity: 0.2;
+    -fx-opacity: 0.3;
 }
 
 .label {

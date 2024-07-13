@@ -122,10 +122,4 @@ public class MenuViewController {
             ErrorHandler.addVerboseException(e, "Failed to open errors view");
         }
     }
-
-    @Override
-    public String toString() {
-        return "MenuViewController{" + "mapButtonContainer=" + mapButtonContainer + ", backgroundPane=" +
-               backgroundPane + ", loadingText=" + loadingText + ", parentPane=" + parentPane + '}';
-    }
 }

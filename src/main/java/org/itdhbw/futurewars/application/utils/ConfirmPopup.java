@@ -86,9 +86,4 @@ public class ConfirmPopup {
             parent.getChildren().add(mainLayout);
         }
     }
-
-    @Override
-    public String toString() {
-        return "ConfirmPopup{}";
-    }
 }

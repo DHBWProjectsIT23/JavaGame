@@ -47,10 +47,4 @@ public class ErrorViewController {
         Stage stage = (Stage) errorList.getScene().getWindow();
         stage.getScene().setRoot(Context.getGameState().getPreviousRoot());
     }
-
-    @Override
-    public String toString() {
-        return "ErrorViewController{" + "errorCountLabel=" + errorCountLabel + ", errorList=" + errorList +
-               ", scrollPane=" + scrollPane + '}';
-    }
 }

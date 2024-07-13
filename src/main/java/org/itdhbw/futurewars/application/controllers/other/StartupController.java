@@ -129,9 +129,4 @@ public class StartupController {
             }
         }
     }
-
-    @Override
-    public String toString() {
-        return "StartupController{}";
-    }
 }

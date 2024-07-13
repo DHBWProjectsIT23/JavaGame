@@ -109,9 +109,4 @@ public class Context {
     public static void setPrimaryStage(Stage primaryStage) {
         Context.primaryStage = primaryStage;
     }
-
-    @Override
-    public String toString() {
-        return "Context{}";
-    }
 }

@@ -106,11 +106,4 @@ public class OptionsViewController {
             populateResolutionMenu();
         }
     }
-
-    @Override
-    public String toString() {
-        return "OptionsViewController{" + "optionsController=" + optionsController + ", stage=" + stage +
-               ", viewModeButton=" + viewModeButton + ", resolutionButton=" + resolutionButton +
-               ", initializedResolutions=" + initializedResolutions + ", backgroundPane=" + backgroundPane + '}';
-    }
 }
