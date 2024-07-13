@@ -190,11 +190,6 @@ public class FileHelper {
         return filename.substring(0, filename.lastIndexOf('.'));
     }
 
-    @Override
-    public String toString() {
-        return "FileHelper{}";
-    }
-
     public enum MiscTextures {
         FALLBACK, HIGHLIGHTED, SELECTED, ATTACKABLE, HOVERED, HOVERED_OCCUPIED, SPLASH_ART, ICON
     }
