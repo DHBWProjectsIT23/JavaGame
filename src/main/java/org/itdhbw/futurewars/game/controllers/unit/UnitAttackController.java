@@ -25,6 +25,7 @@ public class UnitAttackController {
         if (oldAttackingHealth - damageTaken <= 0) {
             return 0;
         }
+
         if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {
             attackedUnit.takeFakeDamage(calculateDamagePoints(attackingUnit, attackedUnit));
         }
