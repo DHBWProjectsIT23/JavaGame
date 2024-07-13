@@ -135,10 +135,5 @@ public class ActionModeHandler implements MouseEventHandler {
             tile.setPartOfPath(false);
         }
     }
-
-    @Override
-    public String toString() {
-        return "ActionModeHandler{" + "gameState=" + gameState + ", pathfinder=" + pathfinder + '}';
-    }
 }
 

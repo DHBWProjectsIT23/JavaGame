@@ -108,11 +108,5 @@ public class AttackModeHandler implements MouseEventHandler {
     private static void hideDamageTextOnSelectedUnit(UnitModel selectedUnit) {
         Context.getTileRepository().getTileView(selectedUnit.getPosition()).hideDamageText();
     }
-
-    @Override
-    public String toString() {
-        return "AttackModeHandler{" + "gameState=" + gameState + ", unitMovementController=" + unitMovementController +
-               ", unitAttackController=" + unitAttackController + '}';
-    }
 }
 

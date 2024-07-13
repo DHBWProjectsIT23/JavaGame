@@ -33,9 +33,5 @@ public class RegularModeHandler implements MouseEventHandler {
         }
     }
 
-    @Override
-    public String toString() {
-        return "RegularModeHandler{" + "gameState=" + gameState + '}';
-    }
 }
 

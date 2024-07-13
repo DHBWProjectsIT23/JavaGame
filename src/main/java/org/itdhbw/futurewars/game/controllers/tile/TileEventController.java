@@ -188,11 +188,6 @@ public class TileEventController {
         }
     }
 
-    @Override
-    public String toString() {
-        return "TileEventController{" + "mouseEventHandlers=" + mouseEventHandlers + ", gameState=" + gameState +
-               ", pathfinder=" + pathfinder + '}';
-    }
 }
 
 

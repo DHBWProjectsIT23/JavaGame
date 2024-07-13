@@ -126,11 +126,4 @@ public class MapLoader implements LoaderFactory {
         int maxTileSize = Math.min(mapHeight / mapHightTiles, mapWidth / mapWidthTiles);
         gameState.setTileSize(maxTileSize);
     }
-
-    @Override
-    public String toString() {
-        return "MapLoader{" + "tileRepository=" + tileRepository + ", tileCreationController=" +
-               tileCreationController + ", unitCreationController=" + unitCreationController + ", gameState=" +
-               gameState + ", mapRepository=" + mapRepository + '}';
-    }
 }

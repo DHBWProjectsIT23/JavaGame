@@ -169,12 +169,4 @@ public class GameViewController {
         quitToMenuRunnable();
     }
 
-    @Override
-    public String toString() {
-        return "GameViewController{" + "gameState=" + gameState + ", unitRepository=" + unitRepository +
-               ", escapeMenu=" + escapeMenu + ", gamePane=" + gamePane + ", currentTurnLabel=" + currentTurnLabel +
-               ", currentPlayerLabel=" + currentPlayerLabel + ", parentPane=" + parentPane + ", gameOverText=" +
-               gameOverText + ", gameOverBox=" + gameOverBox + ", endTurnButton=" + endTurnButton + ", labelBox=" +
-               labelBox + ", backgroundImagePane=" + backgroundImagePane + '}';
-    }
 }

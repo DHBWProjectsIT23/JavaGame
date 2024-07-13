@@ -139,15 +139,4 @@ public class UnitLoader implements LoaderFactory {
                                 lowAirPiercing, targetType, canAttackType);
         Context.getUnitBuilder().addUnitFactory(unitType, unitFactoryCustom);
     }
-
-    @Override
-    public String toString() {
-        return "UnitLoader{" + "unitFactories=" + unitFactories + ", unitRepository=" + unitRepository +
-               ", unitType='" + unitType + '\'' + ", attackRange=" + attackRange + ", movementRange=" + movementRange +
-               ", travelCostPlain=" + travelCostPlain + ", travelCostWood=" + travelCostWood + ", travelCostMountain=" +
-               travelCostMountain + ", travelCostSea=" + travelCostSea + ", texture1=" + texture1 + ", texture2=" +
-               texture2 + ", baseDamage=" + baseDamage + ", armor=" + armor + ", piercing=" + piercing +
-               ", lowAirPiercing=" + lowAirPiercing + ", targetType=" + targetType + ", canAttackType=" +
-               canAttackType + '}';
-    }
 }

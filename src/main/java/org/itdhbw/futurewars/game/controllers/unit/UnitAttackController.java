@@ -18,9 +18,11 @@ public class UnitAttackController {
     }
 
     public static int calculatePreviewDamage(UnitModel attackingUnit, UnitModel attackedUnit) {
-        int damageTaken = calculateDamagePoints(attackingUnit, attackedUnit);
+        int damageTaken = calculateDamagePoints(attackedUnit, attackingUnit);
+        int oldAttackingHealth = attackingUnit.getCurrentHealth();
         int oldAttackedHealth = attackedUnit.getCurrentHealth();
-        if (oldAttackedHealth - damageTaken <= 0) {
+
+        if (oldAttackingHealth - damageTaken <= 0) {
             return 0;
         }
         if (attackingUnit.getVulnerableTypes().contains(attackedUnit.getTargetType())) {

@@ -51,11 +51,5 @@ public class TileBuilder {
     public Map<String, TileFactory> getTileFactories() {
         return tileFactories;
     }
-
-    @Override
-    public String toString() {
-        return "TileBuilder{" + "tileFactories=" + tileFactories + ", tileRepository=" + tileRepository +
-               ", tileEventController=" + tileEventController + '}';
-    }
 }
 

@@ -6,7 +6,6 @@ import org.itdhbw.futurewars.game.utils.Position;
 import org.itdhbw.futurewars.game.views.TileView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TileRepository {
@@ -54,8 +53,4 @@ public class TileRepository {
         return this.tiles[tileModel.getPosition().getX()][tileModel.getPosition().getY()].getValue();
     }
 
-    @Override
-    public String toString() {
-        return "TileRepository{" + "tileTypes=" + tileTypes + ", tiles=" + Arrays.toString(tiles) + '}';
-    }
 }

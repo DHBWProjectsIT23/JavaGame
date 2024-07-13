@@ -86,11 +86,4 @@ public class TileLoader implements LoaderFactory {
         TileFactory tileFactoryCustom = new TileFactory(tileType, terrainCover, texturePaths, movementType);
         Context.getTileBuilder().addTileFactory(tileType, tileFactoryCustom);
     }
-
-    @Override
-    public String toString() {
-        return "TileLoader{" + "tileRepository=" + tileRepository + ", texturePaths=" + texturePaths +
-               ", movementType=" + movementType + ", tileType='" + tileType + '\'' + ", terrainCover=" + terrainCover +
-               '}';
-    }
 }

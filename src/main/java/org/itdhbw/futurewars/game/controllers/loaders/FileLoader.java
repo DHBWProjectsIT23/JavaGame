@@ -76,9 +76,4 @@ public class FileLoader {
         MapLoader mapLoader = (MapLoader) loaderFactoryMap.get(MAP_FILE);
         mapLoader.loadMap(map);
     }
-
-    @Override
-    public String toString() {
-        return "FileLoader{" + "loaderFactoryMap=" + loaderFactoryMap + ", files=" + files + '}';
-    }
 }

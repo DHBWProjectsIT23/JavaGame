@@ -300,19 +300,4 @@ public class MapViewController {
         unitMovementController.mergeUnit(selectedUnit, gameState.getSelectedTile());
         this.gameState.setActiveMode(ActiveMode.REGULAR_MODE);
     }
-
-    @Override
-    public String toString() {
-        return "MapViewController{" + "tileCreationController=" + tileCreationController + ", unitMovementController=" +
-               unitMovementController + ", gameState=" + gameState + ", mouseX=" + mouseX + ", mouseY=" + mouseY +
-               ", gameGrid=" + gameGrid + ", overlayPane=" + overlayPane + ", overlayMoveButton=" + overlayMoveButton +
-               ", overlayCloseButton=" + overlayCloseButton + ", overlayBox=" + overlayBox + ", overlayAttackButton=" +
-               overlayAttackButton + ", statusViewOverlay=" + statusViewOverlay + ", statusViewVBox=" + statusViewVBox +
-               ", currentTileTexture=" + currentTileTexture + ", currentTileType=" + currentTileType +
-               ", currentTileDef=" + currentTileDef + ", currentUnitTexture=" + currentUnitTexture +
-               ", currentUnitType=" + currentUnitType + ", currentUnitHealth=" + currentUnitHealth +
-               ", currentUnitHBox=" + currentUnitHBox + ", infoViewSeperator=" + infoViewSeperator +
-               ", overlayMergeButton=" + overlayMergeButton + ", infoOverlay=" + infoOverlay + ", infoOverlayText=" +
-               infoOverlayText + '}';
-    }
 }
