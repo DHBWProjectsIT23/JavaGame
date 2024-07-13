@@ -68,6 +68,17 @@ public class EditorTile extends StackPane {
                 this.getChildren().add(unitTextureOverlay);
             }
         });
+        unitTeam.addListener((observable, oldValue, newValue) -> {
+            if (unitType.get() == null) {
+                return;
+            }
+            UnitFactory factory = Context.getUnitBuilder().getUnitFactories().get(unitType.get());
+            Pair<Image, Image> unitTextures = factory.getUnitTextures();
+            Image texture = newValue.equals(1) ? unitTextures.getKey() : unitTextures.getValue();
+            unitTextureOverlay.setImage(texture);
+            this.getChildren().remove(unitTextureOverlay);
+            this.getChildren().add(unitTextureOverlay);
+        });
         unitType.set(null);
         unitTeam.set(1);
         this.tileType.set(tileType);

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -12,10 +13,7 @@ import org.itdhbw.futurewars.application.controllers.other.OptionsController;
 import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
-import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 
 public class OptionsViewController {
     private static final Logger LOGGER = LogManager.getLogger(OptionsViewController.class);
@@ -37,9 +35,9 @@ public class OptionsViewController {
     @FXML
     public void initialize() {
         try {
-            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
-            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
-        } catch (FailedToLoadFileException | MalformedURLException e) {
+            Image backgroundImage = FileHelper.getMiscTexture(FileHelper.MiscTextures.SPLASH_ART);
+            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "')");
+        } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }
 

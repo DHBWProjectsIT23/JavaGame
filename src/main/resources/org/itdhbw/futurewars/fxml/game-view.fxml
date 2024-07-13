@@ -7,6 +7,8 @@
 <StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="parentPane" xmlns="http://javafx.com/javafx/21"
            fx:controller="org.itdhbw.futurewars.game.controllers.ui.GameViewController">
     <AnchorPane fx:id="backgroundPane" styleClass="dark-blue-bg">
+        <StackPane fx:id="backgroundImagePane" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
         <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER">

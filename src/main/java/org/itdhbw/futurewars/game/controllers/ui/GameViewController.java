@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -16,13 +17,10 @@ import org.itdhbw.futurewars.application.models.Context;
 import org.itdhbw.futurewars.application.utils.ConfirmPopup;
 import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
-import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
+import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 import org.itdhbw.futurewars.game.controllers.unit.UnitRepository;
 import org.itdhbw.futurewars.game.models.game_state.GameState;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class GameViewController {
     private final GameState gameState;
@@ -47,6 +45,8 @@ public class GameViewController {
     private Button endTurnButton;
     @FXML
     private VBox labelBox;
+    @FXML
+    private StackPane backgroundImagePane;
 
     public GameViewController() {
         this.gameState = Context.getGameState();
@@ -64,9 +64,10 @@ public class GameViewController {
         });
 
         try {
-            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/advanceWarsSplash.jpg").toURL();
-            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
-        } catch (FailedToLoadFileException | MalformedURLException e) {
+            Image backgroundImage = FileHelper.getMiscTexture(FileHelper.MiscTextures.SPLASH_ART);
+            backgroundImagePane.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "')");
+            backgroundImagePane.setOpacity(0.7);
+        } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }
 

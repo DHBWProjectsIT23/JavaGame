@@ -110,7 +110,7 @@ public class MapEditorController {
     private void populateUnitDropdown() {
         String[] unitTypes = Context.getUnitRepository().getUnitTypes().toArray(new String[0]);
         populateDropdown(unitDropdown, unitTypes, this::setActiveEditorBoxUnitType);
-        addMenuItemToDropdown(unitDropdown, "None", ignored -> setActiveEditorBoxUnitType(null));
+        addMenuItemToDropdown(unitDropdown, "None", ignored -> setActiveEditorBoxUnitType("No Unit"));
     }
 
     private <T> void populateDropdown(MenuButton dropdown, T[] values, Consumer<T> action) {
@@ -136,12 +136,16 @@ public class MapEditorController {
         }
     }
 
-    private void setActiveEditorBoxTileType(String tileType) {
+    private void setActiveEditorBoxUnitType(String unitType) {
         if (activeEditorBox.get() != null) {
-            tileDropdown.setText(tileType);
-            activeEditorBox.get().setTileType(tileType);
-            activeEditorBox.get().setTextures(textureMap.get(tileType));
-            this.onEditorTileSelected(activeEditorBox.get());
+            if (unitDropdown.getText().equals("No Unit")) {
+                setActiveEditorBoxUnitTeam(Team.TEAM_1);
+            } else {
+                activeEditorBox.get().setUnitType(null);
+            }
+            unitDropdown.setText(unitType);
+            activeEditorBox.get().setUnitType(unitType);
+            teamDropdown.setDisable(false);
         }
     }
 
@@ -153,12 +157,13 @@ public class MapEditorController {
         }
     }
 
-    private void setActiveEditorBoxUnitType(String unitType) {
+    private void setActiveEditorBoxTileType(String tileType) {
         if (activeEditorBox.get() != null) {
-            unitDropdown.setText(unitType);
-            activeEditorBox.get().setUnitType(unitType);
-            teamDropdown.setDisable(false);
-            setActiveEditorBoxUnitTeam(Team.TEAM_1);
+            tileDropdown.setText(tileType);
+            activeEditorBox.get().setTileType(tileType);
+            activeEditorBox.get().setTextures(textureMap.get(tileType));
+            this.onEditorTileSelected(activeEditorBox.get());
+            setActiveEditorBoxTexture(textureMap.get(tileType).getFirst(), 0);
         }
     }
 
@@ -223,7 +228,7 @@ public class MapEditorController {
                 textureDropdown.setText(textureNames.get(textureVariant));
 
             } else {
-                tileDropdown.setText("No TileType");
+                tileDropdown.setText("No Tile");
                 textureDropdown.setDisable(true);
             }
 
@@ -231,10 +236,10 @@ public class MapEditorController {
                 unitDropdown.setText(editorTile.getUnitType());
                 teamDropdown.setDisable(false);
 
-                textureDropdown.setText(String.valueOf(Team.fromInt(editorTile.getUnitTeam())));
+                teamDropdown.setText(String.valueOf(Team.fromInt(editorTile.getUnitTeam())));
 
             } else {
-                unitDropdown.setText("No UnitType");
+                unitDropdown.setText("No Unit");
                 teamDropdown.setDisable(true);
             }
         });

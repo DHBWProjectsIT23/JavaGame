@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -19,9 +20,8 @@ import org.itdhbw.futurewars.application.utils.ErrorHandler;
 import org.itdhbw.futurewars.application.utils.FileHelper;
 import org.itdhbw.futurewars.exceptions.FailedToLoadFileException;
 import org.itdhbw.futurewars.exceptions.FailedToLoadSceneException;
+import org.itdhbw.futurewars.exceptions.FailedToLoadTextureException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Set;
 
 public class MenuViewController {
@@ -50,9 +50,9 @@ public class MenuViewController {
             mapButtonContainer.getChildren().add(button);
         }
         try {
-            URL backgroundImage = FileHelper.getFile("$INTERNAL_DIR/assets/splashArtDualStrike.jpg").toURL();
-            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage + "')");
-        } catch (FailedToLoadFileException | MalformedURLException e) {
+            Image backgroundImage = FileHelper.getMiscTexture(FileHelper.MiscTextures.SPLASH_ART);
+            backgroundPane.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "')");
+        } catch (FailedToLoadTextureException e) {
             ErrorHandler.addException(e, "Failed to load background image");
         }
     }

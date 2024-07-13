@@ -37,7 +37,7 @@ public class TileView extends StackPane {
     private Image texture;
     private Image hoverImage;
     private Image hoverOccupiedImage;
-    private Text damageText;
+    private final Text damageText;
 
     public TileView(TileModel tileModel) {
         LOGGER.info("Creating tile view {} for tile {}", this.viewId, tileModel.modelId);
@@ -231,6 +231,7 @@ public class TileView extends StackPane {
     public void showDamageText(int damage) {
         LOGGER.info("Showing damage text");
         this.damageText.setText("-" + damage);
+        this.getChildren().remove(damageText);
         this.getChildren().add(damageText);
     }
 
