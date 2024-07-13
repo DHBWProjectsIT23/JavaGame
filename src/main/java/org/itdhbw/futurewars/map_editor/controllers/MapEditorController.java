@@ -63,7 +63,7 @@ public class MapEditorController {
     @FXML
     private MenuButton teamDropdown;
     @FXML
-    private AnchorPane parentPane;
+    private StackPane parentPane;
 
     public MapEditorController() {
         this.tileFactoryMap = Context.getTileBuilder().getTileFactories();
