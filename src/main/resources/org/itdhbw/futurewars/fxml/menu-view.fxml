@@ -13,29 +13,25 @@
                 <VBox alignment="CENTER" styleClass="new-main-menu-box">
                     <Pane prefHeight="120.0" prefWidth="6.0"/>
                     <StackPane VBox.vgrow="ALWAYS">
-                        <children>
-                            <VBox alignment="CENTER" styleClass="border-box">
-                                <children>
-                                    <Button fx:id="startButton" maxHeight="1.7976931348623157E308"
-                                            maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                            onAction="#showMapSelection" text="Start Game" VBox.vgrow="ALWAYS"/>
-                                    <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                            mnemonicParsing="false" onAction="#openOptions" text="Options"
-                                            VBox.vgrow="ALWAYS"/>
-                                    <Button fx:id="mapEditorButton" maxHeight="1.7976931348623157E308"
-                                            maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                            onAction="#startMapEditor" text="Map Editor" VBox.vgrow="ALWAYS"/>
-                                    <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                            mnemonicParsing="false" onAction="#exitApplication" text="Exit"
-                                            VBox.vgrow="ALWAYS"/>
-                                    <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                            mnemonicParsing="false" onAction="#openErrorsView" text="Errors"
-                                            VBox.vgrow="ALWAYS"/>
-                                </children>
-                            </VBox>
-                            <VBox mouseTransparent="true" prefHeight="200.0" prefWidth="100.0"
-                                  styleClass="border-box-2"/>
-                        </children>
+                        <VBox alignment="CENTER" styleClass="border-box">
+                            <Button maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                    onAction="#showMapSelection" text="Start Game" VBox.vgrow="ALWAYS"/>
+                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                    mnemonicParsing="false" onAction="#openOptions" text="Options"
+                                    VBox.vgrow="ALWAYS"/>
+                            <Button maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                    onAction="#startMapEditor" text="Map Editor" VBox.vgrow="ALWAYS"/>
+                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                    mnemonicParsing="false" onAction="#exitApplication" text="Exit"
+                                    VBox.vgrow="ALWAYS"/>
+                            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                    mnemonicParsing="false" onAction="#openErrorsView" text="Errors"
+                                    VBox.vgrow="ALWAYS"/>
+                        </VBox>
+                        <VBox mouseTransparent="true" prefHeight="200.0" prefWidth="100.0"
+                              styleClass="border-box-2"/>
                     </StackPane>
                 </VBox>
             </VBox>

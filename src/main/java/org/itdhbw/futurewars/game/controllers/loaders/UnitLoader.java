@@ -15,14 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class UnitLoader implements LoaderFactory {
     private static final Logger LOGGER = Logger.getLogger(UnitLoader.class.getSimpleName());
-    private final Map<String, UnitFactory> unitFactories;
     private final UnitRepository unitRepository;
     private String unitType;
     private int attackRange;
@@ -42,8 +40,6 @@ public class UnitLoader implements LoaderFactory {
 
     public UnitLoader() {
         unitRepository = Context.getUnitRepository();
-        unitFactories = new HashMap<>();
-
     }
 
     public void loadFile(BufferedReader reader, File file) throws FailedToLoadFileException {
@@ -108,10 +104,6 @@ public class UnitLoader implements LoaderFactory {
     public Map<String, File> getSystemFiles() throws FailedToRetrieveFilesException {
         return FileHelper.retrieveFiles(FileHelper::getInternalUnitPath, FileHelper.UNIT_FILE_ENDING);
     }
-
-    //    public Map<String, UnitFactory> getUnitFactories() {
-    //        return unitFactories;
-    //    }
 
     private void readTextures(BufferedReader reader, File file) throws IOException {
         try {

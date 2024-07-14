@@ -187,12 +187,6 @@ public class MapEditorController {
         editorGrid.setGridLinesVisible(true);
     }
 
-    private void clearGrid() {
-        editorGrid.getChildren().clear();
-        editorGrid.getRowConstraints().clear();
-        editorGrid.getColumnConstraints().clear();
-    }
-
     private void addNewCells(int width, int height) {
         // Add the new cells
         for (int i = 0; i < height; i++) {
@@ -205,81 +199,12 @@ public class MapEditorController {
 
     }
 
-    private void setEditorTileClickHandler(EditorTile editorTile) {
-        editorTile.setOnMouseClicked(ignored -> {
-            LOGGER.info("Editor tile clicked");
-            activeEditorBox.set(editorTile);
-            if (editorTile.getTileType() != null) {
-                tileDropdown.setText(editorTile.getTileType());
-                textureDropdown.setDisable(false);
-
-                int textureVariant = editorTile.getTextureVariant();
-                Map<Integer, String> textureNames = textureIndexNameMap.get(editorTile.getTileType());
-                textureDropdown.setText(textureNames.get(textureVariant));
-
-            } else {
-                tileDropdown.setText("No Tile");
-                textureDropdown.setDisable(true);
-            }
-
-            if (editorTile.getUnitType() != null) {
-                unitDropdown.setText(editorTile.getUnitType());
-                teamDropdown.setDisable(false);
-
-                teamDropdown.setText(String.valueOf(Team.fromInt(editorTile.getUnitTeam())));
-
-            } else {
-                unitDropdown.setText("No Unit");
-                teamDropdown.setDisable(true);
-            }
-        });
-    }
-
-    private EditorTile createEditorTile(int width, int height, String tileType) {
-        EditorTile editorTile = new EditorTile(tileType);
-
-        double tileMaxHeight = Context.getPrimaryStage().getHeight() / height / 100 * 80;
-        double tileMaxWidth = Context.getPrimaryStage().getWidth() / width / 100 * 80;
-        int tileMaxSize = (int) Math.min(tileMaxHeight, tileMaxWidth);
-        this.tileSize = tileMaxSize;
-
-        editorTile.setPrefSize(tileMaxSize, tileMaxSize);
-        editorTile.setTextures(textureMap.get(tileType));
-        editorTile.setTextureVariant(0);
-
-        GridPane.setFillWidth(editorTile, true);
-        GridPane.setFillHeight(editorTile, true);
-
-        return editorTile;
-    }
-
-    private void initializeGrid(int width, int height) {
-        addRowsToGrid(height);
-        addColumnsToGrid(width);
-    }
-
     private void onEditorTileSelected(EditorTile editorTile) {
         this.activeEditorBox.get().setOpacityOnSelection(true);
         populateTextureDropdown(editorTile.getTileType());
         textureDropdown.setDisable(false);
         tileDropdown.setDisable(false);
         unitDropdown.setDisable(false);
-    }
-
-    private void addRowsToGrid(int height) {
-        for (int i = 0; i < height; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPercentHeight(100.0 / height);
-            editorGrid.getRowConstraints().add(rowConstraints);
-        }
-    }
-
-    private void addColumnsToGrid(int width) {
-        for (int j = 0; j < width; j++) {
-            ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setPercentWidth(100.0 / width);
-            editorGrid.getColumnConstraints().add(columnConstraints);
-        }
     }
 
     private void initializeActiveEditorBox() {
@@ -407,6 +332,15 @@ public class MapEditorController {
         }
     }
 
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
+
     @FXML
     public void saveMap(ActionEvent ignored) {
         LOGGER.info("Saving map...");
@@ -420,15 +354,6 @@ public class MapEditorController {
                 saveMapToFile(selectedFile);
             }
         }
-    }
-
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
     }
 
     @FXML
@@ -481,6 +406,109 @@ public class MapEditorController {
         }
     }
 
+    private void clearGrid() {
+        editorGrid.getChildren().clear();
+        editorGrid.getRowConstraints().clear();
+        editorGrid.getColumnConstraints().clear();
+    }
+
+    private void initializeGrid(int width, int height) {
+        addRowsToGrid(height);
+        addColumnsToGrid(width);
+    }
+
+    private void addRowsToGrid(int height) {
+        for (int i = 0; i < height; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPercentHeight(100.0 / height);
+            editorGrid.getRowConstraints().add(rowConstraints);
+        }
+    }
+
+    private void addColumnsToGrid(int width) {
+        for (int j = 0; j < width; j++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPercentWidth(100.0 / width);
+            editorGrid.getColumnConstraints().add(columnConstraints);
+        }
+    }
+
+    private void loadOldMap(BufferedReader reader) throws IOException {
+        // Read the tiles
+        String line;
+        int y = 0;
+        reader.readLine();
+        while ((line = reader.readLine()) != null) {
+            String[] tileData = line.split(",");
+            for (int x = 0; x < this.width.get(); x++) {
+
+                // Set the TileType and UnitType
+                String tileTypeString = tileData[x * 2];
+                EditorTile editorTile = this.createEditorTile(this.width.get(), this.height.get(), tileTypeString);
+
+                String unitTypeString = tileData[x * 2 + 1];
+                if (!unitTypeString.equals("NONE")) {
+                    editorTile.setUnitType(unitTypeString);
+                }
+                setEditorTileClickHandler(editorTile);
+                editorGrid.add(editorTile, x, y);
+            }
+            y++;
+        }
+
+        this.confirmSizeButton.setDisable(true);
+        this.saveButton.setDisable(false);
+
+    }
+
+    private EditorTile createEditorTile(int width, int height, String tileType) {
+        EditorTile editorTile = new EditorTile(tileType);
+
+        double tileMaxHeight = Context.getPrimaryStage().getHeight() / height / 100 * 80;
+        double tileMaxWidth = Context.getPrimaryStage().getWidth() / width / 100 * 80;
+        int tileMaxSize = (int) Math.min(tileMaxHeight, tileMaxWidth);
+        this.tileSize = tileMaxSize;
+
+        editorTile.setPrefSize(tileMaxSize, tileMaxSize);
+        editorTile.setTextures(textureMap.get(tileType));
+        editorTile.setTextureVariant(0);
+
+        GridPane.setFillWidth(editorTile, true);
+        GridPane.setFillHeight(editorTile, true);
+
+        return editorTile;
+    }
+
+    private void setEditorTileClickHandler(EditorTile editorTile) {
+        editorTile.setOnMouseClicked(ignored -> {
+            LOGGER.info("Editor tile clicked");
+            activeEditorBox.set(editorTile);
+            if (editorTile.getTileType() != null) {
+                tileDropdown.setText(editorTile.getTileType());
+                textureDropdown.setDisable(false);
+
+                int textureVariant = editorTile.getTextureVariant();
+                Map<Integer, String> textureNames = textureIndexNameMap.get(editorTile.getTileType());
+                textureDropdown.setText(textureNames.get(textureVariant));
+
+            } else {
+                tileDropdown.setText("No Tile");
+                textureDropdown.setDisable(true);
+            }
+
+            if (editorTile.getUnitType() != null) {
+                unitDropdown.setText(editorTile.getUnitType());
+                teamDropdown.setDisable(false);
+
+                teamDropdown.setText(String.valueOf(Team.fromInt(editorTile.getUnitTeam())));
+
+            } else {
+                unitDropdown.setText("No Unit");
+                teamDropdown.setDisable(true);
+            }
+        });
+    }
+
     private void loadNewMap(BufferedReader reader) throws IOException {
 
         // Read the tiles
@@ -510,34 +538,6 @@ public class MapEditorController {
 
         this.confirmSizeButton.setDisable(true);
         this.saveButton.setDisable(false);
-    }
-
-    private void loadOldMap(BufferedReader reader) throws IOException {
-        // Read the tiles
-        String line;
-        int y = 0;
-        reader.readLine();
-        while ((line = reader.readLine()) != null) {
-            String[] tileData = line.split(",");
-            for (int x = 0; x < this.width.get(); x++) {
-
-                // Set the TileType and UnitType
-                String tileTypeString = tileData[x * 2];
-                EditorTile editorTile = this.createEditorTile(this.width.get(), this.height.get(), tileTypeString);
-
-                String unitTypeString = tileData[x * 2 + 1];
-                if (!unitTypeString.equals("NONE")) {
-                    editorTile.setUnitType(unitTypeString);
-                }
-                setEditorTileClickHandler(editorTile);
-                editorGrid.add(editorTile, x, y);
-            }
-            y++;
-        }
-
-        this.confirmSizeButton.setDisable(true);
-        this.saveButton.setDisable(false);
-
     }
 
     @FXML

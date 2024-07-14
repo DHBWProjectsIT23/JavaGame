@@ -126,16 +126,8 @@ public class EditorTile extends StackPane {
         this.setBackgroundImage(textures.getFirst());
     }
 
-    public void setTextureVariant(int textureVariant) {
-        this.textureVariant = textureVariant;
-        Image texture = textures.get(textureVariant);
-        if (texture != null && !texture.isError()) {
-            setBackgroundImage(texture);
-        } else {
-            ErrorHandler.addException(new FailedToLoadTextureException(String.valueOf(textureVariant), ""),
-                                      "Failed to load texture variant " + textureVariant + " for tile " + this);
-            setBackgroundImage(BLANK_TILE);
-        }
+    public void setBackgroundImage(Image image) {
+        this.imageView.setImage(image);
     }
 
     public int getUnitTeam() {
@@ -150,8 +142,16 @@ public class EditorTile extends StackPane {
         return textureVariant;
     }
 
-    public void setBackgroundImage(Image image) {
-        this.imageView.setImage(image);
+    public void setTextureVariant(int textureVariant) {
+        this.textureVariant = textureVariant;
+        Image texture = textures.get(textureVariant);
+        if (texture != null && !texture.isError()) {
+            setBackgroundImage(texture);
+        } else {
+            ErrorHandler.addException(new FailedToLoadTextureException(String.valueOf(textureVariant), ""),
+                                      "Failed to load texture variant " + textureVariant + " for tile " + this);
+            setBackgroundImage(BLANK_TILE);
+        }
     }
 
     @Override

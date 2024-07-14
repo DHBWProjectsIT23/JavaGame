@@ -32,7 +32,7 @@ public class Main extends Application {
         LOGGER.info("Loaded a total of:");
         LOGGER.info("\t " + Context.getTileRepository().getTileCount() + " tiles");
         LOGGER.info("\t " + Context.getUnitRepository().getUnitCount() + " units");
-        LOGGER.info("\t  " + Context.getMapRepository().getMapCount() + " maps");
+        LOGGER.info("\t " + Context.getMapRepository().getMapCount() + " maps");
 
         stage.show();
     }

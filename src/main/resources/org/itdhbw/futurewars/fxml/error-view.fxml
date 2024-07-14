@@ -7,25 +7,25 @@
 <GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="dark-blue-bg" xmlns="http://javafx.com/javafx/21"
           fx:controller="org.itdhbw.futurewars.application.controllers.ui.ErrorViewController">
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
     </rowConstraints>
     <ScrollPane fx:id="scrollPane" GridPane.rowIndex="1">
         <GridPane fx:id="errorList" styleClass="regular-font">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+        </GridPane>
     </ScrollPane>
     <HBox prefHeight="39.0" prefWidth="482.0">
         <Label styleClass="pixel-font" text="Errors:"/>
-        <Label fx:id="errorCountLabel" />
-      <Button mnemonicParsing="false" onAction="#backToPrevious" text="Back" />
+        <Label fx:id="errorCountLabel"/>
+        <Button mnemonicParsing="false" onAction="#backToPrevious" text="Back"/>
     </HBox>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
 </GridPane>

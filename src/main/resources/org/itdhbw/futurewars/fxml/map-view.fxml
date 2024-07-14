@@ -71,13 +71,11 @@
         </VBox>
     </AnchorPane>
     <StackPane fx:id="infoOverlay" visible="false">
-        <children>
-            <Text fx:id="infoOverlayText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                <styleClass>
-                    <String fx:value="day-info-text"/>
-                    <String fx:value="pixel-font"/>
-                </styleClass>
-            </Text>
-        </children>
+        <Text fx:id="infoOverlayText" fill="#f4fffd" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+            <styleClass>
+                <String fx:value="day-info-text"/>
+                <String fx:value="pixel-font"/>
+            </styleClass>
+        </Text>
     </StackPane>
 </StackPane>

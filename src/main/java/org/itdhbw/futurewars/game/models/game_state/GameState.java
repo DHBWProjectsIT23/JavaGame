@@ -51,6 +51,10 @@ public class GameState {
         currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
     }
 
+    public void setActiveMode(ActiveMode activeMode) {
+        this.activeMode.set(activeMode);
+    }
+
     public Parent getPreviousRoot() throws IllegalStateException {
         if (previousRoot == null) {
             throw new IllegalStateException("No previous scene set");
@@ -154,10 +158,6 @@ public class GameState {
 
     public ObjectProperty<ActiveMode> activeModeProperty() {
         return this.activeMode;
-    }
-
-    public void setActiveMode(ActiveMode activeMode) {
-        this.activeMode.set(activeMode);
     }
 
     public void selectTile(TileModel tile) {

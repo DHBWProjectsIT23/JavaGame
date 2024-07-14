@@ -18,9 +18,9 @@ public class TileFactory {
     private final List<Image> textures = new ArrayList<>();
     private final MovementType movementType;
     private final List<URI> texturePaths;
+    private final int terrainCover;
     private TileModel tileModel;
     private TileView tileView;
-    private final int terrainCover;
 
     public TileFactory(String tileType, int terrainCover, List<URI> texturePaths, MovementType movementType) {
         LOGGER.info("Creating tile factory for unit type: " + tileType);
@@ -38,6 +38,12 @@ public class TileFactory {
         }
     }
 
+    public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
+        createTileModel(x, y);
+        createTileView(textureVariant);
+        return new Pair<>(tileModel, tileView);
+    }
+
     private void createTileModel(int x, int y) {
         tileModel = new TileModel(tileType, x, y, terrainCover);
         tileModel.setMovementType(movementType);
@@ -53,12 +59,6 @@ public class TileFactory {
             texture1Image = null;
         }
         tileView.setTexture(texture1Image);
-    }
-
-    public Pair<TileModel, TileView> createTile(int x, int y, int textureVariant) {
-        createTileModel(x, y);
-        createTileView(textureVariant);
-        return new Pair<>(tileModel, tileView);
     }
 
     public List<Image> getTextures() {

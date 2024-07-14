@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 public class ConfirmPopup {
     private static final Logger LOGGER = Logger.getLogger(ConfirmPopup.class.getSimpleName());
+
     private ConfirmPopup() {
         // private constructor to prevent instantiation
     }

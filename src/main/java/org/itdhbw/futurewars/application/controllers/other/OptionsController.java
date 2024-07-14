@@ -43,6 +43,25 @@ public class OptionsController {
         setResolution(width, height);
     }
 
+    public void setResolution(int width, int height) {
+        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+        int maxWidth = (int) bounds.getWidth();
+        int maxHeight = (int) bounds.getHeight();
+
+        if (width >= (maxWidth - 100) || height >= (maxHeight - 100)) {
+            stage.setMaximized(true);
+            width = maxWidth;
+            height = maxHeight;
+        }
+
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.centerOnScreen();
+        settings.setProperty(RESOLUTION, width + "x" + height);
+        settings.setProperty(WIDTH, String.valueOf(width));
+        settings.setProperty(HEIGHT, String.valueOf(height));
+    }
+
     public void initializeSettings(Stage stage) {
         this.stage = stage;
         if (!Files.exists(Path.of(SETTINGS_FILE))) {
@@ -55,10 +74,6 @@ public class OptionsController {
 
         stage.maximizedProperty().addListener(
                 (observable, oldValue, newValue) -> settings.setProperty("maximized", String.valueOf(newValue)));
-    }
-
-    public String getViewMode() {
-        return settings.getProperty(VIEW_MODE);
     }
 
     private void createNewDefaults() {
@@ -144,25 +159,6 @@ public class OptionsController {
         return (height / width) * 16;
     }
 
-    public void setResolution(int width, int height) {
-        Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-        int maxWidth = (int) bounds.getWidth();
-        int maxHeight = (int) bounds.getHeight();
-
-        if (width >= (maxWidth - 100) || height >= (maxHeight - 100)) {
-            stage.setMaximized(true);
-            width = maxWidth;
-            height = maxHeight;
-        }
-
-        stage.setWidth(width);
-        stage.setHeight(height);
-        stage.centerOnScreen();
-        settings.setProperty(RESOLUTION, width + "x" + height);
-        settings.setProperty(WIDTH, String.valueOf(width));
-        settings.setProperty(HEIGHT, String.valueOf(height));
-    }
-
     public void setFullscreen() {
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
@@ -175,5 +171,9 @@ public class OptionsController {
         int height = Integer.parseInt(settings.getProperty(HEIGHT));
         setResolution(width, height);
         settings.setProperty(VIEW_MODE, WINDOWED);
+    }
+
+    public String getViewMode() {
+        return settings.getProperty(VIEW_MODE);
     }
 }

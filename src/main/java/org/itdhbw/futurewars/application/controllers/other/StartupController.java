@@ -37,11 +37,15 @@ public class StartupController {
         initializeGameState(Context.getGameState(), stage);
     }
 
+    private static void initializeGameState(GameState gameState, Stage stage) {
+        LOGGER.info("Initializing game state...");
+        gameState.setMapWidth((int) (stage.getWidth() / 100 * 80));
+        gameState.setMapHeight((int) stage.getHeight() / 100 * 80);
+    }
 
     public static void loadFonts() {
         LOGGER.info("Loading fonts...");
         try {
-            Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/VCR_OSD_MONO_1.001.ttf").toString(), 12);
             Font.loadFont(FileHelper.getFile("$INTERNAL_DIR/fonts/upheavtt.ttf").toString(), 12);
         } catch (FailedToLoadFileException e) {
             ErrorHandler.addException(e, "Failed to load font");
@@ -95,12 +99,6 @@ public class StartupController {
         }
     }
 
-    private static void initializeGameState(GameState gameState, Stage stage) {
-        LOGGER.info("Initializing game state...");
-        gameState.setMapWidth((int) (stage.getWidth() / 100 * 80));
-        gameState.setMapHeight((int) stage.getHeight() / 100 * 80);
-    }
-
     public static void initializeUserDirectory() {
         LOGGER.info("Initializing user directory...");
 
@@ -109,9 +107,9 @@ public class StartupController {
                 Path dirPath = Paths.get(FileHelper.USER_DIR, subDir);
                 if (!Files.exists(dirPath)) {
                     Files.createDirectories(dirPath);
-                    LOGGER.info("Directory " + dirPath + " created!");
+                    LOGGER.info("Directory " + dirPath + " created");
                 } else {
-                    LOGGER.info("Directory " + dirPath + " exists!");
+                    LOGGER.info("Directory " + dirPath + " exists");
                 }
             }
         } catch (IOException e) {

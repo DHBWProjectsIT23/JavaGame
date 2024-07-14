@@ -140,13 +140,13 @@ public class UnitModel {
         }
     }
 
-    public void takeFakeDamage(int damage) {
-        currentHealthProperty.set(currentHealthProperty.get() - damage);
-    }
-
     public void die() {
         LOGGER.info("Unit died");
         isDead.set(true);
+    }
+
+    public void takeFakeDamage(int damage) {
+        currentHealthProperty.set(currentHealthProperty.get() - damage);
     }
 
     public BooleanProperty isDeadProperty() {

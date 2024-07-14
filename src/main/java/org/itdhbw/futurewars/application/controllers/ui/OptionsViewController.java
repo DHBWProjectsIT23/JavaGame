@@ -58,19 +58,6 @@ public class OptionsViewController {
         resolutionButton.setOnShowing(ignored -> openResolutions());
     }
 
-    private void populateResolutionMenu() {
-        resolutionButton.getItems().clear();
-        for (String resolution : optionsController.getResolutions()) {
-            MenuItem item = new MenuItem(resolution);
-            resolutionButton.getItems().add(item);
-            item.setOnAction(ignored -> {
-                handleResolutionChange(item.getText());
-                resolutionButton.setText(item.getText());
-            });
-        }
-        initializedResolutions = true;
-    }
-
     private void handleViewModeChange(String viewMode) {
         switch (viewMode) {
             case "Fullscreen":
@@ -84,6 +71,27 @@ public class OptionsViewController {
         }
     }
 
+    private void openResolutions() {
+        LOGGER.info("Opening resolutions menu");
+        if (!initializedResolutions) {
+            LOGGER.info("Populating resolutions menu");
+            populateResolutionMenu();
+        }
+    }
+
+    private void populateResolutionMenu() {
+        resolutionButton.getItems().clear();
+        for (String resolution : optionsController.getResolutions()) {
+            MenuItem item = new MenuItem(resolution);
+            resolutionButton.getItems().add(item);
+            item.setOnAction(ignored -> {
+                handleResolutionChange(item.getText());
+                resolutionButton.setText(item.getText());
+            });
+        }
+        initializedResolutions = true;
+    }
+
     private void handleResolutionChange(String resolution) {
         optionsController.setResolution(resolution);
         if (stage.isFullScreen()) {
@@ -92,18 +100,9 @@ public class OptionsViewController {
         }
     }
 
-
     @FXML
     private void goBack(ActionEvent ignored) {
         optionsController.saveSettings();
         stage.getScene().setRoot(Context.getGameState().getPreviousRoot());
-    }
-
-    private void openResolutions() {
-        LOGGER.info("Opening resolutions menu");
-        if (!initializedResolutions) {
-            LOGGER.info("Populating resolutions menu");
-            populateResolutionMenu();
-        }
     }
 }

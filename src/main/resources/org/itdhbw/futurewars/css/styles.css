@@ -325,12 +325,6 @@
     -fx-text-fill: #000914;
 }
 
-.current-turn-label {
-}
-
-.current-player-label {
-}
-
 .game-over-buttons {
     -fx-background-color: #F9DC5C;
     -fx-text-fill: #000914;

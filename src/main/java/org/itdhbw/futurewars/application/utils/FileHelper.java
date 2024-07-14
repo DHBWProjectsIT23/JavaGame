@@ -99,11 +99,14 @@ public class FileHelper {
         }
     }
 
-    private static String decodePath(String path) {
-        for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
-            path = path.replace(entry.getKey(), entry.getValue());
+    private static URI checkIfFileExists(File file) throws FileDoesNotExistException {
+        if (file.exists()) {
+            return file.toURI();
+        } else {
+            FileDoesNotExistException e = new FileDoesNotExistException(file.toString());
+            ErrorHandler.addException(e, "File does not exist");
+            throw e;
         }
-        return path;
     }
 
     public static URI getFile(String path) throws FailedToLoadFileException {
@@ -114,6 +117,13 @@ public class FileHelper {
         } catch (FileDoesNotExistException e) {
             throw new FailedToLoadFileException(path);
         }
+    }
+
+    private static String decodePath(String path) {
+        for (Map.Entry<String, String> entry : SHORTCUTS.entrySet()) {
+            path = path.replace(entry.getKey(), entry.getValue());
+        }
+        return path;
     }
 
     public static Map<String, File> retrieveFiles(Supplier<File> pathSupplier, String fileEnding) throws
@@ -138,6 +148,10 @@ public class FileHelper {
             throw new FailedToRetrieveFilesException(mapPath.toString());
         }
         return files;
+    }
+
+    private static String stripFileExtension(String filename) {
+        return filename.substring(0, filename.lastIndexOf('.'));
     }
 
     public static URI getTexture(File object, String texture) throws FailedToLoadTextureException {
@@ -174,20 +188,6 @@ public class FileHelper {
 
     public static File getUserTilePath() {
         return new File(USER_DIR + TILE_DIR);
-    }
-
-    private static URI checkIfFileExists(File file) throws FileDoesNotExistException {
-        if (file.exists()) {
-            return file.toURI();
-        } else {
-            FileDoesNotExistException e = new FileDoesNotExistException(file.toString());
-            ErrorHandler.addException(e, "File does not exist");
-            throw e;
-        }
-    }
-
-    private static String stripFileExtension(String filename) {
-        return filename.substring(0, filename.lastIndexOf('.'));
     }
 
     public enum MiscTextures {
