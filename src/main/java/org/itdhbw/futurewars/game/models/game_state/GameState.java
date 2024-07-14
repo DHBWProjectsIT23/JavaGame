@@ -47,6 +47,7 @@ public class GameState {
 
     public void endTurn() {
         Context.getUnitRepository().getActiveUnits().forEach(unit -> unit.setHasMadeAnAction(false));
+        setActiveMode(ActiveMode.REGULAR_MODE);
         currentPlayer.set(currentPlayer.get() == 1 ? 2 : 1);
     }
 
@@ -167,8 +168,8 @@ public class GameState {
         this.selectedTile.set(null);
     }
 
-    public void hoverTile(TileModel tileView) {
-        this.hoveredTile.set(tileView);
+    public void hoverTile(TileModel tileModel) {
+        this.hoveredTile.set(tileModel);
     }
 
     public void unhoverTile() {

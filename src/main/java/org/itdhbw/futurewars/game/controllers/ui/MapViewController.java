@@ -251,8 +251,8 @@ public class MapViewController {
     private void setStatusViewSide(TileModel selectedTile) {
         int tileX = selectedTile.getPosition().getX();
         int mapWidth = gameState.getMapWidthTiles();
-        int leftSwapTrigger = mapWidth / 4;
-        int rightSwapTrigger = mapWidth - (mapWidth / 4);
+        int leftSwapTrigger = (int) (mapWidth / 2.5);
+        int rightSwapTrigger = (int) (mapWidth - (mapWidth / 2.5));
         double anchorPosition = 16;
 
         if (tileX < leftSwapTrigger) {

@@ -57,13 +57,13 @@ public class AttackModeHandler implements MouseEventHandler {
             return;
         }
 
-
         if (selectedUnit.canAttackUnit(tileView.getTileModel().getOccupyingUnit())) {
             gameState.hoverTile(tileView.getTileModel());
             int predictedDamageEnemy = UnitAttackController.calculateDamagePoints(selectedUnit, hoveredUnit);
             tileView.showDamageText(predictedDamageEnemy);
             int predictedDamageToSelf;
             if (hoveredUnit.getVulnerableTypes().contains(selectedUnit.getTargetType())) {
+                hoveredUnit = tileView.getTileModel().getOccupyingUnit();
                 predictedDamageToSelf = UnitAttackController.calculatePreviewDamage(selectedUnit, hoveredUnit);
             } else {
                 predictedDamageToSelf = 0;

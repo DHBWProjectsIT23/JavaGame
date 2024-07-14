@@ -26,11 +26,14 @@ public class UnitAttackController {
         }
         int damageTaken = calculateDamagePoints(attackedUnit, attackingUnit);
 
-        if (oldAttackingHealth - damageTaken <= 0) {
-            return 0;
-        }
+        LOGGER.info("Damage taken: " + damageTaken);
+        LOGGER.info("Old Attacked Health: " + oldAttackedHealth);
         int previewDamage = calculateDamagePoints(attackedUnit, attackingUnit);
         attackedUnit.setCurrentHealth(oldAttackedHealth);
+
+        if (oldAttackedHealth - damageTaken <= 0) {
+            return 0;
+        }
         return previewDamage;
     }
 

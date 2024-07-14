@@ -50,7 +50,6 @@
         "url": "how-mod-the-game.html",
         "level": 0,
         "pages": [
-          "How-to",
           "How-to-modify-exisiting-Textures",
           "How-to-create-your-own-Map",
           "How-to-add-your-own-Tiles",
@@ -58,21 +57,13 @@
         ],
         "tabIndex": 2
       },
-      "How-to": {
-        "id": "How-to",
-        "title": "How to",
-        "url": "how-to.html",
-        "level": 1,
-        "parentId": "How-Mod-the-Game",
-        "tabIndex": 0
-      },
       "How-to-modify-exisiting-Textures": {
         "id": "How-to-modify-exisiting-Textures",
         "title": "How to modify exisiting Textures",
         "url": "how-to-modify-exisiting-textures.html",
         "level": 1,
         "parentId": "How-Mod-the-Game",
-        "tabIndex": 1
+        "tabIndex": 0
       },
       "How-to-create-your-own-Map": {
         "id": "How-to-create-your-own-Map",
@@ -80,7 +71,7 @@
         "url": "how-to-create-your-own-map.html",
         "level": 1,
         "parentId": "How-Mod-the-Game",
-        "tabIndex": 2
+        "tabIndex": 1
       },
       "How-to-add-your-own-Tiles": {
         "id": "How-to-add-your-own-Tiles",
@@ -88,7 +79,7 @@
         "url": "how-to-add-your-own-tiles.html",
         "level": 1,
         "parentId": "How-Mod-the-Game",
-        "tabIndex": 3
+        "tabIndex": 2
       },
       "How-to-add-your-own-Units": {
         "id": "How-to-add-your-own-Units",
@@ -96,7 +87,7 @@
         "url": "how-to-add-your-own-units.html",
         "level": 1,
         "parentId": "How-Mod-the-Game",
-        "tabIndex": 4
+        "tabIndex": 3
       },
       "Damage-Calculation": {
         "id": "Damage-Calculation",
