@@ -39,5 +39,4 @@ build/
 .DS_Store
 
 logs/*
-settings.properties
 out/*
