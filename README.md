@@ -12,3 +12,8 @@ The project is build using Maven and should be runnable by using:
 ```shell
 mvn clean javafx:run
 ```
+
+_Note: Due to the way Maven seems to try and catch the JavaFX dependencies
+executing this command from a linux shell does not seem to work. \
+On Windows no problems were encountered, on Linux the application could
+be started using IntelliJ_
